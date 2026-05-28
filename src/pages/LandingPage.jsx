@@ -57,7 +57,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-primary-100 selection:text-primary-900 scroll-smooth transition-colors duration-300">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-primary-100 selection:text-primary-900 scroll-smooth transition-colors duration-300">
       {/* 1. NAVBAR */}
       <nav className={cn(
         "fixed top-0 inset-x-0 z-[100] transition-all duration-300 border-b",
@@ -313,7 +313,7 @@ const LandingPage = () => {
       </section>
 
       {/* 5. ROLE-BASED PLATFORM SECTION */}
-      <section id="roles" className="py-32 bg-slate-900 text-white relative overflow-hidden">
+      <section id="roles" className="py-32 bg-slate-50 text-slate-900 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
            <div className="absolute top-0 left-0 w-[1000px] h-[1000px] bg-primary-600 rounded-full blur-[200px] -translate-x-1/2 -translate-y-1/2" />
         </div>
@@ -321,12 +321,12 @@ const LandingPage = () => {
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div {...fadeIn}>
-               <span className="text-[10px] font-black text-primary-400 uppercase tracking-[0.4em] mb-6 inline-block">Experience-Centric Design</span>
-               <h2 className="text-4xl lg:text-7xl font-black tracking-tighter leading-none mb-10">
+               <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-6 inline-block">Experience-Centric Design</span>
+               <h2 className="text-4xl lg:text-7xl font-black tracking-tighter leading-none mb-10 text-slate-900">
                  Unified Experience, <br /> 
-                 <span className="text-slate-500">Dedicated Portals.</span>
+                 <span className="text-primary-600">Dedicated Portals.</span>
                </h2>
-               <p className="text-xl text-slate-400 font-medium mb-12 leading-relaxed">
+               <p className="text-xl text-slate-500 font-medium mb-12 leading-relaxed">
                  We've engineered specialized high-fidelity interfaces for every role in your organization, ensuring maximum efficiency and minimal learning curve.
                </p>
                <div className="space-y-6">
@@ -337,13 +337,13 @@ const LandingPage = () => {
                     { role: 'HR / Recruiter', action: 'Manage pipeline, publish job posts' },
                     { role: 'Admin', action: 'Full organization oversight & AI config' },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-6 group cursor-pointer p-4 rounded-2xl hover:bg-white/5 transition-colors">
+                    <div key={i} className="flex items-center gap-6 group cursor-pointer p-4 rounded-2xl hover:bg-white hover:shadow-soft transition-all">
                        <div className="w-2 h-2 bg-primary-500 rounded-full group-hover:scale-125 transition-transform" />
                        <div className="flex-1">
-                          <span className="text-lg font-black tracking-tight group-hover:text-primary-400 transition-colors">{item.role}</span>
-                          <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">{item.action}</p>
+                          <span className="text-lg font-black tracking-tight text-slate-800 group-hover:text-primary-600 transition-colors">{item.role}</span>
+                          <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">{item.action}</p>
                        </div>
-                       <ArrowRight size={20} className="text-slate-700 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                       <ArrowRight size={20} className="text-slate-400 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                     </div>
                   ))}
                </div>
@@ -379,15 +379,15 @@ const LandingPage = () => {
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center gap-20">
             <motion.div {...fadeIn} className="flex-1 space-y-10 order-2 lg:order-1">
-               <div className="card p-10 bg-slate-900 text-white border-none shadow-2xl relative rounded-[3.5rem] overflow-hidden group">
+               <div className="p-10 bg-white text-slate-900 border border-slate-100 shadow-soft relative rounded-[3.5rem] overflow-hidden group">
                   <div className="absolute inset-x-0 bottom-0 h-[2px] bg-primary-600 transition-all duration-1000 group-hover:scale-x-110" />
                   <div className="flex items-center gap-4 mb-10">
-                     <div className="p-4 bg-primary-600 rounded-2xl shadow-xl shadow-primary-900/20">
-                        <Brain size={32} />
+                     <div className="p-4 bg-primary-600 rounded-2xl shadow-xl shadow-primary-200">
+                        <Brain size={32} className="text-white" />
                      </div>
                      <div>
                         <h4 className="text-2xl font-black tracking-tight">AI Engine v4.0</h4>
-                        <p className="text-[10px] font-black text-primary-400 uppercase tracking-[0.3em] mt-1">Deep Learning Module Active</p>
+                        <p className="text-[10px] font-black text-primary-600 uppercase tracking-[0.3em] mt-1">Deep Learning Module Active</p>
                      </div>
                   </div>
                   <div className="space-y-8">
@@ -398,10 +398,10 @@ const LandingPage = () => {
                      ].map((item, i) => (
                        <div key={i} className="space-y-3">
                           <div className="flex justify-between items-center text-xs font-black uppercase tracking-widest">
-                             <span>{item.label}</span>
-                             <span className="text-primary-400">{item.score}%</span>
+                             <span className="text-slate-800">{item.label}</span>
+                             <span className="text-primary-600">{item.score}%</span>
                           </div>
-                          <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                              <motion.div initial={{ width: 0 }} whileInView={{ width: `${item.score}%` }} transition={{ duration: 1.5, delay: i * 0.2 }} className="h-full bg-primary-600" />
                           </div>
                        </div>
@@ -526,11 +526,11 @@ const LandingPage = () => {
       </section>
 
       {/* 9. TESTIMONIALS SECTION */}
-      <section className="py-32 bg-slate-900 text-white">
+      <section className="py-32 bg-slate-50 text-slate-900">
         <div className="container mx-auto px-6">
           <motion.div {...fadeIn} className="text-center mb-20 space-y-4">
-             <h2 className="text-4xl lg:text-5xl font-black tracking-tighter">Loved by Industry Leaders</h2>
-             <p className="text-slate-400 font-medium">Join 500+ enterprises modernizing their workforce with our platform.</p>
+             <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-slate-900">Loved by Industry Leaders</h2>
+             <p className="text-slate-500 font-medium">Join 500+ enterprises modernizing their workforce with our platform.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -543,17 +543,17 @@ const LandingPage = () => {
                 key={i} 
                 {...fadeIn}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white/5 border border-white/10 p-12 rounded-[3.5rem] relative hover:bg-white/[0.08] transition-all group"
+                className="bg-white border border-slate-100 p-12 rounded-[3.5rem] relative hover:shadow-2xl transition-all group shadow-soft"
               >
                 <div className="flex gap-1 mb-8">
                    {[1, 2, 3, 4, 5].map(s => <Star key={s} size={16} fill="currentColor" className="text-amber-400" />)}
                 </div>
-                <p className="text-xl font-bold italic text-slate-300 leading-relaxed mb-10 group-hover:text-white transition-colors">"{t.quote}"</p>
+                <p className="text-xl font-bold italic text-slate-600 leading-relaxed mb-10 group-hover:text-slate-900 transition-colors">"{t.quote}"</p>
                 <div className="flex items-center gap-5">
-                   <div className="w-12 h-12 bg-primary-600 rounded-2xl flex items-center justify-center text-lg font-black">{t.name[0]}</div>
+                   <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-2xl flex items-center justify-center text-lg font-black">{t.name[0]}</div>
                    <div>
-                      <p className="font-black tracking-tight">{t.name}</p>
-                      <p className="text-[10px] font-bold text-primary-400 uppercase tracking-widest">{t.role} • {t.co}</p>
+                      <p className="font-black tracking-tight text-slate-900">{t.name}</p>
+                      <p className="text-[10px] font-bold text-primary-600 uppercase tracking-widest">{t.role} • {t.co}</p>
                    </div>
                 </div>
               </motion.div>
