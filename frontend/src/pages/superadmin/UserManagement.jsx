@@ -13,6 +13,7 @@ import {
   UserCheck
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import PageHeader from '../../components/layout/PageHeader';
 
 const UserManagement = () => {
   const { users, addUser, updateUser, deleteUser, departments, roles } = useSuperAdmin();
