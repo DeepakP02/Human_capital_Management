@@ -5,16 +5,29 @@ import {
   ChevronRight, 
   LogOut, 
   Cpu,
-  ChevronDown
+  ChevronDown,
+  Home,
+  Users,
+  ShieldCheck,
+  Building2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../hooks/useAuth';
 import { sidebarConfig } from '../../data/sidebarConfig';
 import { cn } from '../../utils/cn';
 
-const Sidebar = ({ collapsed, setCollapsed }) => {
+const Sidebar = ({ collapsed, setCollapsed, allRoles }) => {
   const { user, logout } = useAuth();
-  const roleItems = sidebarConfig[user?.role] || [];
+  const isSuperAdmin = user?.role?.toLowerCase() === 'superadmin';
+  const showAll = allRoles || isSuperAdmin;
+  const baseItems = sidebarConfig[user?.role] || [];
+  const roleItems = showAll ? [
+    ...Object.values(sidebarConfig).flat(),
+    { label: 'SuperAdmin Dashboard', icon: Home, path: '/superadmin/dashboard' },
+    { label: 'User Management', icon: Users, path: '/superadmin/users' },
+    { label: 'Role Management', icon: ShieldCheck, path: '/superadmin/roles' },
+    { label: 'Department Management', icon: Building2, path: '/superadmin/departments' },
+  ] : baseItems;
 
   const MenuItem = ({ item, isCollapsed }) => {
     const Icon = item.icon;

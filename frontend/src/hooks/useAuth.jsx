@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('hcm_user');
+    sessionStorage.setItem('logged_out', 'true');
     navigate('/login');
   };
 

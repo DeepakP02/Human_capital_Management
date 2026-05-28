@@ -22,23 +22,26 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
-  const demoCredentials = {
-    admin: { email: 'admin@hcm.ai', password: 'admin_password' },
-    hr: { email: 'hr.manager@hcm.ai', password: 'hr_password' },
-    manager: { email: 'dept.head@hcm.ai', password: 'manager_password' },
-    employee: { email: 'joshua.m@hcm.ai', password: 'emp_password' },
-    candidate: { email: 'alex.hiring@hcm.ai', password: 'cand_password' },
-  };
+const demoCredentials = {
+  superadmin: { email: 'superadmin@hcm.ai', password: 'super_password' },
+  admin: { email: 'admin@hcm.ai', password: 'admin_password' },
+  hr: { email: 'hr.manager@hcm.ai', password: 'hr_password' },
+  manager: { email: 'dept.head@hcm.ai', password: 'manager_password' },
+  employee: { email: 'joshua.m@hcm.ai', password: 'emp_password' },
+  candidate: { email: 'alex.hiring@hcm.ai', password: 'cand_password' },
+};
+
 
   const handleRoleSelect = (roleId) => {
     setRole(roleId);
-    setEmail(demoCredentials[roleId].email);
-    setPassword(demoCredentials[roleId].password);
+    const creds = demoCredentials[roleId];
+    setEmail(creds.email);
+    setPassword(creds.password);
   };
 
-  // Pre-fill default role values on mount
+  // Pre‑fill default role values on mount (Super Admin demo)
   React.useEffect(() => {
-    handleRoleSelect('admin');
+    handleRoleSelect('superadmin');
   }, []);
 
   const handleSubmit = (e) => {
@@ -52,12 +55,13 @@ const LoginPage = () => {
   };
 
   const roles = [
-    { id: 'admin', label: 'Admin', color: 'bg-red-500' },
-    { id: 'hr', label: 'HR', color: 'bg-blue-500' },
-    { id: 'manager', label: 'Manager', color: 'bg-purple-500' },
-    { id: 'employee', label: 'Employee', color: 'bg-green-500' },
-    { id: 'candidate', label: 'Candidate', color: 'bg-orange-500' },
-  ];
+  { id: 'superadmin', label: 'Super Admin', color: 'bg-gray-800' },
+  { id: 'admin', label: 'Admin', color: 'bg-red-500' },
+  { id: 'hr', label: 'HR', color: 'bg-blue-500' },
+  { id: 'manager', label: 'Manager', color: 'bg-purple-500' },
+  { id: 'employee', label: 'Employee', color: 'bg-green-500' },
+  { id: 'candidate', label: 'Candidate', color: 'bg-orange-500' },
+];
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-white selection:bg-primary-100">

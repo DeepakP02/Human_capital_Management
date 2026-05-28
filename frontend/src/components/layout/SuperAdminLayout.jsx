@@ -6,10 +6,9 @@ import { useAuth } from '../../hooks/useAuth';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../utils/cn';
 import { ChevronRight, Home } from 'lucide-react';
-
 import Toast from '../admin/Toast';
 
-const AppLayout = () => {
+const SuperAdminLayout = () => {
   const { user, loading } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -27,15 +26,12 @@ const AppLayout = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex transition-colors duration-300">
-      {/* Toast Notifications */}
       <Toast />
-
-      {/* Sidebar - Desktop */}
-      <div className="hidden lg:block">
-        <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
+      {/* Desktop sidebar */}
+      <div className="lg:block">
+        <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} allRoles={true} />
       </div>
-
-      {/* Sidebar - Mobile Drawer */}
+      {/* Mobile sidebar overlay */}
       <AnimatePresence>
         {mobileSidebarOpen && (
           <>
@@ -53,47 +49,42 @@ const AppLayout = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed inset-y-0 left-0 w-[280px] bg-white z-50 lg:hidden"
             >
-              <Sidebar collapsed={false} setCollapsed={() => {}} />
+              <Sidebar collapsed={false} setCollapsed={() => {}} allRoles={true} />
             </motion.div>
           </>
         )}
       </AnimatePresence>
-
-      {/* Main Content */}
+      {/* Main content area */}
       <div className={cn(
         "flex-1 flex flex-col transition-all duration-300",
         sidebarCollapsed ? "lg:ml-20" : "lg:ml-[260px]"
       )}>
         <Navbar toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
-        
-        <main className="flex-1 p-4 lg:p-8">
-          {/* Breadcrumbs */}
-          <div className="flex items-center gap-2 mb-6 text-sm text-slate-400">
-            <Home size={14} />
-            <ChevronRight size={14} />
-            {pathSegments.map((segment, idx) => (
-              <React.Fragment key={idx}>
-                <span className={cn("capitalize", idx === pathSegments.length - 1 && "text-slate-600 font-medium")}>
-                  {segment.replace('-', ' ')}
-                </span>
-                {idx < pathSegments.length - 1 && <ChevronRight size={14} />}
-              </React.Fragment>
-            ))}
-          </div>
-
-          {/* Page Outlet */}
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-          >
-            <Outlet />
-          </motion.div>
-        </main>
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 mb-6 text-sm text-slate-400">
+          <Home size={14} />
+          <ChevronRight size={14} />
+          {pathSegments.map((segment, idx) => (
+            <React.Fragment key={idx}>
+              <span className={cn("capitalize", idx === pathSegments.length - 1 && "text-slate-600 font-medium")}>
+                {segment.replace('-', ' ')}
+              </span>
+              {idx < pathSegments.length - 1 && <ChevronRight size={14} />}
+            </React.Fragment>
+          ))}
+        </div>
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="flex-1 p-4 lg:p-8"
+        >
+          <Outlet />
+        </motion.div>
       </div>
     </div>
   );
 };
 
-export default AppLayout;
+export default SuperAdminLayout;

@@ -3,6 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ThemeProvider } from './hooks/ThemeContext';
 import { AuthProvider } from './hooks/useAuth';
 import { AdminProvider } from './context/AdminContext';
+import { SuperAdminProvider } from './context/SuperAdminContext';
+import SuperAdminLayout from './components/layout/SuperAdminLayout';
+import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard';
+import UserManagement from './pages/superadmin/UserManagement';
+import RoleManagement from './pages/superadmin/RoleManagement';
+import DepartmentManagement from './pages/superadmin/DepartmentManagement';
 import { HRProvider } from './context/HRContext';
 import { ManagerProvider } from './context/ManagerContext';
 import { EmployeeProvider } from './context/EmployeeContext';
@@ -167,6 +173,13 @@ function App() {
             </Route>
 
             {/* Admin Routes */}
+            <Route path="/superadmin/*" element={<SuperAdminProvider><SuperAdminLayout /></SuperAdminProvider>}> 
+              <Route index element={<SuperAdminDashboard />} />
+              <Route path="dashboard" element={<SuperAdminDashboard />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route path="roles" element={<RoleManagement />} />
+              <Route path="departments" element={<DepartmentManagement />} />
+            </Route>
             <Route path="/admin" element={<AppLayout />}>
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
               <Route path="dashboard" element={<AdminDashboard />} />
