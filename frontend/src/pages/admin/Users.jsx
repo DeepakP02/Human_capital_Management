@@ -330,7 +330,6 @@ const Users = () => {
                                 <Trash2 size={18} />
                               </button>
                            </div>
-                           <button className="p-2 text-slate-400 group-hover:hidden transition-all"><MoreVertical size={18} /></button>
                         </td>
                      </tr>
                   )) : (

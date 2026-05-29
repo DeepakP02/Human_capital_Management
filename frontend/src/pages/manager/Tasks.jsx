@@ -184,7 +184,7 @@ const Tasks = () => {
                                 )}>
                                    {task.priority || 'Medium'}
                                 </div>
-                                <div className="p-1.5 opacity-0 group-hover:opacity-100 transition-all text-slate-300 hover:text-slate-900">
+                                <div className="p-1.5 transition-all text-slate-300 hover:text-slate-900">
                                    <ChevronRight size={16} />
                                 </div>
                              </div>
@@ -196,9 +196,14 @@ const Tasks = () => {
                              <div className="flex items-center justify-between mt-auto relative z-10">
                                 <div className="flex items-center gap-2.5">
                                    <div className="w-7 h-7 rounded-xl bg-slate-900 flex items-center justify-center text-[10px] text-white font-black uppercase shadow-lg">
-                                      {task.user.split(' ')[0][0]}{task.user.split(' ')[1]?.[0] || ''}
+                                      {(() => {
+                                        const parts = task.user?.split(' ') || [];
+                                        const first = parts[0] ? parts[0][0] : '';
+                                        const second = parts[1] ? parts[1][0] : '';
+                                        return `${first}${second}`;
+                                      })()}
                                    </div>
-                                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{task.user}</span>
+                                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{task.user || 'Unassigned'}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-2 py-1 rounded-lg">
                                    <Calendar size={12} className="text-slate-300" />

@@ -8,9 +8,22 @@ import {
   Search, 
   X, 
   Key,
-  ShieldAlert
+  ShieldAlert,
+  Check
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const PERMISSION_OPTIONS = [
+  { id: 'manage_users', label: 'Manage Users', desc: 'Create, update, and revoke user credentials' },
+  { id: 'manage_roles', label: 'Manage Security Roles', desc: 'Establish and modify role clearance groups' },
+  { id: 'manage_departments', label: 'Manage Departments', desc: 'Reorganize company departments and metadata' },
+  { id: 'access_candidate', label: 'Candidate Module Portal', desc: 'Apply to job listings, upload resumes, check scoring' },
+  { id: 'access_hr', label: 'HR Workspace Access', desc: 'Create job postings, run onboarding checklists, review reports' },
+  { id: 'access_employee', label: 'Employee Self-Service', desc: 'Log attendance clocks, apply for leave, view benefits' },
+  { id: 'access_manager', label: 'Manager Command Center', desc: 'Approve team leaves, track KPIs, evaluate task assignments' },
+  { id: 'access_billing', label: 'Billing Center Access', desc: 'Review subscription packages and invoices' },
+  { id: 'view_audit_logs', label: 'View Platform Audit Logs', desc: 'Investigate operational changes and log traces' },
+];
 
 const RoleManagement = () => {
   const { roles, addRole, updateRole, deleteRole } = useSuperAdmin();
@@ -21,13 +34,24 @@ const RoleManagement = () => {
   // Form State
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [permissionsCount, setPermissionsCount] = useState(1);
+  const [selectedPermissions, setSelectedPermissions] = useState([]);
+
+  // Helper to dynamically get or fallback permissions for default mock roles
+  const getRolePermissions = (role) => {
+    if (role.permissions) return role.permissions;
+    if (role.name === 'Super Admin') return PERMISSION_OPTIONS.map(p => p.id);
+    if (role.name === 'Admin') return ['manage_users', 'manage_departments', 'access_employee', 'view_audit_logs'];
+    if (role.name === 'HR Manager') return ['access_hr', 'access_employee', 'view_audit_logs'];
+    if (role.name === 'Manager') return ['access_manager', 'access_employee'];
+    if (role.name === 'Employee') return ['access_employee'];
+    return [];
+  };
 
   const openAddModal = () => {
     setEditingRole(null);
     setName('');
     setDescription('');
-    setPermissionsCount(3);
+    setSelectedPermissions(['access_employee']); // Default permission
     setIsModalOpen(true);
   };
 
@@ -35,7 +59,7 @@ const RoleManagement = () => {
     setEditingRole(role);
     setName(role.name);
     setDescription(role.description);
-    setPermissionsCount(role.permissionsCount || 3);
+    setSelectedPermissions(role.permissions || getRolePermissions(role));
     setIsModalOpen(true);
   };
 
@@ -43,18 +67,19 @@ const RoleManagement = () => {
     e.preventDefault();
     if (!name || !description) return;
 
+    const payload = {
+      name,
+      description,
+      permissions: selectedPermissions,
+      permissionsCount: selectedPermissions.length
+    };
+
     if (editingRole) {
-      updateRole(editingRole.id, {
-        name,
-        description,
-        permissionsCount: parseInt(permissionsCount, 10)
-      });
+      updateRole(editingRole.id, payload);
     } else {
       addRole({
         id: Date.now().toString(),
-        name,
-        description,
-        permissionsCount: parseInt(permissionsCount, 10)
+        ...payload
       });
     }
     setIsModalOpen(false);
@@ -69,7 +94,7 @@ const RoleManagement = () => {
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
+        <div className="text-left">
           <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
             <Shield className="text-emerald-600" size={32} />
             Security Roles & Permissions
@@ -108,48 +133,67 @@ const RoleManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence>
           {filteredRoles.length > 0 ? (
-            filteredRoles.map((role) => (
-              <motion.div
-                key={role.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 12 }}
-                className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800/60 shadow-soft hover:shadow-premium transition-all flex flex-col justify-between group relative"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-inner">
-                      <Key size={22} />
+            filteredRoles.map((role) => {
+              const activePerms = role.permissions || getRolePermissions(role);
+              return (
+                <motion.div
+                  key={role.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 12 }}
+                  className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800/60 shadow-soft hover:shadow-premium transition-all flex flex-col justify-between group relative text-left"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-inner">
+                        <Key size={22} />
+                      </div>
+                      <span className="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/20 text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
+                        {activePerms.length} PERMISSIONS
+                      </span>
                     </div>
-                    <span className="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/20 text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
-                      {role.permissionsCount || 0} PERMISSIONS
-                    </span>
+
+                    <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1 leading-snug">{role.name}</h3>
+                    <p className="text-sm font-medium text-slate-450 dark:text-slate-550 leading-relaxed mb-4">
+                      {role.description}
+                    </p>
+
+                    {/* Permissions list chips */}
+                    <div className="flex flex-wrap gap-1.5 mb-6">
+                      {activePerms.map(pId => {
+                        const opt = PERMISSION_OPTIONS.find(o => o.id === pId);
+                        if (!opt) return null;
+                        return (
+                          <span key={pId} className="px-2 py-0.5 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                            {opt.label}
+                          </span>
+                        );
+                      })}
+                      {activePerms.length === 0 && (
+                        <span className="text-[11px] text-slate-400 italic">No granular permissions assigned.</span>
+                      )}
+                    </div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1 leading-snug">{role.name}</h3>
-                  <p className="text-sm font-medium text-slate-400 dark:text-slate-500 leading-relaxed mb-6">
-                    {role.description}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-50 dark:border-slate-800/50">
-                  <button
-                    onClick={() => openEditModal(role)}
-                    className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-xl transition-all"
-                    title="Edit Role"
-                  >
-                    <Edit3 size={16} />
-                  </button>
-                  <button
-                    onClick={() => deleteRole(role.id)}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl transition-all"
-                    title="Delete Role"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </motion.div>
-            ))
+                  <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-50 dark:border-slate-800/50">
+                    <button
+                      onClick={() => openEditModal(role)}
+                      className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-xl transition-all"
+                      title="Edit Role"
+                    >
+                      <Edit3 size={16} />
+                    </button>
+                    <button
+                      onClick={() => deleteRole(role.id)}
+                      className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-xl transition-all"
+                      title="Delete Role"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </motion.div>
+              );
+            })
           ) : (
             <div className="col-span-full bg-white dark:bg-slate-900 p-12 text-center rounded-3xl border border-slate-100 dark:border-slate-800 text-slate-400 font-medium text-sm">
               No security profiles match your query.
@@ -173,7 +217,7 @@ const RoleManagement = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800"
+              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800 text-left"
             >
               <div className="p-6 border-b border-slate-50 dark:border-slate-800/80 flex items-center justify-between">
                 <h3 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2.5">
@@ -205,7 +249,7 @@ const RoleManagement = () => {
                   <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Profile Description</label>
                   <textarea
                     required
-                    rows="3"
+                    rows="2"
                     placeholder="Describe role responsibilities and authority bounds..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -214,16 +258,34 @@ const RoleManagement = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Granular Permissions Count</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="30"
-                    required
-                    value={permissionsCount}
-                    onChange={(e) => setPermissionsCount(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold"
-                  />
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Granular System Permissions</label>
+                  <div className="space-y-2.5 max-h-48 overflow-y-auto pr-2 border border-slate-100 dark:border-slate-800 p-3 rounded-xl bg-slate-50 dark:bg-slate-950/50">
+                    {PERMISSION_OPTIONS.map((perm) => {
+                      const isChecked = selectedPermissions.includes(perm.id);
+                      return (
+                        <label key={perm.id} className="flex items-start gap-3 cursor-pointer group text-left">
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={() => {
+                              setSelectedPermissions(prev =>
+                                isChecked ? prev.filter(p => p !== perm.id) : [...prev, perm.id]
+                              );
+                            }}
+                            className="mt-1 h-4 w-4 rounded border-slate-350 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 dark:bg-slate-800 transition-colors"
+                          />
+                          <div>
+                            <p className="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                              {perm.label}
+                            </p>
+                            <p className="text-[10px] text-slate-400 leading-normal">
+                              {perm.desc}
+                            </p>
+                          </div>
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div className="pt-4 flex items-center gap-3 border-t border-slate-50 dark:border-slate-800/80">

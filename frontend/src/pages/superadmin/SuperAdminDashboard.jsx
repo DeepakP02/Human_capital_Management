@@ -1,89 +1,92 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useSuperAdmin } from '../../context/SuperAdminContext';
 import {
   Users,
   ShieldCheck,
   Building2,
   TrendingUp,
-  Activity,
-  ArrowRight,
   LayoutDashboard,
-  UserPlus,
-  Settings,
-  Globe,
-  Server,
-  Zap,
+  DollarSign,
+  Bell,
+  RefreshCw
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-const STAT_CARDS = [
-  {
-    key: 'users',
-    label: 'Total Users',
-    icon: Users,
-    color: 'from-violet-500 to-purple-600',
-    bg: 'bg-violet-50 dark:bg-violet-950/20',
-    text: 'text-violet-600 dark:text-violet-400',
-    border: 'border-violet-100 dark:border-violet-900/30',
-    link: '/superadmin/users',
-    linkLabel: 'Manage Users',
-    desc: 'Registered system accounts',
-  },
-  {
-    key: 'roles',
-    label: 'Security Roles',
-    icon: ShieldCheck,
-    color: 'from-emerald-500 to-teal-600',
-    bg: 'bg-emerald-50 dark:bg-emerald-950/20',
-    text: 'text-emerald-600 dark:text-emerald-400',
-    border: 'border-emerald-100 dark:border-emerald-900/30',
-    link: '/superadmin/roles',
-    linkLabel: 'Manage Roles',
-    desc: 'Access permission profiles',
-  },
-  {
-    key: 'departments',
-    label: 'Departments',
-    icon: Building2,
-    color: 'from-amber-500 to-orange-600',
-    bg: 'bg-amber-50 dark:bg-amberald-950/20',
-    text: 'text-amber-600 dark:text-amber-400',
-    border: 'border-amber-100 dark:border-amber-900/30',
-    link: '/superadmin/departments',
-    linkLabel: 'Manage Depts.',
-    desc: 'Company org divisions',
-  },
-];
-
-const QUICK_LINKS = [
-  { label: 'Add New User', icon: UserPlus, to: '/superadmin/users', color: 'text-violet-600' },
-  { label: 'Create Role', icon: ShieldCheck, to: '/superadmin/roles', color: 'text-emerald-600' },
-  { label: 'New Department', icon: Building2, to: '/superadmin/departments', color: 'text-amber-600' },
-  { label: 'System Settings', icon: Settings, to: '/superadmin/dashboard', color: 'text-slate-600' },
-  { label: 'API & Integrations', icon: Globe, to: '/superadmin/dashboard', color: 'text-blue-600' },
-  { label: 'Infrastructure', icon: Server, to: '/superadmin/dashboard', color: 'text-rose-600' },
-];
-
-const SYSTEM_HEALTH = [
-  { label: 'API Response', value: '98.7%', status: 'healthy', desc: 'uptime this month' },
-  { label: 'DB Performance', value: '12ms', status: 'healthy', desc: 'avg query time' },
-  { label: 'Active Sessions', value: '24', status: 'warning', desc: 'current connections' },
-  { label: 'Storage Used', value: '64%', status: 'healthy', desc: 'of allocated quota' },
-];
+import { PageHeader } from '../../components/layout/PageHeader';
+import { StatCard } from './StatCard';
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
 };
+
 const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
 };
 
 const SuperAdminDashboard = () => {
   const { users, roles, departments } = useSuperAdmin();
-  const dataMap = { users: users.length, roles: roles.length, departments: departments.length };
+
+  // Dynamic statistics calculated directly from the context/database
+  const totalUsers = users.length;
+  const employeesCount = users.filter(u => u.role === 'employee').length;
+  const candidatesCount = users.filter(u => u.role === 'candidate').length;
+  const recruitersCount = users.filter(u => u.role === 'hr').length;
+  const activeJobs = departments.length * 2; // placeholder for active jobs count
+
+  // Stat Card Config
+  const stats = [
+    {
+      label: 'Total Users',
+      value: totalUsers,
+      sub: `${users.filter(u => u.role === 'superadmin' || u.role === 'admin').length} Admins`,
+      icon: Users,
+      color: 'from-violet-500 to-indigo-600',
+      bg: 'bg-violet-50 dark:bg-violet-950/20',
+      text: 'text-violet-600 dark:text-violet-400',
+      border: 'border-violet-100 dark:border-violet-900/30'
+    },
+    {
+      label: 'Total Employees',
+      value: employeesCount,
+      sub: `${departments.length} Departments`,
+      icon: Users,
+      color: 'from-emerald-500 to-teal-600',
+      bg: 'bg-emerald-50 dark:bg-emerald-950/20',
+      text: 'text-emerald-600 dark:text-emerald-400',
+      border: 'border-emerald-100 dark:border-emerald-900/30'
+    },
+    {
+      label: 'Total Candidates',
+      value: candidatesCount,
+      sub: 'Active pipelines',
+      icon: Users,
+      color: 'from-blue-500 to-cyan-600',
+      bg: 'bg-blue-50 dark:bg-blue-950/20',
+      text: 'text-blue-600 dark:text-blue-400',
+      border: 'border-blue-100 dark:border-blue-900/30'
+    },
+    {
+      label: 'Total Recruiters',
+      value: recruitersCount,
+      sub: 'HR representatives',
+      icon: ShieldCheck,
+      color: 'from-amber-500 to-orange-600',
+      bg: 'bg-amber-50 dark:bg-amber-950/20',
+      text: 'text-amber-600 dark:text-amber-400',
+      border: 'border-amber-100 dark:border-amber-900/30'
+    },
+    {
+      label: 'Active Jobs',
+      value: activeJobs,
+      sub: 'Jobs currently posted',
+      icon: Building2,
+      color: 'from-rose-500 to-pink-600',
+      bg: 'bg-rose-50 dark:bg-rose-950/20',
+      text: 'text-rose-600 dark:text-rose-400',
+      border: 'border-rose-100 dark:border-rose-900/30'
+    }
+  ];
 
   return (
     <motion.div
@@ -92,191 +95,109 @@ const SuperAdminDashboard = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Page Header */}
-      <motion.div variants={cardVariants}>
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
-              <LayoutDashboard className="text-primary-600" size={32} />
-              Super Admin Dashboard
-            </h1>
-            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
-              Complete system overview — users, roles, departments, and platform health.
-            </p>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 rounded-xl">
-            <Zap size={14} className="text-emerald-500" />
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
-              All Systems Operational
-            </span>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Stat Cards */}
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        variants={containerVariants}
+      <PageHeader
+        icon={LayoutDashboard}
+        title="Super Admin Control Center"
+        subtitle="Enterprise Management Console • Dynamic analytics, security shields, and platform configurations."
       >
-        {STAT_CARDS.map((card) => {
-          const Icon = card.icon;
-          return (
-            <motion.div
-              key={card.key}
-              variants={cardVariants}
-              className={`relative bg-white dark:bg-slate-900 rounded-3xl border ${card.border} overflow-hidden shadow-soft hover:shadow-premium transition-all group`}
-            >
-              {/* Gradient accent bar */}
-              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${card.color}`} />
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-6">
-                  <div className={`w-12 h-12 rounded-2xl ${card.bg} ${card.text} flex items-center justify-center shadow-inner`}>
-                    <Icon size={22} />
-                  </div>
-                  <TrendingUp size={16} className="text-slate-300 dark:text-slate-600 group-hover:text-emerald-500 transition-colors" />
-                </div>
-                <p className="text-sm font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">
-                  {card.label}
-                </p>
-                <p className={`text-5xl font-black ${card.text} mb-1 leading-none`}>
-                  {dataMap[card.key]}
-                </p>
-                <p className="text-xs text-slate-400 mb-6">{card.desc}</p>
-                <Link
-                  to={card.link}
-                  className={`inline-flex items-center gap-2 text-xs font-bold ${card.text} hover:gap-3 transition-all`}
-                >
-                  {card.linkLabel} <ArrowRight size={14} />
-                </Link>
-              </div>
-            </motion.div>
-          );
-        })}
-      </motion.div>
+        <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 rounded-xl">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
+            All Services Operational
+          </span>
+        </div>
+        <button className="p-2.5 bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-400 hover:text-slate-600 transition-colors shadow-sm">
+          <RefreshCw size={16} />
+        </button>
+      </PageHeader>
 
-      {/* Quick Actions + System Health */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Quick Actions */}
-        <motion.div
-          variants={cardVariants}
-          className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/60 shadow-soft p-6"
-        >
-          <div className="flex items-center gap-2 mb-6">
-            <Zap size={18} className="text-primary-600" />
-            <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
-              Quick Actions
-            </h2>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            {QUICK_LINKS.map((ql) => {
-              const Icon = ql.icon;
-              return (
-                <Link
-                  key={ql.label}
-                  to={ql.to}
-                  className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-100 dark:border-slate-800 transition-all group"
-                >
-                  <div className={`w-8 h-8 rounded-xl bg-white dark:bg-slate-900 flex items-center justify-center shadow-sm ${ql.color}`}>
-                    <Icon size={16} />
-                  </div>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                    {ql.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </motion.div>
-
-        {/* System Health */}
-        <motion.div
-          variants={cardVariants}
-          className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/60 shadow-soft p-6"
-        >
-          <div className="flex items-center gap-2 mb-6">
-            <Activity size={18} className="text-primary-600" />
-            <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
-              System Health
-            </h2>
-          </div>
-          <div className="space-y-4">
-            {SYSTEM_HEALTH.map((item) => (
-              <div key={item.label} className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
-                <div>
-                  <p className="text-xs font-bold text-slate-600 dark:text-slate-300">{item.label}</p>
-                  <p className="text-[11px] text-slate-400">{item.desc}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-black text-slate-800 dark:text-slate-100">{item.value}</span>
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      item.status === 'healthy' ? 'bg-emerald-500' : 'bg-amber-400'
-                    }`}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+      {/* Stats Counter Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {stats.map((stat, idx) => (
+          <StatCard key={idx} icon={stat.icon} label={stat.label} value={stat.value} sub={stat.sub} style={stat} />
+        ))}
       </div>
 
-      {/* Role Distribution */}
-      <motion.div
-        variants={cardVariants}
-        className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/60 shadow-soft p-6"
-      >
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <ShieldCheck size={18} className="text-primary-600" />
-            <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
-              User Role Distribution
-            </h2>
-          </div>
-          <Link
-            to="/superadmin/users"
-            className="text-xs font-bold text-primary-600 hover:underline flex items-center gap-1"
-          >
-            View All <ArrowRight size={12} />
-          </Link>
-        </div>
-
-        {(() => {
-          const roleCounts = users.reduce((acc, u) => {
-            acc[u.role] = (acc[u.role] || 0) + 1;
-            return acc;
-          }, {});
-          const roleColors = {
-            superadmin: 'bg-violet-500',
-            admin: 'bg-blue-500',
-            hr: 'bg-cyan-500',
-            manager: 'bg-amber-500',
-            employee: 'bg-emerald-500',
-            candidate: 'bg-rose-500',
-          };
-          const total = users.length || 1;
-          return (
-            <div className="space-y-3">
-              {Object.entries(roleCounts).map(([role, count]) => (
-                <div key={role} className="flex items-center gap-4">
-                  <div className="w-24 text-xs font-bold text-slate-500 dark:text-slate-400 capitalize text-right">{role}</div>
-                  <div className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-2.5 overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(count / total) * 100}%` }}
-                      transition={{ duration: 0.8, ease: 'easeOut' }}
-                      className={`h-full rounded-full ${roleColors[role] || 'bg-slate-400'}`}
-                    />
-                  </div>
-                  <div className="w-8 text-xs font-black text-slate-700 dark:text-slate-200 text-right">{count}</div>
-                </div>
-              ))}
-              {users.length === 0 && (
-                <p className="text-center text-sm text-slate-400 py-4">No users registered yet.</p>
-              )}
+      {/* Details Area */}
+      <div className="grid grid-cols-1 gap-6">
+        
+        {/* Revenue & ARR Widget */}
+        <motion.div
+          variants={cardVariants}
+          className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/60 p-6 shadow-soft text-left"
+        >
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <DollarSign size={18} className="text-primary-600 animate-pulse" />
+              <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
+                Revenue & Subscription Overview
+              </h2>
             </div>
-          );
-        })()}
-      </motion.div>
+            <span className="text-[10px] font-bold bg-violet-50 dark:bg-violet-950/20 text-violet-600 dark:text-violet-400 px-2.5 py-1 rounded-full uppercase tracking-wider">
+              ARR: $417,600
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800/50">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Monthly Recurring (MRR)</p>
+              <p className="text-2xl font-black text-slate-800 dark:text-white mt-1">$34,800</p>
+              <p className="text-[10px] font-bold text-emerald-500 mt-0.5 flex items-center gap-1">
+                <TrendingUp size={10} /> +15.2% MoM
+              </p>
+            </div>
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800/50">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Average Contract Value</p>
+              <p className="text-2xl font-black text-slate-800 dark:text-white mt-1">$12,450</p>
+              <p className="text-[10px] font-bold text-slate-400 mt-0.5">Enterprise terms</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800/50">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Tenants</p>
+              <p className="text-2xl font-black text-slate-800 dark:text-white mt-1">180 orgs</p>
+              <p className="text-[10px] font-bold text-emerald-500 mt-0.5">No churn this quarter</p>
+            </div>
+          </div>
+
+          {/* Premium Plan Distribution Graph */}
+          <div>
+            <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-2">
+              <span>Plan Share Distribution</span>
+              <span>12 Enterprise • 48 Pro • 120 Team</span>
+            </div>
+            <div className="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full flex overflow-hidden">
+              <div className="h-full bg-violet-500 w-[55%] transition-all" title="Enterprise (55%)" />
+              <div className="h-full bg-blue-500 w-[30%] transition-all" title="Pro (30%)" />
+              <div className="h-full bg-emerald-500 w-[15%] transition-all" title="Team (15%)" />
+            </div>
+            <div className="flex gap-4 mt-3 text-[10px] font-bold text-slate-400">
+              <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-violet-500" /> Enterprise (55%)</div>
+              <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500" /> Pro (30%)</div>
+              <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Team (15%)</div>
+            </div>
+          </div>
+        </motion.div>
+
+      </div>
+
+      {/* Notifications Alert Banner */}
+      <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-950/20 dark:to-purple-950/20 border border-indigo-100/50 dark:border-indigo-900/30 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 text-left">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900/50 text-indigo-500 rounded-2xl flex items-center justify-center shadow-sm shrink-0">
+            <Bell size={22} className="animate-bounce" />
+          </div>
+          <div>
+            <h4 className="text-sm font-black text-indigo-950 dark:text-indigo-200 tracking-tight leading-none mb-1">
+              Enterprise Upgrade Pending
+            </h4>
+            <p className="text-xs font-medium text-slate-500 dark:text-indigo-300">
+              Patch compilation v2.4.1 is staged and optimized. Schedule deployment for low-latency hours.
+            </p>
+          </div>
+        </div>
+        <button className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-200 dark:shadow-none self-start md:self-center">
+          Review Patch Log
+        </button>
+      </div>
     </motion.div>
   );
 };

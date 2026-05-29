@@ -259,9 +259,16 @@ const UserManagement = () => {
                       onChange={(e) => setSelectedRole(e.target.value)}
                       className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold capitalize"
                     >
-                      {['superadmin', 'admin', 'hr', 'manager', 'employee', 'candidate'].map(r => (
-                        <option key={r} value={r}>{r}</option>
-                      ))}
+                      {roles.map(r => {
+                        const val = r.name.toLowerCase().replace(/\s+manager/g, '').replace(/\s+/g, '');
+                        return (
+                          <option key={r.id} value={val}>{r.name}</option>
+                        );
+                      })}
+                      {/* Ensure candidate is always selectable as it might not be a defined default admin role */}
+                      {!roles.some(r => r.name.toLowerCase() === 'candidate') && (
+                        <option value="candidate">Candidate</option>
+                      )}
                     </select>
                   </div>
 

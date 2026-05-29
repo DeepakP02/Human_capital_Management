@@ -21,13 +21,95 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles }) => {
   const isSuperAdmin = user?.role?.toLowerCase() === 'superadmin';
   const showAll = allRoles || isSuperAdmin;
   const baseItems = sidebarConfig[user?.role] || [];
-  const roleItems = showAll ? [
-    ...Object.values(sidebarConfig).flat(),
-    { label: 'SuperAdmin Dashboard', icon: Home, path: '/superadmin/dashboard' },
-    { label: 'User Management', icon: Users, path: '/superadmin/users' },
-    { label: 'Role Management', icon: ShieldCheck, path: '/superadmin/roles' },
-    { label: 'Department Management', icon: Building2, path: '/superadmin/departments' },
-  ] : baseItems;
+
+  const [expandedGroups, setExpandedGroups] = useState({
+    'Super Admin': true,
+    'Candidate Modules': false,
+    'HR Modules': false,
+    'Employee Modules': false,
+    'Manager Modules': false,
+    'Admin Modules': false,
+  });
+
+  const toggleGroup = (groupName) => {
+    setExpandedGroups(prev => ({
+      ...prev,
+      [groupName]: !prev[groupName]
+    }));
+  };
+
+  let roleItems = [];
+  if (showAll) {
+    // 1. Super Admin Section (Home base)
+    roleItems.push({
+      group: 'Super Admin',
+      items: [
+        { label: 'SuperAdmin Dashboard', icon: Home, path: '/superadmin/dashboard' },
+        { label: 'User Management', icon: Users, path: '/superadmin/users' },
+        { label: 'Role Management', icon: ShieldCheck, path: '/superadmin/roles' },
+        { label: 'Department Management', icon: Building2, path: '/superadmin/departments' },
+      ]
+    });
+    
+    // 2. Admin Section
+    const adminItems = (sidebarConfig.admin || [])
+      .filter(item => item.label !== 'Dashboard' && !item.path?.endsWith('dashboard'))
+      .filter(item => item.path !== '/admin/settings')
+      .map(item => ({ ...item }));
+    if (adminItems.length > 0) {
+      roleItems.push({
+        group: 'Admin Modules',
+        items: adminItems
+      });
+    }
+
+    // 3. Candidate Section
+    const candidateItems = (sidebarConfig.candidate || [])
+      .filter(item => item.label !== 'Dashboard' && !item.path?.endsWith('dashboard'))
+      .map(item => ({ ...item }));
+    if (candidateItems.length > 0) {
+      roleItems.push({
+        group: 'Candidate Modules',
+        items: candidateItems
+      });
+    }
+    
+    // 4. Employee Section
+    const employeeItems = (sidebarConfig.employee || [])
+      .filter(item => item.label !== 'Dashboard' && !item.path?.endsWith('dashboard'))
+      .filter(item => item.path !== '/employee/profile')
+      .map(item => ({ ...item }));
+    if (employeeItems.length > 0) {
+      roleItems.push({
+        group: 'Employee Modules',
+        items: employeeItems
+      });
+    }
+
+    // 5. HR Section
+    const hrItems = (sidebarConfig.hr || [])
+      .filter(item => item.label !== 'Dashboard' && !item.path?.endsWith('dashboard'))
+      .map(item => ({ ...item }));
+    if (hrItems.length > 0) {
+      roleItems.push({
+        group: 'HR Modules',
+        items: hrItems
+      });
+    }
+    
+    // 6. Manager Section
+    const managerItems = (sidebarConfig.manager || [])
+      .filter(item => item.label !== 'Dashboard' && !item.path?.endsWith('dashboard'))
+      .map(item => ({ ...item }));
+    if (managerItems.length > 0) {
+      roleItems.push({
+        group: 'Manager Modules',
+        items: managerItems
+      });
+    }
+  } else {
+    roleItems = baseItems;
+  }
 
   const MenuItem = ({ item, isCollapsed }) => {
     const Icon = item.icon;
@@ -55,9 +137,9 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles }) => {
   };
 
   const GroupTitle = ({ title, isCollapsed }) => {
-    if (isCollapsed) return <div className="h-px bg-slate-200 my-4 mx-2" />;
+    if (isCollapsed) return <div className="h-px bg-slate-200 dark:bg-slate-800 my-4 mx-2" />;
     return (
-      <h3 className="px-4 mt-6 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+      <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
         {title}
       </h3>
     );
@@ -92,14 +174,42 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles }) => {
       <div className="flex-1 overflow-y-auto px-3 space-y-1 py-4">
         {roleItems.map((item, index) => {
           if (item.group) {
+            const isExpanded = expandedGroups[item.group] ?? true;
             return (
-              <div key={index}>
-                <GroupTitle title={item.group} isCollapsed={collapsed} />
-                <div className="space-y-1">
-                  {item.items.map((subItem, idx) => (
-                    <MenuItem key={idx} item={subItem} isCollapsed={collapsed} />
-                  ))}
+              <div key={index} className="space-y-1">
+                <div 
+                  onClick={() => !collapsed && toggleGroup(item.group)}
+                  className={cn(
+                    "flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer select-none group/title transition-all duration-150 mt-4 first:mt-0",
+                    collapsed && "cursor-default hover:bg-transparent"
+                  )}
+                >
+                  <GroupTitle title={item.group} isCollapsed={collapsed} />
+                  {!collapsed && (
+                    <ChevronDown 
+                      size={14} 
+                      className={cn(
+                        "text-slate-400 group-hover/title:text-slate-600 dark:group-hover/title:text-slate-300 transition-transform duration-200",
+                        isExpanded ? "transform rotate-0" : "transform -rotate-90"
+                      )} 
+                    />
+                  )}
                 </div>
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="space-y-1 overflow-hidden"
+                    >
+                      {item.items.map((subItem, idx) => (
+                        <MenuItem key={idx} item={subItem} isCollapsed={collapsed} />
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           }

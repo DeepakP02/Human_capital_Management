@@ -134,7 +134,7 @@ const ManagerProfile = () => {
                  <div className="w-32 h-32 rounded-full overflow-hidden ring-4 ring-primary-50 relative">
                     <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
                     {isEditing && (
-                       <label className="absolute inset-0 bg-slate-900/50 flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer backdrop-blur-sm">
+                       <label className="absolute inset-0 bg-slate-900/50 flex flex-col items-center justify-center text-white transition-opacity cursor-pointer backdrop-blur-sm">
                           <Camera size={24} className="mb-1" />
                           <span className="text-[10px] font-bold uppercase tracking-widest">Upload</span>
                           <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleAvatarUpload} />
@@ -349,7 +349,7 @@ const ManagerProfile = () => {
                                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{doc.size} • {doc.date}</p>
                                    </div>
                                 </div>
-                                <button className="p-2 text-slate-400 hover:text-primary-600 hover:bg-white rounded-xl transition-all opacity-0 group-hover:opacity-100">
+                                <button className="p-2 text-slate-400 hover:text-primary-600 hover:bg-white rounded-xl transition-all">
                                    <X size={18} className="rotate-45" />
                                 </button>
                              </div>

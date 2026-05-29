@@ -39,8 +39,6 @@ export const sidebarConfig = {
     { label: 'AI Resume Score', icon: Star, path: '/candidate/ai-score' },
     { label: 'Interview Schedule', icon: Calendar, path: '/candidate/interviews' },
     { label: 'Notifications', icon: Bell, path: '/candidate/notifications' },
-    { label: 'Profile', icon: User, path: '/candidate/profile' },
-    { label: 'Settings', icon: Settings, path: '/candidate/settings' },
   ],
 
   hr: [
@@ -53,8 +51,6 @@ export const sidebarConfig = {
     { label: 'Onboarding', icon: UserCheck, path: '/hr/onboarding' },
     { label: 'Reports', icon: BarChart2, path: '/hr/reports' },
     { label: 'Messages', icon: MessageSquare, path: '/hr/messages' },
-    { label: 'Profile', icon: User, path: '/hr/profile' },
-    { label: 'Settings', icon: Settings, path: '/hr/settings' },
   ],
 
   employee: [
@@ -67,7 +63,6 @@ export const sidebarConfig = {
     { label: 'Documents', icon: FileText, path: '/employee/documents' },
     { label: 'Performance', icon: Activity, path: '/employee/performance' },
     { label: 'Help Desk', icon: BookOpen, path: '/employee/help' },
-    { label: 'Settings', icon: Settings, path: '/employee/settings' },
   ],
 
   manager: [
@@ -79,8 +74,6 @@ export const sidebarConfig = {
     { label: 'Tasks', icon: ClipboardList, path: '/manager/tasks' },
     { label: 'Reviews', icon: Star, path: '/manager/reviews' },
     { label: 'Reports', icon: BarChart2, path: '/manager/reports' },
-    { label: 'Profile', icon: User, path: '/manager/profile' },
-    { label: 'Settings', icon: Settings, path: '/manager/settings' },
   ],
 
   admin: [
@@ -99,6 +92,5 @@ export const sidebarConfig = {
     { label: 'Audit Logs', icon: FileSearch, path: '/admin/audit' },
     { label: 'Reports', icon: BarChart2, path: '/admin/reports' },
     { label: 'Settings', icon: Settings, path: '/admin/settings' },
-    { label: 'Profile', icon: User, path: '/admin/profile' },
   ],
 };

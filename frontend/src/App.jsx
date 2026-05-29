@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './hooks/ThemeContext';
-import { AuthProvider } from './hooks/useAuth';
+import { AuthProvider, useAuth } from './hooks/useAuth';
 import { AdminProvider } from './context/AdminContext';
 import { SuperAdminProvider } from './context/SuperAdminContext';
 import SuperAdminLayout from './components/layout/SuperAdminLayout';
@@ -86,6 +86,14 @@ import AdminReports from './pages/admin/AdminReports';
 import Settings from './pages/admin/Settings';
 import AdminProfile from './pages/admin/AdminProfile';
 
+const RoleDashboardRedirect = ({ children }) => {
+  const { user } = useAuth();
+  if (user?.role?.toLowerCase() === 'superadmin') {
+    return <Navigate to="/superadmin/dashboard" replace />;
+  }
+  return children;
+};
+
 function App() {
   return (
     <Router>
@@ -102,7 +110,7 @@ function App() {
               </CandidateProvider>
             }>
               <Route index element={<Navigate to="/candidate/dashboard" replace />} />
-              <Route path="dashboard" element={<CandidateDashboard />} />
+              <Route path="dashboard" element={<RoleDashboardRedirect><CandidateDashboard /></RoleDashboardRedirect>} />
               <Route path="jobs" element={<BrowseJobs />} />
               <Route path="jobs/apply" element={<ApplicationForm />} />
               <Route path="applications" element={<MyApplications />} />
@@ -121,7 +129,7 @@ function App() {
               </HRProvider>
             }>
               <Route index element={<Navigate to="/hr/dashboard" replace />} />
-              <Route path="dashboard" element={<HRDashboard />} />
+              <Route path="dashboard" element={<RoleDashboardRedirect><HRDashboard /></RoleDashboardRedirect>} />
               <Route path="jobs" element={<JobPosts />} />
               <Route path="candidates" element={<Candidates />} />
               <Route path="interviews" element={<InterviewManagement />} />
@@ -141,7 +149,7 @@ function App() {
               </EmployeeProvider>
             }>
               <Route index element={<Navigate to="/employee/dashboard" replace />} />
-              <Route path="dashboard" element={<EmployeeDashboard />} />
+              <Route path="dashboard" element={<RoleDashboardRedirect><EmployeeDashboard /></RoleDashboardRedirect>} />
               <Route path="profile" element={<EmployeeProfile />} />
               <Route path="attendance" element={<EmployeeAttendance />} />
               <Route path="leave" element={<EmployeeLeave />} />
@@ -160,7 +168,7 @@ function App() {
               </ManagerProvider>
             }>
               <Route index element={<Navigate to="/manager/dashboard" replace />} />
-              <Route path="dashboard" element={<ManagerDashboard />} />
+              <Route path="dashboard" element={<RoleDashboardRedirect><ManagerDashboard /></RoleDashboardRedirect>} />
               <Route path="team" element={<TeamMembers />} />
               <Route path="attendance" element={<AttendanceReview />} />
               <Route path="leave" element={<LeaveApproval />} />
@@ -182,7 +190,7 @@ function App() {
             </Route>
             <Route path="/admin" element={<AppLayout />}>
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="dashboard" element={<RoleDashboardRedirect><AdminDashboard /></RoleDashboardRedirect>} />
               <Route path="org" element={<OrgSetup />} />
               <Route path="departments" element={<Departments />} />
               <Route path="users" element={<Users />} />

@@ -140,7 +140,7 @@ const ManagerReports = () => {
                        onClick={() => setSelectedReport(type)}
                        className="p-8 border border-slate-50 rounded-[3rem] flex flex-col gap-6 group cursor-pointer transition-all text-left relative overflow-hidden"
                      >
-                        <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-10 transition-all transform scale-150 rotate-12">
+                        <div className="absolute top-0 right-0 p-6 transition-all transform scale-150 rotate-12">
                            <type.icon size={60} />
                         </div>
                         <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all", type.bg, type.color)}>
@@ -152,7 +152,7 @@ const ManagerReports = () => {
                               Deep Analytics Insight
                            </p>
                         </div>
-                        <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-primary-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 text-left">
+                        <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-primary-600 uppercase tracking-widest transition-all translate-y-2 text-left">
                            Configure Data <ArrowUpRight size={14} />
                         </div>
                      </motion.div>

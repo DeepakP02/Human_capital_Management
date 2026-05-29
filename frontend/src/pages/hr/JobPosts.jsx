@@ -6,7 +6,7 @@ import {
   MoreVertical, Users, Briefcase, Calendar, 
   MapPin, DollarSign, CheckCircle2, Clock, 
   AlertCircle, X, FileText, ChevronRight, Eye, 
-  Edit2, Copy, Archive, Trash2
+  Edit2, Copy, Archive, Trash2, Sparkles
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useHR } from '../../context/HRContext';
@@ -58,6 +58,41 @@ const JobPosts = () => {
     setEditingJob(job.id);
     setFormData({ ...job });
     setIsModalOpen(true);
+  };
+
+  const handleAIGenerateDescription = () => {
+    if (!formData.title) {
+      showToast("Please enter a Job Title first to generate description", "error");
+      return;
+    }
+    showToast("AI Copilot is drafting a custom description...", "info");
+    
+    setTimeout(() => {
+      const title = formData.title;
+      const sampleDescriptions = {
+        designer: `We are seeking a creative Senior Product Designer to join our product team. You will lead UI/UX architecture, design high-fidelity interactive wireframes, establish cohesive design systems, and translate user feedback into premium experiences.\n\nKey Responsibilities:\n* Formulate design guidelines and component libraries.\n* Collaborate with product managers and engineers to build slick experiences.\n* Drive user research and competitive interface analysis.`,
+        developer: `We are looking for a highly skilled Front-End Engineer to architect robust UI components. You will leverage modern React configurations, program fluid CSS animations, write clean custom state hooks, and optimize bundle sizing for maximum client performance.\n\nKey Responsibilities:\n* Write modular, testable, and reusable React code.\n* Collaborate on APIs integrations and client-side database schemas.\n* Optimize web pages for maximum scalability.`,
+        engineer: `We are seeking a Full Stack Software Engineer to build scalable infrastructure and perform API engineering. You will manage PostgreSQL databases, optimize network gateways, and code responsive client interfaces.\n\nKey Responsibilities:\n* Program solid API endpoints and background workers.\n* Design transactional tables and secure permission locks.\n* Direct cloud deployment and CI/CD pipelines.`,
+        hr: `We are hiring an HR Manager to manage corporate talent acquisition, employee relations, and policy compliance. You will orchestrate the entire lifecycle from onboarding templates to exit interview clearance.\n\nKey Responsibilities:\n* Architect recruiting pipelines and review candidate resume insights.\n* Refine company benefits, payroll centers, and holidays schedules.\n* Lead team-building initiatives and training systems.`
+      };
+
+      let draft = "";
+      const lowerTitle = title.toLowerCase();
+      if (lowerTitle.includes("design")) {
+        draft = sampleDescriptions.designer;
+      } else if (lowerTitle.includes("dev") || lowerTitle.includes("front") || lowerTitle.includes("react")) {
+        draft = sampleDescriptions.developer;
+      } else if (lowerTitle.includes("engineer") || lowerTitle.includes("back") || lowerTitle.includes("stack")) {
+        draft = sampleDescriptions.engineer;
+      } else if (lowerTitle.includes("hr") || lowerTitle.includes("recruit") || lowerTitle.includes("talent")) {
+        draft = sampleDescriptions.hr;
+      } else {
+        draft = `We are seeking an outstanding ${title} to join our high-performing team. You will drive operational excellence, contribute to key strategic initiatives, and collaborate cross-functionally to achieve platform success.\n\nKey Responsibilities:\n* Orchestrate core workflows and execute daily deliverables.\n* Optimize team productivity and collaborate on key feature updates.\n* Conduct thorough analysis and maintain premium quality standards.`;
+      }
+
+      setFormData(prev => ({ ...prev, description: draft }));
+      showToast("Job description drafted by AI Copilot successfully!", "success");
+    }, 1200);
   };
 
   const handleSubmit = (e) => {
@@ -263,10 +298,20 @@ const JobPosts = () => {
                            <input type="number" min="1" value={formData.openings} onChange={e => setFormData({...formData, openings: e.target.value})} className="input-field h-12" />
                         </div>
                      </div>
-                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-slate-700 ml-1">Job Description</label>
-                        <textarea value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={6} className="input-field py-4 resize-none" placeholder="Enter detailed job requirements and responsibilities..."></textarea>
-                     </div>
+                      <div className="space-y-2">
+                         <div className="flex items-center justify-between">
+                            <label className="text-sm font-bold text-slate-700 ml-1">Job Description</label>
+                            <button
+                              type="button"
+                              onClick={handleAIGenerateDescription}
+                              className="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1.5 bg-primary-50 dark:bg-primary-950/40 px-3 py-1 rounded-xl hover:bg-primary-100/80 transition-all border border-primary-100/50"
+                            >
+                              <Sparkles size={12} className="text-primary-500 animate-pulse" />
+                              <span>Draft with AI</span>
+                            </button>
+                         </div>
+                         <textarea value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={6} className="input-field py-4 resize-none" placeholder="Enter detailed job requirements and responsibilities..."></textarea>
+                      </div>
                   </div>
                   <div className="p-6 border-t border-slate-100 bg-slate-50/30 flex items-center justify-end gap-3 shrink-0">
                      <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-2.5 text-slate-500 font-bold hover:bg-white rounded-xl transition-all">Cancel</button>

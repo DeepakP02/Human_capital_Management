@@ -93,7 +93,31 @@ export const ManagerProvider = ({ children }) => {
   const addTeamMember = (member) => setTeamMembers(prev => [{ ...member, id: Date.now() }, ...prev]);
   const updateTeamMember = (id, data) => setTeamMembers(prev => prev.map(m => m.id === id ? { ...m, ...data } : m));
 
-  const updateLeaveStatus = (id, status) => setLeaveRequests(prev => prev.map(l => l.id === id ? { ...l, status } : l));
+  const updateLeaveStatus = (id, status) => {
+    setLeaveRequests(prev => prev.map(l => {
+      if (l.id === id) {
+        if (status === 'Approved') {
+          const newEntry = {
+            id: Date.now() + Math.random(),
+            employeeId: l.employeeId,
+            name: l.name,
+            date: l.startDate,
+            checkIn: '-',
+            checkOut: '-',
+            status: 'On Leave',
+            overtime: '0h',
+            breakTime: '0h'
+          };
+          setAttendance(curr => [newEntry, ...curr]);
+          showToast(`Leave approved for ${l.name}. Attendance sheet auto-synced!`);
+        } else if (status === 'Rejected') {
+          showToast(`Leave request rejected for ${l.name}.`);
+        }
+        return { ...l, status };
+      }
+      return l;
+    }));
+  };
   const addLeaveRequest = (request) => setLeaveRequests(prev => [{ ...request, id: Date.now(), status: 'Pending', submittedAt: new Date().toISOString().split('T')[0] }, ...prev]);
 
   const addAttendanceEntry = (entry) => setAttendance(prev => [{ ...entry, id: Date.now() }, ...prev]);
