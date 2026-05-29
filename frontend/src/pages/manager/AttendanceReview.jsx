@@ -166,12 +166,6 @@ const AttendanceReview = () => {
                <option value="Late">Late</option>
                <option value="On Leave">On Leave</option>
             </select>
-            <button 
-              onClick={resetFilters}
-              className="p-2.5 text-slate-400 hover:text-primary-600 hover:bg-slate-50 border border-slate-100 rounded-xl transition-all h-11 w-11 flex items-center justify-center shrink-0"
-            >
-               <RotateCcw size={18} />
-            </button>
          </div>
       </div>
 
@@ -296,14 +290,11 @@ const AttendanceReview = () => {
                            <div className={cn("absolute -left-[53px] top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white", log.color)}>
                               <log.icon size={14} />
                            </div>
-                           <div className="flex items-center justify-between group-hover:translate-x-1 transition-transform">
+                            <div className="flex items-center justify-between group-hover:translate-x-1 transition-transform">
                               <div className="text-left">
                                  <p className="text-base font-black text-slate-900 leading-none">{log.time}</p>
                                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1.5">{log.label}</p>
                               </div>
-                              <button className="p-2 text-slate-200 hover:text-primary-600 transition-colors">
-                                 <AlertCircle size={16} />
-                              </button>
                            </div>
                         </div>
                      ))}

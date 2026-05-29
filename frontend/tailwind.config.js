@@ -50,6 +50,16 @@ export default {
         '2xl': '1rem',
         '3xl': '1.5rem',
       },
+      backgroundImage: {
+        'glass': 'linear-gradient(rgba(255,255,255,0.08), rgba(255,255,255,0.08))',
+        'gradient-radial': 'radial-gradient(circle at center, var(--tw-gradient-stops))',
+      },
+      borderWidth: {
+        '3': '3px',
+      },
+      borderColor: {
+        'gradient': 'linear-gradient(90deg, #6366f1, #a78bfa)',
+      },
       boxShadow: {
         'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
         'premium': '0 10px 40px -10px rgba(0, 0, 0, 0.08)',
@@ -71,4 +81,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

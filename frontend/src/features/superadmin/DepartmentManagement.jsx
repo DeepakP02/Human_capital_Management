@@ -67,7 +67,7 @@ const DepartmentManagement = () => {
   );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 w-full space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -115,17 +115,14 @@ const DepartmentManagement = () => {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 12 }}
-                className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800/60 shadow-soft hover:shadow-premium transition-all flex flex-col justify-between group relative"
+                className="bg-white/30 backdrop-blur-lg border border-slate-100 dark:border-slate-800/60 shadow-premium hover:shadow-2xl transition-all flex flex-col justify-between group relative rounded-3xl p-6"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400 flex items-center justify-center shadow-inner">
                       <Building2 size={22} />
                     </div>
-                    <span className="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/20 text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide flex items-center gap-1">
-                      <Users size={12} />
-                      {dept.count || 0} Staff
-                    </span>
+                    <StatsCounter target={dept.count || 0} label="Staff" suffix="" />
                   </div>
 
                   <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1 leading-snug">{dept.name}</h3>

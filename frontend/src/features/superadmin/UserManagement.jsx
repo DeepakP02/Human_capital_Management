@@ -16,6 +16,7 @@ import {
   Activity
 } from 'lucide-react';
 import PageHeader from '../../shared/components/layout/PageHeader';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const UserManagement = () => {
   const { users, addUser, updateUser, deleteUser, departments, roles } = useSuperAdmin();
@@ -94,7 +95,7 @@ const UserManagement = () => {
   );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 w-full space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
