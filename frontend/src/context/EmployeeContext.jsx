@@ -29,39 +29,24 @@ export const EmployeeProvider = ({ children }) => {
   });
 
   // --- Attendance State ---
-  const [attendance, setAttendance] = useState(() => {
-    const saved = localStorage.getItem('employee_attendance');
-    return saved ? JSON.parse(saved) : {
-      isClockedIn: false,
-      clockInTime: null,
-      totalWorkedToday: 0,
-      breakStartTime: null,
-      isOnBreak: false,
-      history: [
-        { date: '2026-04-20', clockIn: '09:00 AM', clockOut: '06:05 PM', totalHours: '9h 5m', status: 'Present', mode: 'Office' },
-        { date: '2026-04-19', clockIn: '08:55 AM', clockOut: '05:45 PM', totalHours: '8h 50m', status: 'Present', mode: 'Remote' },
-        { date: '2026-04-18', clockIn: '09:10 AM', clockOut: '06:30 PM', totalHours: '9h 20m', status: 'Late', mode: 'Office' },
-        { date: '2026-04-17', clockIn: '-', clockOut: '-', totalHours: '0h', status: 'On Leave', mode: '-' },
-        { date: '2026-04-16', clockIn: '09:00 AM', clockOut: '06:00 PM', totalHours: '9h 0m', status: 'Present', mode: 'Hybrid' },
-      ]
-    };
+  const [attendance, setAttendance] = useState({
+    isClockedIn: false,
+    clockInTime: null,
+    totalWorkedToday: 0,
+    breakStartTime: null,
+    isOnBreak: false,
+    history: []
   });
 
   // --- Leave Requests State ---
-  const [leaves, setLeaves] = useState(() => {
-    const saved = localStorage.getItem('employee_leaves');
-    return saved ? JSON.parse(saved) : {
-      balance: {
-        sick: 10,
-        annual: 15,
-        casual: 5,
-        unpaid: 0
-      },
-      requests: [
-        { id: 1, type: 'Sick Leave', startDate: '2026-04-17', endDate: '2026-04-17', days: 1, reason: 'Fever', status: 'Approved', managerComment: 'Get well soon!', emergencyContact: '+1 (555) 987-6543' },
-        { id: 2, type: 'Annual Leave', startDate: '2026-05-10', endDate: '2026-05-15', days: 6, reason: 'Family vacation', status: 'Pending', managerComment: '', emergencyContact: '+1 (555) 987-6543' },
-      ]
-    };
+  const [leaves, setLeaves] = useState({
+    balance: {
+      sick: 10,
+      annual: 15,
+      casual: 5,
+      unpaid: 0
+    },
+    requests: []
   });
 
   // --- Payroll State ---
@@ -77,19 +62,13 @@ export const EmployeeProvider = ({ children }) => {
   });
 
   // --- Benefits State ---
-  const [benefits, setBenefits] = useState(() => {
-    const saved = localStorage.getItem('employee_benefits');
-    return saved ? JSON.parse(saved) : {
-      insurance: { plan: 'Premium Health Plus', provider: 'Blue Cross', status: 'Active' },
-      dependents: [
-        { name: 'Jane Doe', relation: 'Spouse', age: 28 },
-        { name: 'Billy Doe', relation: 'Son', age: 4 }
-      ],
-      claims: [
-        { id: 'CLM-01', type: 'Medical', amount: 120, date: '2026-03-15', status: 'Approved', description: 'Monthly checkup' },
-        { id: 'CLM-02', type: 'Wellness', amount: 50, date: '2026-04-05', status: 'Pending', description: 'Gym membership' }
-      ]
-    };
+  const [benefits, setBenefits] = useState({
+    insurance: { plan: 'Premium Health Plus', provider: 'Blue Cross', status: 'Active' },
+    dependents: [
+      { name: 'Jane Doe', relation: 'Spouse', age: 28 },
+      { name: 'Billy Doe', relation: 'Son', age: 4 }
+    ],
+    claims: []
   });
 
   // --- Documents State ---
@@ -130,71 +109,175 @@ export const EmployeeProvider = ({ children }) => {
     ];
   });
 
+  // --- Global Synchronization Logic ---
+  const syncWithGlobal = () => {
+    // 1. Sync Attendance
+    let globalAtt = localStorage.getItem('hcm_global_attendance');
+    if (!globalAtt) {
+      const defaults = [
+        { id: '1', name: profile.fullName, date: '2026-04-20', clockIn: '09:00 AM', clockOut: '06:05 PM', totalHours: '9h 5m', status: 'Present', mode: 'Office' },
+        { id: '2', name: profile.fullName, date: '2026-04-19', clockIn: '08:55 AM', clockOut: '05:45 PM', totalHours: '8h 50m', status: 'Present', mode: 'Remote' },
+        { id: '3', name: profile.fullName, date: '2026-04-18', clockIn: '09:10 AM', clockOut: '06:30 PM', totalHours: '9h 20m', status: 'Late', mode: 'Office' },
+        { id: '4', name: profile.fullName, date: '2026-04-17', clockIn: '-', clockOut: '-', totalHours: '0h', status: 'On Leave', mode: '-' },
+        { id: '5', name: profile.fullName, date: '2026-04-16', clockIn: '09:00 AM', clockOut: '06:00 PM', totalHours: '9h 0m', status: 'Present', mode: 'Hybrid' },
+      ];
+      localStorage.setItem('hcm_global_attendance', JSON.stringify(defaults));
+      globalAtt = JSON.stringify(defaults);
+    }
+    const attList = JSON.parse(globalAtt);
+    const myAtt = attList.filter(a => a.name === profile.fullName);
+    const activeSession = attList.find(a => a.name === profile.fullName && a.clockOut === '-');
+
+    setAttendance(prev => ({
+      ...prev,
+      isClockedIn: !!activeSession,
+      clockInTime: activeSession ? activeSession.clockInTime : null,
+      history: myAtt.filter(a => a.clockOut !== '-')
+    }));
+
+    // 2. Sync Leaves
+    let globalLeaves = localStorage.getItem('hcm_global_leaves');
+    if (!globalLeaves) {
+      const defaults = [
+        { id: 1, name: profile.fullName, type: 'Sick Leave', startDate: '2026-04-17', endDate: '2026-04-17', days: 1, reason: 'Fever', status: 'Approved', managerComment: 'Get well soon!', emergencyContact: '+1 (555) 987-6543', submittedAt: '2026-04-16' },
+        { id: 2, name: profile.fullName, type: 'Annual Leave', startDate: '2026-05-10', endDate: '2026-05-15', days: 6, reason: 'Family vacation', status: 'Pending', managerComment: '', emergencyContact: '+1 (555) 987-6543', submittedAt: '2026-04-20' },
+      ];
+      localStorage.setItem('hcm_global_leaves', JSON.stringify(defaults));
+      globalLeaves = JSON.stringify(defaults);
+    }
+    const leaveList = JSON.parse(globalLeaves);
+    const myLeaves = leaveList.filter(l => l.name === profile.fullName);
+    
+    // Recalculate balances
+    setLeaves(prev => ({
+      ...prev,
+      balance: {
+        sick: Math.max(0, 10 - myLeaves.filter(l => l.status === 'Approved' && l.type.includes('Sick')).reduce((acc, curr) => acc + (curr.days || 0), 0)),
+        annual: Math.max(0, 15 - myLeaves.filter(l => l.status === 'Approved' && l.type.includes('Annual')).reduce((acc, curr) => acc + (curr.days || 0), 0)),
+        casual: Math.max(0, 5 - myLeaves.filter(l => l.status === 'Approved' && l.type.includes('Casual')).reduce((acc, curr) => acc + (curr.days || 0), 0)),
+        unpaid: myLeaves.filter(l => l.status === 'Approved' && l.type.includes('Unpaid')).reduce((acc, curr) => acc + (curr.days || 0), 0)
+      },
+      requests: myLeaves
+    }));
+
+    // 3. Sync Claims
+    let globalClaims = localStorage.getItem('hcm_global_benefit_claims');
+    if (!globalClaims) {
+      const defaults = [
+        { id: 'CLM-01', name: profile.fullName, type: 'Medical Expense', amount: '120', date: '2026-03-15', status: 'Approved', description: 'Monthly checkup' },
+        { id: 'CLM-02', name: profile.fullName, type: 'Skill Development', amount: '50', date: '2026-04-05', status: 'Pending', description: 'Gym membership' }
+      ];
+      localStorage.setItem('hcm_global_benefit_claims', JSON.stringify(defaults));
+      globalClaims = JSON.stringify(defaults);
+    }
+    const claimList = JSON.parse(globalClaims);
+    const myClaims = claimList.filter(c => c.name === profile.fullName);
+    setBenefits(prev => ({
+      ...prev,
+      claims: myClaims
+    }));
+  };
+
   // --- Persistence ---
   useEffect(() => {
     localStorage.setItem('employee_profile', JSON.stringify(profile));
-    localStorage.setItem('employee_attendance', JSON.stringify(attendance));
-    localStorage.setItem('employee_leaves', JSON.stringify(leaves));
     localStorage.setItem('employee_payroll', JSON.stringify(payroll));
-    localStorage.setItem('employee_benefits', JSON.stringify(benefits));
     localStorage.setItem('employee_documents', JSON.stringify(documents));
     localStorage.setItem('employee_performance', JSON.stringify(performance));
     localStorage.setItem('employee_tickets', JSON.stringify(tickets));
-  }, [profile, attendance, leaves, payroll, benefits, documents, performance, tickets]);
+  }, [profile, payroll, documents, performance, tickets]);
+
+  // --- Global Synchronization Hook ---
+  useEffect(() => {
+    syncWithGlobal();
+    window.addEventListener('hcm_global_sync', syncWithGlobal);
+    window.addEventListener('storage', syncWithGlobal);
+    return () => {
+      window.removeEventListener('hcm_global_sync', syncWithGlobal);
+      window.removeEventListener('storage', syncWithGlobal);
+    };
+  }, [profile.fullName]);
+
+  // --- Cross-Role Sync Listeners ---
+  useEffect(() => {
+    const handleLeaveSync = (e) => {
+      syncWithGlobal();
+    };
+    window.addEventListener('manager_leave_updated', handleLeaveSync);
+    return () => window.removeEventListener('manager_leave_updated', handleLeaveSync);
+  }, []);
 
   // --- Actions ---
-  const clockIn = () => {
-    setAttendance(prev => ({
-      ...prev,
-      isClockedIn: true,
-      clockInTime: new Date().toISOString(),
-      isOnBreak: false
-    }));
+  const clockIn = (mode = 'Office') => {
+    const now = new Date();
+    const entry = {
+      id: Date.now().toString(),
+      name: profile.fullName,
+      date: now.toISOString().split('T')[0],
+      clockIn: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+      clockOut: '-',
+      totalHours: '0h',
+      status: 'Present',
+      mode,
+      clockInTime: now.toISOString()
+    };
+    const globalAtt = JSON.parse(localStorage.getItem('hcm_global_attendance') || '[]');
+    localStorage.setItem('hcm_global_attendance', JSON.stringify([entry, ...globalAtt]));
+    window.dispatchEvent(new CustomEvent('hcm_global_sync'));
   };
 
   const clockOut = () => {
     const now = new Date();
-    const clockInDate = new Date(attendance.clockInTime);
-    const diffMs = now - clockInDate;
-    const hours = Math.floor(diffMs / 3600000);
-    const mins = Math.floor((diffMs % 3600000) / 60000);
-    
-    const newEntry = {
-      date: now.toISOString().split('T')[0],
-      clockIn: clockInDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
-      clockOut: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
-      totalHours: `${hours}h ${mins}m`,
-      status: 'Present',
-      mode: 'Office'
-    };
-
-    setAttendance(prev => ({
-      ...prev,
-      isClockedIn: false,
-      clockInTime: null,
-      history: [newEntry, ...prev.history]
-    }));
+    const globalAtt = JSON.parse(localStorage.getItem('hcm_global_attendance') || '[]');
+    const activeIndex = globalAtt.findIndex(a => a.name === profile.fullName && a.clockOut === '-');
+    if (activeIndex !== -1) {
+      const activeEntry = globalAtt[activeIndex];
+      const clockInDate = new Date(activeEntry.clockInTime);
+      const diffMs = now - clockInDate;
+      const hours = Math.floor(diffMs / 3600000);
+      const mins = Math.floor((diffMs % 3600000) / 60000);
+      
+      globalAtt[activeIndex] = {
+        ...activeEntry,
+        clockOut: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+        totalHours: `${hours}h ${mins}m`,
+      };
+      localStorage.setItem('hcm_global_attendance', JSON.stringify(globalAtt));
+      window.dispatchEvent(new CustomEvent('hcm_global_sync'));
+    }
   };
 
   const requestLeave = (req) => {
-    setLeaves(prev => ({
-      ...prev,
-      requests: [{ ...req, id: Date.now(), status: 'Pending' }, ...prev.requests]
-    }));
+    const newReq = {
+      ...req,
+      id: Date.now(),
+      name: profile.fullName,
+      status: 'Pending',
+      managerComment: '',
+      submittedAt: new Date().toISOString().split('T')[0]
+    };
+    const globalLeaves = JSON.parse(localStorage.getItem('hcm_global_leaves') || '[]');
+    localStorage.setItem('hcm_global_leaves', JSON.stringify([newReq, ...globalLeaves]));
+    window.dispatchEvent(new CustomEvent('hcm_global_sync'));
   };
 
   const cancelLeave = (id) => {
-    setLeaves(prev => ({
-      ...prev,
-      requests: prev.requests.filter(r => r.id !== id)
-    }));
+    const globalLeaves = JSON.parse(localStorage.getItem('hcm_global_leaves') || '[]');
+    const filtered = globalLeaves.filter(l => l.id !== id);
+    localStorage.setItem('hcm_global_leaves', JSON.stringify(filtered));
+    window.dispatchEvent(new CustomEvent('hcm_global_sync'));
   };
 
   const addBenefitClaim = (claim) => {
-    setBenefits(prev => ({
-      ...prev,
-      claims: [{ ...claim, id: `CLM-${Date.now().toString().slice(-2)}`, status: 'Pending' }, ...prev.claims]
-    }));
+    const newClaim = {
+      ...claim,
+      id: `CLM-${Date.now().toString().slice(-4)}`,
+      name: profile.fullName,
+      status: 'Pending'
+    };
+    const globalClaims = JSON.parse(localStorage.getItem('hcm_global_benefit_claims') || '[]');
+    localStorage.setItem('hcm_global_benefit_claims', JSON.stringify([newClaim, ...globalClaims]));
+    window.dispatchEvent(new CustomEvent('hcm_global_sync'));
   };
 
   const uploadDoc = (doc) => setDocuments(prev => [{ ...doc, id: Date.now() }, ...prev]);

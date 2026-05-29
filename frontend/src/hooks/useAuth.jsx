@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [previewRole, setPreviewRole] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,6 +14,10 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem('hcm_user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+    }
+    const storedPreview = sessionStorage.getItem('hcm_preview_role');
+    if (storedPreview) {
+      setPreviewRole(storedPreview);
     }
     setLoading(false);
   }, []);
@@ -33,13 +38,33 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
+    setPreviewRole(null);
     localStorage.removeItem('hcm_user');
+    sessionStorage.removeItem('hcm_preview_role');
     sessionStorage.setItem('logged_out', 'true');
     navigate('/login');
   };
 
+  const enterPreview = (role) => {
+    setPreviewRole(role);
+    sessionStorage.setItem('hcm_preview_role', role);
+    navigate(`/${role}/dashboard`);
+  };
+
+  const exitPreview = () => {
+    setPreviewRole(null);
+    sessionStorage.removeItem('hcm_preview_role');
+    if (user?.role) {
+      navigate(`/${user.role}/dashboard`);
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const effectiveRole = previewRole || user?.role;
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, previewRole, effectiveRole, enterPreview, exitPreview }}>
       {children}
     </AuthContext.Provider>
   );

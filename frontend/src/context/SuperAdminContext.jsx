@@ -6,15 +6,15 @@ const SuperAdminContext = createContext();
 export const SuperAdminProvider = ({ children }) => {
   // Basic state: list of users, roles, departments, etc. Stored in localStorage for now
   const defaultUsers = [
-    { id: '1', name: 'John Doe', email: 'superadmin@hcm.ai', role: 'superadmin', department: 'Executive' },
-    { id: '2', name: 'Sarah Connor', email: 'admin@hcm.ai', role: 'admin', department: 'Operations' },
-    { id: '3', name: 'Michael Scott', email: 'hr.manager@hcm.ai', role: 'hr', department: 'Human Resources' },
-    { id: '4', name: 'Dwight Schrute', email: 'dept.head@hcm.ai', role: 'manager', department: 'Sales' },
-    { id: '5', name: 'Jim Halpert', email: 'joshua.m@hcm.ai', role: 'employee', department: 'Sales' },
+    { id: '1', name: 'John Doe', email: 'superuser@hcm.ai', role: 'superuser', department: 'Executive', status: 'active' },
+    { id: '2', name: 'Sarah Connor', email: 'admin@hcm.ai', role: 'admin', department: 'Operations', status: 'active' },
+    { id: '3', name: 'Michael Scott', email: 'hr.manager@hcm.ai', role: 'hr', department: 'Human Resources', status: 'active' },
+    { id: '4', name: 'Dwight Schrute', email: 'dept.head@hcm.ai', role: 'manager', department: 'Sales', status: 'active' },
+    { id: '5', name: 'Jim Halpert', email: 'joshua.m@hcm.ai', role: 'employee', department: 'Sales', status: 'active' },
   ];
 
   const defaultRoles = [
-    { id: '1', name: 'Super Admin', description: 'Full access to all systems and settings', permissionsCount: 15 },
+    { id: '1', name: 'Super User', description: 'Full access to all systems and settings', permissionsCount: 15 },
     { id: '2', name: 'Admin', description: 'Manage organization setup and configuration', permissionsCount: 12 },
     { id: '3', name: 'HR Manager', description: 'Recruitment, onboarding, and employee records', permissionsCount: 9 },
     { id: '4', name: 'Manager', description: 'Approve leave requests, track team KPIs', permissionsCount: 6 },
@@ -29,6 +29,13 @@ export const SuperAdminProvider = ({ children }) => {
     { id: '5', name: 'Finance', head: 'Oscar Martinez', count: 4 },
   ];
 
+  const defaultLogs = [
+    { id: '1', user: 'John Doe', action: 'Created new user: Pam Beesly', time: '10 mins ago', type: 'user' },
+    { id: '2', user: 'System', action: 'Automated backup completed', time: '1 hour ago', type: 'system' },
+    { id: '3', user: 'Sarah Connor', action: 'Updated payroll configuration', time: '2 hours ago', type: 'config' },
+    { id: '4', user: 'John Doe', action: 'Changed permissions for HR role', time: '4 hours ago', type: 'security' },
+  ];
+
   const [users, setUsers] = useState(() => {
     const data = localStorage.getItem('superadmin_users');
     return data ? JSON.parse(data) : defaultUsers;
@@ -41,6 +48,10 @@ export const SuperAdminProvider = ({ children }) => {
     const data = localStorage.getItem('superadmin_roles');
     return data ? JSON.parse(data) : defaultRoles;
   });
+  const [activityLogs, setActivityLogs] = useState(() => {
+    const data = localStorage.getItem('superadmin_logs');
+    return data ? JSON.parse(data) : defaultLogs;
+  });
 
   // Persist changes
   useEffect(() => {
@@ -52,6 +63,9 @@ export const SuperAdminProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('superadmin_roles', JSON.stringify(roles));
   }, [roles]);
+  useEffect(() => {
+    localStorage.setItem('superadmin_logs', JSON.stringify(activityLogs));
+  }, [activityLogs]);
 
   const addRole = (role) => setRoles((prev) => [...prev, role]);
   const updateRole = (id, updates) => setRoles((prev) => prev.map((r) => (r.id === id ? { ...r, ...updates } : r)));
@@ -77,10 +91,10 @@ export const SuperAdminProvider = ({ children }) => {
     addRole,
     updateRole,
     deleteRole,
-    // Department helpers
     addDept,
     updateDept,
     deleteDept,
+    activityLogs,
   };
 
   return <SuperAdminContext.Provider value={value}>{children}</SuperAdminContext.Provider>;

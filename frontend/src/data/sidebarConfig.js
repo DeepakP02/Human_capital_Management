@@ -31,6 +31,74 @@ import {
 } from 'lucide-react';
 
 export const sidebarConfig = {
+  superuser: [
+    {
+      group: 'Super User',
+      items: [
+        { label: 'Master Dashboard', icon: LayoutDashboard, path: '/superadmin/dashboard' },
+        { label: 'Global Analytics', icon: BarChart2, path: '/superadmin/analytics' },
+        { label: 'Security Roles', icon: ShieldCheck, path: '/superadmin/roles' },
+        { label: 'User Control', icon: Users, path: '/superadmin/users' },
+      ]
+    },
+    {
+      group: 'Admin Modules',
+      items: [
+        { label: 'Org Setup', icon: Building2, path: '/admin/org' },
+        { label: 'Departments', icon: Building2, path: '/admin/departments' },
+        { label: 'Billing', icon: Receipt, path: '/admin/billing' },
+        { label: 'Integrations', icon: Plug, path: '/admin/integrations' },
+      ]
+    },
+    {
+      group: 'HR Modules',
+      items: [
+        { label: 'Job Posts', icon: Briefcase, path: '/hr/jobs' },
+        { label: 'Candidates', icon: Users, path: '/hr/candidates' },
+        { label: 'Interviews', icon: Calendar, path: '/hr/interviews' },
+        { label: 'Onboarding', icon: UserCheck, path: '/hr/onboarding' },
+        { label: 'Hiring Pipeline', icon: GitMerge, path: '/hr/pipeline' },
+      ]
+    },
+    {
+      group: 'Manager Modules',
+      items: [
+        { label: 'Team Members', icon: Users, path: '/manager/team' },
+        { label: 'Attendance Review', icon: Clock, path: '/manager/attendance' },
+        { label: 'KPI Tracking', icon: Target, path: '/manager/kpi' },
+        { label: 'Tasks', icon: ClipboardList, path: '/manager/tasks' },
+        { label: 'Reviews', icon: Star, path: '/manager/reviews' },
+      ]
+    },
+    {
+      group: 'Employee Modules',
+      items: [
+        { label: 'Attendance', icon: Clock, path: '/employee/attendance' },
+        { label: 'Leave', icon: CalendarDays, path: '/employee/leave' },
+        { label: 'Payroll', icon: CreditCard, path: '/employee/payroll' },
+        { label: 'Documents', icon: FileText, path: '/employee/documents' },
+        { label: 'Help Desk', icon: BookOpen, path: '/employee/help' },
+      ]
+    },
+    {
+      group: 'Candidate Modules',
+      items: [
+        { label: 'Browse Jobs', icon: Briefcase, path: '/candidate/jobs' },
+        { label: 'My Applications', icon: ClipboardList, path: '/candidate/applications' },
+        { label: 'Resume Builder', icon: FileText, path: '/candidate/resume' },
+        { label: 'AI Resume Score', icon: Star, path: '/candidate/ai-score' },
+      ]
+    },
+    {
+      group: 'Additional Modules',
+      items: [
+        { label: 'Benefits HCM', icon: Gift, path: '/benefits' },
+        { label: 'Time & Attendance', icon: Clock, path: '/time' },
+        { label: 'AI Center', icon: Bot, path: '/admin/ai' },
+      ]
+    }
+  ],
+
   candidate: [
     { label: 'Dashboard', icon: LayoutDashboard, path: '/candidate/dashboard' },
     { label: 'Browse Jobs', icon: Briefcase, path: '/candidate/jobs' },

@@ -15,26 +15,8 @@ export const ManagerProvider = ({ children }) => {
     ];
   });
 
-  const [leaveRequests, setLeaveRequests] = useState(() => {
-    const saved = localStorage.getItem('manager_leaves');
-    return saved ? JSON.parse(saved) : [
-      { id: 1, employeeId: 1, name: 'Alice Cooper', type: 'Sick Leave', startDate: '2026-10-24', endDate: '2026-10-26', days: 3, reason: 'Flu symptoms and fever', status: 'Pending', submittedAt: '2026-10-22', attachment: 'medical_report.pdf' },
-      { id: 2, employeeId: 2, name: 'John Wick', type: 'Annual Leave', startDate: '2026-10-28', endDate: '2026-10-31', days: 4, reason: 'Family vacation', status: 'Pending', submittedAt: '2026-10-21', attachment: null },
-      { id: 3, employeeId: 3, name: 'Sarah Connor', type: 'Casual Leave', startDate: '2026-11-02', endDate: '2026-11-02', days: 1, reason: 'Personal work', status: 'Pending', submittedAt: '2026-10-23', attachment: null },
-    ];
-  });
-
-  const [attendance, setAttendance] = useState(() => {
-    const saved = localStorage.getItem('manager_attendance');
-    const today = new Date().toISOString().split('T')[0];
-    return saved ? JSON.parse(saved) : [
-      { id: 1, employeeId: 1, name: 'Alice Cooper', date: today, checkIn: '09:05 AM', checkOut: '06:15 PM', status: 'Present', overtime: '0.25h', breakTime: '1h' },
-      { id: 2, employeeId: 2, name: 'John Wick', date: today, checkIn: '08:55 AM', checkOut: '05:45 PM', status: 'Present', overtime: '0h', breakTime: '1h' },
-      { id: 3, employeeId: 3, name: 'Sarah Connor', date: today, checkIn: '09:15 AM', checkOut: '06:30 PM', status: 'Late', overtime: '0.5h', breakTime: '45m' },
-      { id: 4, employeeId: 4, name: 'Robert Smith', date: today, checkIn: '09:00 AM', checkOut: '06:00 PM', status: 'Present', overtime: '0h', breakTime: '1h' },
-      { id: 5, employeeId: 5, name: 'Emma Wilson', date: today, checkIn: '-', checkOut: '-', status: 'On Leave', overtime: '0h', breakTime: '0h' },
-    ];
-  });
+  const [leaveRequests, setLeaveRequests] = useState([]);
+  const [attendance, setAttendance] = useState([]);
 
   const [kpis, setKpis] = useState(() => {
     const saved = localStorage.getItem('manager_kpis');
@@ -58,24 +40,48 @@ export const ManagerProvider = ({ children }) => {
   const [tasks, setTasks] = useState(() => {
     const saved = localStorage.getItem('manager_tasks');
     return saved ? JSON.parse(saved) : [
-      { id: 1, title: 'Fix Dashboard Latency', assignee: 'Alice Cooper', priority: 'High', dueDate: '2026-10-25', status: 'In Progress' },
-      { id: 2, title: 'Review PR #452', assignee: 'Sarah Connor', priority: 'Medium', dueDate: '2026-10-24', status: 'Pending' },
-      { id: 3, title: 'Client Feedback Analysis', assignee: 'Robert Smith', priority: 'Low', dueDate: '2026-10-26', status: 'Completed' },
+      { id: 1, title: 'Fix Dashboard Latency', user: 'Alice Cooper', priority: 'High', deadline: '2026-10-25', status: 'In Progress' },
+      { id: 2, title: 'Review PR #452', user: 'Sarah Connor', priority: 'Medium', deadline: '2026-10-24', status: 'Pending' },
+      { id: 3, title: 'Client Feedback Analysis', user: 'Robert Smith', priority: 'Low', deadline: '2026-10-26', status: 'Completed' },
     ];
   });
+
+  // --- Global Synchronization Logic ---
+  const syncWithGlobal = () => {
+    // 1. Sync Leaves
+    let globalLeaves = localStorage.getItem('hcm_global_leaves');
+    if (!globalLeaves) {
+      const defaults = [
+        { id: 1, name: 'Alice Cooper', type: 'Sick Leave', startDate: '2026-10-24', endDate: '2026-10-26', days: 3, reason: 'Flu symptoms and fever', status: 'Pending', submittedAt: '2026-10-22', attachment: 'medical_report.pdf' },
+        { id: 2, name: 'John Wick', type: 'Annual Leave', startDate: '2026-10-28', endDate: '2026-10-31', days: 4, reason: 'Family vacation', status: 'Pending', submittedAt: '2026-10-21', attachment: null },
+        { id: 3, name: 'Sarah Connor', type: 'Casual Leave', startDate: '2026-11-02', endDate: '2026-11-02', days: 1, reason: 'Personal work', status: 'Pending', submittedAt: '2026-10-23', attachment: null },
+      ];
+      localStorage.setItem('hcm_global_leaves', JSON.stringify(defaults));
+      globalLeaves = JSON.stringify(defaults);
+    }
+    setLeaveRequests(JSON.parse(globalLeaves));
+
+    // 2. Sync Attendance
+    let globalAtt = localStorage.getItem('hcm_global_attendance');
+    if (!globalAtt) {
+      const today = new Date().toISOString().split('T')[0];
+      const defaults = [
+        { id: 1, name: 'Alice Cooper', date: today, clockIn: '09:05 AM', clockOut: '06:15 PM', totalHours: '9h 10m', status: 'Present', mode: 'Office' },
+        { id: 2, name: 'John Wick', date: today, clockIn: '08:55 AM', clockOut: '05:45 PM', totalHours: '8h 50m', status: 'Present', mode: 'Remote' },
+        { id: 3, name: 'Sarah Connor', date: today, clockIn: '09:15 AM', clockOut: '06:30 PM', totalHours: '9h 15m', status: 'Late', mode: 'Office' },
+        { id: 4, name: 'Robert Smith', date: today, clockIn: '09:00 AM', clockOut: '06:00 PM', totalHours: '9h 0m', status: 'Present', mode: 'Office' },
+        { id: 5, name: 'Emma Wilson', date: today, clockIn: '-', clockOut: '-', totalHours: '0h', status: 'On Leave', mode: '-' },
+      ];
+      localStorage.setItem('hcm_global_attendance', JSON.stringify(defaults));
+      globalAtt = JSON.stringify(defaults);
+    }
+    setAttendance(JSON.parse(globalAtt));
+  };
 
   // --- Persistence ---
   useEffect(() => {
     localStorage.setItem('manager_team', JSON.stringify(teamMembers));
   }, [teamMembers]);
-
-  useEffect(() => {
-    localStorage.setItem('manager_leaves', JSON.stringify(leaveRequests));
-  }, [leaveRequests]);
-
-  useEffect(() => {
-    localStorage.setItem('manager_attendance', JSON.stringify(attendance));
-  }, [attendance]);
 
   useEffect(() => {
     localStorage.setItem('manager_kpis', JSON.stringify(kpis));
@@ -89,38 +95,75 @@ export const ManagerProvider = ({ children }) => {
     localStorage.setItem('manager_tasks', JSON.stringify(tasks));
   }, [tasks]);
 
+  // --- Global Synchronization Hook ---
+  useEffect(() => {
+    syncWithGlobal();
+    window.addEventListener('hcm_global_sync', syncWithGlobal);
+    window.addEventListener('storage', syncWithGlobal);
+    return () => {
+      window.removeEventListener('hcm_global_sync', syncWithGlobal);
+      window.removeEventListener('storage', syncWithGlobal);
+    };
+  }, []);
+
   // --- Actions ---
   const addTeamMember = (member) => setTeamMembers(prev => [{ ...member, id: Date.now() }, ...prev]);
   const updateTeamMember = (id, data) => setTeamMembers(prev => prev.map(m => m.id === id ? { ...m, ...data } : m));
 
   const updateLeaveStatus = (id, status) => {
-    setLeaveRequests(prev => prev.map(l => {
+    const globalLeaves = JSON.parse(localStorage.getItem('hcm_global_leaves') || '[]');
+    const updated = globalLeaves.map(l => {
       if (l.id === id) {
         if (status === 'Approved') {
           const newEntry = {
             id: Date.now() + Math.random(),
-            employeeId: l.employeeId,
             name: l.name,
             date: l.startDate,
-            checkIn: '-',
-            checkOut: '-',
+            clockIn: '-',
+            clockOut: '-',
+            totalHours: '0h',
             status: 'On Leave',
-            overtime: '0h',
-            breakTime: '0h'
+            mode: '-'
           };
-          setAttendance(curr => [newEntry, ...curr]);
-          showToast(`Leave approved for ${l.name}. Attendance sheet auto-synced!`);
-        } else if (status === 'Rejected') {
-          showToast(`Leave request rejected for ${l.name}.`);
+          const globalAtt = JSON.parse(localStorage.getItem('hcm_global_attendance') || '[]');
+          localStorage.setItem('hcm_global_attendance', JSON.stringify([newEntry, ...globalAtt]));
         }
+        
+        // Dispatch event for cross-role syncing (EmployeeContext)
+        window.dispatchEvent(new CustomEvent('manager_leave_updated', { 
+          detail: { id: l.id, status } 
+        }));
+
         return { ...l, status };
       }
       return l;
-    }));
+    });
+    localStorage.setItem('hcm_global_leaves', JSON.stringify(updated));
+    window.dispatchEvent(new CustomEvent('hcm_global_sync'));
   };
-  const addLeaveRequest = (request) => setLeaveRequests(prev => [{ ...request, id: Date.now(), status: 'Pending', submittedAt: new Date().toISOString().split('T')[0] }, ...prev]);
 
-  const addAttendanceEntry = (entry) => setAttendance(prev => [{ ...entry, id: Date.now() }, ...prev]);
+  const addLeaveRequest = (request) => {
+    const newReq = {
+      ...request,
+      id: Date.now(),
+      status: 'Pending',
+      submittedAt: new Date().toISOString().split('T')[0]
+    };
+    const globalLeaves = JSON.parse(localStorage.getItem('hcm_global_leaves') || '[]');
+    localStorage.setItem('hcm_global_leaves', JSON.stringify([newReq, ...globalLeaves]));
+    window.dispatchEvent(new CustomEvent('hcm_global_sync'));
+  };
+
+  const addAttendanceEntry = (entry) => {
+    const newEntry = {
+      ...entry,
+      id: Date.now(),
+      clockOut: entry.clockOut || '-'
+    };
+    const globalAtt = JSON.parse(localStorage.getItem('hcm_global_attendance') || '[]');
+    localStorage.setItem('hcm_global_attendance', JSON.stringify([newEntry, ...globalAtt]));
+    window.dispatchEvent(new CustomEvent('hcm_global_sync'));
+  };
 
   const addKPI = (goal) => setKpis(prev => [{ ...goal, id: Date.now() }, ...prev]);
   const updateKPIProgress = (id, progress) => setKpis(prev => prev.map(k => k.id === id ? { ...k, progress, status: progress === 100 ? 'Completed' : k.status } : k));
@@ -131,9 +174,6 @@ export const ManagerProvider = ({ children }) => {
   const addReview = (review) => setReviews(prev => [{ ...review, id: Date.now() }, ...prev]);
 
   const showToast = (message, type = 'success') => {
-    // Basic toast mock, actual implementation would use a toast library or custom hook
-    console.log(`[${type.toUpperCase()}] ${message}`);
-    // Dispatch a custom event for toast components to listen to
     window.dispatchEvent(new CustomEvent('app_toast', { detail: { message, type } }));
   };
 

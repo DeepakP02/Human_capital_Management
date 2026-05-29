@@ -4,91 +4,93 @@ import { ThemeProvider } from './hooks/ThemeContext';
 import { AuthProvider, useAuth } from './hooks/useAuth';
 import { AdminProvider } from './context/AdminContext';
 import { SuperAdminProvider } from './context/SuperAdminContext';
-import SuperAdminLayout from './components/layout/SuperAdminLayout';
-import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard';
-import UserManagement from './pages/superadmin/UserManagement';
-import RoleManagement from './pages/superadmin/RoleManagement';
-import DepartmentManagement from './pages/superadmin/DepartmentManagement';
+import SuperAdminLayout from './shared/components/layout/SuperAdminLayout';
+import SuperAdminDashboard from './features/superadmin/SuperAdminDashboard';
+import UserManagement from './features/superadmin/UserManagement';
+import RoleManagement from './features/superadmin/RoleManagement';
+import DepartmentManagement from './features/superadmin/DepartmentManagement';
 import { HRProvider } from './context/HRContext';
 import { ManagerProvider } from './context/ManagerContext';
 import { EmployeeProvider } from './context/EmployeeContext';
 import { CandidateProvider } from './context/CandidateContext';
+import BenefitsDashboard from './features/benefits/BenefitsDashboard';
+import TimeDashboard from './features/time/TimeDashboard';
 
 // Layout & Auth
-import LoginPage from './pages/auth/LoginPage';
-import AppLayout from './components/layout/AppLayout';
-import LandingPage from './pages/LandingPage';
+import LoginPage from './features/auth/LoginPage';
+import AppLayout from './shared/components/layout/AppLayout';
+import LandingPage from './features/LandingPage';
 
 // Candidate Pages
-import CandidateDashboard from './pages/candidate/CandidateDashboard';
-import BrowseJobs from './pages/candidate/BrowseJobs';
-import ApplicationForm from './pages/candidate/ApplicationForm';
-import MyApplications from './pages/candidate/MyApplications';
-import ResumeBuilder from './pages/candidate/ResumeBuilder';
-import AIResumeScore from './pages/candidate/AIResumeScore';
-import InterviewSchedule from './pages/candidate/InterviewSchedule';
-import Notifications from './pages/candidate/Notifications';
-import CandidateProfile from './pages/candidate/CandidateProfile';
-import CandidateSettings from './pages/candidate/CandidateSettings';
+import CandidateDashboard from './features/candidate/CandidateDashboard';
+import BrowseJobs from './features/candidate/BrowseJobs';
+import ApplicationForm from './features/candidate/ApplicationForm';
+import MyApplications from './features/candidate/MyApplications';
+import ResumeBuilder from './features/candidate/ResumeBuilder';
+import AIResumeScore from './features/candidate/AIResumeScore';
+import InterviewSchedule from './features/candidate/InterviewSchedule';
+import Notifications from './features/candidate/Notifications';
+import CandidateProfile from './features/candidate/CandidateProfile';
+import CandidateSettings from './features/candidate/CandidateSettings';
 
 // HR Pages
-import HRDashboard from './pages/hr/HRDashboard';
-import JobPosts from './pages/hr/JobPosts';
-import Candidates from './pages/hr/Candidates';
-import InterviewManagement from './pages/hr/InterviewManagement';
-import HiringPipeline from './pages/hr/HiringPipeline';
-import OfferManagement from './pages/hr/OfferManagement';
-import Onboarding from './pages/hr/Onboarding';
-import HRReports from './pages/hr/Reports';
-import Messages from './pages/hr/Messages';
-import HRProfile from './pages/hr/HRProfile';
-import HRSettings from './pages/hr/HRSettings';
+import HRDashboard from './features/hr/HRDashboard';
+import JobPosts from './features/hr/JobPosts';
+import Candidates from './features/hr/Candidates';
+import InterviewManagement from './features/hr/InterviewManagement';
+import HiringPipeline from './features/hr/HiringPipeline';
+import OfferManagement from './features/hr/OfferManagement';
+import Onboarding from './features/hr/Onboarding';
+import HRReports from './features/hr/Reports';
+import Messages from './features/hr/Messages';
+import HRProfile from './features/hr/HRProfile';
+import HRSettings from './features/hr/HRSettings';
 
 // Employee Pages
-import EmployeeDashboard from './pages/employee/EmployeeDashboard';
-import EmployeeProfile from './pages/employee/EmployeeProfile';
-import EmployeeAttendance from './pages/employee/EmployeeAttendance';
-import EmployeeLeave from './pages/employee/EmployeeLeave';
-import EmployeePayroll from './pages/employee/EmployeePayroll';
-import EmployeeBenefits from './pages/employee/EmployeeBenefits';
-import EmployeeDocuments from './pages/employee/EmployeeDocuments';
-import EmployeePerformance from './pages/employee/EmployeePerformance';
-import EmployeeHelpDesk from './pages/employee/EmployeeHelpDesk';
-import EmployeeSettings from './pages/employee/EmployeeSettings';
+import EmployeeDashboard from './features/employee/EmployeeDashboard';
+import EmployeeProfile from './features/employee/EmployeeProfile';
+import EmployeeAttendance from './features/employee/EmployeeAttendance';
+import EmployeeLeave from './features/employee/EmployeeLeave';
+import EmployeePayroll from './features/employee/EmployeePayroll';
+import EmployeeBenefits from './features/employee/EmployeeBenefits';
+import EmployeeDocuments from './features/employee/EmployeeDocuments';
+import EmployeePerformance from './features/employee/EmployeePerformance';
+import EmployeeHelpDesk from './features/employee/EmployeeHelpDesk';
+import EmployeeSettings from './features/employee/EmployeeSettings';
 
 // Manager Pages
-import ManagerDashboard from './pages/manager/ManagerDashboard';
-import TeamMembers from './pages/manager/TeamMembers';
-import AttendanceReview from './pages/manager/AttendanceReview';
-import LeaveApproval from './pages/manager/LeaveApproval';
-import KPITracking from './pages/manager/KPITracking';
-import Tasks from './pages/manager/Tasks';
-import Reviews from './pages/manager/Reviews';
-import ManagerReports from './pages/manager/Reports';
-import ManagerProfile from './pages/manager/ManagerProfile';
-import ManagerSettings from './pages/manager/ManagerSettings';
+import ManagerDashboard from './features/manager/ManagerDashboard';
+import TeamMembers from './features/manager/TeamMembers';
+import AttendanceReview from './features/manager/AttendanceReview';
+import LeaveApproval from './features/manager/LeaveApproval';
+import KPITracking from './features/manager/KPITracking';
+import Tasks from './features/manager/Tasks';
+import Reviews from './features/manager/Reviews';
+import ManagerReports from './features/manager/Reports';
+import ManagerProfile from './features/manager/ManagerProfile';
+import ManagerSettings from './features/manager/ManagerSettings';
 
 // Admin Pages
-import AdminDashboard from './pages/admin/AdminDashboard';
-import OrgSetup from './pages/admin/OrgSetup';
-import Departments from './pages/admin/Departments';
-import Users from './pages/admin/Users';
-import RolesPermissions from './pages/admin/RolesPermissions';
-import PayrollCenter from './pages/admin/PayrollCenter';
-import Holidays from './pages/admin/Holidays';
-import BenefitsConfig from './pages/admin/BenefitsConfig';
-import AICenter from './pages/admin/AICenter';
-import ComplianceCenter from './pages/admin/ComplianceCenter';
-import Integrations from './pages/admin/Integrations';
-import Billing from './pages/admin/Billing';
-import AuditLogs from './pages/admin/AuditLogs';
-import AdminReports from './pages/admin/AdminReports';
-import Settings from './pages/admin/Settings';
-import AdminProfile from './pages/admin/AdminProfile';
+import AdminDashboard from './features/admin/AdminDashboard';
+import OrgSetup from './features/admin/OrgSetup';
+import Departments from './features/admin/Departments';
+import Users from './features/admin/Users';
+import RolesPermissions from './features/admin/RolesPermissions';
+import PayrollCenter from './features/admin/PayrollCenter';
+import Holidays from './features/admin/Holidays';
+import BenefitsConfig from './features/admin/BenefitsConfig';
+import AICenter from './features/admin/AICenter';
+import ComplianceCenter from './features/admin/ComplianceCenter';
+import Integrations from './features/admin/Integrations';
+import Billing from './features/admin/Billing';
+import AuditLogs from './features/admin/AuditLogs';
+import AdminReports from './features/admin/AdminReports';
+import Settings from './features/admin/Settings';
+import AdminProfile from './features/admin/AdminProfile';
 
 const RoleDashboardRedirect = ({ children }) => {
-  const { user } = useAuth();
-  if (user?.role?.toLowerCase() === 'superadmin') {
+  const { effectiveRole } = useAuth();
+  if (effectiveRole?.toLowerCase() === 'superuser' || effectiveRole?.toLowerCase() === 'superadmin') {
     return <Navigate to="/superadmin/dashboard" replace />;
   }
   return children;
@@ -206,6 +208,14 @@ function App() {
               <Route path="reports" element={<AdminReports />} />
               <Route path="settings" element={<Settings />} />
               <Route path="profile" element={<AdminProfile />} />
+            </Route>
+
+            {/* Additional Modules */}
+            <Route path="/benefits" element={<AppLayout />}>
+              <Route index element={<BenefitsDashboard />} />
+            </Route>
+            <Route path="/time" element={<AppLayout />}>
+              <Route index element={<TimeDashboard />} />
             </Route>
 
             <Route path="/" element={<LandingPage />} />

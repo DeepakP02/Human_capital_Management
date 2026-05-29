@@ -193,6 +193,19 @@ export const AdminProvider = ({ children }) => {
   ];
   const [benefits, setBenefits] = usePersistedState('benefits', initialBenefits);
 
+  // Sync hcm_global_benefits on load and updates
+  useEffect(() => {
+    const globalBen = localStorage.getItem('hcm_global_benefits');
+    if (globalBen) {
+      setBenefits(JSON.parse(globalBen));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('hcm_global_benefits', JSON.stringify(benefits));
+    window.dispatchEvent(new CustomEvent('hcm_global_sync'));
+  }, [benefits]);
+
   const addBenefit = (benefit) => {
     setBenefits(prev => [...prev, { ...benefit, id: Date.now() }]);
     showToast(`Benefit plan ${benefit.name} added`);

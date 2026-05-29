@@ -66,7 +66,23 @@ export const HRProvider = ({ children }) => {
     showToast('Candidate updated');
   };
   const moveCandidateStage = (id, stage) => {
-    setCandidates(candidates.map(c => (c.id === id ? { ...c, stage } : c)));
+    setCandidates(candidates.map(c => {
+      if (c.id === id) {
+        if (stage === 'Hired' && c.stage !== 'Hired') {
+          const startDate = new Date();
+          startDate.setDate(startDate.getDate() + 14); // Default to starting in 2 weeks
+          
+          addOnboarding({
+            name: c.name,
+            role: c.role,
+            start: startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            email: c.email || `${c.name.split(' ')[0].toLowerCase()}@example.com`
+          });
+        }
+        return { ...c, stage };
+      }
+      return c;
+    }));
     showToast(`Candidate moved to ${stage}`);
   };
   const deleteCandidate = (id) => {
