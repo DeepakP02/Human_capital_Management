@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
  User, Mail, Phone, Upload, FileText, Link as LinkIcon, MapPin, DollarSign, 
  Calendar, Globe, Plus, X, ArrowLeft, CheckCircle2, AlertCircle, Briefcase, 
- ChevronDown, Zap, ShieldCheck, Info, RotateCcw, Cloud, Trash2, ArrowRight
+ ChevronDown, Zap, ShieldCheck, Info, RotateCcw, Cloud, Trash2, ArrowRight, Clock
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useNavigate, useLocation } from 'react-router-dom';

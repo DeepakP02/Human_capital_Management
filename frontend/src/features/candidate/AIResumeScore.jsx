@@ -5,11 +5,13 @@ import {
  AlertCircle, Zap, TrendingUp, Target, Award, ChevronDown, X, Sparkles, 
  ArrowRight, ShieldCheck, Type, Layout, Briefcase, Info, Download, Microscope
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { cn } from '../../utils/cn';
 import { useCandidate } from '../../context/CandidateContext';
 import CenterModal from '../../shared/components/layout/CenterModal';
 
 const AIResumeScore = () => {
+ const navigate = useNavigate();
  const { showToast } = useCandidate();
  const [isUploaded, setIsUploaded] = useState(false);
  const [isAnalyzing, setIsAnalyzing] = useState(false);

@@ -37,6 +37,11 @@ import { cn } from '../utils/cn';
 const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [demoStep, setDemoStep] = useState(1);
+  const [demoFormData, setDemoFormData] = useState({ name: '', email: '', companySize: '11-50', requirement: 'AI Recruitment' });
+  const [selectedDate, setSelectedDate] = useState('Monday, June 1');
+  const [selectedSlot, setSelectedSlot] = useState('10:00 AM');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,7 +91,7 @@ const LandingPage = () => {
 
           <div className="hidden lg:flex items-center gap-4">
             <button onClick={() => navigate('/login')} className="px-6 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">Login</button>
-            <button className="px-6 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-primary-200 hover:bg-primary-700 transition-all active:scale-95">Book Demo</button>
+            <button onClick={() => { setIsDemoModalOpen(true); setDemoStep(1); }} className="px-6 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-primary-200 hover:bg-primary-700 transition-all active:scale-95">Book Demo</button>
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
@@ -118,7 +123,7 @@ const LandingPage = () => {
                 ))}
                 <div className="pt-6 border-t border-slate-50 flex flex-col gap-4">
                   <button onClick={() => navigate('/login')} className="w-full py-4 text-slate-600 font-bold border border-slate-100 rounded-2xl">Login</button>
-                  <button className="w-full py-4 bg-primary-600 text-white font-bold rounded-2xl shadow-lg">Get Demo</button>
+                  <button onClick={() => { setIsDemoModalOpen(true); setDemoStep(1); setIsMenuOpen(false); }} className="w-full py-4 bg-primary-600 text-white font-bold rounded-2xl shadow-lg">Get Demo</button>
                 </div>
               </div>
             </motion.div>
@@ -157,7 +162,7 @@ const LandingPage = () => {
                 >
                   Get Started <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button className="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 border border-slate-100 rounded-[2rem] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-soft flex items-center justify-center gap-3">
+                <button onClick={() => { setIsDemoModalOpen(true); setDemoStep(1); }} className="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 border border-slate-100 rounded-[2rem] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-soft flex items-center justify-center gap-3">
                   Book Demo
                 </button>
               </div>
@@ -580,7 +585,7 @@ const LandingPage = () => {
                 >
                    Start Trial
                 </button>
-                 <button className="w-full sm:w-auto px-12 py-6 bg-white text-slate-900 border-2 border-slate-100 rounded-[2.5rem] font-black uppercase tracking-[0.3em] hover:bg-slate-50 transition-all shadow-soft active:scale-95">
+                 <button onClick={() => { setIsDemoModalOpen(true); setDemoStep(1); }} className="w-full sm:w-auto px-12 py-6 bg-white text-slate-900 border-2 border-slate-100 rounded-[2.5rem] font-black uppercase tracking-[0.3em] hover:bg-slate-50 transition-all shadow-soft active:scale-95">
                    Book A Demo
                 </button>
               </div>
@@ -689,6 +694,250 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
+
+      {/* Book A Demo Modal */}
+      <AnimatePresence>
+        {isDemoModalOpen && (
+          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsDemoModalOpen(false)}
+              className="absolute inset-0 bg-slate-900/50 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800 text-left p-8 md:p-12 z-10"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsDemoModalOpen(false)}
+                className="absolute right-6 top-6 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all"
+              >
+                <X size={20} />
+              </button>
+
+              {demoStep === 1 && (
+                <div className="space-y-8">
+                  <div>
+                    <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-2 block">Step 1 of 2</span>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">
+                      Tell us about your team
+                    </h3>
+                    <p className="text-sm font-medium text-slate-400 mt-2">
+                      Help us customize the product tour for your organization.
+                    </p>
+                  </div>
+
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setDemoStep(2);
+                    }}
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={demoFormData.name}
+                          onChange={(e) => setDemoFormData({ ...demoFormData, name: e.target.value })}
+                          placeholder="Alex Rivera"
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Work Email</label>
+                        <input
+                          type="email"
+                          required
+                          value={demoFormData.email}
+                          onChange={(e) => setDemoFormData({ ...demoFormData, email: e.target.value })}
+                          placeholder="alex@company.com"
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Company Size</label>
+                        <select
+                          value={demoFormData.companySize}
+                          onChange={(e) => setDemoFormData({ ...demoFormData, companySize: e.target.value })}
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950 cursor-pointer"
+                        >
+                          <option value="1-10">1 - 10 Employees</option>
+                          <option value="11-50">11 - 50 Employees</option>
+                          <option value="51-200">51 - 200 Employees</option>
+                          <option value="200+">200+ Employees</option>
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Primary Interest</label>
+                        <select
+                          value={demoFormData.requirement}
+                          onChange={(e) => setDemoFormData({ ...demoFormData, requirement: e.target.value })}
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950 cursor-pointer"
+                        >
+                          <option value="AI Recruitment">AI Recruitment & Scoring</option>
+                          <option value="Global Payroll">Global Payroll Suite</option>
+                          <option value="Time & Attendance">Time & Attendance Tracking</option>
+                          <option value="Enterprise Compliance">Compliance & Policy Mgmt</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full btn-primary h-16 shadow-xl shadow-primary-200 font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 text-xs mt-4"
+                    >
+                      Choose Date & Time <ArrowRight size={16} />
+                    </button>
+                  </form>
+                </div>
+              )}
+
+              {demoStep === 2 && (
+                <div className="space-y-8">
+                  <div>
+                    <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-2 block">Step 2 of 2</span>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">
+                      Schedule a Live Tour
+                    </h3>
+                    <p className="text-sm font-medium text-slate-400 mt-2">
+                      Select a date and time slot for a personalized session with our product strategy team.
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    {/* Date Cards */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Available Dates</label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {[
+                          'Monday, June 1',
+                          'Tuesday, June 2',
+                          'Wednesday, June 3',
+                          'Thursday, June 4'
+                        ].map((dateOption) => {
+                          const isSelected = selectedDate === dateOption;
+                          const [dayName, monthAndNum] = dateOption.split(', ');
+                          return (
+                            <button
+                              key={dateOption}
+                              type="button"
+                              onClick={() => setSelectedDate(dateOption)}
+                              className={cn(
+                                "p-4 rounded-2xl border text-center transition-all duration-300 flex flex-col items-center justify-center",
+                                isSelected 
+                                  ? "bg-primary-600 border-primary-600 text-white shadow-xl shadow-primary-200" 
+                                  : "bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-600"
+                              )}
+                            >
+                              <span className={cn("text-[9px] font-black uppercase tracking-widest", isSelected ? "text-primary-200" : "text-slate-400")}>
+                                {dayName}
+                              </span>
+                              <span className="text-base font-black tracking-tight mt-1">
+                                {monthAndNum}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Time Slots */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Select Time Slot</label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {[
+                          '09:30 AM',
+                          '11:00 AM',
+                          '01:30 PM',
+                          '03:00 PM'
+                        ].map((slot) => {
+                          const isSelected = selectedSlot === slot;
+                          return (
+                            <button
+                              key={slot}
+                              type="button"
+                              onClick={() => setSelectedSlot(slot)}
+                              className={cn(
+                                "py-3.5 rounded-xl border text-center text-xs font-bold transition-all duration-250",
+                                isSelected
+                                  ? "bg-primary-600 border-primary-600 text-white shadow-xl"
+                                  : "bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-650"
+                              )}
+                            >
+                              {slot}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Submit Confirmation */}
+                    <div className="pt-4 flex gap-4">
+                      <button
+                        onClick={() => setDemoStep(1)}
+                        className="flex-1 py-4 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] transition-all"
+                      >
+                        Back
+                      </button>
+                      <button
+                        onClick={() => setDemoStep(3)}
+                        className="flex-2 py-4 btn-primary shadow-xl shadow-primary-200 font-bold uppercase tracking-[0.2em] text-[10px]"
+                      >
+                        Confirm Booking
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {demoStep === 3 && (
+                <div className="text-center space-y-10 py-6">
+                  <div className="w-24 h-24 bg-emerald-50 rounded-[2.5rem] flex items-center justify-center mx-auto text-emerald-600 shadow-inner">
+                    <CheckCircle2 size={48} className="animate-pulse" />
+                  </div>
+                  <div className="space-y-4">
+                    <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.4em] block">Demo Staged & Booked</span>
+                    <h3 className="text-4xl font-black text-slate-900 tracking-tighter leading-none">
+                      See you soon, {demoFormData.name}!
+                    </h3>
+                    <p className="text-sm font-medium text-slate-500 max-w-md mx-auto leading-relaxed mt-2">
+                      Your live demonstration of the <strong>{demoFormData.requirement}</strong> module has been scheduled for:
+                    </p>
+                    <div className="p-6 bg-slate-50 border border-slate-100 rounded-3xl max-w-sm mx-auto space-y-2 text-slate-800 mt-4">
+                      <div className="flex items-center gap-3 justify-center text-xs font-bold">
+                        <Calendar size={16} className="text-primary-600" />
+                        <span>{selectedDate}</span>
+                      </div>
+                      <div className="flex items-center gap-3 justify-center text-xs font-bold">
+                        <Clock size={16} className="text-primary-600" />
+                        <span>{selectedSlot} (PST Timezone)</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-450 leading-normal max-w-xs mx-auto pt-4">
+                      A calendar invite and dynamic meet room link (`meet.google.com/hcm-ai-demo`) has been dispatched to your email: <strong>{demoFormData.email}</strong>.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setIsDemoModalOpen(false)}
+                    className="btn-primary w-full max-w-xs mx-auto py-5 shadow-xl shadow-primary-200 font-bold uppercase tracking-[0.3em] text-[10px]"
+                  >
+                    Done
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
