@@ -9,6 +9,7 @@ import SuperAdminDashboard from './features/superadmin/SuperAdminDashboard';
 import UserManagement from './features/superadmin/UserManagement';
 import RoleManagement from './features/superadmin/RoleManagement';
 import DepartmentManagement from './features/superadmin/DepartmentManagement';
+import GlobalAnalytics from './features/superadmin/GlobalAnalytics';
 import { HRProvider } from './context/HRContext';
 import { ManagerProvider } from './context/ManagerContext';
 import { EmployeeProvider } from './context/EmployeeContext';
@@ -20,6 +21,7 @@ import TimeDashboard from './features/time/TimeDashboard';
 import LoginPage from './features/auth/LoginPage';
 import AppLayout from './shared/components/layout/AppLayout';
 import LandingPage from './features/LandingPage';
+import BookDemo from './features/BookDemo';
 
 // Candidate Pages
 import CandidateDashboard from './features/candidate/CandidateDashboard';
@@ -186,6 +188,7 @@ function App() {
             <Route path="/superadmin/*" element={<SuperAdminProvider><SuperAdminLayout /></SuperAdminProvider>}> 
               <Route index element={<SuperAdminDashboard />} />
               <Route path="dashboard" element={<SuperAdminDashboard />} />
+              <Route path="analytics" element={<GlobalAnalytics />} />
               <Route path="users" element={<UserManagement />} />
               <Route path="roles" element={<RoleManagement />} />
               <Route path="departments" element={<DepartmentManagement />} />
@@ -218,6 +221,7 @@ function App() {
               <Route index element={<TimeDashboard />} />
             </Route>
 
+            <Route path="/book-demo" element={<BookDemo />} />
             <Route path="/" element={<LandingPage />} />
             </Routes>
           </AdminProvider>

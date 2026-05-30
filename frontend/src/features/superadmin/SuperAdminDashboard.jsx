@@ -97,7 +97,7 @@ const SuperAdminDashboard = () => {
 
   return (
     <motion.div
-      className="space-y-8 max-w-7xl mx-auto"
+      className="space-y-8 w-full"
       variants={containerVariants}
       initial="hidden"
       animate="visible"

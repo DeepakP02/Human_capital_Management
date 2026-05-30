@@ -123,7 +123,7 @@ const LandingPage = () => {
                 ))}
                 <div className="pt-6 border-t border-slate-50 flex flex-col gap-4">
                   <button onClick={() => navigate('/login')} className="w-full py-4 text-slate-600 font-bold border border-slate-100 rounded-2xl">Login</button>
-                  <button onClick={() => { setIsDemoModalOpen(true); setDemoStep(1); setIsMenuOpen(false); }} className="w-full py-4 bg-primary-600 text-white font-bold rounded-2xl shadow-lg">Get Demo</button>
+                  <button onClick={() => { setIsMenuOpen(false); navigate('/book-demo'); }} className="w-full py-4 bg-primary-600 text-white font-bold rounded-2xl shadow-lg">Get Demo</button>
                 </div>
               </div>
             </motion.div>
@@ -162,7 +162,7 @@ const LandingPage = () => {
                 >
                   Get Started <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button onClick={() => { setIsDemoModalOpen(true); setDemoStep(1); }} className="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 border border-slate-100 rounded-[2rem] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-soft flex items-center justify-center gap-3">
+                <button onClick={() => navigate('/book-demo')} className="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 border border-slate-100 rounded-[2rem] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-soft flex items-center justify-center gap-3">
                   Book Demo
                 </button>
               </div>
@@ -585,7 +585,7 @@ const LandingPage = () => {
                 >
                    Start Trial
                 </button>
-                 <button onClick={() => { setIsDemoModalOpen(true); setDemoStep(1); }} className="w-full sm:w-auto px-12 py-6 bg-white text-slate-900 border-2 border-slate-100 rounded-[2.5rem] font-black uppercase tracking-[0.3em] hover:bg-slate-50 transition-all shadow-soft active:scale-95">
+                 <button onClick={() => navigate('/book-demo')} className="w-full sm:w-auto px-12 py-6 bg-white text-slate-900 border-2 border-slate-100 rounded-[2.5rem] font-black uppercase tracking-[0.3em] hover:bg-slate-50 transition-all shadow-soft active:scale-95">
                    Book A Demo
                 </button>
               </div>
