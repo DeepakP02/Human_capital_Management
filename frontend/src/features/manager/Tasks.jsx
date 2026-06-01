@@ -23,7 +23,8 @@ import {
   Target,
   RotateCcw,
   Save,
-  CheckCircle
+  CheckCircle,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useManager } from '../../context/ManagerContext';
@@ -46,7 +47,7 @@ class ErrorBoundary extends React.Component {
 }
 
 const Tasks = () => {
-  const { tasks, teamMembers, showToast, addTask } = useManager();
+  const { tasks, teamMembers, showToast, addTask, updateTaskStatus } = useManager();
   
   // UI States
   const [viewMode, setViewMode] = useState('board');
@@ -56,6 +57,8 @@ const Tasks = () => {
   
   // Form State
   const [newTask, setNewTask] = useState({ title: '', userId: '', priority: 'Medium', deadline: '', status: 'Pending', description: '' });
+  const [isDeploying, setIsDeploying] = useState(false);
+  const [deployStep, setDeployStep] = useState(0); // 0 = Idle, 1 = Initiating, 2 = Securing Channels
 
   // Stats calculation
   const stats = useMemo(() => {
@@ -87,26 +90,40 @@ const Tasks = () => {
   const handleAddTask = (e) => {
     e.preventDefault();
     if (!newTask.title || !newTask.userId) {
-      showToast('Task title and assignee are required.', 'error');
+      showToast('Mission Title and Lead Agent are required.', 'error');
       return;
     }
-    const assignee = teamMembers.find(m => m.id.toString() === newTask.userId.toString());
-    addTask({
-      title: newTask.title,
-      user: assignee ? assignee.name : 'Unknown',
-      priority: newTask.priority || 'Medium',
-      deadline: newTask.deadline,
-      status: newTask.status || 'Pending',
-      description: newTask.description,
-      progress: 0
-    });
-    showToast('Task deployed successfully.');
-    setShowAddModal(false);
-    setNewTask({ title: '', userId: '', priority: 'Medium', deadline: '', status: 'Pending', description: '' });
+
+    setIsDeploying(true);
+    setDeployStep(1); // Initiating
+
+    setTimeout(() => {
+      setDeployStep(2); // Securing channels
+      
+      setTimeout(() => {
+        const assignee = teamMembers.find(m => m.id.toString() === newTask.userId.toString());
+        addTask({
+          title: newTask.title,
+          user: assignee ? assignee.name : 'Unknown',
+          priority: newTask.priority || 'Medium',
+          deadline: newTask.deadline,
+          status: newTask.status || 'Pending',
+          description: newTask.description,
+          progress: 0
+        });
+        
+        showToast(`Mission "${newTask.title}" deployed successfully to ${assignee ? assignee.name : 'agent'}!`, 'success');
+        setIsDeploying(false);
+        setDeployStep(0);
+        setShowAddModal(false);
+        setNewTask({ title: '', userId: '', priority: 'Medium', deadline: '', status: 'Pending', description: '' });
+      }, 1000);
+    }, 1200);
   };
 
   const handleStatusChange = (taskId, newStatus) => {
-    showToast(`Task status updated to ${newStatus}.`);
+    updateTaskStatus(taskId, newStatus);
+    showToast(`Task status updated to ${newStatus}.`, 'success');
     setSelectedTask(null);
   };
 
@@ -505,8 +522,29 @@ const Tasks = () => {
             </div>
 
             <div className="pt-6 flex flex-col gap-4 text-left">
-               <button type="submit" className="btn-primary w-full py-4 font-black uppercase tracking-[0.2em] shadow-xl shadow-primary-100">Deploy Mission</button>
-               <button type="button" onClick={() => setShowAddModal(false)} className="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Abort Deployment</button>
+               <button 
+                 type="submit" 
+                 disabled={isDeploying}
+                 className="btn-primary w-full py-4 font-black uppercase tracking-[0.2em] shadow-xl shadow-primary-200 active:scale-[0.98] disabled:bg-primary-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3"
+               >
+                 {isDeploying ? (
+                    <>
+                       <Loader2 size={18} className="animate-spin" />
+                       {deployStep === 1 ? 'Initiating Deployment...' : 'Securing Channels...'}
+                    </>
+                 ) : (
+                    <>Deploy Mission</>
+                 )}
+               </button>
+               {!isDeploying && (
+                  <button 
+                    type="button" 
+                    onClick={() => setShowAddModal(false)} 
+                    className="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    Abort Deployment
+                  </button>
+               )}
             </div>
          </form>
       </CenterModal>

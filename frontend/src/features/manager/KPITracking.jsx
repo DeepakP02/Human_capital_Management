@@ -41,28 +41,46 @@ const KPITracking = () => {
   // Form State
   const [newGoal, setNewGoal] = useState({ title: '', employeeId: '', category: 'Productivity', priority: 'Medium', deadline: '' });
 
+  // Resolve KPI assignee details from team members dynamically
+  const resolvedKpis = useMemo(() => {
+    return kpis.map(k => {
+      const member = teamMembers.find(m => 
+        m.name === k.assignedTo || 
+        m.id.toString() === k.employeeId?.toString() ||
+        m.id.toString() === k.assignedTo?.toString()
+      );
+      return {
+        ...k,
+        name: k.name || k.assignedTo || (member ? member.name : 'Unassigned'),
+        img: k.img || (member ? member.img : `https://i.pravatar.cc/150?u=${encodeURIComponent(k.assignedTo || 'user')}`)
+      };
+    });
+  }, [kpis, teamMembers]);
+
   // Stats calculation
   const stats = useMemo(() => {
     return [
-      { label: 'Active Goals', value: kpis.filter(k => k.status !== 'Completed').length.toString(), icon: Target, color: 'text-primary-600', bg: 'bg-primary-50' },
-      { label: 'Completed', value: kpis.filter(k => k.status === 'Completed').length.toString(), icon: CheckCircle2, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-      { label: 'At Risk', value: kpis.filter(k => k.status === 'At Risk' || k.status === 'Delayed').length.toString(), icon: AlertCircle, color: 'text-rose-600', bg: 'bg-rose-50' },
+      { label: 'Active Goals', value: resolvedKpis.filter(k => k.status !== 'Completed').length.toString(), icon: Target, color: 'text-primary-600', bg: 'bg-primary-50' },
+      { label: 'Completed', value: resolvedKpis.filter(k => k.status === 'Completed').length.toString(), icon: CheckCircle2, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+      { label: 'At Risk', value: resolvedKpis.filter(k => k.status === 'At Risk' || k.status === 'Delayed').length.toString(), icon: AlertCircle, color: 'text-rose-600', bg: 'bg-rose-50' },
       { label: 'Avg Performance', value: '88%', icon: BarChart3, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     ];
-  }, [kpis]);
+  }, [resolvedKpis]);
 
   // Filtering Logic
   const filteredGoals = useMemo(() => {
-    return kpis.filter(k => {
+    return resolvedKpis.filter(k => {
       const matchesTab = activeTab === 'All' ? true : 
                          activeTab === 'Active' ? k.status !== 'Completed' :
                          activeTab === 'Completed' ? k.status === 'Completed' :
                          activeTab === 'At Risk' ? (k.status === 'At Risk' || k.status === 'Delayed') : true;
-      const matchesSearch = k.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                           k.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const titleLower = (k.title || '').toLowerCase();
+      const nameLower = (k.name || '').toLowerCase();
+      const queryLower = (searchQuery || '').toLowerCase();
+      const matchesSearch = titleLower.includes(queryLower) || nameLower.includes(queryLower);
       return matchesTab && matchesSearch;
     });
-  }, [kpis, activeTab, searchQuery]);
+  }, [resolvedKpis, activeTab, searchQuery]);
 
   const handleAddGoal = (e) => {
     e.preventDefault();
