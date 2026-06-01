@@ -108,7 +108,7 @@ const DepartmentModal = ({ isOpen, onClose, deptToEdit = null }) => {
             className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl max-h-[90vh] bg-white shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
           >
             {/* Header */}
-            <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div className="flex items-center gap-5">
                 <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg transform rotate-6">
                   <Grid size={22} fill="currentColor" />
@@ -131,7 +131,7 @@ const DepartmentModal = ({ isOpen, onClose, deptToEdit = null }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto">
-              <div className="p-10 space-y-10">
+              <div className="p-4 py-2.5">
                 <div className="space-y-6">
                   <div className="space-y-2 group">
                     <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Department Name</label>
@@ -197,7 +197,7 @@ const DepartmentModal = ({ isOpen, onClose, deptToEdit = null }) => {
                             name="parent"
                             value={formData.parent}
                             onChange={handleChange}
-                            className="input-field h-14 bg-slate-50 border-transparent font-bold text-slate-700"
+                            className="input-field h-11 bg-slate-50 border-transparent font-bold text-slate-700"
                         >
                             <option>Corporate</option>
                             {departments.filter(d => d.id !== deptToEdit?.id).map(d => (
@@ -250,13 +250,13 @@ const DepartmentModal = ({ isOpen, onClose, deptToEdit = null }) => {
                       name="description"
                       value={formData.description}
                       onChange={handleChange}
-                      className="input-field min-h-[140px] py-4 bg-slate-50 border-transparent resize-none text-sm font-medium" 
+                      className="input-field min-h-[90px] py-4 bg-slate-50 border-transparent resize-none text-sm font-medium" 
                       placeholder="Describe the core focus and responsibilities of this department..."
                     ></textarea>
                   </div>
                 </div>
 
-                <div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 border-dashed flex flex-col items-center justify-center gap-4 group cursor-pointer hover:bg-white transition-all duration-300">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 border-dashed space-y-4 flex flex-col items-center justify-center gap-4 group cursor-pointer hover:bg-white transition-all duration-300">
                     <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-300 shadow-sm group-hover:scale-110 transition-transform">
                         <LayoutGrid size={24} />
                     </div>

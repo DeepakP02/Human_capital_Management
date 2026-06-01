@@ -14,7 +14,6 @@ import {
   X, 
   Star, 
   ArrowRight,
-  TrendingUp,
   MessageSquare,
   Lock,
   Globe,
@@ -231,29 +230,29 @@ const BookDemo = () => {
         <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[800px] h-[800px] bg-primary-50 rounded-full blur-[120px] opacity-45 pointer-events-none" />
         <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[600px] h-[600px] bg-indigo-50 rounded-full blur-[100px] opacity-35 pointer-events-none" />
         
-        <div className="container mx-auto px-6 text-left">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="container mx-auto px-6 text-center max-w-4xl">
+          <div className="flex flex-col items-center justify-center">
             
             <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-8"
+              className="space-y-8 flex flex-col items-center"
             >
               <div className="inline-flex items-center gap-3 px-4 py-2 bg-primary-50 text-primary-700 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-sm border border-primary-100">
                 <SparklesIcon size={14} fill="currentColor" />
                 <span>Next-Gen Enterprise Demo</span>
               </div>
-              <h1 className="text-6xl lg:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-600 tracking-tighter leading-[0.95]">
+              <h1 className="text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-600 tracking-tighter leading-[0.95]">
                 Transform Your Workforce with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-600">HCM.ai</span>
               </h1>
-              <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-xl">
+              <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto text-center">
                 Book a personalized demo to see how AI‑driven HR, Payroll, Benefits and Workforce Automation can transform your organization.
               </p>
-              <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
                 <a 
                   href="#booking-form"
-                  className="w-full sm:w-auto px-10 py-5 bg-glass backdrop-blur-md border border-white/20 text-white text-center rounded-[2rem] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all shadow-2xl flex items-center justify-center gap-3 group"
+                  className="w-full sm:w-auto px-10 py-5 bg-primary-600 text-white text-center rounded-[2rem] font-black uppercase tracking-[0.2em] hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 flex items-center justify-center gap-3 group"
                 >
                   Book Demo <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </a>
@@ -264,7 +263,7 @@ const BookDemo = () => {
                   Watch Platform Overview
                 </a>
               </div>
-              <div className="flex items-center gap-8 pt-8 border-t border-slate-50">
+              <div className="flex flex-wrap items-center justify-center gap-8 pt-8 border-t border-slate-50 w-full">
                 <div className="flex items-center gap-2">
                   <ShieldCheck size={18} className="text-emerald-500" />
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Enterprise Secure</span>
@@ -278,63 +277,6 @@ const BookDemo = () => {
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">AI Automation</span>
                 </div>
               </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, x: 30 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="bg-white rounded-[3rem] shadow-3xl p-4 border border-slate-100 relative z-10">
-                <img 
-                  src="https://images.unsplash.com/photo-1551288049-bbbda536339a?q=80&w=2670" 
-                  alt="Dashboard Preview Mockup" 
-                  className="rounded-[2.5rem] w-full"
-                />
-              </div>
-              
-              {/* Floating Cards */}
-              <motion.div 
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-8 -right-8 w-60 p-5 bg-white rounded-3xl shadow-2xl border border-slate-50 z-25 hidden lg:block text-left"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
-                    <TrendingUp size={20} />
-                  </div>
-                  <div>
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Payroll Processing</p>
-                    <p className="text-lg font-black text-slate-900">100% Automated</p>
-                  </div>
-                </div>
-                <div className="w-full h-1.5 bg-slate-50 rounded-full overflow-hidden">
-                  <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} className="h-full bg-emerald-500 rounded-full" />
-                </div>
-              </motion.div>
-
-              <motion.div 
-                animate={{ y: [0, 15, 0] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -bottom-8 -left-8 w-60 p-5 bg-slate-900 rounded-3xl shadow-2xl z-25 hidden lg:block text-left"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                   <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white">
-                      <Brain size={16} />
-                   </div>
-                   <span className="text-[10px] font-bold text-white tracking-tight">AI Talent Fit Engine</span>
-                </div>
-                <div className="space-y-2">
-                   {[1, 2].map(i => (
-                      <div key={i} className="flex items-center gap-2">
-                         <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                            <motion.div initial={{ width: 0 }} animate={{ width: i === 1 ? '95%' : '80%' }} className="h-full bg-primary-400" />
-                         </div>
-                      </div>
-                   ))}
-                </div>
-              </motion.div>
             </motion.div>
 
           </div>

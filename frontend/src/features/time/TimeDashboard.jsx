@@ -46,16 +46,49 @@ const TimeDashboard = () => {
   // --- Sync State ---
   const loadGlobalData = () => {
     // Load attendance
-    const att = localStorage.getItem('hcm_global_attendance');
-    if (att) setGlobalAttendance(JSON.parse(att));
+    let att = localStorage.getItem('hcm_global_attendance');
+    if (!att) {
+      const defaultAttendance = [
+        { id: '1', name: 'John Wick', date: '2026-06-01', clockIn: '09:00 AM', clockOut: '-', totalHours: '0h', status: 'Present', mode: 'Office' },
+        { id: '2', name: 'Alice Cooper', date: '2026-06-01', clockIn: '08:45 AM', clockOut: '-', totalHours: '0h', status: 'Present', mode: 'Remote' },
+        { id: '3', name: 'Bob Marley', date: '2026-06-01', clockIn: '09:20 AM', clockOut: '-', totalHours: '0h', status: 'Late', mode: 'Office' },
+        { id: '4', name: 'Sarah Connor', date: '2026-05-31', clockIn: '08:55 AM', clockOut: '05:45 PM', totalHours: '8h 50m', status: 'Present', mode: 'Remote' },
+        { id: '5', name: 'John Doe', date: '2026-05-31', clockIn: '09:00 AM', clockOut: '06:05 PM', totalHours: '9h 5m', status: 'Present', mode: 'Office' },
+        { id: '6', name: 'Jim Halpert', date: '2026-05-31', clockIn: '09:10 AM', clockOut: '06:30 PM', totalHours: '9h 20m', status: 'Late', mode: 'Office' },
+        { id: '7', name: 'John Doe', date: '2026-05-30', clockIn: '-', clockOut: '-', totalHours: '0h', status: 'On Leave', mode: '-' },
+      ];
+      localStorage.setItem('hcm_global_attendance', JSON.stringify(defaultAttendance));
+      att = JSON.stringify(defaultAttendance);
+    }
+    setGlobalAttendance(JSON.parse(att));
 
     // Load leaves
-    const lvs = localStorage.getItem('hcm_global_leaves');
-    if (lvs) setGlobalLeaves(JSON.parse(lvs));
+    let lvs = localStorage.getItem('hcm_global_leaves');
+    if (!lvs) {
+      const defaultLeaves = [
+        { id: 1, name: 'John Doe', type: 'Annual Leave', startDate: '2026-06-05', endDate: '2026-06-12', days: 6, reason: 'Family vacation to Hawaii', status: 'Pending', managerComment: '', emergencyContact: '+1 (555) 987-6543', submittedAt: '2026-05-31' },
+        { id: 2, name: 'Bob Marley', type: 'Sick Leave', startDate: '2026-06-02', endDate: '2026-06-03', days: 2, reason: 'Medical checkup and recovery', status: 'Pending', managerComment: '', emergencyContact: '+1 (555) 0103', submittedAt: '2026-06-01' },
+        { id: 3, name: 'John Doe', type: 'Sick Leave', startDate: '2026-05-30', endDate: '2026-05-30', days: 1, reason: 'High fever', status: 'Approved', managerComment: 'Get well soon!', emergencyContact: '+1 (555) 987-6543', submittedAt: '2026-05-29' },
+      ];
+      localStorage.setItem('hcm_global_leaves', JSON.stringify(defaultLeaves));
+      lvs = JSON.stringify(defaultLeaves);
+    }
+    setGlobalLeaves(JSON.parse(lvs));
 
     // Load shift config
-    const conf = localStorage.getItem('company_shift_config');
-    if (conf) setShiftConfig(JSON.parse(conf));
+    let conf = localStorage.getItem('company_shift_config');
+    if (!conf) {
+      const defaultConf = {
+        shiftStart: '09:00',
+        shiftEnd: '18:00',
+        gracePeriod: '15',
+        lunchDuration: '60',
+        overtimeRate: '1.5'
+      };
+      localStorage.setItem('company_shift_config', JSON.stringify(defaultConf));
+      conf = JSON.stringify(defaultConf);
+    }
+    setShiftConfig(JSON.parse(conf));
   };
 
   useEffect(() => {

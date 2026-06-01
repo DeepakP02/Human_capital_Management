@@ -11,6 +11,7 @@ import {
   Zap,
   Globe
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { cn } from '../../utils/cn';
 
@@ -235,7 +236,7 @@ const demoCredentials = {
 
           <p className="mt-8 text-center text-sm font-medium text-slate-500">
             Don't have an account? 
-            <a href="#" className="ml-1 text-primary-600 font-bold hover:text-primary-700">Request demo access</a>
+            <Link to="/book-demo" className="ml-1 text-primary-600 font-bold hover:text-primary-700">Request demo access</Link>
           </p>
         </motion.div>
       </div>

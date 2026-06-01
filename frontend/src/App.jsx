@@ -185,13 +185,16 @@ function App() {
             </Route>
 
             {/* Admin Routes */}
-            <Route path="/superadmin/*" element={<SuperAdminProvider><SuperAdminLayout /></SuperAdminProvider>}> 
+            <Route path="/superadmin" element={<SuperAdminProvider><SuperAdminLayout /></SuperAdminProvider>}> 
               <Route index element={<SuperAdminDashboard />} />
               <Route path="dashboard" element={<SuperAdminDashboard />} />
               <Route path="analytics" element={<GlobalAnalytics />} />
               <Route path="users" element={<UserManagement />} />
               <Route path="roles" element={<RoleManagement />} />
               <Route path="departments" element={<DepartmentManagement />} />
+              <Route path="payroll" element={<PayrollCenter />} />
+              <Route path="benefits" element={<BenefitsConfig />} />
+              <Route path="attendance" element={<TimeDashboard />} />
             </Route>
             <Route path="/admin" element={<AppLayout />}>
               <Route index element={<Navigate to="/admin/dashboard" replace />} />

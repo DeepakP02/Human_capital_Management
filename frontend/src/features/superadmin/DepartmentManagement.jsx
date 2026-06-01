@@ -12,6 +12,7 @@ import {
   Grid
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import StatsCounter from '../../components/StatsCounter';
 
 const DepartmentManagement = () => {
   const { departments, addDept, updateDept, deleteDept } = useSuperAdmin();

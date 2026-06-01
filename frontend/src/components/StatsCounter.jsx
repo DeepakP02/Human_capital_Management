@@ -42,10 +42,10 @@ const StatsCounter = ({ target = 0, label = '', suffix = '', prefix = '', durati
 
   return (
     <div className="text-center" ref={ref}>
-      <p className="text-2xl font-black text-slate-900">{prefix}
+      <p className="text-2xl font-black text-slate-900 dark:text-white">{prefix}
         {formatted}{suffix}
       </p>
-      <p className="text-xs font-black text-slate-400 uppercase tracking-widest">
+      <p className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
         {label}
       </p>
     </div>
