@@ -67,10 +67,6 @@ const Integrations = () => {
                <p className="text-slate-500 font-medium tracking-tight">Connect third-party tools, manage API credentials and monitor realtime data sync</p>
             </div>
             <div className="flex items-center gap-3">
-               <button onClick={() => setIsDocsOpen(true)} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 group">
-                  <Terminal size={18} />
-                  <span className="hidden sm:inline">API Documentation</span>
-               </button>
                <button onClick={() => { setIntegrationToEdit(null); setIsAddModalOpen(true); }} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
                   <Plus size={18} />
                   <span>Add Integration</span>
@@ -145,7 +141,7 @@ const Integrations = () => {
                      <motion.div
                         key={tool.id}
                         whileHover={{ y: -5, shadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)' }}
-                        className="card p-6 bg-white border border-slate-50 shadow-soft group flex flex-col h-[280px]"
+                        className="card p-6 bg-white dark:bg-slate-900 border border-slate-50 dark:border-slate-800 shadow-soft group flex flex-col min-h-[300px] h-auto"
                      >
                         <div className="flex items-start justify-between mb-8">
                            <div className={cn("p-4 rounded-[1.5rem] group-hover:scale-110 transition-transform", visuals.bg, visuals.color)}>
@@ -183,18 +179,7 @@ const Integrations = () => {
             </div>
          </div>
 
-         <div className="p-10 bg-primary-50 rounded-[3rem] border border-primary-100 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex items-center gap-6">
-               <div className="p-4 bg-white rounded-2xl shadow-sm text-primary-600">
-                  <Zap size={28} fill="currentColor" />
-               </div>
-               <div>
-                  <h4 className="text-lg font-extrabold text-slate-900 leading-none mb-3 tracking-tight">Need a custom integration?</h4>
-                  <p className="text-sm font-medium text-slate-500 leading-relaxed tracking-tight max-w-sm">Access our full developer SDK and webhook engine to connect any proprietary system to the HCM core.</p>
-               </div>
-            </div>
-            <button onClick={() => setIsDocsOpen(true)} className="px-8 py-3.5 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 shrink-0">Explore SDK</button>
-         </div>
+
 
          <IntegrationModal
             isOpen={isAddModalOpen}

@@ -26,13 +26,43 @@ import DepartmentModal from '../../shared/components/admin/DepartmentModal';
 import ConfirmDialog from '../../shared/components/admin/ConfirmDialog';
 
 const Departments = () => {
-  const { departments, users, deleteDepartment, updateDepartment } = useAdmin();
+  const { departments, users, deleteDepartment, updateDepartment, showToast } = useAdmin();
   
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Status');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [deptToEdit, setDeptToEdit] = useState(null);
   const [deptToDelete, setDeptToDelete] = useState(null);
+
+  const handleExport = () => {
+    if (filteredDepts.length === 0) {
+      showToast('No department records found to export', 'error');
+      return;
+    }
+    // Generate CSV content
+    const headers = ['Department Name', 'Dept. Code', 'H.O.D (Head)', 'Employees', 'Status', 'Parent Department'];
+    const rows = filteredDepts.map(d => [
+      `"${d.name.replace(/"/g, '""')}"`,
+      `"${d.code.replace(/"/g, '""')}"`,
+      `"${(d.head || 'Not Assigned').replace(/"/g, '""')}"`,
+      d.employees,
+      `"${d.status}"`,
+      `"${(d.parent || 'Corporate').replace(/"/g, '""')}"`
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `departments_export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast('Departments list exported to CSV successfully!', 'success');
+  };
 
   const stats = [
     { label: 'Total Depts', value: departments.length, icon: Building2, color: 'text-indigo-600', bg: 'bg-indigo-50' },
@@ -58,7 +88,10 @@ const Departments = () => {
           <p className="text-slate-500 font-medium tracking-tight">Manage your company structure, team categories and leadership</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
+          <button 
+            onClick={handleExport}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all cursor-pointer animate-press"
+          >
             <Download size={18} />
             <span className="hidden sm:inline">Export List</span>
           </button>

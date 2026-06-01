@@ -54,20 +54,29 @@ const RolesPermissions = () => {
 
   const actions = ['view', 'create', 'edit', 'delete', 'approve', 'manage'];
 
+  const [isSavingMatrix, setIsSavingMatrix] = useState(false);
+
   const handleUpdatePermissions = () => {
-     showToast(`${currentRole.name} permissions matrix updated successfully`);
+     setIsSavingMatrix(true);
+     setTimeout(() => {
+        setIsSavingMatrix(false);
+        showToast(`${currentRole.name} permissions matrix updated and synced company-wide!`, 'success');
+     }, 600);
   };
 
   return (
-    <div className="space-y-8 pb-12 animate-fade-in relative focus:outline-none">
+    <div className="space-y-8 pb-12 animate-fade-in relative focus:outline-none text-left">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Roles & Permissions</h1>
+          <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Roles & Permissions</h1>
           <p className="text-slate-500 font-medium tracking-tight">Granular access control and permission management for all platform roles</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
+          <button 
+            onClick={() => showToast('Role cloned successfully', 'success')}
+            className="px-6 py-2.5 bg-white dark:bg-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-755 transition-all shadow-sm cursor-pointer"
+          >
             <Copy size={18} />
             <span>Clone Role</span>
           </button>
@@ -76,7 +85,7 @@ const RolesPermissions = () => {
                 setRoleToEdit(null);
                 setIsRoleModalOpen(true);
             }}
-            className="btn-primary px-8 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200"
+            className="btn-primary px-8 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200 cursor-pointer"
           >
              <Plus size={18} />
              <span>Create Custom Role</span>
@@ -87,7 +96,7 @@ const RolesPermissions = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start h-full">
          {/* Roles Sidebar List */}
          <div className="lg:col-span-4 space-y-6">
-            <div className="card p-8 bg-white border-none shadow-soft">
+            <div className="card p-8 bg-white dark:bg-slate-900 border-none shadow-soft">
                <h3 className="text-sm font-extrabold uppercase tracking-widest text-slate-400 mb-6 px-2">Platform Roles</h3>
                <div className="space-y-3">
                   {roles.map((role) => (
@@ -95,15 +104,15 @@ const RolesPermissions = () => {
                         <button
                             onClick={() => setSelectedRoleName(role.name)}
                             className={cn(
-                                "w-full p-5 rounded-[2rem] text-left transition-all border group flex items-center justify-between",
+                                "w-full p-5 rounded-[2rem] text-left transition-all border group flex items-center justify-between cursor-pointer",
                                 selectedRoleName === role.name 
-                                ? "bg-slate-900 border-slate-900 text-white shadow-xl shadow-slate-200" 
-                                : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50 hover:border-slate-200 shadow-sm"
+                                ? "bg-slate-900 dark:bg-slate-800 border-slate-900 dark:border-slate-700 text-white shadow-xl shadow-slate-200 dark:shadow-none" 
+                                : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/40 hover:border-slate-200 dark:hover:border-slate-700 shadow-sm"
                             )}
                         >
                             <div className="flex-1 min-w-0 pr-4">
                                 <div className="flex items-center gap-3 mb-1">
-                                    <ShieldCheck size={18} className={cn(selectedRoleName === role.name ? "text-primary-400" : "text-slate-300")} />
+                                    <ShieldCheck size={18} className={cn(selectedRoleName === role.name ? "text-primary-450" : "text-slate-300 dark:text-slate-700")} />
                                     <span className="text-base font-bold tracking-tight truncate">{role.name}</span>
                                     {role.isCustom && <span className="text-[8px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-500 px-1.5 py-0.5 rounded">Custom</span>}
                                 </div>
@@ -111,7 +120,7 @@ const RolesPermissions = () => {
                                     {users.filter(u => u.role === role.name).length} Active Users
                                 </p>
                             </div>
-                            <ChevronRight size={18} className={cn("shrink-0", selectedRoleName === role.name ? "text-white/30" : "text-slate-200")} />
+                            <ChevronRight size={18} className={cn("shrink-0", selectedRoleName === role.name ? "text-white/30" : "text-slate-200 dark:text-slate-850")} />
                         </button>
                         
                         {role.isCustom && (
@@ -142,41 +151,49 @@ const RolesPermissions = () => {
                </div>
             </div>
 
-            <div className="card p-8 bg-primary-50 border border-primary-100 shadow-soft relative overflow-hidden group">
+            <div className="card p-8 bg-primary-50 dark:bg-primary-950/20 border border-primary-100 dark:border-primary-900/30 shadow-soft relative overflow-hidden group">
                <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none group-hover:scale-110 transition-transform">
                   <Info size={100} />
                </div>
                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-primary-600 mb-6">Pro Tip</h3>
-               <p className="text-sm font-medium text-slate-600 leading-relaxed relative z-10">Assign minimum necessary permissions to maintain a secure system architecture. Changes to roles apply to all associated users instantly.</p>
+               <p className="text-sm font-medium text-slate-600 dark:text-slate-400 leading-relaxed relative z-10">Assign minimum necessary permissions to maintain a secure system architecture. Changes to roles apply to all associated users instantly.</p>
             </div>
          </div>
 
          {/* Permissions Matrix */}
          <div className="lg:col-span-8 space-y-6">
-            <div className="card p-0 bg-white border-none shadow-soft overflow-hidden">
-               <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/10">
+            <div className="card p-0 bg-white dark:bg-slate-900 border-none shadow-soft overflow-hidden">
+               <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex items-center justify-between bg-slate-50/10 dark:bg-slate-800/10">
                   <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-lg transform -rotate-3">
+                     <div className="w-12 h-12 rounded-2xl bg-slate-900 dark:bg-slate-800 text-white flex items-center justify-center shadow-lg transform -rotate-3">
                         <LockKeyhole size={22} />
                      </div>
                      <div>
-                        <h3 className="text-xl font-bold text-slate-900 tracking-tight">{selectedRoleName} Permissions Matrix</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{selectedRoleName} Permissions Matrix</h3>
                         <p className="text-[10px] font-bold text-primary-600 uppercase tracking-widest mt-1">Configure module access & capabilities</p>
                      </div>
                   </div>
                   <button 
                     onClick={handleUpdatePermissions}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-primary-200 hover:bg-primary-700 transition-all active:scale-95"
+                    disabled={isSavingMatrix}
+                    className={cn(
+                       "flex items-center gap-2 px-6 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-primary-200 hover:bg-primary-700 transition-all active:scale-95 cursor-pointer",
+                       isSavingMatrix && "opacity-80 cursor-not-allowed scale-95"
+                    )}
                   >
-                     <Save size={18} />
-                     <span>Update Matrix</span>
+                     {isSavingMatrix ? (
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                     ) : (
+                        <Save size={18} />
+                     )}
+                     <span>{isSavingMatrix ? 'Updating...' : 'Update Matrix'}</span>
                   </button>
                </div>
 
                <div className="p-0 overflow-x-auto">
                   <table className="w-full text-left">
                      <thead>
-                        <tr className="bg-slate-50/50">
+                        <tr className="bg-slate-50/50 dark:bg-slate-800/30">
                            <th className="px-8 py-5 text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em]">Module / Capability</th>
                            {actions.map((action) => (
                               <th key={action} className="px-4 py-5 text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em] text-center capitalize">
@@ -185,15 +202,15 @@ const RolesPermissions = () => {
                            ))}
                         </tr>
                      </thead>
-                     <tbody className="divide-y divide-slate-50">
+                     <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50">
                         {modules.map((mod) => (
-                           <tr key={mod.id} className="group hover:bg-slate-50/30 transition-colors">
+                           <tr key={mod.id} className="group hover:bg-slate-50/30 dark:hover:bg-slate-800/10 transition-colors">
                               <td className="px-8 py-6">
                                  <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
+                                    <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-primary-50 group-hover:text-primary-600 transition-colors">
                                        <mod.icon size={16} />
                                     </div>
-                                    <span className="text-sm font-bold text-slate-700 tracking-tight">{mod.label}</span>
+                                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200 tracking-tight">{mod.label}</span>
                                  </div>
                               </td>
                               {actions.map((act) => {
@@ -201,10 +218,8 @@ const RolesPermissions = () => {
                                  return (
                                     <td key={act} className="px-4 py-6 text-center">
                                        <div className="flex items-center justify-center">
-                                          <input 
-                                             type="checkbox" 
-                                             checked={isAllowed}
-                                             onChange={() => {
+                                          <button 
+                                             onClick={() => {
                                                  const currentPerms = currentRole.permissions[mod.id] || [];
                                                  const updatedPerms = isAllowed 
                                                     ? currentPerms.filter(p => p !== act)
@@ -218,12 +233,14 @@ const RolesPermissions = () => {
                                                  });
                                              }}
                                              className={cn(
-                                                "w-5 h-5 rounded-lg appearance-none cursor-pointer border-2 transition-all",
+                                                "w-6 h-6 rounded-lg flex items-center justify-center border-2 transition-all active:scale-95 cursor-pointer",
                                                 isAllowed 
-                                                ? "bg-primary-600 border-primary-600 shadow-md shadow-primary-100 checked:after:content-['✓'] after:flex after:items-center after:justify-center after:text-white after:text-[10px] after:font-black" 
-                                                : "border-slate-100 bg-white hover:border-primary-300"
+                                                ? "bg-primary-600 border-primary-600 shadow-lg shadow-primary-200 text-white" 
+                                                : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-primary-300"
                                              )}
-                                          />
+                                          >
+                                             {isAllowed && <Check size={14} strokeWidth={3} />}
+                                          </button>
                                        </div>
                                     </td>
                                  );

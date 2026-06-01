@@ -86,6 +86,39 @@ const Users = () => {
   }, [users, searchTerm, roleFilter, deptFilter, statusFilter, sortBy]);
 
   // Handlers
+  const handleExport = () => {
+    if (filteredUsers.length === 0) {
+      showToast('No user records found to export', 'error');
+      return;
+    }
+    // Generate CSV content
+    const headers = ['Employee Name', 'Email', 'Role', 'Department', 'Employee ID', 'Joining Date', 'Status', 'Employment Type', 'Manager'];
+    const rows = filteredUsers.map(u => [
+      `"${u.name.replace(/"/g, '""')}"`,
+      `"${u.email.replace(/"/g, '""')}"`,
+      `"${u.role.replace(/"/g, '""')}"`,
+      `"${u.department.replace(/"/g, '""')}"`,
+      `"${u.empId.replace(/"/g, '""')}"`,
+      `"${u.joinDate}"`,
+      `"${u.status}"`,
+      `"${u.empType}"`,
+      `"${u.manager}"`
+    ]);
+
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `users_export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast('Users list exported to CSV successfully!', 'success');
+  };
+
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setSelectedUsers(filteredUsers.map(u => u.id));
@@ -116,7 +149,7 @@ const Users = () => {
   };
 
   return (
-    <div className="space-y-8 pb-32 animate-fade-in focus:outline-none">
+    <div className="space-y-8 pb-32 animate-fade-in focus:outline-none text-left">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -124,7 +157,10 @@ const Users = () => {
           <p className="text-slate-500 font-medium tracking-tight">Oversee platform access, assign roles and configure workforce identities</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
+          <button 
+            onClick={handleExport}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all cursor-pointer"
+          >
             <Download size={18} />
             <span className="hidden sm:inline">Export CSV</span>
           </button>

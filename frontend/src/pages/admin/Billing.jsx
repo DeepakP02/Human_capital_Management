@@ -31,6 +31,8 @@ import ExportHistoryModal from '../../components/admin/ExportHistoryModal';
 import ManageAddonsModal from '../../components/admin/ManageAddonsModal';
 import InvoiceDrawer from '../../components/admin/InvoiceDrawer';
 import ActionDropdown from '../../components/admin/ActionDropdown';
+import AddPaymentMethodModal from '../../shared/components/admin/AddPaymentMethodModal';
+import OpenTicketModal from '../../shared/components/admin/OpenTicketModal';
 
 const Billing = () => {
    const { billingPlan, invoices, updateInvoice, showToast } = useAdmin();
@@ -40,6 +42,15 @@ const Billing = () => {
    const [isExportOpen, setIsExportOpen] = useState(false);
    const [isAddonsOpen, setIsAddonsOpen] = useState(false);
    const [invoiceToView, setInvoiceToView] = useState(null);
+   const [isAddPaymentOpen, setIsAddPaymentOpen] = useState(false);
+   const [isTicketOpen, setIsTicketOpen] = useState(false);
+
+   const [paymentMethod, setPaymentMethod] = useState({
+      type: 'Visa',
+      last4: '4242',
+      expiry: '12/28',
+      cardholder: 'Enterprise Client'
+   });
 
    const filteredInvoices = invoices.filter(inv => inv.id.toLowerCase().includes(searchTerm.toLowerCase()) || inv.status.toLowerCase().includes(searchTerm.toLowerCase()));
 
@@ -98,20 +109,26 @@ const Billing = () => {
                   </div>
                </div>
 
-               <div className="card p-8 bg-white border border-slate-100 shadow-soft">
-                  <div className="flex items-center justify-between mb-8">
-                     <h3 className="text-lg font-bold text-slate-900 tracking-tight">Payment Method</h3>
-                     <button className="p-2 text-primary-600 hover:bg-primary-50 rounded-xl transition-all"><Plus size={20} /></button>
-                  </div>
-                  <div className="p-6 bg-slate-900/5 border border-slate-100 rounded-3xl flex items-center gap-5">
-                     <div className="w-14 h-10 bg-slate-900 rounded-lg flex items-center justify-center text-white font-black italic shadow-inner">VISA</div>
-                     <div>
-                        <p className="text-sm font-bold text-slate-900 leading-none mb-2 tracking-tight">Visa Ending in 4242</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Expires 12/28 • Default</p>
-                     </div>
-                     <CheckCircle2 size={18} className="ml-auto text-emerald-500" />
-                  </div>
-               </div>
+                <div className="card p-8 bg-white border border-slate-100 shadow-soft">
+                   <div className="flex items-center justify-between mb-8">
+                      <h3 className="text-lg font-bold text-slate-900 tracking-tight">Payment Method</h3>
+                      <button onClick={() => setIsAddPaymentOpen(true)} className="p-2 text-primary-600 hover:bg-primary-50 active:scale-[0.9] rounded-xl transition-all"><Plus size={20} /></button>
+                   </div>
+                   <div className="p-6 bg-slate-900/5 border border-slate-100 rounded-3xl flex items-center gap-5">
+                      <div className="w-14 h-10 bg-slate-900 rounded-lg flex items-center justify-center text-white font-black italic shadow-inner uppercase tracking-wide text-[10px]">
+                         {paymentMethod.type}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                         <p className="text-sm font-bold text-slate-900 leading-none mb-2 tracking-tight truncate">
+                            {paymentMethod.type} Ending in {paymentMethod.last4}
+                         </p>
+                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">
+                            Expires {paymentMethod.expiry} • Default
+                         </p>
+                      </div>
+                      <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
+                   </div>
+                </div>
             </div>
 
             {/* Invoice Registry */}
@@ -191,7 +208,7 @@ const Billing = () => {
                         <p className="text-xs font-medium text-slate-500 tracking-tight">Need a custom PO or tax-exemption? Contact our billing desk.</p>
                      </div>
                   </div>
-                  <button className="px-5 py-2 text-[10px] font-black text-white bg-indigo-600 rounded-xl uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100">Open Ticket</button>
+                  <button onClick={() => setIsTicketOpen(true)} className="px-5 py-2 text-[10px] font-black text-white bg-indigo-600 rounded-xl uppercase tracking-widest hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 active:scale-[0.95]">Open Ticket</button>
                </div>
             </div>
          </div>
@@ -200,6 +217,8 @@ const Billing = () => {
          <ExportHistoryModal isOpen={isExportOpen} onClose={() => setIsExportOpen(false)} />
          <ManageAddonsModal isOpen={isAddonsOpen} onClose={() => setIsAddonsOpen(false)} />
          <InvoiceDrawer isOpen={!!invoiceToView} onClose={() => setInvoiceToView(null)} invoice={invoiceToView} />
+         <AddPaymentMethodModal isOpen={isAddPaymentOpen} onClose={() => setIsAddPaymentOpen(false)} onSuccess={(newMethod) => setPaymentMethod(newMethod)} />
+         <OpenTicketModal isOpen={isTicketOpen} onClose={() => setIsTicketOpen(false)} />
       </div>
    );
 };
