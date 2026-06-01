@@ -43,6 +43,15 @@ const Reviews = () => {
   // Form State
   const [newReview, setNewReview] = useState({ employeeId: '', period: 'Q4 2026', type: 'Quarterly' });
   const [assessment, setAssessment] = useState({ rating: 4, feedback: '', strengths: '', improvements: '' });
+  const [isExporting, setIsExporting] = useState(false);
+
+  const selectedMember = useMemo(() => {
+    if (!selectedReview) return null;
+    return teamMembers.find(m => m.id?.toString() === selectedReview.employeeId?.toString() || m.name?.toLowerCase() === selectedReview.name?.toLowerCase());
+  }, [selectedReview, teamMembers]);
+
+  const selectedImg = selectedMember?.img || (selectedReview ? `https://i.pravatar.cc/150?u=${selectedReview.name}` : '');
+  const selectedRole = selectedMember?.role || 'Team Member';
 
   // Stats calculation
   const stats = useMemo(() => {
@@ -82,6 +91,15 @@ const Reviews = () => {
     setSelectedReview(null);
   };
 
+  const handleExport = () => {
+    setIsExporting(true);
+    showToast('Exporting performance reviews history...', 'info');
+    setTimeout(() => {
+      setIsExporting(false);
+      showToast('Performance reviews exported successfully!', 'success');
+    }, 1500);
+  };
+
   const handleAIGenerateAssessment = () => {
     showToast('AI Copilot is generating performance insights...', 'info');
     setTimeout(() => {
@@ -110,8 +128,16 @@ const Reviews = () => {
           <p className="text-slate-500 font-medium tracking-tight mt-1">Evaluate your team members, record feedback and track professional growth</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => showToast('Exporting review transcripts...')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
-            <Download size={18} />
+          <button 
+            onClick={handleExport}
+            disabled={isExporting}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 disabled:opacity-50 active:scale-95 transition-all"
+          >
+            {isExporting ? (
+               <Loader2 size={18} className="animate-spin text-primary-500" />
+            ) : (
+               <Download size={18} />
+            )}
             <span className="hidden sm:inline">Export History</span>
           </button>
           <button onClick={() => setShowAddModal(true)} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
@@ -185,47 +211,52 @@ const Reviews = () => {
                      </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50 text-sm">
-                     {filteredReviews.map((user) => (
-                        <tr key={user.id} className="group hover:bg-slate-50/30 transition-colors cursor-pointer" onClick={() => setSelectedReview(user)}>
-                           <td className="px-8 py-6">
-                              <div className="flex items-center gap-4">
-                                 <img src={user.img} alt={user.name} className="w-10 h-10 rounded-xl object-cover shadow-sm ring-2 ring-white" />
-                                 <div className="text-left">
-                                    <p className="font-extrabold text-slate-900 leading-none">{user.name}</p>
-                                    <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-widest">{user.role}</p>
+                     {filteredReviews.map((user) => {
+                        const member = teamMembers.find(m => m.id?.toString() === user.employeeId?.toString() || m.name?.toLowerCase() === user.name?.toLowerCase());
+                        const userImg = member?.img || `https://i.pravatar.cc/150?u=${user.name}`;
+                        const userRole = member?.role || 'Team Member';
+                        return (
+                           <tr key={user.id} className="group hover:bg-slate-50/30 transition-colors cursor-pointer" onClick={() => setSelectedReview(user)}>
+                              <td className="px-8 py-6">
+                                 <div className="flex items-center gap-4">
+                                    <img src={userImg} alt={user.name} className="w-10 h-10 rounded-xl object-cover shadow-sm ring-2 ring-white" />
+                                    <div className="text-left">
+                                       <p className="font-extrabold text-slate-900 leading-none">{user.name}</p>
+                                       <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-widest">{userRole}</p>
+                                    </div>
                                  </div>
-                              </div>
-                           </td>
-                           <td className="px-8 py-6 text-center">
-                              <span className="text-xs font-black text-slate-600 tracking-tight">{user.period}</span>
-                           </td>
-                           <td className="px-8 py-6 text-center">
-                              <div className="flex items-center justify-center gap-1.5">
-                                 <Star size={14} className="text-amber-400 fill-amber-400" />
-                                 <span className="font-black text-slate-900">{user.rating}</span>
-                              </div>
-                           </td>
-                           <td className="px-8 py-6 text-center max-w-[200px]">
-                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest truncate">{user.strengths}</p>
-                           </td>
-                           <td className="px-8 py-6 text-center">
-                              <span className={cn(
-                                 "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border shadow-sm",
-                                 user.status === 'Submitted' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
-                                 user.status === 'Draft' ? "bg-amber-50 text-amber-600 border-amber-100" :
-                                 user.status === 'Acknowledged' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
-                                 "bg-slate-50 text-slate-400 border-slate-100"
-                              )}>
-                                 {user.status}
-                              </span>
-                           </td>
-                           <td className="px-8 py-6 text-right">
-                              <button onClick={(e) => { e.stopPropagation(); setSelectedReview(user); }} className="p-2.5 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all shadow-sm hover:shadow-md">
-                                 <Edit3 size={18} />
-                              </button>
-                           </td>
-                        </tr>
-                     ))}
+                              </td>
+                              <td className="px-8 py-6 text-center">
+                                 <span className="text-xs font-black text-slate-600 tracking-tight">{user.period}</span>
+                              </td>
+                              <td className="px-8 py-6 text-center">
+                                 <div className="flex items-center justify-center gap-1.5">
+                                    <Star size={14} className="text-amber-400 fill-amber-400" />
+                                    <span className="font-black text-slate-900">{user.rating}</span>
+                                 </div>
+                              </td>
+                              <td className="px-8 py-6 text-center max-w-[200px]">
+                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest truncate">{user.strengths}</p>
+                              </td>
+                              <td className="px-8 py-6 text-center">
+                                 <span className={cn(
+                                    "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border shadow-sm",
+                                    user.status === 'Submitted' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
+                                    user.status === 'Draft' ? "bg-amber-50 text-amber-600 border-amber-100" :
+                                    user.status === 'Acknowledged' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
+                                    "bg-slate-50 text-slate-400 border-slate-100"
+                                 )}>
+                                    {user.status}
+                                 </span>
+                              </td>
+                              <td className="px-8 py-6 text-right">
+                                 <button onClick={(e) => { e.stopPropagation(); setSelectedReview(user); }} className="p-2.5 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all shadow-sm hover:shadow-md">
+                                    <Edit3 size={18} />
+                                 </button>
+                              </td>
+                           </tr>
+                        );
+                     })}
                      {filteredReviews.length === 0 && (
                         <tr>
                            <td colSpan="6" className="px-8 py-20 text-center">
@@ -255,12 +286,12 @@ const Reviews = () => {
                      <Star size={180} className="text-amber-400" />
                   </div>
                   <div className="flex items-center gap-6 relative z-10 text-left">
-                     <img src={selectedReview.img} alt={selectedReview.name} className="w-20 h-20 rounded-3xl object-cover ring-4 ring-white/20 shadow-2xl" />
+                     <img src={selectedImg} alt={selectedReview.name} className="w-20 h-20 rounded-3xl object-cover ring-4 ring-white/20 shadow-2xl" />
                      <div className="text-left flex-1">
                         <div className="flex items-center justify-between">
                            <div>
                               <h3 className="text-3xl font-black text-white tracking-tighter leading-none">{selectedReview.name}</h3>
-                              <p className="text-[10px] font-black text-primary-400 uppercase tracking-[0.3em] mt-3">{selectedReview.role} • {selectedReview.period} Cycle</p>
+                              <p className="text-[10px] font-black text-primary-400 uppercase tracking-[0.3em] mt-3">{selectedRole} • {selectedReview.period} Cycle</p>
                            </div>
                            <button 
                              onClick={handleAIGenerateAssessment}

@@ -18,7 +18,8 @@ import {
   Info,
   MoreVertical,
   Plus,
-  RotateCcw
+  RotateCcw,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useManager } from '../../context/ManagerContext';
@@ -28,6 +29,7 @@ const LeaveApproval = () => {
   const { leaveRequests, updateLeaveStatus, addLeaveRequest, teamMembers, showToast } = useManager();
   
   // UI States
+  const [isExporting, setIsExporting] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [activeTab, setActiveTab] = useState('Pending');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -75,6 +77,15 @@ const LeaveApproval = () => {
     showToast(`Leave request for ${emp.name} submitted.`);
   };
 
+  const handleExport = () => {
+    setIsExporting(true);
+    showToast('Exporting leave history...', 'info');
+    setTimeout(() => {
+      setIsExporting(false);
+      showToast('Leave history exported successfully!', 'success');
+    }, 1500);
+  };
+
   return (
     <div className="space-y-8 pb-12 animate-fade-in relative">
       {/* Header Section */}
@@ -84,8 +95,16 @@ const LeaveApproval = () => {
           <p className="text-slate-500 font-medium tracking-tight mt-1">Review, manage and approve your team's leave requests</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => showToast('Exporting history...')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
-            <Download size={18} />
+          <button 
+            onClick={handleExport} 
+            disabled={isExporting}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 disabled:opacity-50 active:scale-95 transition-all"
+          >
+            {isExporting ? (
+               <Loader2 size={18} className="animate-spin text-primary-500" />
+            ) : (
+               <Download size={18} />
+            )}
             <span className="hidden sm:inline">Export History</span>
           </button>
           <button onClick={() => setShowAddModal(true)} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">

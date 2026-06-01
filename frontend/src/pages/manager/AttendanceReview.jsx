@@ -23,11 +23,12 @@ import {
   User,
   Save,
   MessageSquare,
-  FileText
+  FileText,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useManager } from '../../context/ManagerContext';
-import CenterModal from '../../components/common/CenterModal';
+import CenterModal from '../../shared/components/common/CenterModal';
 
 const AttendanceReview = () => {
   const { attendance, teamMembers, addAttendanceEntry, showToast } = useManager();
@@ -35,6 +36,7 @@ const AttendanceReview = () => {
   // UI States
   const [selectedEntry, setSelectedEntry] = useState(null);
   const [showManualModal, setShowManualModal] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   
   // Filter States
   const [searchQuery, setSearchQuery] = useState('');
@@ -81,7 +83,12 @@ const AttendanceReview = () => {
   };
 
   const handleExport = () => {
-    showToast('Exporting attendance history...');
+    setIsExporting(true);
+    showToast('Exporting attendance history...', 'info');
+    setTimeout(() => {
+      setIsExporting(false);
+      showToast('Attendance history exported successfully!', 'success');
+    }, 1500);
   };
 
   const resetFilters = () => {
@@ -101,9 +108,14 @@ const AttendanceReview = () => {
         <div className="flex items-center gap-3">
           <button 
             onClick={handleExport}
-            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2"
+            disabled={isExporting}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 disabled:opacity-50 active:scale-95 transition-all"
           >
-            <Download size={18} />
+            {isExporting ? (
+               <Loader2 size={18} className="animate-spin text-primary-500" />
+) : (
+               <Download size={18} />
+            )}
             <span className="hidden sm:inline">Export History</span>
           </button>
           <button 

@@ -22,7 +22,8 @@ import {
   Mail,
   FileSpreadsheet,
   X,
-  ShieldCheck
+  ShieldCheck,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useManager } from '../../context/ManagerContext';
@@ -35,6 +36,15 @@ const ManagerReports = () => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [scheduleFrequency, setScheduleFrequency] = useState('Weekly');
+  const [recipientEmail, setRecipientEmail] = useState('manager@hcm.ai');
+  const [isCompiling, setIsCompiling] = useState(false);
+  const [compileStep, setCompileStep] = useState(0); // 0 = Idle, 1 = Assembling data, 2 = Generating PDF, 3 = Encrypting bundle
+  const [customReportName, setCustomReportName] = useState('');
+  const [selectedOrigin, setSelectedOrigin] = useState('Mission Core');
+  const [selectedPersonnel, setSelectedPersonnel] = useState([]);
+  const [isConstructing, setIsConstructing] = useState(false);
+  const [constructStep, setConstructStep] = useState(0); // 0 = Idle, 1 = Structuring, 2 = Mapping, 3 = Encrypting
   
   // Stats calculation
   const stats = useMemo(() => {
@@ -72,8 +82,59 @@ const ManagerReports = () => {
 
   const handleScheduleReport = (e) => {
     e.preventDefault();
-    showToast('Weekly report scheduling enabled.');
+    showToast(`${scheduleFrequency} report scheduling enabled for ${recipientEmail || 'manager@hcm.ai'}.`, 'success');
     setShowScheduleModal(false);
+  };
+
+  const handleCompileExecutiveBundle = () => {
+    setIsCompiling(true);
+    setCompileStep(1); // Assembling Data...
+    
+    setTimeout(() => {
+      setCompileStep(2); // Generating PDF...
+      
+      setTimeout(() => {
+        setCompileStep(3); // Encrypting Bundle...
+        
+        setTimeout(() => {
+          setIsCompiling(false);
+          setCompileStep(0);
+          showToast('Executive Intelligence Bundle compiled and downloaded successfully!', 'success');
+        }, 800);
+      }, 900);
+    }, 1000);
+  };
+
+  const handleConstructReport = (e) => {
+    e.preventDefault();
+    if (!customReportName.trim()) {
+      showToast('Please specify a Report Identity.', 'error');
+      return;
+    }
+    if (selectedPersonnel.length === 0) {
+      showToast('Please select at least one team member.', 'error');
+      return;
+    }
+
+    setIsConstructing(true);
+    setConstructStep(1); // Structuring...
+    
+    setTimeout(() => {
+      setConstructStep(2); // Mapping...
+      
+      setTimeout(() => {
+        setConstructStep(3); // Encrypting...
+        
+        setTimeout(() => {
+          setIsConstructing(false);
+          setConstructStep(0);
+          showToast(`Custom report "${customReportName}" successfully compiled and saved!`, 'success');
+          setCustomReportName('');
+          setSelectedPersonnel([]);
+          setShowCustomModal(false);
+        }, 800);
+      }, 900);
+    }, 1000);
   };
 
   return (
@@ -85,8 +146,16 @@ const ManagerReports = () => {
           <p className="text-slate-500 font-medium tracking-tight mt-1">Generate deep analytics for attendance, tasks and performance metrics</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => showToast('Compiling analytical bundle...')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
-            <Download size={18} />
+          <button 
+            onClick={handleCompileExecutiveBundle}
+            disabled={isCompiling}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 disabled:opacity-50 active:scale-95 transition-all"
+          >
+            {isCompiling ? (
+               <Loader2 size={18} className="animate-spin text-indigo-600" />
+            ) : (
+               <Download size={18} />
+            )}
             <span className="hidden sm:inline text-indigo-600">Export All</span>
           </button>
           <button onClick={() => setShowCustomModal(true)} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200 active:scale-95">
@@ -274,11 +343,24 @@ const ManagerReports = () => {
                   </div>
 
                   <button 
-                    onClick={() => showToast('Compiling executive summary...')}
-                    className="w-full py-5 bg-white/5 hover:bg-white/10 text-white rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] border border-white/5 transition-all active:scale-95 shadow-2xl flex items-center justify-center gap-3"
+                    onClick={handleCompileExecutiveBundle}
+                    disabled={isCompiling}
+                    className="w-full py-5 bg-white/5 hover:bg-white/10 disabled:bg-white/5 disabled:opacity-60 text-white rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] border border-white/5 transition-all active:scale-95 shadow-2xl flex items-center justify-center gap-3"
                   >
-                     <Download size={16} />
-                     Executive Bundle
+                     {isCompiling ? (
+                        <>
+                           <Loader2 size={16} className="animate-spin text-primary-400" />
+                           <span>
+                              {compileStep === 1 ? 'Assembling Data...' : 
+                               compileStep === 2 ? 'Generating PDF...' : 'Encrypting Bundle...'}
+                           </span>
+                        </>
+                     ) : (
+                        <>
+                           <Download size={16} />
+                           Executive Bundle
+                        </>
+                     )}
                   </button>
                </div>
             </div>
@@ -382,41 +464,106 @@ const ManagerReports = () => {
             <div className="space-y-6 text-left">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Report Identity</label>
-                  <input type="text" placeholder="e.g. Q4 Executive Velocity Audit" className="input-field h-14 font-black uppercase tracking-tight" />
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Q4 Executive Velocity Audit" 
+                    className="input-field h-14 font-black uppercase tracking-tight" 
+                    value={customReportName}
+                    onChange={(e) => setCustomReportName(e.target.value)}
+                  />
                </div>
 
                <div className="grid grid-cols-2 gap-8 text-left">
                   <div className="space-y-4 text-left">
                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Data Origin</label>
                      <div className="space-y-3">
-                        {['Mission Core', 'Personnel Intel', 'Attendance Log', 'Assessment Score'].map(origin => (
-                           <label key={origin} className="flex items-center gap-3 p-4 bg-white border border-slate-100 rounded-2xl cursor-pointer hover:border-primary-600 transition-all">
-                              <div className="w-5 h-5 rounded-full border-2 border-primary-600 flex items-center justify-center">
-                                 <div className="w-2.5 h-2.5 bg-primary-600 rounded-full" />
-                              </div>
-                              <span className="text-[11px] font-black text-slate-700 uppercase tracking-tight">{origin}</span>
-                           </label>
-                        ))}
+                        {['Mission Core', 'Personnel Intel', 'Attendance Log', 'Assessment Score'].map(origin => {
+                           const isSelected = selectedOrigin === origin;
+                           return (
+                              <label 
+                                 key={origin} 
+                                 onClick={() => setSelectedOrigin(origin)}
+                                 className={cn(
+                                    "flex items-center gap-3 p-4 bg-white border rounded-2xl cursor-pointer transition-all active:scale-[0.98]",
+                                    isSelected ? "border-primary-600 shadow-md shadow-primary-50/50" : "border-slate-100 hover:border-slate-300"
+                                 )}
+                              >
+                                 <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all", isSelected ? "border-primary-600" : "border-slate-300")}>
+                                    {isSelected && <div className="w-2.5 h-2.5 bg-primary-600 rounded-full" />}
+                                 </div>
+                                 <span className="text-[11px] font-black text-slate-700 uppercase tracking-tight">{origin}</span>
+                              </label>
+                           );
+                        })}
                      </div>
                   </div>
                   <div className="space-y-2 text-left">
                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Select Personnel</label>
                      <div className="h-[184px] p-4 bg-slate-50 rounded-2xl border border-slate-100 overflow-y-auto space-y-2 scrollbar-hide text-left">
-                        {teamMembers.map(m => (
-                           <div key={m.id} className="flex items-center gap-3 p-2 bg-white rounded-xl shadow-sm">
-                              <img src={m.img} className="w-6 h-6 rounded-lg object-cover" />
-                              <span className="text-[10px] font-black text-slate-600 uppercase tracking-tight">{m.name}</span>
-                              <div className="ml-auto w-4 h-4 rounded border-2 border-slate-100" />
-                           </div>
-                        ))}
+                        {teamMembers.map(m => {
+                           const isChecked = selectedPersonnel.includes(m.id);
+                           return (
+                              <div 
+                                 key={m.id} 
+                                 onClick={() => {
+                                    if (isChecked) {
+                                       setSelectedPersonnel(prev => prev.filter(id => id !== m.id));
+                                    } else {
+                                       setSelectedPersonnel(prev => [...prev, m.id]);
+                                    }
+                                 }}
+                                 className={cn(
+                                    "flex items-center gap-3 p-2.5 rounded-xl shadow-sm border cursor-pointer transition-all active:scale-[0.98]",
+                                    isChecked ? "bg-primary-50/30 border-primary-200" : "bg-white border-slate-50 hover:border-slate-200"
+                                 )}
+                              >
+                                 <img src={m.img} className="w-6 h-6 rounded-lg object-cover ring-2 ring-white shadow-sm" />
+                                 <span className="text-[10px] font-black text-slate-600 uppercase tracking-tight">{m.name}</span>
+                                 <div className={cn(
+                                    "ml-auto w-4.5 h-4.5 rounded border-2 flex items-center justify-center transition-all text-white",
+                                    isChecked ? "bg-primary-600 border-primary-600" : "border-slate-200"
+                                 )}>
+                                    {isChecked && <CheckCircle2 size={10} className="stroke-[3]" />}
+                                 </div>
+                              </div>
+                           );
+                        })}
                      </div>
                   </div>
                </div>
             </div>
 
             <div className="pt-6 flex flex-col gap-4 text-left">
-               <button onClick={() => { showToast('Custom report layout encrypted and saved.'); setShowCustomModal(false); }} className="btn-primary py-5 font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary-200">Construct & Generate</button>
-               <button onClick={() => setShowCustomModal(false)} className="py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-all">Discard Workspace</button>
+               <button 
+                 onClick={handleConstructReport}
+                 disabled={isConstructing}
+                 className="btn-primary py-5 font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary-200 active:scale-[0.98] disabled:bg-primary-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3"
+               >
+                  {isConstructing ? (
+                     <>
+                        <Loader2 size={18} className="animate-spin" />
+                        <span>
+                           {constructStep === 1 ? 'Structuring Origin Data...' : 
+                            constructStep === 2 ? 'Mapping Personnel...' : 'Encrypting Workspace...'}
+                        </span>
+                     </>
+                  ) : (
+                     <>Construct & Generate</>
+                  )}
+               </button>
+               {!isConstructing && (
+                  <button 
+                    type="button" 
+                    onClick={() => {
+                       setCustomReportName('');
+                       setSelectedPersonnel([]);
+                       setShowCustomModal(false);
+                    }} 
+                    className="py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors text-center"
+                  >
+                    Discard Workspace
+                  </button>
+               )}
             </div>
          </div>
       </CenterModal>
@@ -443,10 +590,15 @@ const ManagerReports = () => {
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Transmission Pulse</label>
                   <div className="grid grid-cols-3 gap-4 text-left">
                      {['Weekly', 'Bi-Monthly', 'Monthly'].map(pulse => (
-                        <button key={pulse} type="button" className={cn(
-                           "py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.1em] transition-all border",
-                           pulse === 'Weekly' ? "bg-slate-900 text-white border-slate-900 shadow-xl" : "bg-white text-slate-400 border-slate-100 hover:border-slate-300"
-                        )}>
+                        <button 
+                           key={pulse} 
+                           type="button" 
+                           onClick={() => setScheduleFrequency(pulse)}
+                           className={cn(
+                              "py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.1em] transition-all border active:scale-95",
+                              scheduleFrequency === pulse ? "bg-slate-900 text-white border-slate-900 shadow-xl" : "bg-white text-slate-400 border-slate-100 hover:border-slate-300"
+                           )}
+                        >
                            {pulse}
                         </button>
                      ))}
@@ -457,14 +609,20 @@ const ManagerReports = () => {
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Recipient Channel</label>
                   <div className="relative">
                      <Mail className="absolute left-5 top-5 text-slate-300" size={18} />
-                     <input type="email" placeholder="manager@hcm.ai" className="input-field h-16 pl-14 font-black uppercase tracking-tight" />
+                     <input 
+                        type="email" 
+                        placeholder="manager@hcm.ai" 
+                        className="input-field h-16 pl-14 font-black uppercase tracking-tight" 
+                        value={recipientEmail}
+                        onChange={(e) => setRecipientEmail(e.target.value)}
+                     />
                   </div>
                </div>
             </div>
 
             <div className="pt-6 flex flex-col gap-4 text-left">
-               <button type="submit" className="btn-primary py-5 font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary-200">Activate Secure Loop</button>
-               <button type="button" onClick={() => setShowScheduleModal(false)} className="py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-all text-left flex justify-center">Kill Schedule</button>
+               <button type="submit" className="btn-primary py-5 font-black uppercase tracking-[0.2em] shadow-2xl shadow-primary-200 active:scale-[0.98]">Activate Secure Loop</button>
+               <button type="button" onClick={() => { showToast('Recurring schedule terminated.', 'info'); setShowScheduleModal(false); }} className="py-4 text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 hover:text-rose-600 transition-all text-left flex justify-center active:scale-95">Kill Schedule</button>
             </div>
          </form>
       </CenterModal>
