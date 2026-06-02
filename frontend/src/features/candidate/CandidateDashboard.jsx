@@ -67,15 +67,6 @@ const CandidateDashboard = () => {
  <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Candidate Dashboard</h1>
  <p className="text-slate-500 font-medium tracking-tight">Welcome Back, {profile.fullName.split(' ')[0]}!</p>
  </div>
- <div className="flex items-center gap-3">
- <button 
- onClick={() => navigate('/candidate/jobs')}
- className="btn-primary px-6 py-2.5 flex items-center gap-2 shadow-lg shadow-primary-200"
- >
- <Search size={18} />
- <span>Browse Jobs</span>
- </button>
- </div>
  </div>
 
  {/* Stats Cards Grid */}

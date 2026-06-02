@@ -67,9 +67,9 @@ const BrowseJobs = () => {
  <div className="flex items-center gap-3">
  <button 
  onClick={() => navigate('/candidate/applications')}
- className="flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-xl text-[10px] font-medium hover:bg-slate-50 transition-all shadow-sm active:scale-95"
+ className="btn-primary px-6 py-2.5 flex items-center gap-2 shadow-lg shadow-primary-200"
  >
- <Clock size={16} />
+ <Clock size={18} />
  <span>My Applications</span>
  </button>
  </div>

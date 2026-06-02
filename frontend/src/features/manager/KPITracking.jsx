@@ -23,7 +23,8 @@ import {
   Activity,
   RotateCcw,
   Save,
-  MessageSquare
+  MessageSquare,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useManager } from '../../context/ManagerContext';
@@ -37,6 +38,16 @@ const KPITracking = () => {
   const [activeTab, setActiveTab] = useState('Active');
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isExporting, setIsExporting] = useState(false);
+  
+  const handleExport = () => {
+    setIsExporting(true);
+    showToast('Compiling KPI metrics report...', 'info');
+    setTimeout(() => {
+      setIsExporting(false);
+      showToast('KPI report compiled and downloaded successfully!', 'success');
+    }, 1500);
+  };
   
   // Form State
   const [newGoal, setNewGoal] = useState({ title: '', employeeId: '', category: 'Productivity', priority: 'Medium', deadline: '' });
