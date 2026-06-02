@@ -21,7 +21,8 @@ import {
   ChevronRight,
   UserPlus,
   Send,
-  CalendarCheck
+  CalendarCheck,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useHR } from '../../context/HRContext';
@@ -31,6 +32,38 @@ const HRDashboard = () => {
   const { jobs, candidates, interviews, showToast } = useHR();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [isExporting, setIsExporting] = React.useState(false);
+
+  const handleExportReport = () => {
+    setIsExporting(true);
+    showToast('Compiling recruitment and applicant metrics...', 'info');
+    setTimeout(() => {
+      try {
+        const headers = ['Candidate Name', 'Applied Role', 'Current Stage', 'AI Match Score', 'Date Applied'];
+        const rows = candidates.map(c => [
+          `"${c.name}"`,
+          `"${c.role}"`,
+          `"${c.stage}"`,
+          `"${c.match}%"`,
+          `"${c.date || 'N/A'}"`
+        ]);
+        const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `recruitment_analytics_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('HR Recruitment Report exported successfully!', 'success');
+      } catch (err) {
+        showToast('Error exporting HR report', 'error');
+      } finally {
+        setIsExporting(false);
+      }
+    }, 1500);
+  };
+
   // Dynamic Calculation
   const openJobsCount = jobs.filter(j => j.status === 'Published').length;
   const newApplicants = candidates.filter(c => new Date(c.date).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000).length;
@@ -78,8 +111,12 @@ const HRDashboard = () => {
           <p className="text-slate-500 font-medium">Monitor recruitment pipeline and hiring performance</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => showToast('Report Exported as CSV')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
-            <Download size={18} />
+          <button 
+            onClick={handleExportReport} 
+            disabled={isExporting}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 active:scale-95 transition-all disabled:opacity-50"
+          >
+            {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
             <span>Export Report</span>
           </button>
           <button onClick={() => navigate('/hr/jobs', { state: { openCreate: true } })} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
@@ -199,11 +236,11 @@ const HRDashboard = () => {
                              <td className="px-6 py-5">
                                 <span className={cn(
                                    "px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider",
-                                   app.status === 'Interview' ? "bg-purple-50 text-purple-600" :
-                                   app.status === 'Shortlisted' ? "bg-blue-50 text-blue-600" :
-                                   app.status === 'Screening' ? "bg-amber-50 text-amber-600" : "bg-slate-100 text-slate-600"
+                                   app.stage === 'Interview' ? "bg-purple-50 text-purple-600" :
+                                   app.stage === 'Shortlisted' ? "bg-blue-50 text-blue-600" :
+                                   app.stage === 'Screening' ? "bg-amber-50 text-amber-600" : "bg-slate-100 text-slate-600"
                                 )}>
-                                   {app.status}
+                                   {app.stage}
                                 </span>
                              </td>
                              <td className="px-6 py-5 text-right">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { 
   Clock, 
   CalendarDays, 
@@ -19,11 +20,11 @@ import {
   FileText,
   X,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useEmployee } from '../../context/EmployeeContext';
-import { useNavigate } from 'react-router-dom';
 import CenterModal from '../../shared/components/layout/CenterModal';
 
 const EmployeeDashboard = () => {
@@ -40,6 +41,18 @@ const EmployeeDashboard = () => {
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+
+  // New interactive states for premium loaders
+  const [isViewingPayslip, setIsViewingPayslip] = useState(false);
+  const [isSubmittingLeave, setIsSubmittingLeave] = useState(false);
+  const [leaveStep, setLeaveStep] = useState('');
+  const [isRegisteringClock, setIsRegisteringClock] = useState(false);
+  const [clockStep, setClockStep] = useState('');
+  const [isOpeningBoard, setIsOpeningBoard] = useState(false);
+  const [showDetailBoardModal, setShowDetailBoardModal] = useState(false);
+  const [showHolidayModal, setShowHolidayModal] = useState(false);
+  const [isSyncingCalendar, setIsSyncingCalendar] = useState(false);
+  const [isDownloadingAttachment, setIsDownloadingAttachment] = useState(false);
 
   // Time tracking logic
   const [workedSeconds, setWorkedSeconds] = useState(0);
@@ -89,13 +102,107 @@ const EmployeeDashboard = () => {
       emergencyContact: formData.get('emergency'),
       days: 1 // Mock calc
     };
-    requestLeave(newReq);
-    setShowLeaveModal(false);
-    showToast('Leave request submitted successfully');
+    
+    setIsSubmittingLeave(true);
+    setLeaveStep('Validating request dates...');
+    
+    setTimeout(() => {
+      setLeaveStep('Verifying leave balance...');
+      setTimeout(() => {
+        setLeaveStep('Routing request to manager...');
+        setTimeout(() => {
+          requestLeave(newReq);
+          setIsSubmittingLeave(false);
+          setLeaveStep('');
+          setShowLeaveModal(false);
+          showToast('Leave request submitted successfully');
+        }, 500);
+      }, 500);
+    }, 500);
+  };
+
+  const handleClockIn = () => {
+    setIsRegisteringClock(true);
+    setClockStep('Pinging GPS coordinates...');
+    setTimeout(() => {
+      setClockStep('Authenticating signature...');
+      setTimeout(() => {
+        setClockStep('Registering work session...');
+        setTimeout(() => {
+          clockIn();
+          setIsRegisteringClock(false);
+          setClockStep('');
+          showToast('Clocked in successfully');
+        }, 500);
+      }, 500);
+    }, 500);
+  };
+
+  const handleClockOut = () => {
+    setIsRegisteringClock(true);
+    setClockStep('Calculating work hours...');
+    setTimeout(() => {
+      setClockStep('Registering punch out...');
+      setTimeout(() => {
+        clockOut();
+        setIsRegisteringClock(false);
+        setClockStep('');
+        showToast('Clocked out successfully');
+      }, 500);
+    }, 500);
+  };
+
+  const handleViewPayslip = () => {
+    setIsViewingPayslip(true);
+    showToast('Loading payroll documents...', 'info');
+    setTimeout(() => {
+      setIsViewingPayslip(false);
+      navigate('/employee/payroll');
+    }, 1000);
+  };
+
+  const handleOpenDetailBoard = () => {
+    setIsOpeningBoard(true);
+    showToast('Accessing announcement feed...', 'info');
+    setTimeout(() => {
+      setIsOpeningBoard(false);
+      setShowDetailBoardModal(true);
+    }, 1200);
+  };
+
+  const handleSyncHoliday = () => {
+    setIsSyncingCalendar(true);
+    showToast('Authenticating with Google Calendar...', 'info');
+    setTimeout(() => {
+      setIsSyncingCalendar(false);
+      showToast('Halloween Fest synced to Google Calendar successfully!');
+    }, 1200);
+  };
+
+  const handleDownloadAttachment = () => {
+    setIsDownloadingAttachment(true);
+    showToast('Retrieving secure notice attachment...', 'info');
+    setTimeout(() => {
+      try {
+        const text = `HCM.ai Confidential Digital Notice - Announcement Details Roster`;
+        const file = new Blob([text], {type: 'text/plain'});
+        const element = document.createElement("a");
+        element.href = URL.createObjectURL(file);
+        element.download = "Attachment_Info.txt";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+        showToast('Notice details downloaded successfully!');
+      } catch (err) {
+        showToast('Error downloading attachment', 'error');
+      } finally {
+        setIsDownloadingAttachment(false);
+      }
+    }, 1200);
   };
 
   return (
-    <div className="space-y-8 pb-12 animate-fade-in">
+    <div className="space-y-8 pb-12 animate-fade-in focus:outline-none">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -103,11 +210,18 @@ const EmployeeDashboard = () => {
           <p className="text-slate-500 font-medium text-lg tracking-tight">Everything looks great. You have {performance.goals.filter(g=>g.progress < 100).length} active goals to focus on.</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate('/employee/payroll')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
-            <FileText size={18} />
+          <button 
+            onClick={handleViewPayslip} 
+            disabled={isViewingPayslip}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 active:scale-95 transition-all disabled:opacity-50"
+          >
+            {isViewingPayslip ? <Loader2 size={18} className="animate-spin" /> : <FileText size={18} />}
             <span className="hidden sm:inline">View Payslip</span>
           </button>
-          <button onClick={() => setShowLeaveModal(true)} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
+          <button 
+            onClick={() => setShowLeaveModal(true)} 
+            className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200 active:scale-95 transition-all"
+          >
              <Plus size={18} />
              <span>Request Leave</span>
           </button>
@@ -165,17 +279,43 @@ const EmployeeDashboard = () => {
                     </div>
                  </div>
                  {attendance.isClockedIn ? (
-                    <button onClick={clockOut} className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-rose-100 hover:bg-rose-700 active:scale-95 transition-all">Clock Out</button>
+                    <button 
+                      onClick={handleClockOut} 
+                      disabled={isRegisteringClock}
+                      className="w-full py-4 bg-rose-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-rose-100 hover:bg-rose-700 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:bg-rose-400"
+                    >
+                      {isRegisteringClock ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          <span>{clockStep}</span>
+                        </>
+                      ) : (
+                        <span>Clock Out</span>
+                      )}
+                    </button>
                  ) : (
-                    <button onClick={clockIn} className="w-full py-4 bg-primary-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-primary-100 hover:bg-primary-700 active:scale-95 transition-all">Clock In</button>
+                    <button 
+                      onClick={handleClockIn} 
+                      disabled={isRegisteringClock}
+                      className="w-full py-4 bg-primary-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-primary-100 hover:bg-primary-700 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:bg-primary-400"
+                    >
+                      {isRegisteringClock ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          <span>{clockStep}</span>
+                        </>
+                      ) : (
+                        <span>Clock In</span>
+                      )}
+                    </button>
                  )}
               </div>
 
-              <div className="flex-1 grid grid-cols-2 gap-8 w-full border-l lg:border-slate-50 lg:pl-10">
+              <div className="flex-1 grid grid-cols-2 gap-8 w-full border-l lg:border-slate-50 lg:pl-10 text-left">
                  <div className="space-y-6">
                     <div className="space-y-1">
                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Start Time</p>
-                       <p className="text-lg font-black text-slate-800">{attendance.isClockedIn ? new Date(attendance.clockInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}</p>
+                       <p className="text-lg font-black text-slate-880">{attendance.isClockedIn ? new Date(attendance.clockInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--'}</p>
                     </div>
                     <div className="space-y-1">
                        <p className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em]">Total Mode</p>
@@ -187,7 +327,7 @@ const EmployeeDashboard = () => {
                        <p className="text-[10px] font-black uppercase tracking-[0.2em]">Daily Target</p>
                        <p className="text-lg font-black">09:00 Hrs</p>
                     </div>
-                    <div className="space-y-1 text-primary-600 cursor-pointer group" onClick={() => navigate('/employee/attendance')}>
+                    <div className="space-y-1 text-primary-600 cursor-pointer group active:scale-95 transition-all" onClick={() => navigate('/employee/attendance')}>
                        <p className="text-[10px] font-black uppercase tracking-[0.2em] group-hover:underline">View History</p>
                        <p className="text-lg font-black flex items-center gap-1">Details <ChevronRight size={16} /></p>
                     </div>
@@ -202,12 +342,12 @@ const EmployeeDashboard = () => {
                     <CheckSquare className="text-primary-600" size={24} />
                     Current Goals
                  </h3>
-                 <button onClick={() => navigate('/employee/performance')} className="text-xs font-black text-primary-600 uppercase tracking-widest hover:underline">Full Strategy</button>
+                 <button onClick={() => navigate('/employee/performance')} className="text-xs font-black text-primary-600 uppercase tracking-widest hover:underline active:scale-95 transition-all">Full Strategy</button>
               </div>
               <div className="divide-y divide-slate-50">
                  {performance.goals.map((goal) => (
                     <div key={goal.id} className="p-6 flex items-center justify-between group hover:bg-slate-50/50 transition-colors">
-                       <div className="flex-1 mr-8">
+                       <div className="flex-1 mr-8 text-left">
                           <div className="flex items-center justify-between mb-2">
                              <span className="text-sm font-black text-slate-800 uppercase tracking-tight">{goal.title}</span>
                              <span className="text-xs font-black text-slate-400">{goal.progress}%</span>
@@ -243,11 +383,11 @@ const EmployeeDashboard = () => {
               <div className="absolute top-0 right-0 p-4 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
                  <Bell size={120} />
               </div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-400 mb-8 flex items-center gap-2">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-400 mb-8 flex items-center gap-2 text-left">
                  <div className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-pulse" />
                  Announcements
               </h3>
-              <div className="space-y-8 relative z-10">
+              <div className="space-y-8 relative z-10 text-left">
                  {announcements.map((ann, i) => (
                     <div key={i} className="flex gap-5 group/item cursor-pointer" onClick={() => setSelectedAnnouncement(ann)}>
                        <div className="flex flex-col items-center">
@@ -267,13 +407,27 @@ const EmployeeDashboard = () => {
                     </div>
                  ))}
               </div>
-              <button className="w-full mt-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-2">
-                 View Detail Board <ArrowRight size={14} />
+              <button 
+                onClick={handleOpenDetailBoard}
+                disabled={isOpeningBoard}
+                className="w-full mt-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+              >
+                 {isOpeningBoard ? (
+                   <>
+                     <Loader2 size={14} className="animate-spin" />
+                     <span>Accessing Feed...</span>
+                   </>
+                 ) : (
+                   <>
+                     <span>View Detail Board</span>
+                     <ArrowRight size={14} />
+                   </>
+                 )}
               </button>
            </div>
 
            {/* Upcoming Holiday Card */}
-           <div className="card p-8 border-none bg-white shadow-soft group hover:shadow-xl transition-all">
+           <div className="card p-8 border-none bg-white shadow-soft group hover:shadow-xl transition-all text-left">
               <div className="flex items-center justify-between mb-8">
                  <h3 className="text-lg font-black text-slate-900 italic tracking-tight">Public Holiday</h3>
                  <div className="p-2 bg-indigo-50 rounded-xl text-indigo-600 transition-transform group-hover:rotate-12">
@@ -295,7 +449,7 @@ const EmployeeDashboard = () => {
                     <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Next Friday</span>
                  </div>
-                 <button className="p-2 hover:bg-slate-50 rounded-xl transition-all text-slate-400 hover:text-primary-600">
+                 <button onClick={() => setShowHolidayModal(true)} className="p-2 hover:bg-slate-50 rounded-xl transition-all text-slate-400 hover:text-primary-600 active:scale-95">
                     <ArrowUpRight size={18} />
                  </button>
               </div>
@@ -304,12 +458,12 @@ const EmployeeDashboard = () => {
       </div>
 
       {/* Leave Request Modal */}
-      <CenterModal isOpen={showLeaveModal} onClose={() => setShowLeaveModal(false)} title="Request New Leave">
+      <CenterModal isOpen={showLeaveModal} onClose={() => !isSubmittingLeave && setShowLeaveModal(false)} title="Request New Leave">
          <form onSubmit={handleRequestLeave} className="p-8 space-y-6">
             <div className="grid grid-cols-2 gap-6">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Leave Type</label>
-                  <select name="type" className="input-field h-14 bg-slate-50 border-transparent font-bold">
+                  <select name="type" disabled={isSubmittingLeave} className="input-field h-14 bg-slate-50 border-transparent font-bold">
                      <option>Sick Leave</option>
                      <option>Annual Leave</option>
                      <option>Casual Leave</option>
@@ -323,24 +477,33 @@ const EmployeeDashboard = () => {
                </div>
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Start Date</label>
-                  <input name="startDate" type="date" required className="input-field h-14 bg-slate-50 border-transparent font-bold" />
+                  <input name="startDate" type="date" required disabled={isSubmittingLeave} className="input-field h-14 bg-slate-50 border-transparent font-bold" />
                </div>
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">End Date</label>
-                  <input name="endDate" type="date" required className="input-field h-14 bg-slate-50 border-transparent font-bold" />
+                  <input name="endDate" type="date" required disabled={isSubmittingLeave} className="input-field h-14 bg-slate-50 border-transparent font-bold" />
                </div>
             </div>
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Reason for Leave</label>
-               <textarea name="reason" rows="3" required className="input-field py-4 bg-slate-50 border-transparent font-bold resize-none" placeholder="Provide a brief explanation..."></textarea>
+               <textarea name="reason" rows="3" required disabled={isSubmittingLeave} className="input-field py-4 bg-slate-50 border-transparent font-bold resize-none" placeholder="Provide a brief explanation..."></textarea>
             </div>
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Emergency Contact While Away</label>
-               <input name="emergency" type="text" required placeholder="+1 (555) 000-0000" className="input-field h-14 bg-slate-50 border-transparent font-bold" />
+               <input name="emergency" type="text" required disabled={isSubmittingLeave} placeholder="+1 (555) 000-0000" className="input-field h-14 bg-slate-50 border-transparent font-bold" />
             </div>
             <div className="pt-4 flex gap-4">
-               <button type="button" onClick={() => setShowLeaveModal(false)} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest">Cancel</button>
-               <button type="submit" className="flex-2 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-slate-200 active:scale-95 transition-all">Submit Request</button>
+               <button type="button" disabled={isSubmittingLeave} onClick={() => setShowLeaveModal(false)} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-200">Cancel</button>
+               <button type="submit" disabled={isSubmittingLeave} className="flex-2 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-slate-200 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:bg-slate-800 disabled:cursor-not-allowed">
+                  {isSubmittingLeave ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      <span>{leaveStep}</span>
+                    </>
+                  ) : (
+                    <span>Submit Request</span>
+                  )}
+               </button>
             </div>
          </form>
       </CenterModal>
@@ -365,15 +528,75 @@ const EmployeeDashboard = () => {
                   <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary-600 shadow-sm">
                      <FileText size={24} />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 text-left">
                      <p className="text-sm font-black text-slate-900">Attachment_Info.pdf</p>
                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Digital Notice • 1.2 MB</p>
                   </div>
-                  <button className="btn-secondary p-3 rounded-xl"><ChevronRight size={20} /></button>
+                  <button 
+                    type="button" 
+                    onClick={handleDownloadAttachment}
+                    disabled={isDownloadingAttachment}
+                    className="btn-secondary p-3 rounded-xl hover:bg-slate-100 flex items-center justify-center active:scale-95 transition-all disabled:opacity-50"
+                  >
+                    {isDownloadingAttachment ? <Loader2 size={20} className="animate-spin" /> : <ChevronRight size={20} />}
+                  </button>
                </div>
                <button onClick={() => setSelectedAnnouncement(null)} className="w-full mt-10 py-5 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-slate-200">Close Notice</button>
             </div>
          )}
+      </CenterModal>
+
+      {/* Announcements Board Modal */}
+      <CenterModal isOpen={showDetailBoardModal} onClose={() => setShowDetailBoardModal(false)} title="HCM.ai Announcements Board">
+         <div className="p-8 space-y-6 text-left max-h-[70vh] overflow-y-auto">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Active System Broadcasts</p>
+            <div className="space-y-6">
+               {announcements.map((ann, i) => (
+                  <div key={i} className="p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-primary-200 transition-all cursor-pointer" onClick={() => { setShowDetailBoardModal(false); setSelectedAnnouncement(ann); }}>
+                     <div className="flex justify-between items-start mb-4">
+                        <span className={cn(
+                           "px-2.5 py-1 rounded text-[9px] font-black uppercase tracking-widest",
+                           ann.priority === 'high' ? "bg-rose-50 text-rose-600" : ann.priority === 'medium' ? "bg-amber-50 text-amber-600" : "bg-primary-50 text-primary-600"
+                        )}>{ann.priority} Priority</span>
+                        <span className="text-[10px] font-black text-slate-400">{ann.date}</span>
+                     </div>
+                     <h4 className="text-base font-black text-slate-900 leading-tight mb-2">{ann.title}</h4>
+                     <p className="text-xs font-medium text-slate-500 line-clamp-2">{ann.content}</p>
+                  </div>
+               ))}
+            </div>
+            <button onClick={() => setShowDetailBoardModal(false)} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest">Close Board</button>
+         </div>
+      </CenterModal>
+
+      {/* Holiday Info Vault Modal */}
+      <CenterModal isOpen={showHolidayModal} onClose={() => setShowHolidayModal(false)} title="Halloween Fest Holiday">
+         <div className="p-8 text-left space-y-6">
+            <div className="flex items-center gap-5 p-6 bg-slate-50 border border-slate-100 rounded-3xl">
+               <div className="w-16 h-16 rounded-2xl bg-indigo-50 border-2 border-indigo-100 flex flex-col items-center justify-center shadow-inner">
+                  <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Oct</span>
+                  <span className="text-2xl font-black text-slate-900 leading-none mt-1">31</span>
+               </div>
+               <div>
+                  <h3 className="text-lg font-black text-slate-900 leading-none">Halloween Fest</h3>
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1.5">Optional Paid Company Holiday</p>
+               </div>
+            </div>
+            <p className="text-sm font-medium text-slate-600 leading-relaxed">
+               On Friday, October 31st, HCM.ai is celebrating Halloween Fest with optional paid holiday closures for non-critical operational crews. Please align with your direct supervisor if your role covers live emergency service queues.
+            </p>
+            <div className="pt-4 flex gap-4">
+               <button onClick={() => setShowHolidayModal(false)} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-200">Close Info</button>
+               <button 
+                 onClick={handleSyncHoliday}
+                 disabled={isSyncingCalendar}
+                 className="flex-2 py-4 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-indigo-100 flex items-center justify-center gap-2 active:scale-95 transition-all disabled:bg-indigo-400"
+               >
+                 {isSyncingCalendar ? <Loader2 size={18} className="animate-spin" /> : <Calendar size={18} />}
+                 <span>Sync Calendar</span>
+               </button>
+            </div>
+         </div>
       </CenterModal>
     </div>
   );

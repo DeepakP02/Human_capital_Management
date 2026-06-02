@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
   Plus, Search, RotateCcw, MoreVertical, 
-  Download, Users, User, MoreHorizontal, X, ExternalLink, MapPin, Mail, Phone, Calendar
+  Download, Users, User, MoreHorizontal, X, ExternalLink, MapPin, Mail, Phone, Calendar, Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useHR } from '../../context/HRContext';
@@ -15,6 +15,7 @@ const HiringPipeline = () => {
   const [activeCandidate, setActiveCandidate] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('');
+  const [isExporting, setIsExporting] = useState(false);
 
   const stages = [
     { id: 'Applied', label: 'Applied', color: 'bg-slate-100 text-slate-600' },
@@ -24,6 +25,38 @@ const HiringPipeline = () => {
     { id: 'Offer', label: 'Offer', color: 'bg-emerald-50 text-emerald-600' },
     { id: 'Hired', label: 'Hired', color: 'bg-indigo-50 text-indigo-600' },
   ];
+
+  const handleExportPipeline = () => {
+    setIsExporting(true);
+    showToast('Compiling recruitment funnel data...', 'info');
+    setTimeout(() => {
+      try {
+        const headers = ['Candidate Name', 'Target Role', 'Current Pipeline Stage', 'AI Match Rating', 'Experience'];
+        const rows = candidates
+          .filter(c => c.stage !== 'Rejected')
+          .map(c => [
+            `"${c.name}"`,
+            `"${c.role}"`,
+            `"${c.stage}"`,
+            `"${c.match}%"`,
+            `"${c.exp || 'N/A'}"`
+          ]);
+        const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `hiring_pipeline_funnel_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('Pipeline data exported successfully!', 'success');
+      } catch (err) {
+        showToast('Error exporting pipeline data', 'error');
+      } finally {
+        setIsExporting(false);
+      }
+    }, 1500);
+  };
 
   const filteredCandidates = candidates.filter(c => {
     const matchSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -75,8 +108,12 @@ const HiringPipeline = () => {
           <p className="text-slate-500 font-medium">Track and move candidates through each hiring stage</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => showToast('Pipeline exported as PDF')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
-            <Download size={18} />
+          <button 
+            onClick={handleExportPipeline} 
+            disabled={isExporting}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 active:scale-95 transition-all disabled:opacity-50"
+          >
+            {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
             <span className="hidden sm:inline">Export Pipeline</span>
           </button>
           <button onClick={() => navigate('/hr/candidates', { state: { openCreate: true } })} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">

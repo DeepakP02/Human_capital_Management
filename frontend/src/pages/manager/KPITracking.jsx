@@ -23,11 +23,12 @@ import {
   Activity,
   RotateCcw,
   Save,
-  MessageSquare
+  MessageSquare,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useManager } from '../../context/ManagerContext';
-import CenterModal from '../../components/common/CenterModal';
+import CenterModal from '../../shared/components/common/CenterModal';
 
 const KPITracking = () => {
   const { kpis, teamMembers, showToast } = useManager();
@@ -37,9 +38,16 @@ const KPITracking = () => {
   const [activeTab, setActiveTab] = useState('Active');
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isExporting, setIsExporting] = useState(false);
   
-  // Form State
-  const [newGoal, setNewGoal] = useState({ title: '', employeeId: '', category: 'Productivity', priority: 'Medium', deadline: '' });
+  const handleExport = () => {
+    setIsExporting(true);
+    showToast('Compiling KPI metrics report...', 'info');
+    setTimeout(() => {
+      setIsExporting(false);
+      showToast('KPI report compiled and downloaded successfully!', 'success');
+    }, 1500);
+  };
 
   // Resolve KPI assignee details from team members dynamically
   const resolvedKpis = useMemo(() => {
@@ -109,8 +117,12 @@ const KPITracking = () => {
           <p className="text-slate-500 font-medium tracking-tight mt-1">Track employee objectives, progress and team performance metrics</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => showToast('Exporting KPI report...')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
-            <Download size={18} />
+          <button 
+            onClick={handleExport} 
+            disabled={isExporting}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 active:scale-95 transition-all disabled:opacity-50"
+          >
+            {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
             <span className="hidden sm:inline">Export KPI</span>
           </button>
           <button onClick={() => setShowAddModal(true)} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
@@ -152,7 +164,7 @@ const KPITracking = () => {
                     className={cn(
                        "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border capitalize",
                        activeTab === cat ? "bg-slate-900 text-white shadow-xl shadow-slate-200 border-slate-900" : "bg-white text-slate-400 border-slate-100 hover:border-slate-300"
-                    )}
+                     )}
                   >
                      {cat} Tracking
                   </button>

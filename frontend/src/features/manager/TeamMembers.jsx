@@ -26,7 +26,8 @@ import {
   ExternalLink,
   MessageSquare,
   FileText,
-  LayoutGrid
+  LayoutGrid,
+  Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useManager } from '../../context/ManagerContext';
@@ -38,6 +39,7 @@ const TeamMembers = () => {
   // UI States
   const [selectedMember, setSelectedMember] = useState(null);
   const [profileTab, setProfileTab] = useState('summary');
+  const [isExporting, setIsExporting] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   
   // Filter States
@@ -79,7 +81,35 @@ const TeamMembers = () => {
   };
 
   const handleExport = () => {
-    showToast('Exporting team list to CSV...');
+    setIsExporting(true);
+    showToast('Preparing team roster database...', 'info');
+    setTimeout(() => {
+      try {
+        const headers = ['Name', 'Email', 'Role', 'Department', 'Phone', 'Join Date', 'Status'];
+        const rows = teamMembers.map(m => [
+          `"${m.name}"`,
+          `"${m.email}"`,
+          `"${m.role}"`,
+          `"${m.department}"`,
+          `"${m.phone || 'N/A'}"`,
+          `"${m.joinDate || 'N/A'}"`,
+          `"${m.status}"`
+        ]);
+        const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `team_members_export_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('Team roster database exported successfully!', 'success');
+      } catch (err) {
+        showToast('Error exporting team members', 'error');
+      } finally {
+        setIsExporting(false);
+      }
+    }, 1500);
   };
 
   return (
@@ -93,9 +123,10 @@ const TeamMembers = () => {
         <div className="flex items-center gap-3">
           <button 
             onClick={handleExport}
-            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2"
+            disabled={isExporting}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 active:scale-95 transition-all disabled:opacity-50"
           >
-            <Download size={18} />
+            {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
             <span className="hidden sm:inline">Export List</span>
           </button>
           <button 

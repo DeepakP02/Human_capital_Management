@@ -6,7 +6,7 @@ import {
   MoreVertical, Users, Briefcase, Calendar, 
   MapPin, DollarSign, CheckCircle2, Clock, 
   AlertCircle, X, FileText, ChevronRight, Eye, 
-  Edit2, Copy, Archive, Trash2, Sparkles
+  Edit2, Copy, Archive, Trash2, Sparkles, Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useHR } from '../../context/HRContext';
@@ -21,10 +21,43 @@ const JobPosts = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredDept, setFilteredDept] = useState('');
   const [filteredStatus, setFilteredStatus] = useState('');
+  const [isExporting, setIsExporting] = useState(false);
 
   const [formData, setFormData] = useState({
     title: '', department: 'Design', openings: 1, salary: '', type: 'Full Time', description: '', status: 'Published'
   });
+
+  const handleExportJobs = () => {
+    setIsExporting(true);
+    showToast('Preparing job listings database...', 'info');
+    setTimeout(() => {
+      try {
+        const headers = ['Job Title', 'Department', 'Job Type', 'Salary Range', 'Openings', 'Status', 'Applicants'];
+        const rows = jobs.map(j => [
+          `"${j.title}"`,
+          `"${j.department}"`,
+          `"${j.type}"`,
+          `"${j.salary || 'N/A'}"`,
+          `"${j.openings || 1}"`,
+          `"${j.status}"`,
+          `"${j.applied || 0}"`
+        ]);
+        const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `job_listings_export_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('Job posts exported successfully!', 'success');
+      } catch (err) {
+        showToast('Error exporting job posts', 'error');
+      } finally {
+        setIsExporting(false);
+      }
+    }, 1500);
+  };
 
   useEffect(() => {
     if (location.state?.openCreate) {
@@ -122,8 +155,12 @@ const JobPosts = () => {
           <p className="text-slate-500 font-medium">Create, manage and publish hiring opportunities</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => showToast('Jobs exported to CSV')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
-            <Download size={18} />
+          <button 
+            onClick={handleExportJobs} 
+            disabled={isExporting}
+            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 active:scale-95 transition-all disabled:opacity-50"
+          >
+            {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} />}
             <span className="hidden sm:inline">Export Jobs</span>
           </button>
           <button onClick={handleOpenCreate} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
