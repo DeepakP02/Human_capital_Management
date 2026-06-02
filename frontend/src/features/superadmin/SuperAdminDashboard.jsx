@@ -104,7 +104,7 @@ const SuperAdminDashboard = () => {
     >
       <PageHeader
         icon={LayoutDashboard}
-        title="Super User Master Console"
+        title="Super Admin Master Console"
         subtitle="Enterprise Management Console • Dynamic analytics, security shields, and platform configurations."
       />
 
@@ -117,7 +117,7 @@ const SuperAdminDashboard = () => {
 
       {/* Details Area */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        
+
         {/* Revenue & ARR Widget - Takes up 2 cols on XL */}
         <motion.div
           variants={cardVariants}
@@ -182,24 +182,24 @@ const SuperAdminDashboard = () => {
 
           {/* Additional Platform Health Blocks */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-             <div className="p-5 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/10 border border-indigo-100 dark:border-indigo-900/30 flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-bold text-indigo-900 dark:text-indigo-100">Benefits HCM Overview</h4>
-                  <p className="text-xs text-indigo-600/70 dark:text-indigo-400">84% Employee Enrollment Rate</p>
-                </div>
-                <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-900 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-100 dark:border-slate-800">
-                  <ShieldCheck size={18} />
-                </div>
-             </div>
-             <div className="p-5 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-100 dark:border-emerald-900/30 flex items-center justify-between">
-                <div>
-                  <h4 className="text-sm font-bold text-emerald-900 dark:text-emerald-100">Time & Attendance</h4>
-                  <p className="text-xs text-emerald-600/70 dark:text-emerald-400">12,450 Active Time Logs Today</p>
-                </div>
-                <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-900 flex items-center justify-center text-emerald-600 shadow-sm border border-emerald-100 dark:border-slate-800">
-                  <TrendingUp size={18} />
-                </div>
-             </div>
+            <div className="p-5 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/10 border border-indigo-100 dark:border-indigo-900/30 flex items-center justify-between">
+              <div>
+                <h4 className="text-sm font-bold text-indigo-900 dark:text-indigo-100">Benefits HCM Overview</h4>
+                <p className="text-xs text-indigo-600/70 dark:text-indigo-400">84% Employee Enrollment Rate</p>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-900 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-100 dark:border-slate-800">
+                <ShieldCheck size={18} />
+              </div>
+            </div>
+            <div className="p-5 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-100 dark:border-emerald-900/30 flex items-center justify-between">
+              <div>
+                <h4 className="text-sm font-bold text-emerald-900 dark:text-emerald-100">Time & Attendance</h4>
+                <p className="text-xs text-emerald-600/70 dark:text-emerald-400">12,450 Active Time Logs Today</p>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-900 flex items-center justify-center text-emerald-600 shadow-sm border border-emerald-100 dark:border-slate-800">
+                <TrendingUp size={18} />
+              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -289,9 +289,9 @@ const SuperAdminDashboard = () => {
               ))}
             </div>
             <div className="bg-slate-50 dark:bg-slate-800/30 rounded-2xl p-6 border border-slate-100 dark:border-slate-800 flex flex-col justify-center text-center items-center">
-               <ShieldCheck size={32} className="text-emerald-500 mb-3" />
-               <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 mb-1">System Health is Optimal</h3>
-               <p className="text-xs text-slate-500 max-w-[200px]">No security breaches or unauthorized access detected in the last 30 days.</p>
+              <ShieldCheck size={32} className="text-emerald-500 mb-3" />
+              <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 mb-1">System Health is Optimal</h3>
+              <p className="text-xs text-slate-500 max-w-[200px]">No security breaches or unauthorized access detected in the last 30 days.</p>
             </div>
           </div>
         </motion.div>

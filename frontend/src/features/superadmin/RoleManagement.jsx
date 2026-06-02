@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useSuperAdmin } from '../../context/SuperAdminContext';
-import { 
-  Shield, 
-  Plus, 
-  Trash2, 
-  Edit3, 
-  Search, 
-  X, 
+import {
+  Shield,
+  Plus,
+  Trash2,
+  Edit3,
+  Search,
+  X,
   Key,
   ShieldAlert,
   Check
@@ -14,22 +14,22 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 
 const PERMISSION_OPTIONS = [
-  // Super User / Platform
+  // Super Admin / Platform
   { id: 'manage_users', label: 'Manage Users', desc: 'Create, update, and revoke user credentials', category: 'Platform' },
   { id: 'manage_roles', label: 'Manage Security Roles', desc: 'Establish and modify role clearance groups', category: 'Platform' },
   { id: 'manage_departments', label: 'Manage Departments', desc: 'Reorganize company departments and metadata', category: 'Platform' },
   { id: 'view_audit_logs', label: 'View Platform Audit Logs', desc: 'Investigate operational changes and log traces', category: 'Platform' },
-  
+
   // HR Module
   { id: 'hr_candidates', label: 'Manage Candidates', desc: 'View and process candidate applications', category: 'HR' },
   { id: 'hr_interviews', label: 'Schedule Interviews', desc: 'Manage interview pipelines', category: 'HR' },
   { id: 'hr_onboarding', label: 'Manage Onboarding', desc: 'Run onboarding checklists for new hires', category: 'HR' },
-  
+
   // Manager Module
   { id: 'mgr_attendance', label: 'Attendance Review', desc: 'Review team attendance logs', category: 'Manager' },
   { id: 'mgr_leave', label: 'Leave Approval', desc: 'Approve or reject team leave requests', category: 'Manager' },
   { id: 'mgr_tasks', label: 'Task Management', desc: 'Assign and evaluate tasks', category: 'Manager' },
-  
+
   // Employee Module
   { id: 'emp_payroll', label: 'View Payroll', desc: 'Access payslips and salary info', category: 'Employee' },
   { id: 'emp_attendance', label: 'Log Attendance', desc: 'Clock in and clock out', category: 'Employee' },
@@ -41,7 +41,7 @@ const RoleManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRole, setEditingRole] = useState(null);
-  
+
   // Form State
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -50,7 +50,7 @@ const RoleManagement = () => {
   // Helper to dynamically get or fallback permissions for default mock roles
   const getRolePermissions = (role) => {
     if (role.permissions) return role.permissions;
-    if (role.name === 'Super User') return PERMISSION_OPTIONS.map(p => p.id);
+    if (role.name === 'Super Admin') return PERMISSION_OPTIONS.map(p => p.id);
     if (role.name === 'Admin') return ['manage_users', 'manage_departments', 'view_audit_logs'];
     if (role.name === 'HR Manager') return ['hr_candidates', 'hr_interviews', 'hr_onboarding', 'emp_payroll', 'emp_attendance', 'emp_documents'];
     if (role.name === 'Manager') return ['mgr_attendance', 'mgr_leave', 'mgr_tasks', 'emp_payroll', 'emp_attendance', 'emp_documents'];
@@ -96,7 +96,7 @@ const RoleManagement = () => {
     setIsModalOpen(false);
   };
 
-  const filteredRoles = roles.filter(role => 
+  const filteredRoles = roles.filter(role =>
     role.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     role.description.toLowerCase().includes(searchTerm.toLowerCase())
   );

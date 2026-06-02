@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  LogOut, 
+import {
+  ChevronLeft,
+  ChevronRight,
+  LogOut,
   Cpu,
   ChevronDown,
   Home,
@@ -22,12 +22,12 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
   const [isHovered, setIsHovered] = useState(false);
   const isExpanded = !collapsed || isHovered;
 
-  const isSuperAdmin = effectiveRole?.toLowerCase() === 'superadmin' || effectiveRole?.toLowerCase() === 'superuser';
-  const roleKey = isSuperAdmin ? 'superuser' : (effectiveRole?.toLowerCase() || '');
+  const isSuperAdmin = effectiveRole?.toLowerCase() === 'superadmin' || effectiveRole?.toLowerCase() === 'superadmin';
+  const roleKey = isSuperAdmin ? 'superadmin' : (effectiveRole?.toLowerCase() || '');
   const baseItems = sidebarConfig[roleKey] || sidebarConfig.employee || [];
 
   const [expandedGroups, setExpandedGroups] = useState({
-    'Super User': true,
+    'Super Admin': true,
     'Admin Modules': false,
     'HR Modules': false,
     'Manager Modules': false,
@@ -72,7 +72,7 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
   const getActiveItemInfo = () => {
     let activeLabel = '';
     let activeGroupLabel = '';
-    
+
     roleItems.forEach(item => {
       if (item.group && item.items) {
         item.items.forEach(subItem => {
@@ -85,7 +85,7 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
         activeLabel = item.label;
       }
     });
-    
+
     return { activeLabel, activeGroupLabel };
   };
 
@@ -97,7 +97,7 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
       <NavLink
         to={item.path}
         onClick={onItemClick}
-        className={({ isActive }) => 
+        className={({ isActive }) =>
           cn(
             "sidebar-item group relative",
             isActive && "sidebar-item-active",
@@ -107,7 +107,7 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
       >
         <Icon size={20} className={cn("shrink-0", isExpanded && "mr-1")} />
         {isExpanded && <span className="truncate">{item.label}</span>}
-        
+
         {!isExpanded && (
           <div className="absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
             {item.label}
@@ -143,7 +143,7 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
           <Cpu className="text-white" size={20} />
         </div>
         {isExpanded && (
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="font-bold text-xl tracking-tight text-slate-800 dark:text-white"
@@ -178,7 +178,7 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
             const isGroupExpanded = expandedGroups[item.group] ?? true;
             return (
               <div key={index} className="space-y-1">
-                <div 
+                <div
                   onClick={() => isExpanded && toggleGroup(item.group)}
                   className={cn(
                     "flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer select-none group/title transition-all duration-150 mt-4 first:mt-0",
@@ -187,12 +187,12 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
                 >
                   <GroupTitle title={item.group} />
                   {isExpanded && (
-                    <ChevronDown 
-                      size={14} 
+                    <ChevronDown
+                      size={14}
                       className={cn(
                         "text-slate-400 group-hover/title:text-slate-600 dark:group-hover/title:text-slate-300 transition-transform duration-200",
                         isGroupExpanded ? "transform rotate-0" : "transform -rotate-90"
-                      )} 
+                      )}
                     />
                   )}
                 </div>
@@ -229,7 +229,7 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
               <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Signed in as</p>
               <div className="flex items-center gap-2">
                 <div className="px-1.5 py-0.5 rounded-md bg-primary-50 dark:bg-primary-950/30 text-[10px] font-bold text-primary-600 dark:text-primary-400 uppercase">
-                   {effectiveRole}
+                  {effectiveRole}
                 </div>
               </div>
             </div>

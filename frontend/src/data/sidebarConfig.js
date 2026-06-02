@@ -31,9 +31,9 @@ import {
 } from 'lucide-react';
 
 export const sidebarConfig = {
-  superuser: [
+  superadmin: [
     {
-      group: 'Super User',
+      group: 'Super Admin',
       items: [
         { label: 'Master Dashboard', icon: LayoutDashboard, path: '/superadmin/dashboard' },
         { label: 'Global Analytics', icon: BarChart2, path: '/superadmin/analytics' },

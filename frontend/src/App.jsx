@@ -96,7 +96,7 @@ import AdminProfile from './features/admin/AdminProfile';
 
 const RoleDashboardRedirect = ({ children }) => {
   const { effectiveRole } = useAuth();
-  if (effectiveRole?.toLowerCase() === 'superuser' || effectiveRole?.toLowerCase() === 'superadmin') {
+  if (effectiveRole?.toLowerCase() === 'superadmin' || effectiveRole?.toLowerCase() === 'superadmin') {
     return <Navigate to="/superadmin/dashboard" replace />;
   }
   return children;

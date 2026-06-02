@@ -10,7 +10,7 @@ const SuperAdminContext = createContext();
 export const SuperAdminProvider = ({ children }) => {
   // Basic state: list of users, roles, departments, etc. Stored in localStorage for now
   const defaultUsers = [
-    { id: '1', name: 'John Doe', email: 'superuser@hcm.ai', role: 'superuser', department: 'Executive', status: 'active' },
+    { id: '1', name: 'John Doe', email: 'superadmin@hcm.ai', role: 'superadmin', department: 'Executive', status: 'active' },
     { id: '2', name: 'Sarah Connor', email: 'admin@hcm.ai', role: 'admin', department: 'Operations', status: 'active' },
     { id: '3', name: 'Michael Scott', email: 'hr.manager@hcm.ai', role: 'hr', department: 'Human Resources', status: 'active' },
     { id: '4', name: 'Dwight Schrute', email: 'dept.head@hcm.ai', role: 'manager', department: 'Sales', status: 'active' },
@@ -18,7 +18,7 @@ export const SuperAdminProvider = ({ children }) => {
   ];
 
   const defaultRoles = [
-    { id: '1', name: 'Super User', description: 'Full access to all systems and settings', permissionsCount: 15 },
+    { id: '1', name: 'Super Admin', description: 'Full access to all systems and settings', permissionsCount: 15 },
     { id: '2', name: 'Admin', description: 'Manage organization setup and configuration', permissionsCount: 12 },
     { id: '3', name: 'HR Manager', description: 'Recruitment, onboarding, and employee records', permissionsCount: 9 },
     { id: '4', name: 'Manager', description: 'Approve leave requests, track team KPIs', permissionsCount: 6 },

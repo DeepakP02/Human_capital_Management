@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useSuperAdmin } from '../../context/SuperAdminContext';
-import { 
-  Users, 
-  UserPlus, 
-  Trash2, 
-  Edit3, 
-  Search, 
-  X, 
-  Shield, 
-  Building2, 
+import {
+  Users,
+  UserPlus,
+  Trash2,
+  Edit3,
+  Search,
+  X,
+  Shield,
+  Building2,
   Mail,
   UserCheck,
   Power,
@@ -24,14 +24,14 @@ const UserManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [showToastMsg, setShowToastMsg] = useState(null);
-  
+
   // Form State
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [selectedRole, setSelectedRole] = useState('Employee');
   const [selectedDept, setSelectedDept] = useState('Sales');
 
-  const ROLE_OPTIONS = ['Super User', 'Admin', 'HR Manager', 'Manager', 'Employee', 'Candidate'];
+  const ROLE_OPTIONS = ['Super Admin', 'Admin', 'HR Manager', 'Manager', 'Employee', 'Candidate'];
   const DEPT_OPTIONS = ['Executive', 'Human Resources', 'Sales', 'Engineering', 'Finance', 'Operations'];
 
   const openAddModal = () => {
@@ -87,7 +87,7 @@ const UserManagement = () => {
     setTimeout(() => setShowToastMsg(null), 3000);
   };
 
-  const filteredUsers = users.filter(user => 
+  const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -132,7 +132,7 @@ const UserManagement = () => {
           Showing {filteredUsers.length} of {users.length} Users
         </div>
       </div>
-      
+
       <AnimatePresence>
         {showToastMsg && (
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-emerald-50 text-emerald-600 border border-emerald-200 px-4 py-3 rounded-xl text-sm font-bold shadow-sm">
