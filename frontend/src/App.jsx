@@ -10,6 +10,9 @@ import UserManagement from './features/superadmin/UserManagement';
 import RoleManagement from './features/superadmin/RoleManagement';
 import DepartmentManagement from './features/superadmin/DepartmentManagement';
 import GlobalAnalytics from './features/superadmin/GlobalAnalytics';
+import SuperAdminPayrollCenter from './pages/superadmin/PayrollCenter';
+import SuperAdminBenefitsConfig from './pages/superadmin/BenefitsConfig';
+import SuperAdminAttendanceCenter from './pages/superadmin/AttendanceCenter';
 import { HRProvider } from './context/HRContext';
 import { ManagerProvider } from './context/ManagerContext';
 import { EmployeeProvider } from './context/EmployeeContext';
@@ -192,9 +195,9 @@ function App() {
               <Route path="users" element={<UserManagement />} />
               <Route path="roles" element={<RoleManagement />} />
               <Route path="departments" element={<DepartmentManagement />} />
-              <Route path="payroll" element={<PayrollCenter />} />
-              <Route path="benefits" element={<BenefitsConfig />} />
-              <Route path="attendance" element={<TimeDashboard />} />
+              <Route path="payroll" element={<SuperAdminPayrollCenter />} />
+              <Route path="benefits" element={<SuperAdminBenefitsConfig />} />
+              <Route path="attendance" element={<SuperAdminAttendanceCenter />} />
             </Route>
             <Route path="/admin" element={<AppLayout />}>
               <Route index element={<Navigate to="/admin/dashboard" replace />} />

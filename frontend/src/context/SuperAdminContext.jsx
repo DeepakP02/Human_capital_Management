@@ -1,4 +1,8 @@
+// @refresh reset
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { PayrollProvider } from '../features/payroll/PayrollContext';
+import { BenefitsProvider } from '../features/benefits/BenefitsContext';
+import { AttendanceProvider } from '../features/attendance/AttendanceContext';
 
 // Context for Super Admin
 const SuperAdminContext = createContext();
@@ -97,7 +101,17 @@ export const SuperAdminProvider = ({ children }) => {
     activityLogs,
   };
 
-  return <SuperAdminContext.Provider value={value}>{children}</SuperAdminContext.Provider>;
+  return (
+  <SuperAdminContext.Provider value={value}>
+    <PayrollProvider>
+      <BenefitsProvider>
+        <AttendanceProvider>
+          {children}
+        </AttendanceProvider>
+      </BenefitsProvider>
+    </PayrollProvider>
+  </SuperAdminContext.Provider>
+);
 };
 
 export const useSuperAdmin = () => useContext(SuperAdminContext);
