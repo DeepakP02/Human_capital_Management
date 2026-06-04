@@ -244,7 +244,7 @@ const LandingPage = () => {
       {/* 3. TRUST / STATS SECTION */}
       <section className="py-24 bg-slate-50">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {[
               { label: 'Faster Hiring', val: '10x', desc: 'AI-driven screening', icon: Zap },
               { label: 'System Uptime', val: '99.9%', desc: 'Enterprise reliability', icon: ShieldCheck },
@@ -255,7 +255,7 @@ const LandingPage = () => {
                 key={i}
                 {...fadeIn}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white p-8 rounded-[2.5rem] shadow-soft border border-slate-100 flex flex-col items-center text-center group hover:bg-primary-600 transition-all duration-500"
+                className="bg-white p-6 sm:p-8 rounded-[2.5rem] shadow-soft border border-slate-100 flex flex-col items-center text-center group hover:bg-primary-600 transition-all duration-500"
               >
                 <div className="p-4 bg-primary-50 text-primary-600 rounded-2xl mb-6 group-hover:bg-white/20 group-hover:text-white transition-colors">
                   <stat.icon size={28} />
@@ -413,22 +413,22 @@ const LandingPage = () => {
                      ))}
                   </div>
                </div>
-               <div className="grid grid-cols-2 gap-8">
-                  <div className="card p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
-                     <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl mb-4 w-fit">
-                        <Bot size={24} />
-                     </div>
-                     <p className="text-xl font-black text-slate-900 mb-2">Smart Assist</p>
-                     <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">Real-time candidate Q&A via proprietary LLM endpoints.</p>
-                  </div>
-                  <div className="card p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
-                     <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl mb-4 w-fit">
-                        <TrendingUp size={24} />
-                     </div>
-                     <p className="text-xl font-black text-slate-900 mb-2">Bias Neutral</p>
-                     <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">AI models audited for fairness and EEOC compliance.</p>
-                  </div>
-               </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                   <div className="card p-6 sm:p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
+                      <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl mb-4 w-fit">
+                         <Bot size={24} />
+                      </div>
+                      <p className="text-xl font-black text-slate-900 mb-2">Smart Assist</p>
+                      <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">Real-time candidate Q&A via proprietary LLM endpoints.</p>
+                   </div>
+                   <div className="card p-6 sm:p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
+                      <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl mb-4 w-fit">
+                         <TrendingUp size={24} />
+                      </div>
+                      <p className="text-xl font-black text-slate-900 mb-2">Bias Neutral</p>
+                      <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">AI models audited for fairness and EEOC compliance.</p>
+                   </div>
+                </div>
             </motion.div>
 
             <motion.div {...fadeIn} className="flex-1 order-1 lg:order-2">
@@ -710,7 +710,7 @@ const LandingPage = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800 text-left p-8 md:p-12 z-10"
+              className="relative w-[calc(100%-2rem)] sm:w-full max-w-2xl bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800 text-left p-6 sm:p-8 md:p-12 z-10"
             >
               {/* Close Button */}
               <button

@@ -360,8 +360,8 @@ const Tasks = () => {
         title="Mission Intelligence"
       >
          {selectedTask && (
-            <div className="p-10 space-y-12 text-left">
-               <div className="p-10 bg-slate-900 rounded-[3rem] relative overflow-hidden group">
+            <div className="p-6 sm:p-10 space-y-8 sm:space-y-12 text-left">
+               <div className="p-6 sm:p-10 bg-slate-900 rounded-[2rem] sm:rounded-[3rem] relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-10 opacity-20 transform translate-x-10 -translate-y-10 group-hover:translate-x-5 group-hover:-translate-y-5 transition-transform">
                      <Target size={180} className="text-primary-500" />
                   </div>
@@ -417,12 +417,12 @@ const Tasks = () => {
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                      <MessageSquare size={16} className="text-slate-300" /> Operational Objectives
                   </label>
-                  <p className="text-base font-medium text-slate-600 leading-relaxed bg-slate-50 p-8 rounded-[2rem] italic border border-slate-100">
+                  <p className="text-base font-medium text-slate-600 leading-relaxed bg-slate-50 p-6 sm:p-8 rounded-[2rem] italic border border-slate-100">
                      "This mission focuses on optimizing the core architecture components. Ensure all deliverables follow the latest security protocols and unit test coverage exceeds 95%."
                   </p>
                </div>
 
-               <div className="pt-8 border-t border-slate-50 flex gap-4">
+               <div className="pt-8 border-t border-slate-50 flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <button 
                     onClick={() => handleStatusChange(selectedTask.id, 'In Progress')}
                     className="flex-1 py-4 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-3"
@@ -448,7 +448,7 @@ const Tasks = () => {
         onClose={() => setShowAddModal(false)} 
         title="Deploy New Mission"
       >
-         <form onSubmit={handleAddTask} className="p-10 space-y-8 text-left">
+         <form onSubmit={handleAddTask} className="p-6 sm:p-10 space-y-6 sm:space-y-8 text-left">
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1 text-left">Misson Title</label>
                <input 
@@ -487,7 +487,7 @@ const Tasks = () => {
                </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 text-left">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Deadline Date</label>
                   <input 

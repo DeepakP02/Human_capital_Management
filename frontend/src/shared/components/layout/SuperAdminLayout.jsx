@@ -30,7 +30,7 @@ const SuperAdminLayout = () => {
       <RolePreviewBanner />
       <Toast />
       {/* Desktop sidebar */}
-      <div className="lg:block">
+      <div className="hidden lg:block">
         <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} allRoles={true} />
       </div>
       {/* Mobile sidebar overlay */}
@@ -51,7 +51,7 @@ const SuperAdminLayout = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed inset-y-0 left-0 w-[280px] bg-white z-50 lg:hidden"
             >
-              <Sidebar collapsed={false} setCollapsed={() => {}} allRoles={true} />
+              <Sidebar collapsed={false} setCollapsed={() => {}} allRoles={true} onItemClick={() => setMobileSidebarOpen(false)} />
             </motion.div>
           </>
         )}
@@ -62,19 +62,6 @@ const SuperAdminLayout = () => {
         sidebarCollapsed ? "lg:ml-20" : "lg:ml-[260px]"
       )}>
         <Navbar toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 mb-6 text-sm text-slate-400">
-          <Home size={14} />
-          <ChevronRight size={14} />
-          {pathSegments.map((segment, idx) => (
-            <React.Fragment key={idx}>
-              <span className={cn("capitalize", idx === pathSegments.length - 1 && "text-slate-600 font-medium")}>
-                {segment.replace('-', ' ')}
-              </span>
-              {idx < pathSegments.length - 1 && <ChevronRight size={14} />}
-            </React.Fragment>
-          ))}
-        </div>
         <motion.div
           key={location.pathname}
           initial={{ opacity: 0, y: 10 }}
@@ -82,6 +69,19 @@ const SuperAdminLayout = () => {
           transition={{ duration: 0.3 }}
           className="flex-1 p-4 lg:p-8"
         >
+          {/* Breadcrumb */}
+          <div className="flex flex-wrap items-center gap-2 mb-6 text-sm text-slate-400">
+            <Home size={14} />
+            <ChevronRight size={14} />
+            {pathSegments.map((segment, idx) => (
+              <React.Fragment key={idx}>
+                <span className={cn("capitalize", idx === pathSegments.length - 1 && "text-slate-600 font-medium")}>
+                  {segment.replace('-', ' ')}
+                </span>
+                {idx < pathSegments.length - 1 && <ChevronRight size={14} />}
+              </React.Fragment>
+            ))}
+          </div>
           <Outlet />
         </motion.div>
       </div>

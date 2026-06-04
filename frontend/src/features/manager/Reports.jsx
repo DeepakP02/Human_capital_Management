@@ -191,7 +191,7 @@ const ManagerReports = () => {
          
          {/* Report Generation Center */}
          <div className="lg:col-span-8 space-y-8 h-full">
-            <div className="card p-10 bg-white border-none shadow-soft flex flex-col text-left">
+            <div className="card p-6 sm:p-10 bg-white border-none shadow-soft flex flex-col text-left">
                <div className="flex items-center justify-between mb-10">
                   <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Available Intelligence Suites</h3>
                   <div className="flex items-center gap-4 text-slate-400">
@@ -207,7 +207,7 @@ const ManagerReports = () => {
                        key={type.id}
                        whileHover={{ y: -5, backgroundColor: '#f8fafc', borderColor: '#e2e8f0' }}
                        onClick={() => setSelectedReport(type)}
-                       className="p-8 border border-slate-50 rounded-[3rem] flex flex-col gap-6 group cursor-pointer transition-all text-left relative overflow-hidden"
+                       className="p-6 sm:p-8 border border-slate-50 rounded-[2rem] sm:rounded-[3rem] flex flex-col gap-6 group cursor-pointer transition-all text-left relative overflow-hidden"
                      >
                         <div className="absolute top-0 right-0 p-6 transition-all transform scale-150 rotate-12">
                            <type.icon size={60} />
@@ -231,7 +231,7 @@ const ManagerReports = () => {
 
             {/* Performance Analytics Table Preview */}
             <div className="card p-0 border-none bg-white shadow-soft overflow-hidden text-left">
-               <div className="p-10 border-b border-slate-50 flex items-center justify-between">
+               <div className="p-6 sm:p-10 border-b border-slate-50 flex items-center justify-between">
                   <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 uppercase tracking-tight text-left">
                      <BarChart3 className="text-amber-500" size={24} />
                      Team Efficiency Leaderboard
@@ -279,7 +279,7 @@ const ManagerReports = () => {
 
          {/* Sidebar: Distribution & Insights */}
          <div className="lg:col-span-4 space-y-8 h-full flex flex-col text-left">
-            <div className="card p-10 bg-slate-900 text-white border-none shadow-soft flex-1 relative overflow-hidden group text-left">
+            <div className="card p-6 sm:p-10 bg-slate-900 text-white border-none shadow-soft flex-1 relative overflow-hidden group text-left">
                <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform">
                   <PieChart size={120} />
                </div>
@@ -366,7 +366,7 @@ const ManagerReports = () => {
             </div>
 
             {/* Scheduler Card */}
-            <div className="card p-10 bg-gradient-to-br from-indigo-600 to-indigo-800 text-white border-none shadow-soft text-left relative overflow-hidden group">
+            <div className="card p-6 sm:p-10 bg-gradient-to-br from-indigo-600 to-indigo-800 text-white border-none shadow-soft text-left relative overflow-hidden group">
                <div className="absolute bottom-0 right-0 p-6 opacity-10 group-hover:scale-125 transition-transform rotate-12">
                   <Clock size={100} />
                </div>
@@ -387,9 +387,9 @@ const ManagerReports = () => {
         title={`Configure ${selectedReport?.name}`}
       >
          {selectedReport && (
-            <div className="p-10 space-y-10 text-left">
-               <div className="flex items-center gap-6 p-8 bg-slate-50 rounded-[3rem] border border-slate-100 text-left">
-                  <div className={cn("w-16 h-16 rounded-[2rem] flex items-center justify-center shadow-xl ring-4 ring-white", selectedReport.bg, selectedReport.color)}>
+            <div className="p-6 sm:p-10 space-y-6 sm:space-y-10 text-left">
+               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-6 sm:p-8 bg-slate-50 rounded-[2rem] sm:rounded-[3rem] border border-slate-100 text-left">
+                  <div className={cn("w-16 h-16 rounded-[2rem] flex items-center justify-center shadow-xl ring-4 ring-white shrink-0", selectedReport.bg, selectedReport.color)}>
                      <selectedReport.icon size={32} />
                   </div>
                   <div className="text-left">
@@ -398,7 +398,7 @@ const ManagerReports = () => {
                   </div>
                </div>
 
-               <div className="grid grid-cols-2 gap-8 text-left">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 text-left">
                   <div className="space-y-2 text-left">
                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Evaluation Period</label>
                      <select className="input-field h-14 font-extrabold appearance-none bg-white border-slate-100 uppercase tracking-tight">
@@ -410,7 +410,7 @@ const ManagerReports = () => {
                   </div>
                   <div className="space-y-2 text-left">
                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">File Format</label>
-                     <div className="flex gap-4">
+                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                         <button className="flex-1 h-14 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2">
                            <FileText size={16} /> PDF
                         </button>
@@ -423,10 +423,10 @@ const ManagerReports = () => {
 
                <div className="space-y-4 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Include Metadata Modules</label>
-                  <div className="grid grid-cols-2 gap-4 text-left">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-left">
                      {['Anonymized Data', 'Departmental Comparison', 'Trend Projections', 'Individual Transcripts'].map(mod => (
                         <label key={mod} className="flex items-center gap-3 p-5 bg-slate-50 border border-slate-100 rounded-[2rem] cursor-pointer hover:border-primary-600 transition-all group">
-                           <div className="w-5 h-5 rounded-lg border-2 border-slate-200 group-hover:border-primary-600 bg-white" />
+                           <div className="w-5 h-5 rounded-lg border-2 border-slate-200 group-hover:border-primary-600 bg-white shrink-0" />
                            <span className="text-[11px] font-black text-slate-600 uppercase tracking-tight">{mod}</span>
                         </label>
                      ))}
@@ -450,9 +450,9 @@ const ManagerReports = () => {
         onClose={() => setShowCustomModal(false)}
         title="Intelligence Report Architect"
       >
-         <div className="p-10 space-y-10 text-left">
-            <div className="p-8 bg-indigo-50 border border-indigo-100 rounded-[3rem] flex items-center gap-6 text-left">
-               <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg">
+         <div className="p-6 sm:p-10 space-y-6 sm:space-y-10 text-left">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-6 sm:p-8 bg-indigo-50 border border-indigo-100 rounded-[2rem] sm:rounded-[3rem] text-left">
+               <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shrink-0">
                   <Settings2 size={28} />
                </div>
                <div className="text-left">
@@ -473,7 +473,7 @@ const ManagerReports = () => {
                   />
                </div>
 
-               <div className="grid grid-cols-2 gap-8 text-left">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 text-left">
                   <div className="space-y-4 text-left">
                      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Data Origin</label>
                      <div className="space-y-3">
@@ -574,8 +574,8 @@ const ManagerReports = () => {
         onClose={() => setShowScheduleModal(false)}
         title="Automation Frequency Config"
       >
-         <form onSubmit={handleScheduleReport} className="p-10 space-y-10 text-left">
-            <div className="p-8 bg-indigo-900 text-white rounded-[3rem] relative overflow-hidden group text-left">
+         <form onSubmit={handleScheduleReport} className="p-6 sm:p-10 space-y-6 sm:space-y-10 text-left">
+            <div className="p-6 sm:p-8 bg-indigo-900 text-white rounded-[2rem] sm:rounded-[3rem] relative overflow-hidden group text-left">
                <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:scale-110 transition-transform">
                   <Mail size={120} />
                </div>
@@ -588,7 +588,7 @@ const ManagerReports = () => {
             <div className="space-y-8 text-left">
                <div className="space-y-4 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Transmission Pulse</label>
-                  <div className="grid grid-cols-3 gap-4 text-left">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-left">
                      {['Weekly', 'Bi-Monthly', 'Monthly'].map(pulse => (
                         <button 
                            key={pulse} 

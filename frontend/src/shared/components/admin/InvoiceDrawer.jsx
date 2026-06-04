@@ -340,9 +340,9 @@ const InvoiceDrawer = ({ isOpen, onClose, invoice }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl max-h-[90vh] bg-white shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-xl max-h-[90vh] bg-white shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
           >
-            <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="p-6 sm:p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div className="flex items-center gap-4">
                 <div className="p-3 rounded-xl bg-indigo-50 text-indigo-600 shrink-0">
                   <FileText size={24} />
@@ -357,7 +357,7 @@ const InvoiceDrawer = ({ isOpen, onClose, invoice }) => {
               </button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-8 space-y-8">
+            <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-8">
                <div className="flex justify-between items-start">
                  <div>
                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Status</p>
@@ -373,8 +373,8 @@ const InvoiceDrawer = ({ isOpen, onClose, invoice }) => {
                     <p className="text-3xl font-black text-slate-900 tracking-tight">{invoice.amount}</p>
                  </div>
                </div>
-
-               <div className="grid grid-cols-2 gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+ 
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100">
                   <div>
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Invoice Date</p>
                     <p className="text-sm font-bold text-slate-900">{invoice.date}</p>
@@ -384,21 +384,21 @@ const InvoiceDrawer = ({ isOpen, onClose, invoice }) => {
                     <p className="text-sm font-bold text-slate-900">{invoice.method}</p>
                   </div>
                </div>
-
+ 
                <div className="space-y-4">
                   <h3 className="text-sm font-extrabold text-slate-900 border-b border-slate-100 pb-2">Line Items</h3>
                   <div className="space-y-3 font-bold text-slate-600 text-xs">
-                     <div className="flex justify-between p-3 bg-white border border-slate-100 rounded-lg">
-                        <span>Enterprise Plan Subscription</span>
-                        <span>$4,000.00</span>
+                     <div className="flex justify-between p-3 bg-white border border-slate-100 rounded-lg gap-4">
+                        <span className="truncate">Enterprise Plan Subscription</span>
+                        <span className="shrink-0">$4,000.00</span>
                      </div>
-                     <div className="flex justify-between p-3 bg-white border border-slate-100 rounded-lg">
-                        <span>Extra Add-ons</span>
-                        <span>$280.00</span>
+                     <div className="flex justify-between p-3 bg-white border border-slate-100 rounded-lg gap-4">
+                        <span className="truncate">Extra Add-ons</span>
+                        <span className="shrink-0">$280.00</span>
                      </div>
-                     <div className="flex justify-between p-3 bg-white border border-slate-100 rounded-lg">
-                        <span>Tax (0% B2B)</span>
-                        <span>$0.00</span>
+                     <div className="flex justify-between p-3 bg-white border border-slate-100 rounded-lg gap-4">
+                        <span className="truncate">Tax (0% B2B)</span>
+                        <span className="shrink-0">$0.00</span>
                      </div>
                   </div>
                </div>
@@ -409,9 +409,9 @@ const InvoiceDrawer = ({ isOpen, onClose, invoice }) => {
                     <p>This invoice was refunded on {invoice.date} back to the original payment method.</p>
                  </div>
                )}
-
+ 
             </div>
-            <div className="p-8 border-t border-slate-100 bg-slate-50">
+            <div className="p-6 sm:p-8 border-t border-slate-100 bg-slate-50">
                 <button
                   type="button"
                   disabled={isDownloading}

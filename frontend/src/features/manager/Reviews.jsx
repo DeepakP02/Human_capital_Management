@@ -280,22 +280,22 @@ const Reviews = () => {
         title="Performance Assessment Form"
       >
          {selectedReview && (
-            <div className="p-10 space-y-12 text-left">
-               <div className="p-10 bg-slate-900 rounded-[3rem] relative overflow-hidden group">
+            <div className="p-6 sm:p-10 space-y-8 sm:space-y-12 text-left">
+               <div className="p-6 sm:p-10 bg-slate-900 rounded-[2rem] sm:rounded-[3rem] relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-10 opacity-20 transform translate-x-10 -translate-y-10 group-hover:translate-x-5 group-hover:-translate-y-5 transition-transform">
                      <Star size={180} className="text-amber-400" />
                   </div>
-                  <div className="flex items-center gap-6 relative z-10 text-left">
-                     <img src={selectedImg} alt={selectedReview.name} className="w-20 h-20 rounded-3xl object-cover ring-4 ring-white/20 shadow-2xl" />
-                     <div className="text-left flex-1">
-                        <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 relative z-10 text-left">
+                     <img src={selectedImg} alt={selectedReview.name} className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl object-cover ring-4 ring-white/20 shadow-2xl shrink-0" />
+                     <div className="text-left flex-1 w-full">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                            <div>
-                              <h3 className="text-3xl font-black text-white tracking-tighter leading-none">{selectedReview.name}</h3>
+                              <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tighter leading-none">{selectedReview.name}</h3>
                               <p className="text-[10px] font-black text-primary-400 uppercase tracking-[0.3em] mt-3">{selectedRole} • {selectedReview.period} Cycle</p>
                            </div>
                            <button 
                              onClick={handleAIGenerateAssessment}
-                             className="hidden sm:flex text-xs font-bold text-white items-center gap-2 bg-emerald-500/20 border border-emerald-500/30 px-4 py-2 rounded-xl hover:bg-emerald-500/40 transition-colors shadow-lg"
+                             className="hidden sm:flex text-xs font-bold text-white items-center gap-2 bg-emerald-500/20 border border-emerald-500/30 px-4 py-2 rounded-xl hover:bg-emerald-500/40 transition-colors shadow-lg self-start sm:self-auto shrink-0"
                            >
                              <Sparkles size={14} className="text-emerald-400 animate-pulse" />
                              <span>AI Recommendations</span>
@@ -310,7 +310,7 @@ const Reviews = () => {
                            </span>
                            <button 
                              onClick={handleAIGenerateAssessment}
-                             className="sm:hidden text-[9px] font-bold text-emerald-400 flex items-center gap-1 bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/30"
+                             className="sm:hidden text-[9px] font-bold text-emerald-400 flex items-center gap-1 bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/30 shrink-0"
                            >
                              <Sparkles size={10} className="animate-pulse" /> AI Draft
                            </button>
@@ -319,7 +319,7 @@ const Reviews = () => {
                   </div>
                </div>
 
-               <div className="grid grid-cols-2 gap-8 text-left">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left">
                   <div className="space-y-3 text-left">
                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                         <Zap size={14} className="text-primary-500" /> Core Strengths
@@ -357,18 +357,18 @@ const Reviews = () => {
 
                <div className="space-y-6 text-left">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Final Performance Index</label>
-                  <div className="flex justify-between items-center bg-slate-50 p-8 rounded-[3rem] border border-slate-100 shadow-sm">
-                     <div className="flex gap-3">
+                  <div className="flex flex-col sm:flex-row gap-6 sm:gap-0 justify-between items-center bg-slate-50 p-6 sm:p-8 rounded-[3rem] border border-slate-100 shadow-sm">
+                     <div className="flex gap-2 sm:gap-3">
                         {[1,2,3,4,5].map(s => (
                            <button 
                              key={s} 
                              onClick={() => setAssessment({...assessment, rating: s})}
                              className={cn(
-                               "w-12 h-12 rounded-2xl flex items-center justify-center transition-all shadow-sm",
+                               "w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all shadow-sm",
                                s <= assessment.rating ? "bg-slate-900 text-amber-400 shadow-lg scale-110" : "bg-white text-slate-200 hover:text-slate-300"
                              )}
                            >
-                              <Star size={24} fill={s <= assessment.rating ? "currentColor" : "none"} />
+                              <Star size={20} className="sm:size-[24px]" fill={s <= assessment.rating ? "currentColor" : "none"} />
                            </button>
                         ))}
                      </div>
@@ -379,11 +379,11 @@ const Reviews = () => {
                   </div>
                </div>
                
-               <div className="pt-8 border-t border-slate-100 flex gap-4">
-                  <button onClick={() => setSelectedReview(null)} className="flex-1 py-4 bg-white border border-slate-200 text-slate-500 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-50 hover:border-slate-300 transition-all">
+               <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <button onClick={() => setSelectedReview(null)} className="w-full sm:w-auto py-4 px-6 bg-white border border-slate-200 text-slate-500 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-50 hover:border-slate-300 transition-all">
                      Save Progress
                   </button>
-                  <button onClick={handleFinalizeReview} className="flex-1 py-4 bg-primary-600 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-primary-700 transition-all shadow-xl shadow-primary-200 flex items-center justify-center gap-3">
+                  <button onClick={handleFinalizeReview} className="w-full sm:w-auto flex-1 py-4 bg-primary-600 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-primary-700 transition-all shadow-xl shadow-primary-200 flex items-center justify-center gap-3">
                      <Send size={18} />
                      <span>Submit Final Review</span>
                   </button>
@@ -398,7 +398,7 @@ const Reviews = () => {
         onClose={() => setShowAddModal(false)} 
         title="Initiate Performance Cycle"
       >
-         <form onSubmit={handleInitiateReview} className="p-10 space-y-8 text-left">
+         <form onSubmit={handleInitiateReview} className="p-6 sm:p-10 space-y-6 sm:space-y-8 text-left">
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1 text-left">Target Employee</label>
                <select 

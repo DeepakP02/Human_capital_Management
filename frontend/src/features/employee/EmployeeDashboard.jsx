@@ -311,7 +311,7 @@ const EmployeeDashboard = () => {
                  )}
               </div>
 
-              <div className="flex-1 grid grid-cols-2 gap-8 w-full border-l lg:border-slate-50 lg:pl-10 text-left">
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-8 w-full border-t md:border-t-0 md:border-l border-slate-100 md:pl-10 pt-8 md:pt-0 text-left">
                  <div className="space-y-6">
                     <div className="space-y-1">
                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Start Time</p>
@@ -460,7 +460,7 @@ const EmployeeDashboard = () => {
       {/* Leave Request Modal */}
       <CenterModal isOpen={showLeaveModal} onClose={() => !isSubmittingLeave && setShowLeaveModal(false)} title="Request New Leave">
          <form onSubmit={handleRequestLeave} className="p-8 space-y-6">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Leave Type</label>
                   <select name="type" disabled={isSubmittingLeave} className="input-field h-14 bg-slate-50 border-transparent font-bold">

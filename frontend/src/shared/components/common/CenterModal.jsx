@@ -43,7 +43,7 @@ const CenterModal = ({ isOpen, onClose, title, children, maxWidth = 'max-w-2xl',
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className={cn(
-              "relative w-full shadow-2xl rounded-[2rem] overflow-hidden flex flex-col max-h-full",
+              "relative w-[calc(100%-2rem)] sm:w-full max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-4rem)] shadow-2xl rounded-[2rem] overflow-hidden flex flex-col",
               maxWidth,
               bgClass
             )}

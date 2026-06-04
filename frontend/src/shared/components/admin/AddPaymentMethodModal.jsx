@@ -112,7 +112,7 @@ const AddPaymentMethodModal = ({ isOpen, onClose, onSuccess }) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-0 m-auto max-w-lg max-h-[95vh] w-full bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
+            className="fixed inset-0 m-auto w-[calc(100%-2rem)] sm:w-full max-w-lg max-h-[95vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
           >
             {/* Header */}
             <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
@@ -232,7 +232,7 @@ const AddPaymentMethodModal = ({ isOpen, onClose, onSuccess }) => {
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Expiry Date</label>
                         <input

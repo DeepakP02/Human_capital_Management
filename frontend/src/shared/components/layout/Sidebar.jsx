@@ -16,7 +16,7 @@ import { useAuth } from '../../../hooks/useAuth';
 import { sidebarConfig } from '../../../data/sidebarConfig';
 import { cn } from '../../../utils/cn';
 
-const Sidebar = ({ collapsed, setCollapsed, allRoles }) => {
+const Sidebar = ({ collapsed, setCollapsed, allRoles, onItemClick }) => {
   const { logout, effectiveRole } = useAuth();
   const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
@@ -96,6 +96,7 @@ const Sidebar = ({ collapsed, setCollapsed, allRoles }) => {
     return (
       <NavLink
         to={item.path}
+        onClick={onItemClick}
         className={({ isActive }) => 
           cn(
             "sidebar-item group relative",

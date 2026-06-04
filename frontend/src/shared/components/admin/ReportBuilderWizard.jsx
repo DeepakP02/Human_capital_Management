@@ -51,7 +51,7 @@ const ReportBuilderWizard = ({ isOpen, onClose, initialCategory = null }) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-0 m-auto w-full max-w-3xl max-h-[85vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
+            className="fixed inset-0 m-auto w-[calc(100%-2rem)] sm:w-full max-w-3xl max-h-[85vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
           >
             <div className="p-8 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -82,7 +82,7 @@ const ReportBuilderWizard = ({ isOpen, onClose, initialCategory = null }) => {
                {currentStep === 0 && (
                  <div className="space-y-6 animate-fade-in">
                     <h3 className="font-extrabold text-slate-900">Which datasets should be included?</h3>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                        {modules.map(mod => (
                           <div key={mod} onClick={() => toggleModule(mod)} className={cn("p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between", selectedModules.includes(mod) ? "border-indigo-600 bg-indigo-50/20" : "border-slate-100 bg-white hover:border-slate-200")}>
                              <span className="font-bold text-slate-700">{mod}</span>

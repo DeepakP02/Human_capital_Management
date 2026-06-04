@@ -267,17 +267,17 @@ const Users = () => {
 
       {/* User Table */}
       <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
-         <div className="overflow-x-auto">
+         <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left">
                <thead>
                   <tr className="bg-slate-50/50">
                      <th className="px-8 py-5">
-                         <input 
-                            type="checkbox" 
-                            className="w-4 h-4 rounded-md accent-primary-600 cursor-pointer"
-                            checked={selectedUsers.length === filteredUsers.length && filteredUsers.length > 0}
-                            onChange={handleSelectAll}
-                         />
+                          <input 
+                             type="checkbox" 
+                             className="w-4 h-4 rounded-md accent-primary-600 cursor-pointer"
+                             checked={selectedUsers.length === filteredUsers.length && filteredUsers.length > 0}
+                             onChange={handleSelectAll}
+                          />
                      </th>
                      <th className="px-8 py-5 text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em]">Employee Info</th>
                      <th className="px-8 py-5 text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em]">Role / Dept</th>
@@ -385,6 +385,90 @@ const Users = () => {
                   )}
                </tbody>
             </table>
+         </div>
+
+         {/* Mobile Responsive Cards */}
+         <div className="block sm:hidden divide-y divide-slate-100 dark:divide-slate-800/50">
+            {filteredUsers.length > 0 ? filteredUsers.map((user) => (
+               <div key={user.id} className={cn("p-4 space-y-3 transition-colors", selectedUsers.includes(user.id) && "bg-slate-50/50")}>
+                  <div className="flex items-start justify-between gap-3">
+                     <div className="flex items-center gap-3">
+                        <input 
+                           type="checkbox" 
+                           className="w-4 h-4 rounded-md accent-primary-600 cursor-pointer"
+                           checked={selectedUsers.includes(user.id)}
+                           onChange={() => handleSelectUser(user.id)}
+                        />
+                        <img src={user.img} alt={user.name} className="w-10 h-10 rounded-xl object-cover ring-2 ring-white shadow-sm shrink-0" />
+                        <div className="min-w-0">
+                           <p className="font-bold text-slate-900 leading-none truncate">{user.name}</p>
+                           <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest truncate">{user.email}</p>
+                        </div>
+                     </div>
+                     <span className={cn(
+                        "px-2 py-0.5 rounded-lg text-[9px] font-extrabold uppercase tracking-widest border shrink-0",
+                        user.status === 'Active' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
+                        user.status === 'Pending' ? "bg-amber-50 text-amber-600 border-amber-100" :
+                        "bg-slate-100 text-slate-400 border-slate-200"
+                     )}>
+                        {user.status}
+                     </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-xs text-slate-500">
+                     <span className="font-semibold text-slate-700">{user.role}</span>
+                     <span className="text-slate-300">•</span>
+                     <span>{user.department}</span>
+                     <span className="text-slate-300">•</span>
+                     <span className="text-slate-400">Login: {user.lastLogin}</span>
+                  </div>
+                  <div className="flex items-center justify-end gap-1 border-t border-slate-50 dark:border-slate-800/80 pt-2">
+                     <button 
+                       onClick={() => setUserToView(user)}
+                       className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all" 
+                       title="View Profile"
+                     >
+                       <Eye size={18} />
+                     </button>
+                     <button 
+                       onClick={() => {
+                          setUserToEdit(user);
+                          setIsAddUserOpen(true);
+                       }}
+                       className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all" 
+                       title="Edit"
+                     >
+                       <Edit3 size={18} />
+                     </button>
+                     <button 
+                       onClick={() => {
+                           if (user.status === 'Active') {
+                               updateUser(user.id, { status: 'Inactive' });
+                           } else {
+                               updateUser(user.id, { status: 'Active' });
+                           }
+                       }}
+                       className={cn(
+                           "p-2 rounded-lg transition-all",
+                           user.status === 'Active' ? "text-rose-500 hover:bg-rose-50" : "text-emerald-500 hover:bg-emerald-50"
+                       )}
+                       title={user.status === 'Active' ? "Deactivate" : "Activate"}
+                     >
+                       {user.status === 'Active' ? <Ban size={18} /> : <CheckCircle2 size={18} />}
+                     </button>
+                     <button 
+                       onClick={() => setUserToDelete(user)}
+                       className="p-2 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all" 
+                       title="Delete"
+                     >
+                       <Trash2 size={18} />
+                     </button>
+                  </div>
+               </div>
+            )) : (
+               <div className="p-12 text-center text-slate-450 font-medium text-sm">
+                  No users found.
+               </div>
+            )}
          </div>
       </div>
 

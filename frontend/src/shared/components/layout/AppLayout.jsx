@@ -54,7 +54,7 @@ const AppLayout = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed inset-y-0 left-0 w-[280px] bg-white z-50 lg:hidden"
             >
-              <Sidebar collapsed={false} setCollapsed={() => {}} />
+              <Sidebar collapsed={false} setCollapsed={() => {}} onItemClick={() => setMobileSidebarOpen(false)} />
             </motion.div>
           </>
         )}
@@ -69,7 +69,7 @@ const AppLayout = () => {
         
         <main className="flex-1 p-4 lg:p-8">
           {/* Breadcrumbs */}
-          <div className="flex items-center gap-2 mb-6 text-sm text-slate-400">
+          <div className="flex flex-wrap items-center gap-2 mb-6 text-sm text-slate-400">
             <Home size={14} />
             <ChevronRight size={14} />
             {pathSegments.map((segment, idx) => (

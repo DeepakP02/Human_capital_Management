@@ -26,12 +26,12 @@ const AuditFilterModal = ({ isOpen, onClose, filters, setFilters }) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-0 m-auto max-w-md max-h-[85vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
+            className="fixed inset-0 m-auto w-[calc(100%-2rem)] sm:w-full max-w-md max-h-[85vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
           >
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
-              <div className="p-8 border-b border-slate-100 flex items-center justify-between">
+              <div className="p-6 sm:p-8 border-b border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                   <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center">
+                   <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0">
                       <Filter size={20} />
                    </div>
                    <h2 className="text-xl font-extrabold text-slate-900">Advanced Filters</h2>
@@ -41,7 +41,7 @@ const AuditFilterModal = ({ isOpen, onClose, filters, setFilters }) => {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-8 space-y-6">
+              <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Severity</label>
                   <select value={localFilters.severity} onChange={e => setLocalFilters({...localFilters, severity: e.target.value})} className="input-field h-14 bg-slate-50 font-bold text-slate-700 border-none">
@@ -74,7 +74,7 @@ const AuditFilterModal = ({ isOpen, onClose, filters, setFilters }) => {
                 </div>
               </div>
 
-              <div className="p-8 border-t border-slate-100 bg-slate-50 flex gap-4">
+              <div className="p-6 sm:p-8 border-t border-slate-100 bg-slate-50 flex gap-4">
                 <button type="button" onClick={() => setLocalFilters({ severity: 'All', module: 'All', environment: 'All' })} className="flex-1 py-3.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-100">Clear</button>
                 <button type="submit" className="flex-1 py-3.5 bg-slate-900 text-white rounded-2xl font-bold hover:bg-black shadow-xl shrink-0">Apply Filters</button>
               </div>

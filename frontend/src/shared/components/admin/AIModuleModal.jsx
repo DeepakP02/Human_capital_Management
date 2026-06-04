@@ -56,7 +56,7 @@ const AIModuleModal = ({ isOpen, onClose, module }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl max-h-[90vh] bg-white shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-xl max-h-[90vh] bg-white shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
           >
             <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
               <div className="flex items-center gap-5">
@@ -82,7 +82,7 @@ const AIModuleModal = ({ isOpen, onClose, module }) => {
             
             <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto flex flex-col">
               <div className="flex-1 p-10 space-y-8">
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Status</label>
                     <select
@@ -158,7 +158,7 @@ const AIModuleModal = ({ isOpen, onClose, module }) => {
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Refresh Frequency</label>
                     <select value={formData.refresh} onChange={e => setFormData({...formData, refresh: e.target.value})} className="input-field h-14 bg-slate-50 border-transparent font-bold text-slate-700">

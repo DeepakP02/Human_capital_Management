@@ -230,8 +230,8 @@ const Users = () => {
       </div>
 
       {/* User Table */}
-      <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
-         <div className="overflow-x-auto">
+      <div className="card p-0 border-none bg-white shadow-soft overflow-x-auto">
+         <div className="min-w-[700px]">
             <table className="w-full text-left">
                <thead>
                   <tr className="bg-slate-50/50">

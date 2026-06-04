@@ -142,7 +142,7 @@ const RoleModal = ({ isOpen, onClose, roleToEdit = null }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl max-h-[90vh] bg-white shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-4xl max-h-[90vh] bg-white shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
           >
             {/* Header */}
             <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
@@ -225,46 +225,48 @@ const RoleModal = ({ isOpen, onClose, roleToEdit = null }) => {
 
                     {step === 2 && (
                         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                            <div className="bg-slate-50 border border-slate-100 rounded-[2rem] overflow-hidden">
-                                <div className="grid grid-cols-12 bg-slate-900 p-6">
-                                    <div className="col-span-4 text-[10px] font-black text-white/40 uppercase tracking-widest">Module</div>
-                                    <div className="col-span-8 grid grid-cols-7 gap-1">
-                                        {actions.map(action => (
-                                            <div key={action} className="text-[9px] font-black text-white/40 uppercase tracking-widest text-center">{action}</div>
+                            <div className="bg-slate-50 border border-slate-100 rounded-[2rem] overflow-hidden overflow-x-auto">
+                                <div className="min-w-[760px]">
+                                    <div className="grid grid-cols-12 bg-slate-900 p-6">
+                                        <div className="col-span-4 text-[10px] font-black text-white/40 uppercase tracking-widest">Module</div>
+                                        <div className="col-span-8 grid grid-cols-7 gap-1">
+                                            {actions.map(action => (
+                                                <div key={action} className="text-[9px] font-black text-white/40 uppercase tracking-widest text-center">{action}</div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="divide-y divide-slate-100">
+                                        {modules.map((mod) => (
+                                            <div key={mod.id} className="grid grid-cols-12 p-6 hover:bg-white transition-colors group">
+                                                <div className="col-span-4 flex items-center gap-4">
+                                                    <div className="p-2.5 bg-white border border-slate-100 rounded-xl text-slate-400 group-hover:text-primary-600 transition-colors shadow-sm">
+                                                        <mod.icon size={16} />
+                                                    </div>
+                                                    <span className="text-sm font-bold text-slate-700">{mod.label}</span>
+                                                </div>
+                                                <div className="col-span-8 grid grid-cols-7 gap-1">
+                                                    {actions.map(action => (
+                                                        <div key={action} className="flex items-center justify-center">
+                                                            <label className={cn(
+                                                                "w-6 h-6 rounded-lg cursor-pointer flex items-center justify-center transition-all",
+                                                                (formData.permissions[mod.id] || []).includes(action)
+                                                                    ? "bg-primary-600 text-white shadow-lg shadow-primary-100"
+                                                                    : "bg-white border border-slate-100 text-slate-100 hover:border-slate-300"
+                                                            )}>
+                                                                <input 
+                                                                    type="checkbox" 
+                                                                    className="sr-only"
+                                                                    checked={(formData.permissions[mod.id] || []).includes(action)}
+                                                                    onChange={() => togglePermission(mod.id, action)}
+                                                                />
+                                                                {(formData.permissions[mod.id] || []).includes(action) && <ShieldCheck size={12} fill="currentColor" />}
+                                                            </label>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
                                         ))}
                                     </div>
-                                </div>
-                                <div className="divide-y divide-slate-100">
-                                    {modules.map((mod) => (
-                                        <div key={mod.id} className="grid grid-cols-12 p-6 hover:bg-white transition-colors group">
-                                            <div className="col-span-4 flex items-center gap-4">
-                                                <div className="p-2.5 bg-white border border-slate-100 rounded-xl text-slate-400 group-hover:text-primary-600 transition-colors shadow-sm">
-                                                    <mod.icon size={16} />
-                                                </div>
-                                                <span className="text-sm font-bold text-slate-700">{mod.label}</span>
-                                            </div>
-                                            <div className="col-span-8 grid grid-cols-7 gap-1">
-                                                {actions.map(action => (
-                                                    <div key={action} className="flex items-center justify-center">
-                                                        <label className={cn(
-                                                            "w-6 h-6 rounded-lg cursor-pointer flex items-center justify-center transition-all",
-                                                            (formData.permissions[mod.id] || []).includes(action)
-                                                                ? "bg-primary-600 text-white shadow-lg shadow-primary-100"
-                                                                : "bg-white border border-slate-100 text-slate-100 hover:border-slate-300"
-                                                        )}>
-                                                            <input 
-                                                                type="checkbox" 
-                                                                className="sr-only"
-                                                                checked={(formData.permissions[mod.id] || []).includes(action)}
-                                                                onChange={() => togglePermission(mod.id, action)}
-                                                            />
-                                                            {(formData.permissions[mod.id] || []).includes(action) && <ShieldCheck size={12} fill="currentColor" />}
-                                                        </label>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
                                 </div>
                             </div>
                         </motion.div>

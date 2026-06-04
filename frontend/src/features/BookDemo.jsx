@@ -526,7 +526,7 @@ const BookDemo = () => {
                     {/* Checkboxes - Interested Modules */}
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1 block">* Interested Modules</label>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/80">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-800/80">
                         {moduleOptions.map((moduleName) => {
                           const isChecked = selectedModules.includes(moduleName);
                           return (

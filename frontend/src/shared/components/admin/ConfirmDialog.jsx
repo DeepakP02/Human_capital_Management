@@ -18,7 +18,7 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl z-[210] overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl z-[210] overflow-hidden"
           >
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">

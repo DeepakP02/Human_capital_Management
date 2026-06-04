@@ -110,7 +110,7 @@ const ComplianceModal = ({ isOpen, onClose, policy }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl max-h-[90vh] bg-white dark:bg-slate-900 shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-xl max-h-[90vh] bg-white dark:bg-slate-900 shadow-2xl z-[120] flex flex-col rounded-3xl overflow-hidden"
           >
              <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto flex flex-col h-full text-left">
                 <div className="p-8 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20">
@@ -135,7 +135,7 @@ const ComplianceModal = ({ isOpen, onClose, policy }) => {
                          <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="e.g. Workplace Ethics Policy 2026" className="input-field h-14 bg-slate-50 dark:bg-slate-850 border-transparent font-bold text-slate-700 dark:text-slate-200 focus:bg-white dark:focus:bg-slate-900" />
                       </div>
 
-                      <div className="grid grid-cols-2 gap-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                          <div className="space-y-2">
                             <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Category</label>
                             <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="input-field h-14 bg-slate-50 dark:bg-slate-850 border-transparent font-bold text-slate-700 dark:text-slate-200">

@@ -28,10 +28,10 @@ const ExportHistoryModal = ({ isOpen, onClose }) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-0 m-auto max-w-md max-h-[85vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
+            className="fixed inset-0 m-auto w-[calc(100%-2rem)] sm:w-full max-w-md max-h-[85vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
           >
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
-              <div className="p-8 border-b border-slate-100 flex items-center justify-between">
+              <div className="p-6 sm:p-8 border-b border-slate-100 flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-extrabold text-slate-900">Export History</h2>
                   <p className="text-xs font-bold text-slate-500">Download billing records</p>
@@ -41,7 +41,7 @@ const ExportHistoryModal = ({ isOpen, onClose }) => {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-8 space-y-6">
+              <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Date Range</label>
                   <select value={formData.dateRange} onChange={e => setFormData({...formData, dateRange: e.target.value})} className="input-field h-14 bg-slate-50 font-bold text-slate-700 border-none">
@@ -70,7 +70,7 @@ const ExportHistoryModal = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              <div className="p-8 border-t border-slate-100 bg-slate-50 flex gap-4">
+              <div className="p-6 sm:p-8 border-t border-slate-100 bg-slate-50 flex gap-4">
                 <button type="button" onClick={onClose} className="flex-1 py-3.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-100">Cancel</button>
                 <button type="submit" className="flex-1 py-3.5 bg-slate-900 text-white rounded-2xl font-bold hover:bg-black shadow-xl shrink-0 flex items-center justify-center gap-2"><Download size={16} /> Export</button>
               </div>

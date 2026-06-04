@@ -46,11 +46,11 @@ const ManageAddonsModal = ({ isOpen, onClose }) => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-0 m-auto max-w-xl max-h-[85vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
+            className="fixed inset-0 m-auto w-[calc(100%-2rem)] sm:w-full max-w-xl max-h-[85vh] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden"
           >
-            <div className="p-8 border-b border-slate-100 flex items-center justify-between">
+            <div className="p-6 sm:p-8 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
                   <Zap size={24} fill="currentColor" />
                 </div>
                 <div>
@@ -63,16 +63,16 @@ const ManageAddonsModal = ({ isOpen, onClose }) => {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-8 space-y-4">
+            <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-4">
                {addonsList.map(addon => {
                  const isEnabled = activeAddons.includes(addon.name);
                  return (
-                   <div key={addon.name} className={cn("p-5 border-2 rounded-2xl transition-all flex items-center justify-between cursor-pointer", isEnabled ? "border-indigo-600 bg-indigo-50/10" : "border-slate-100 bg-white hover:border-slate-200")} onClick={() => handleToggle(addon.name)}>
-                      <div>
-                         <h4 className="font-bold text-slate-900 mb-1">{addon.name} <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md ml-2">+${addon.price}/mo</span></h4>
-                         <p className="text-xs text-slate-500 font-medium leading-relaxed max-w-[280px]">{addon.desc}</p>
+                   <div key={addon.name} className={cn("p-5 border-2 rounded-2xl transition-all flex items-center justify-between gap-4 cursor-pointer", isEnabled ? "border-indigo-600 bg-indigo-50/10" : "border-slate-100 bg-white hover:border-slate-200")} onClick={() => handleToggle(addon.name)}>
+                      <div className="flex-1 min-w-0">
+                         <h4 className="font-bold text-slate-900 mb-1 break-words">{addon.name} <span className="inline-block text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md ml-1">+${addon.price}/mo</span></h4>
+                         <p className="text-xs text-slate-500 font-medium leading-relaxed">{addon.desc}</p>
                       </div>
-                      <div className={cn("w-12 h-6 rounded-full relative p-1 transition-colors", isEnabled ? "bg-indigo-600" : "bg-slate-300")}>
+                      <div className={cn("w-12 h-6 rounded-full relative p-1 transition-colors shrink-0", isEnabled ? "bg-indigo-600" : "bg-slate-300")}>
                          <div className={cn("w-4 h-4 bg-white rounded-full transition-transform", isEnabled && "translate-x-6")} />
                       </div>
                    </div>
@@ -80,14 +80,14 @@ const ManageAddonsModal = ({ isOpen, onClose }) => {
                })}
             </div>
 
-            <div className="p-8 border-t border-slate-100 bg-slate-50 flex items-center justify-between shrink-0">
+            <div className="p-6 sm:p-8 border-t border-slate-100 bg-slate-50 flex flex-col sm:flex-row gap-4 sm:gap-0 items-start sm:items-center justify-between shrink-0">
                <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Added to Subscription</p>
                   <p className="text-xl font-black text-slate-900">+${totalPrice}<span className="text-xs font-bold text-slate-500">/mo</span></p>
                </div>
-               <div className="flex gap-4">
-                  <button onClick={onClose} className="px-6 py-3.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-50">Cancel</button>
-                  <button onClick={handleSubmit} className="px-8 py-3.5 bg-slate-900 text-white rounded-2xl font-bold hover:bg-black shadow-xl">Save Updates</button>
+               <div className="flex w-full sm:w-auto gap-3 justify-end">
+                  <button onClick={onClose} className="flex-1 sm:flex-initial px-4 sm:px-6 py-2.5 sm:py-3.5 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-50">Cancel</button>
+                  <button onClick={handleSubmit} className="flex-1 sm:flex-initial px-5 sm:px-8 py-2.5 sm:py-3.5 bg-slate-900 text-white rounded-2xl font-bold hover:bg-black shadow-xl">Save Updates</button>
                </div>
             </div>
           </motion.div>

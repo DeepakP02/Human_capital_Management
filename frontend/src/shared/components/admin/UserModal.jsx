@@ -188,7 +188,7 @@ const UserModal = ({ isOpen, onClose, userToEdit = null }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 15 }}
             transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-[950px] h-[82vh] max-h-[780px] bg-white shadow-2xl z-[120] flex flex-col rounded-[2.5rem] overflow-hidden border border-slate-100"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full sm:w-[95%] max-w-[950px] h-full sm:h-[82vh] sm:max-h-[780px] bg-white shadow-2xl z-[120] flex flex-col rounded-none sm:rounded-[2.5rem] overflow-hidden border border-slate-100"
           >
             {/* Header Profile Area */}
             <div className="px-8 py-6 border-b border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 shrink-0 relative">

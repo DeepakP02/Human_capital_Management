@@ -52,7 +52,7 @@ const CenterModal = ({
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
-              "relative w-full bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-premium overflow-hidden flex flex-col",
+              "relative w-[calc(100%-2rem)] sm:w-full max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-4rem)] bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-premium overflow-hidden flex flex-col",
               maxWidth
             )}
           >

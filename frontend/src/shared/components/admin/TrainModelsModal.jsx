@@ -54,7 +54,7 @@ const TrainModelsModal = ({ isOpen, onClose }) => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white rounded-3xl shadow-2xl z-[120] overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:w-full max-w-lg bg-white rounded-3xl shadow-2xl z-[120] overflow-hidden"
           >
             <div className="p-8 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -94,7 +94,7 @@ const TrainModelsModal = ({ isOpen, onClose }) => {
                         </select>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <label className="text-xs font-bold text-slate-600">Dataset Source</label>
                             <select value={formData.dataset} onChange={e => setFormData({...formData, dataset: e.target.value})} className="input-field h-12 w-full bg-slate-50 text-sm font-bold">

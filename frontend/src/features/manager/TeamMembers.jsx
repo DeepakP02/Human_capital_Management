@@ -264,7 +264,7 @@ const TeamMembers = () => {
          {selectedMember && (
             <div className="flex flex-col h-full overflow-hidden">
                {/* Hero Section */}
-               <div className="p-10 border-b border-slate-100 flex flex-col md:flex-row items-center gap-8 bg-slate-50/50">
+               <div className="p-6 sm:p-10 border-b border-slate-100 flex flex-col md:flex-row items-center gap-8 bg-slate-50/50">
                   <img src={selectedMember.img} className="w-32 h-32 rounded-[2.5rem] object-cover ring-8 ring-white shadow-2xl" />
                   <div className="text-center md:text-left flex-1">
                      <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-2">
@@ -313,7 +313,7 @@ const TeamMembers = () => {
                </div>
 
                {/* Tab Content */}
-               <div className="p-8 flex-1 overflow-y-auto">
+               <div className="p-6 sm:p-8 flex-1 overflow-y-auto">
                   <AnimatePresence mode="wait">
                      {profileTab === 'summary' && (
                         <motion.div key="summary" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-8 text-left">
@@ -342,7 +342,7 @@ const TeamMembers = () => {
                               </p>
                            </div>
 
-                           <div className="grid grid-cols-2 gap-8 pt-4">
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 pt-4">
                               <div className="space-y-1.5">
                                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Department</label>
                                  <p className="text-sm font-bold text-slate-800">{selectedMember.department}</p>
@@ -422,12 +422,14 @@ const TeamMembers = () => {
                                 { label: 'Deadline Reliability', score: 95 },
                                 { label: 'Innovation Contribution', score: 74 },
                               ].map((m, i) => (
-                                <div key={i} className="flex items-center gap-4">
-                                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 w-40 shrink-0">{m.label}</span>
-                                   <div className="flex-1 h-3 bg-slate-50 border border-slate-100 rounded-full overflow-hidden">
-                                      <div className="h-full bg-indigo-600 rounded-full shadow-[0_0_8px_rgba(79,70,229,0.3)]" style={{ width: `${m.score}%` }} />
+                                <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 w-full sm:w-40 shrink-0">{m.label}</span>
+                                   <div className="flex-1 flex items-center gap-4 w-full">
+                                      <div className="flex-1 h-3 bg-slate-50 border border-slate-100 rounded-full overflow-hidden">
+                                         <div className="h-full bg-indigo-600 rounded-full shadow-[0_0_8px_rgba(79,70,229,0.3)]" style={{ width: `${m.score}%` }} />
+                                      </div>
+                                      <span className="text-xs font-black text-slate-900 w-10 text-right shrink-0">{m.score}%</span>
                                    </div>
-                                   <span className="text-xs font-black text-slate-900 w-10 text-right">{m.score}%</span>
                                 </div>
                               ))}
                            </div>
@@ -455,7 +457,7 @@ const TeamMembers = () => {
                </div>
 
                {/* Footer */}
-               <div className="p-8 border-t border-slate-100 bg-slate-50 flex gap-4 shrink-0">
+               <div className="p-6 sm:p-8 border-t border-slate-100 bg-slate-50 flex flex-col sm:flex-row gap-3 sm:gap-4 shrink-0">
                   <button className="flex-1 py-4 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
                      <Target size={18} />
                      <span>Assign New Goal</span>

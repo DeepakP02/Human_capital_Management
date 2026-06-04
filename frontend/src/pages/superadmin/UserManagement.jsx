@@ -76,7 +76,7 @@ const UserManagement = () => {
   );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -116,7 +116,7 @@ const UserManagement = () => {
 
       {/* Users Table / Grid */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/60 overflow-hidden shadow-soft">
-        <div className="overflow-x-auto">
+        <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/50 dark:bg-slate-950/40 border-b border-slate-100 dark:border-slate-800 text-xs font-bold text-slate-400 uppercase tracking-wider">
@@ -193,6 +193,66 @@ const UserManagement = () => {
               </AnimatePresence>
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Responsive Cards */}
+        <div className="block sm:hidden divide-y divide-slate-100 dark:divide-slate-800/50">
+          <AnimatePresence>
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
+                <motion.div
+                  key={user.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="p-4 space-y-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 font-black flex items-center justify-center text-sm shadow-inner uppercase shrink-0">
+                      {user.name.charAt(0)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">{user.name}</p>
+                      <p className="text-xs text-slate-400 dark:text-slate-500 font-medium flex items-center gap-1.5 mt-0.5 truncate">
+                        <Mail size={12} className="shrink-0" />
+                        <span className="truncate">{user.email}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 text-[10px] font-semibold text-slate-600 dark:text-slate-300 border border-slate-100 dark:border-slate-800">
+                      <Building2 size={10} />
+                      {user.department}
+                    </span>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-primary-50 dark:bg-primary-950/25 text-[10px] font-bold text-primary-600 dark:text-primary-400 uppercase">
+                      <Shield size={10} />
+                      {user.role}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-50 dark:border-slate-800/40">
+                    <button
+                      onClick={() => openEditModal(user)}
+                      className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-950/30 rounded-xl transition-all"
+                      title="Edit User"
+                    >
+                      <Edit3 size={16} />
+                    </button>
+                    <button
+                      onClick={() => deleteUser(user.id)}
+                      className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl transition-all"
+                      title="Delete User"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <div className="p-12 text-center text-slate-400 font-medium text-sm">
+                No users match your search criteria.
+              </div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 

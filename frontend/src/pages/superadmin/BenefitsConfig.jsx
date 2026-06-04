@@ -23,7 +23,7 @@ const BenefitsConfig = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
       <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Benefits Management</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
         {cards.map((c, i) => (
@@ -58,26 +58,42 @@ const BenefitsConfig = () => {
         </div>
         {/* Benefit Plans Table */}
         {benefitPlans && benefitPlans.length > 0 ? (
-          <div className="overflow-x-auto rounded-lg border">
-            <table className="min-w-full bg-white dark:bg-slate-900">
-              <thead className="bg-gray-100 dark:bg-slate-800">
-                <tr>
-                  <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Plan Name</th>
-                  <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Enrolled</th>
-                  <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Monthly Cost</th>
-                </tr>
-              </thead>
-              <tbody>
-                {benefitPlans.map((plan) => (
-                  <tr key={plan.id} className="border-t border-gray-200 dark:border-slate-700">
-                    <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{plan.name}</td>
-                    <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{plan.enrolledCount}</td>
-                    <td className="px-4 py-2 text-gray-800 dark:text-gray-200">${plan.monthlyCost}</td>
+          <>
+            <div className="hidden sm:block overflow-x-auto rounded-lg border">
+              <table className="min-w-full bg-white dark:bg-slate-900">
+                <thead className="bg-gray-100 dark:bg-slate-800">
+                  <tr>
+                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Plan Name</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Enrolled</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Monthly Cost</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {benefitPlans.map((plan) => (
+                    <tr key={plan.id} className="border-t border-gray-200 dark:border-slate-700">
+                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{plan.name}</td>
+                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{plan.enrolledCount}</td>
+                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">${plan.monthlyCost}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {/* Mobile Cards */}
+            <div className="block sm:hidden space-y-4">
+              {benefitPlans.map((plan) => (
+                <div key={plan.id} className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl space-y-2 shadow-soft">
+                  <div className="border-b pb-2 mb-2 border-slate-100 dark:border-slate-800">
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{plan.name}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 text-xs text-slate-500 dark:text-slate-400">
+                    <div>Enrolled: <span className="font-bold text-slate-700 dark:text-slate-300">{plan.enrolledCount}</span></div>
+                    <div>Monthly Cost: <span className="font-bold text-slate-700 dark:text-slate-300">${plan.monthlyCost}</span></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         ) : (
           <div className="p-4 text-center text-gray-500 dark:text-gray-400">No benefit plans available. Use the actions above to add plans.</div>
         )}
