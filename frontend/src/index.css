@@ -50,3 +50,22 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-slate-200 rounded-full hover:bg-slate-300;
 }
+
+/* Hide legacy Google Translate banner and widget UI to protect premium aesthetics */
+body {
+  top: 0px !important;
+}
+.skiptranslate, 
+.goog-te-banner-frame, 
+.goog-te-banner, 
+#goog-gt-tt, 
+.goog-te-balloon-frame, 
+.goog-te-menu-value,
+iframe[class*="goog"], 
+iframe[id*="goog"] {
+  display: none !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}

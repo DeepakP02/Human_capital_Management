@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { applyTranslation } from '../utils/translationHelper';
 
 const AdminContext = createContext();
 
@@ -338,7 +339,7 @@ export const AdminProvider = ({ children }) => {
 
   // --- SETTINGS ---
   const initialSettings = {
-    general: { language: 'English (US) - Primary', timezone: 'UTC-08:00 (Pacific Standard Time)', dateFormat: 'MM/DD/YYYY', multiCurrency: true },
+    general: { language: 'English (US) - Primary', timezone: 'UTC-08:00 (Pacific Standard Time)', dateFormat: 'MM/DD/YYYY', defaultCurrency: 'USD ($) - US Dollar', multiCurrency: true },
     security: { twoFactor: true, sessionTimeout: '15 Minutes', passwordPolicy: ['Min 12 Characters'] },
     branding: { brandName: 'Global Tech', primaryColor: '#4f46e5', accentColor: '#0ea5e9' },
     notifications: { emailAlerts: true, pushAlerts: true, weeklyReports: false },
@@ -347,12 +348,25 @@ export const AdminProvider = ({ children }) => {
   const [appSettings, setAppSettings] = usePersistedState('settings', initialSettings);
 
   const updateSettings = (category, data) => {
-    setAppSettings(prev => ({ ...prev, [category]: { ...prev[category], ...data } }));
+    setAppSettings(prev => {
+      const next = { ...prev, [category]: { ...prev[category], ...data } };
+      if (category === 'general' && data.language) {
+        applyTranslation(data.language);
+        setTimeout(() => {
+          window.location.reload();
+        }, 150);
+      }
+      return next;
+    });
   };
 
   const resetSettings = () => {
     setAppSettings(initialSettings);
+    applyTranslation(initialSettings.general.language);
     showToast('Settings reset to defaults');
+    setTimeout(() => {
+      window.location.reload();
+    }, 150);
   };
 
   // --- BILLING STATE ---

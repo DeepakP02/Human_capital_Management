@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './hooks/ThemeContext';
 import { AuthProvider, useAuth } from './hooks/useAuth';
@@ -19,6 +19,7 @@ import { EmployeeProvider } from './context/EmployeeContext';
 import { CandidateProvider } from './context/CandidateContext';
 import BenefitsDashboard from './features/benefits/BenefitsDashboard';
 import TimeDashboard from './features/time/TimeDashboard';
+import { applyTranslation } from './utils/translationHelper';
 
 // Layout & Auth
 import LoginPage from './features/auth/LoginPage';
@@ -102,6 +103,21 @@ const RoleDashboardRedirect = ({ children }) => {
 };
 
 function App() {
+  useEffect(() => {
+    try {
+      const savedSettings = localStorage.getItem('hcm_admin_settings');
+      if (savedSettings) {
+        const parsed = JSON.parse(savedSettings);
+        const language = parsed?.general?.language;
+        if (language) {
+          applyTranslation(language);
+        }
+      }
+    } catch (err) {
+      console.error('Translation initialization failed:', err);
+    }
+  }, []);
+
   return (
     <Router>
       <ThemeProvider>

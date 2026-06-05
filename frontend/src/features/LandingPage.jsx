@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Zap, 
-  ShieldCheck, 
-  Activity, 
-  Brain, 
-  Users, 
-  Briefcase, 
-  DollarSign, 
-  Calendar, 
-  BarChart3, 
-  Target, 
-  ChevronRight, 
-  Menu, 
-  X, 
-  Star, 
+import {
+  Zap,
+  ShieldCheck,
+  Activity,
+  Brain,
+  Users,
+  Briefcase,
+  DollarSign,
+  Calendar,
+  Clock,
+  BarChart3,
+  Target,
+  ChevronRight,
+  Menu,
+  X,
+  Star,
   ArrowRight,
   TrendingUp,
   MessageSquare,
@@ -24,12 +25,17 @@ import {
   PieChart,
   CheckCircle2,
   HelpCircle,
-  Mail, 
-  Share2, 
+  Mail,
+  Share2,
   ChevronDown,
   Search,
   Heart,
-  Play
+  Play,
+  MapPin,
+  Phone,
+  UploadCloud,
+  Award,
+  Building
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '../utils/cn';
@@ -37,11 +43,27 @@ import { cn } from '../utils/cn';
 const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  
+  // Demo modal states
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [demoStep, setDemoStep] = useState(1);
   const [demoFormData, setDemoFormData] = useState({ name: '', email: '', companySize: '11-50', requirement: 'AI Recruitment' });
   const [selectedDate, setSelectedDate] = useState('Monday, June 1');
   const [selectedSlot, setSelectedSlot] = useState('10:00 AM');
+  
+  // Careers application modal states
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+  const [applyJobTitle, setApplyJobTitle] = useState('');
+  const [applyStep, setApplyStep] = useState(1);
+  const [applyFormData, setApplyFormData] = useState({ name: '', email: '', phone: '', resumeName: '', portfolioUrl: '', explanation: '' });
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [aiScore, setAiScore] = useState(0);
+
+  // Contact form states
+  const [contactFormData, setContactFormData] = useState({ name: '', email: '', subject: 'General Inquiry', message: '' });
+  const [contactFormStep, setContactFormStep] = useState(1); // 1 = form, 2 = success
+  const [contactFormSubmitting, setContactFormSubmitting] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,9 +101,9 @@ const LandingPage = () => {
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8">
             {['Home', 'Features', 'Roles', 'Pricing', 'Careers', 'Contact'].map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
                 className="text-sm font-bold text-slate-500 hover:text-primary-600 transition-colors uppercase tracking-[0.15em]"
               >
                 {item}
@@ -104,7 +126,7 @@ const LandingPage = () => {
         {/* Mobile Menu Overlay */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -112,9 +134,9 @@ const LandingPage = () => {
             >
               <div className="container mx-auto px-6 py-8 flex flex-col gap-6">
                 {['Home', 'Features', 'Roles', 'Pricing', 'Careers', 'Contact'].map((item) => (
-                  <a 
-                    key={item} 
-                    href={`#${item.toLowerCase()}`} 
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
                     onClick={() => setIsMenuOpen(false)}
                     className="text-lg font-bold text-slate-500"
                   >
@@ -132,41 +154,41 @@ const LandingPage = () => {
       </nav>
 
       {/* 2. HERO SECTION */}
-      <section id="home" className="relative pt-32 lg:pt-48 pb-20 overflow-hidden">
+      <section id="home" className="relative min-h-screen lg:h-screen flex items-center pt-28 lg:pt-24 pb-8 overflow-hidden">
         <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[800px] h-[800px] bg-primary-50 rounded-full blur-[120px] opacity-40 pointer-events-none" />
         <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[600px] h-[600px] bg-indigo-50 rounded-full blur-[100px] opacity-30 pointer-events-none" />
-        
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div 
+
+        <div className="container mx-auto px-6 w-full mt-2 lg:mt-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+            <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-10"
+              className="space-y-6 lg:space-y-8"
             >
-              <div className="inline-flex items-center gap-3 px-4 py-2 bg-primary-50 text-primary-700 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-sm border border-primary-100">
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-primary-50 text-primary-700 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-sm border border-primary-100">
                 <Sparkles size={14} fill="currentColor" />
                 <span>Next-Gen Workforce OS</span>
               </div>
-              <h1 className="text-5xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-[0.95]">
-                Transform Workforce <br /> 
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-black text-slate-900 tracking-tighter leading-[1.05]">
+                Transform Workforce <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-600">Management</span> with AI
               </h1>
-              <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-xl">
+              <p className="text-base lg:text-lg text-slate-500 font-medium leading-relaxed max-w-xl">
                 Manage recruitment, onboarding, payroll, attendance, performance and compliance in one intelligent platform powered by proprietary AI models.
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-4">
-                <button 
+                <button
                   onClick={() => navigate('/login')}
-                  className="w-full sm:w-auto px-10 py-5 bg-slate-900 text-white rounded-[2rem] font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-2xl shadow-slate-200 flex items-center justify-center gap-3 group"
+                  className="w-full sm:w-auto px-8 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 flex items-center justify-center gap-3 group text-sm"
                 >
-                  Get Started <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  Get Started <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button onClick={() => navigate('/book-demo')} className="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 border border-slate-100 rounded-[2rem] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-soft flex items-center justify-center gap-3">
+                <button onClick={() => navigate('/book-demo')} className="w-full sm:w-auto px-8 py-4 bg-white text-slate-900 border border-slate-100 rounded-2xl font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-soft flex items-center justify-center gap-3 text-sm">
                   Book Demo
                 </button>
               </div>
-              <div className="flex items-center gap-8 pt-8 border-t border-slate-50">
+              <div className="flex items-center gap-6 pt-6 border-t border-slate-100">
                 <div className="flex items-center gap-2">
                   <ShieldCheck size={18} className="text-emerald-500" />
                   <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Enterprise Secure</span>
@@ -182,58 +204,58 @@ const LandingPage = () => {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9, x: 30 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              className="relative w-full max-w-lg lg:max-w-none mx-auto"
             >
-              <div className="bg-white rounded-[3rem] shadow-3xl p-4 border border-slate-100 relative z-10">
-                <img 
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop" 
-                  alt="Dashboard Preview" 
-                  className="rounded-[2.5rem] w-full"
+              <div className="bg-white rounded-[2.5rem] shadow-2xl p-3 border border-slate-100 relative z-10">
+                <img
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"
+                  alt="Dashboard Preview"
+                  className="rounded-[2rem] w-full object-cover"
                 />
               </div>
               {/* Floating Cards */}
-              <motion.div 
-                animate={{ y: [0, -20, 0] }}
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-10 -right-10 w-64 p-6 bg-white rounded-3xl shadow-2xl border border-slate-50 z-20 hidden lg:block"
+                className="absolute -top-6 -right-6 w-56 p-4 bg-white rounded-2xl shadow-xl border border-slate-50 z-20 hidden xl:block"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
-                    <TrendingUp size={24} />
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+                    <TrendingUp size={20} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Hiring Efficiency</p>
-                    <p className="text-xl font-black text-slate-900">+42%</p>
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Hiring Efficiency</p>
+                    <p className="text-lg font-black text-slate-900">+42%</p>
                   </div>
                 </div>
-                <div className="w-full h-2 bg-slate-50 rounded-full overflow-hidden">
+                <div className="w-full h-1.5 bg-slate-50 rounded-full overflow-hidden">
                   <motion.div initial={{ width: 0 }} animate={{ width: '74%' }} className="h-full bg-emerald-500 rounded-full" />
                 </div>
               </motion.div>
 
-              <motion.div 
-                animate={{ y: [0, 20, 0] }}
+              <motion.div
+                animate={{ y: [0, 15, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -bottom-10 -left-10 w-64 p-6 bg-slate-900 rounded-3xl shadow-2xl z-20 hidden lg:block"
+                className="absolute -bottom-6 -left-6 w-56 p-4 bg-slate-900 rounded-2xl shadow-xl z-20 hidden xl:block"
               >
-                <div className="flex items-center gap-4 mb-6">
-                   <div className="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center text-white">
-                      <Brain size={20} />
-                   </div>
-                   <span className="text-xs font-bold text-white tracking-tight">AI Screening Success</span>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white">
+                    <Brain size={16} />
+                  </div>
+                  <span className="text-[10px] font-bold text-white tracking-tight">AI Screening Success</span>
                 </div>
-                <div className="space-y-3">
-                   {[1, 2].map(i => (
-                      <div key={i} className="flex items-center gap-3">
-                         <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                            <motion.div initial={{ width: 0 }} animate={{ width: i === 1 ? '90%' : '75%' }} className="h-full bg-primary-400" />
-                         </div>
+                <div className="space-y-2">
+                  {[1, 2].map(i => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                        <motion.div initial={{ width: 0 }} animate={{ width: i === 1 ? '90%' : '75%' }} className="h-full bg-primary-400" />
                       </div>
-                   ))}
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             </motion.div>
@@ -242,7 +264,7 @@ const LandingPage = () => {
       </section>
 
       {/* 3. TRUST / STATS SECTION */}
-      <section className="py-24 bg-slate-50">
+      <section className="pt-20 pb-12 bg-slate-50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {[
@@ -251,7 +273,7 @@ const LandingPage = () => {
               { label: 'Experience Roles', val: '5', desc: 'Custom portals', icon: Users },
               { label: 'Smart Insights', val: '24/7', desc: 'Real-time analytics', icon: Brain },
             ].map((stat, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 {...fadeIn}
                 transition={{ delay: i * 0.1 }}
@@ -270,20 +292,20 @@ const LandingPage = () => {
       </section>
 
       {/* 4. CORE FEATURES SECTION */}
-      <section id="features" className="py-32">
+      <section id="features" className="pt-12 pb-24">
         <div className="container mx-auto px-6">
-          <motion.div {...fadeIn} className="text-center max-w-3xl mx-auto mb-20 space-y-6">
+          <motion.div {...fadeIn} className="text-center max-w-3xl mx-auto mb-10 space-y-4">
             <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Core Capabilities</span>
-            <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">Everything you need to <br /> scale your workforce</h2>
-            <p className="text-lg text-slate-500 font-medium tracking-tight">Our platform brings together all aspects of HCM into a single, cohesive intelligent ecosystem.</p>
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter">Everything you need to <br /> scale your workforce</h2>
+            <p className="text-base text-slate-500 font-medium tracking-tight">Our platform brings together all aspects of HCM into a single, cohesive intelligent ecosystem.</p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={stagger}
             initial="initial"
             whileInView="whileInView"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
           >
             {[
               { icon: Search, title: 'AI Recruitment', desc: 'Auto-scan resumes and rank candidates with proprietary ML models.' },
@@ -295,21 +317,23 @@ const LandingPage = () => {
               { icon: ShieldCheck, title: 'Compliance Center', desc: 'Immutable audit logs and organizational policy alignment tools.' },
               { icon: BarChart3, title: 'Reports & Analytics', desc: 'Deep-dive visualization of every metric across your organization.' },
             ].map((feat, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 variants={fadeIn}
-                whileHover={{ y: -10 }}
-                className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-soft hover:shadow-2xl transition-all duration-300 group"
+                whileHover={{ y: -8 }}
+                className="bg-white p-6 sm:p-7 rounded-[2rem] border border-slate-100 shadow-soft hover:shadow-2xl transition-all duration-300 group"
               >
-                <div className="p-5 bg-slate-50 text-slate-400 rounded-[2rem] mb-8 group-hover:bg-primary-600 group-hover:text-white transition-all">
-                  <feat.icon size={32} />
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2.5 bg-slate-50 text-slate-400 rounded-xl w-fit shrink-0 group-hover:bg-primary-600 group-hover:text-white transition-all">
+                    <feat.icon size={20} />
+                  </div>
+                  <h4 className="text-sm font-black text-slate-900 tracking-tight leading-snug">{feat.title}</h4>
                 </div>
-                <h4 className="text-xl font-black text-slate-900 mb-4 tracking-tight leading-none">{feat.title}</h4>
-                <p className="text-sm font-medium text-slate-400 leading-relaxed tracking-tight">{feat.desc}</p>
-                <div className="mt-8 pt-8 border-t border-slate-50 flex items-center justify-between">
-                   <button className="text-[10px] font-black text-primary-600 uppercase tracking-widest flex items-center gap-2 group/btn">
-                      Learn More <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                   </button>
+                <p className="text-xs font-medium text-slate-400 leading-relaxed tracking-tight">{feat.desc}</p>
+                <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
+                  <button className="text-[9px] font-black text-primary-600 uppercase tracking-widest flex items-center gap-2 group/btn">
+                    Learn More <ChevronRight size={12} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -318,224 +342,224 @@ const LandingPage = () => {
       </section>
 
       {/* 5. ROLE-BASED PLATFORM SECTION */}
-      <section id="roles" className="py-32 bg-slate-50 text-slate-900 relative overflow-hidden">
+      <section id="roles" className="pt-16 pb-4 bg-slate-50 text-slate-900 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
-           <div className="absolute top-0 left-0 w-[1000px] h-[1000px] bg-primary-600 rounded-full blur-[200px] -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute top-0 left-0 w-[1000px] h-[1000px] bg-primary-600 rounded-full blur-[200px] -translate-x-1/2 -translate-y-1/2" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div {...fadeIn}>
-               <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-6 inline-block">Experience-Centric Design</span>
-               <h2 className="text-4xl lg:text-7xl font-black tracking-tighter leading-none mb-10 text-slate-900">
-                 Unified Experience, <br /> 
-                 <span className="text-primary-600">Dedicated Portals.</span>
-               </h2>
-               <p className="text-xl text-slate-500 font-medium mb-12 leading-relaxed">
-                 We've engineered specialized high-fidelity interfaces for every role in your organization, ensuring maximum efficiency and minimal learning curve.
-               </p>
-               <div className="space-y-6">
-                  {[
-                    { role: 'Candidate', action: 'Apply jobs, check resume score' },
-                    { role: 'Employee', action: 'Track attendance, manage payroll' },
-                    { role: 'Manager', action: 'Approve leave, review team KPI' },
-                    { role: 'HR / Recruiter', action: 'Manage pipeline, publish job posts' },
-                    { role: 'Admin', action: 'Full organization oversight & AI config' },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-6 group cursor-pointer p-4 rounded-2xl hover:bg-white hover:shadow-soft transition-all">
-                       <div className="w-2 h-2 bg-primary-500 rounded-full group-hover:scale-125 transition-transform" />
-                       <div className="flex-1">
-                          <span className="text-lg font-black tracking-tight text-slate-800 group-hover:text-primary-600 transition-colors">{item.role}</span>
-                          <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">{item.action}</p>
-                       </div>
-                       <ArrowRight size={20} className="text-slate-400 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+              <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-6 inline-block">Experience-Centric Design</span>
+              <h2 className="text-4xl lg:text-7xl font-black tracking-tighter leading-none mb-10 text-slate-900">
+                Unified Experience, <br />
+                <span className="text-primary-600">Dedicated Portals.</span>
+              </h2>
+              <p className="text-xl text-slate-500 font-medium mb-12 leading-relaxed">
+                We've engineered specialized high-fidelity interfaces for every role in your organization, ensuring maximum efficiency and minimal learning curve.
+              </p>
+              <div className="space-y-6">
+                {[
+                  { role: 'Candidate', action: 'Apply jobs, check resume score' },
+                  { role: 'Employee', action: 'Track attendance, manage payroll' },
+                  { role: 'Manager', action: 'Approve leave, review team KPI' },
+                  { role: 'HR / Recruiter', action: 'Manage pipeline, publish job posts' },
+                  { role: 'Admin', action: 'Full organization oversight & AI config' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-6 group cursor-pointer p-4 rounded-2xl hover:bg-white hover:shadow-soft transition-all">
+                    <div className="w-2 h-2 bg-primary-500 rounded-full group-hover:scale-125 transition-transform" />
+                    <div className="flex-1">
+                      <span className="text-lg font-black tracking-tight text-slate-800 group-hover:text-primary-600 transition-colors">{item.role}</span>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">{item.action}</p>
                     </div>
-                  ))}
-               </div>
+                    <ArrowRight size={20} className="text-slate-400 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  </div>
+                ))}
+              </div>
             </motion.div>
 
-            <motion.div 
-               {...fadeIn}
-               transition={{ delay: 0.3 }}
-               className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+            <motion.div
+              {...fadeIn}
+              transition={{ delay: 0.3 }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6"
             >
-               {[
-                 { title: 'Candidate Portal', img: 'https://images.unsplash.com/photo-1549923746-c502d488b3ea?q=80&w=2671' },
-                 { title: 'Manager Suite', img: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2670' },
-                 { title: 'Employee Hub', img: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671' },
-                 { title: 'Admin Control', img: 'https://images.unsplash.com/photo-1454165833772-d9962308607c?q=80&w=2670' },
-               ].map((card, i) => (
-                 <div key={i} className={cn("relative group rounded-[2.5rem] overflow-hidden aspect-[4/5]", i % 2 !== 0 ? "sm:mt-12" : "")}>
-                    <img src={card.img} alt={card.title} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
-                    <div className="absolute bottom-0 left-0 p-8">
-                       <p className="text-[10px] font-black uppercase tracking-widest text-primary-400 mb-2">Role Experience</p>
-                       <h4 className="text-2xl font-black tracking-tight">{card.title}</h4>
-                    </div>
-                 </div>
-               ))}
+              {[
+                { title: 'Candidate Portal', img: 'https://images.unsplash.com/photo-1549923746-c502d488b3ea?q=80&w=2671' },
+                { title: 'Manager Suite', img: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2670' },
+                { title: 'Employee Hub', img: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671' },
+                { title: 'Admin Control', img: 'https://images.unsplash.com/photo-1454165833772-d9962308607c?q=80&w=2670' },
+              ].map((card, i) => (
+                <div key={i} className={cn("relative group rounded-[2.5rem] overflow-hidden aspect-[4/5]", i % 2 !== 0 ? "sm:mt-12" : "")}>
+                  <img src={card.img} alt={card.title} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-8">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-primary-400 mb-2">Role Experience</p>
+                    <h4 className="text-2xl font-black tracking-tight">{card.title}</h4>
+                  </div>
+                </div>
+              ))}
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* 6. AI AUTOMATION SECTION */}
-      <section className="py-32 overflow-hidden">
+      <section className="pt-4 pb-6 overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center gap-20">
             <motion.div {...fadeIn} className="flex-1 space-y-10 order-2 lg:order-1">
-               <div className="p-10 bg-white text-slate-900 border border-slate-100 shadow-soft relative rounded-[3.5rem] overflow-hidden group">
-                  <div className="absolute inset-x-0 bottom-0 h-[2px] bg-primary-600 transition-all duration-1000 group-hover:scale-x-110" />
-                  <div className="flex items-center gap-4 mb-10">
-                     <div className="p-4 bg-primary-600 rounded-2xl shadow-xl shadow-primary-200">
-                        <Brain size={32} className="text-white" />
-                     </div>
-                     <div>
-                        <h4 className="text-2xl font-black tracking-tight">AI Engine v4.0</h4>
-                        <p className="text-[10px] font-black text-primary-600 uppercase tracking-[0.3em] mt-1">Deep Learning Module Active</p>
-                     </div>
+              <div className="p-10 bg-white text-slate-900 border border-slate-100 shadow-soft relative rounded-[3.5rem] overflow-hidden group">
+                <div className="absolute inset-x-0 bottom-0 h-[2px] bg-primary-600 transition-all duration-1000 group-hover:scale-x-110" />
+                <div className="flex items-center gap-4 mb-10">
+                  <div className="p-4 bg-primary-600 rounded-2xl shadow-xl shadow-primary-200">
+                    <Brain size={32} className="text-white" />
                   </div>
-                  <div className="space-y-8">
-                     {[
-                       { label: 'Resume Screening', score: 98 },
-                       { label: 'Candidate Rank Accuracy', score: 94 },
-                       { label: 'Attrition Predictor', score: 87 },
-                     ].map((item, i) => (
-                       <div key={i} className="space-y-3">
-                          <div className="flex justify-between items-center text-xs font-black uppercase tracking-widest">
-                             <span className="text-slate-800">{item.label}</span>
-                             <span className="text-primary-600">{item.score}%</span>
-                          </div>
-                          <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                             <motion.div initial={{ width: 0 }} whileInView={{ width: `${item.score}%` }} transition={{ duration: 1.5, delay: i * 0.2 }} className="h-full bg-primary-600" />
-                          </div>
-                       </div>
-                     ))}
+                  <div>
+                    <h4 className="text-2xl font-black tracking-tight">AI Engine v4.0</h4>
+                    <p className="text-[10px] font-black text-primary-600 uppercase tracking-[0.3em] mt-1">Deep Learning Module Active</p>
                   </div>
-               </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                   <div className="card p-6 sm:p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
-                      <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl mb-4 w-fit">
-                         <Bot size={24} />
-                      </div>
-                      <p className="text-xl font-black text-slate-900 mb-2">Smart Assist</p>
-                      <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">Real-time candidate Q&A via proprietary LLM endpoints.</p>
-                   </div>
-                   <div className="card p-6 sm:p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
-                      <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl mb-4 w-fit">
-                         <TrendingUp size={24} />
-                      </div>
-                      <p className="text-xl font-black text-slate-900 mb-2">Bias Neutral</p>
-                      <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">AI models audited for fairness and EEOC compliance.</p>
-                   </div>
                 </div>
+                <div className="space-y-8">
+                  {[
+                    { label: 'Resume Screening', score: 98 },
+                    { label: 'Candidate Rank Accuracy', score: 94 },
+                    { label: 'Attrition Predictor', score: 87 },
+                  ].map((item, i) => (
+                    <div key={i} className="space-y-3">
+                      <div className="flex justify-between items-center text-xs font-black uppercase tracking-widest">
+                        <span className="text-slate-800">{item.label}</span>
+                        <span className="text-primary-600">{item.score}%</span>
+                      </div>
+                      <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div initial={{ width: 0 }} whileInView={{ width: `${item.score}%` }} transition={{ duration: 1.5, delay: i * 0.2 }} className="h-full bg-primary-600" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="card p-6 sm:p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
+                  <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl mb-4 w-fit">
+                    <Bot size={24} />
+                  </div>
+                  <p className="text-xl font-black text-slate-900 mb-2">Smart Assist</p>
+                  <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">Real-time candidate Q&A via proprietary LLM endpoints.</p>
+                </div>
+                <div className="card p-6 sm:p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
+                  <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl mb-4 w-fit">
+                    <TrendingUp size={24} />
+                  </div>
+                  <p className="text-xl font-black text-slate-900 mb-2">Bias Neutral</p>
+                  <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">AI models audited for fairness and EEOC compliance.</p>
+                </div>
+              </div>
             </motion.div>
 
             <motion.div {...fadeIn} className="flex-1 order-1 lg:order-2">
-               <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-6 inline-block">Automation First</span>
-               <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter mb-10 leading-none">
-                 Intelligent Decisions. <br /> 
-                 <span className="text-slate-400">Zero Guesswork.</span>
-               </h2>
-               <p className="text-xl text-slate-500 font-medium mb-12 leading-relaxed tracking-tight">
-                 Let our AI handle the volume while you focus on the people. From ranking resumes to predicting exit risks, we provide the insights you need to lead.
-               </p>
-               <ul className="space-y-6">
-                  {['Automated Skill Gap Analysis', 'Proprietary Attrition Prediction Model', 'Dynamic Interview Question Generator', 'Smart Workforce Planning Insights'].map((item, i) => (
-                    <li key={i} className="flex items-center gap-4">
-                       <div className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                          <CheckCircle2 size={16} />
-                       </div>
-                       <span className="text-sm font-bold text-slate-700 tracking-tight">{item}</span>
-                    </li>
-                  ))}
-               </ul>
+              <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-6 inline-block">Automation First</span>
+              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter mb-10 leading-none">
+                Intelligent Decisions. <br />
+                <span className="text-slate-400">Zero Guesswork.</span>
+              </h2>
+              <p className="text-xl text-slate-500 font-medium mb-12 leading-relaxed tracking-tight">
+                Let our AI handle the volume while you focus on the people. From ranking resumes to predicting exit risks, we provide the insights you need to lead.
+              </p>
+              <ul className="space-y-6">
+                {['Automated Skill Gap Analysis', 'Proprietary Attrition Prediction Model', 'Dynamic Interview Question Generator', 'Smart Workforce Planning Insights'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-4">
+                    <div className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                      <CheckCircle2 size={16} />
+                    </div>
+                    <span className="text-sm font-bold text-slate-700 tracking-tight">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* 7. HOW IT WORKS SECTION */}
-      <section className="py-32 bg-slate-50">
+      <section className="pt-12 pb-12 bg-slate-50">
         <div className="container mx-auto px-6 text-center">
-           <motion.div {...fadeIn} className="max-w-2xl mx-auto mb-20 space-y-4">
-              <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Implementation</span>
-              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">Your journey to <br /> smart HR in 4 steps</h2>
-           </motion.div>
+          <motion.div {...fadeIn} className="max-w-2xl mx-auto mb-12 space-y-4">
+            <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Implementation</span>
+            <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">Your journey to <br /> smart HR in 4 steps</h2>
+          </motion.div>
 
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
-             {/* Connector Line */}
-             <div className="hidden lg:block absolute top-[60px] inset-x-32 h-[2px] bg-slate-200 border-dashed border-t-2" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
+            {/* Connector Line */}
+            <div className="hidden lg:block absolute top-[60px] inset-x-32 h-[2px] bg-slate-200 border-dashed border-t-2" />
 
-             {[
-               { step: '01', title: 'Setup Org', desc: 'Define roles, departments and global branding in minutes.' },
-               { step: '02', title: 'Invite Users', desc: 'Seamlessly onboard your entire workforce with one-click.' },
-               { step: '03', title: 'Automate', desc: 'Deploy AI modules to handle hiring and compliance.' },
-               { step: '04', title: 'Grow', desc: 'Leverage data insights to enhance productivity and retention.' },
-             ].map((item, i) => (
-               <motion.div 
-                 key={i} 
-                 {...fadeIn}
-                 transition={{ delay: i * 0.1 }}
-                 className="relative z-10 space-y-6 flex flex-col items-center group"
-               >
-                 <div className="w-16 h-16 bg-white border-2 border-primary-600 rounded-full flex items-center justify-center text-xl font-black text-primary-600 shadow-xl group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
-                   {item.step}
-                 </div>
-                 <h4 className="text-2xl font-black text-slate-900 tracking-tight">{item.title}</h4>
-                 <p className="text-sm font-medium text-slate-400 tracking-tight leading-relaxed max-w-[200px]">{item.desc}</p>
-               </motion.div>
-             ))}
-           </div>
+            {[
+              { step: '01', title: 'Setup Org', desc: 'Define roles, departments and global branding in minutes.' },
+              { step: '02', title: 'Invite Users', desc: 'Seamlessly onboard your entire workforce with one-click.' },
+              { step: '03', title: 'Automate', desc: 'Deploy AI modules to handle hiring and compliance.' },
+              { step: '04', title: 'Grow', desc: 'Leverage data insights to enhance productivity and retention.' },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                {...fadeIn}
+                transition={{ delay: i * 0.1 }}
+                className="relative z-10 space-y-6 flex flex-col items-center group"
+              >
+                <div className="w-16 h-16 bg-white border-2 border-primary-600 rounded-full flex items-center justify-center text-xl font-black text-primary-600 shadow-xl group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
+                  {item.step}
+                </div>
+                <h4 className="text-2xl font-black text-slate-900 tracking-tight">{item.title}</h4>
+                <p className="text-sm font-medium text-slate-400 tracking-tight leading-relaxed max-w-[200px]">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* 8. DASHBOARD PREVIEW SECTION */}
-      <section className="py-32">
+      <section className="pt-12 pb-12">
         <div className="container mx-auto px-6">
-           <motion.div {...fadeIn} className="text-center mb-16 px-4">
-              <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter mb-6 leading-none">Designed for <span className="text-primary-600">Visual High Fidelity</span></h2>
-              <p className="text-lg text-slate-500 font-medium tracking-tight">Experience our premium interfaces designed for every role.</p>
-           </motion.div>
-           
-           <div className="p-4 bg-slate-50 rounded-[4rem] border border-slate-100 shadow-inner">
-             <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
-                <div className="p-8 lg:p-12">
-                   <div className="flex flex-wrap items-center gap-3 lg:gap-6 mb-12">
-                      {['Admin Center', 'Employee Hub', 'Hiring Suite', 'Team Manager'].map((tab, i) => (
-                        <button key={i} className={cn(
-                           "px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
-                           i === 0 ? "bg-slate-900 text-white shadow-xl" : "text-slate-400 hover:text-slate-900"
-                        )}>
-                          {tab}
-                        </button>
-                      ))}
-                   </div>
-                   <div className="aspect-video bg-slate-50 rounded-[2.5rem] border border-slate-100 flex items-center justify-center relative overflow-hidden group">
-                      <img 
-                        src="https://images.unsplash.com/photo-1551288049-bbbda536339a?q=80&w=2670" 
-                        alt="Preview" 
-                        className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-1000 grayscale group-hover:grayscale-0"
-                      />
-                      <div className="absolute inset-0 bg-primary-600/10" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl cursor-pointer hover:scale-110 transition-transform">
-                            <Play size={24} fill="currentColor" className="text-primary-600 ml-1" />
-                         </div>
-                      </div>
-                   </div>
+          <motion.div {...fadeIn} className="text-center mb-10 px-4">
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter mb-6 leading-none">Designed for <span className="text-primary-600">Visual High Fidelity</span></h2>
+            <p className="text-lg text-slate-500 font-medium tracking-tight">Experience our premium interfaces designed for every role.</p>
+          </motion.div>
+
+          <div className="p-4 bg-slate-50 rounded-[4rem] border border-slate-100 shadow-inner">
+            <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-200">
+              <div className="p-8 lg:p-12">
+                <div className="flex flex-wrap items-center gap-3 lg:gap-6 mb-12">
+                  {['Admin Center', 'Employee Hub', 'Hiring Suite', 'Team Manager'].map((tab, i) => (
+                    <button key={i} className={cn(
+                      "px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
+                      i === 0 ? "bg-slate-900 text-white shadow-xl" : "text-slate-400 hover:text-slate-900"
+                    )}>
+                      {tab}
+                    </button>
+                  ))}
                 </div>
-             </div>
-           </div>
+                <div className="aspect-video bg-slate-50 rounded-[2.5rem] border border-slate-100 flex items-center justify-center relative overflow-hidden group">
+                  <img
+                    src="https://images.unsplash.com/photo-1551288049-bbbda536339a?q=80&w=2670"
+                    alt="Preview"
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-1000 grayscale group-hover:grayscale-0"
+                  />
+                  <div className="absolute inset-0 bg-primary-600/10" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl cursor-pointer hover:scale-110 transition-transform">
+                      <Play size={24} fill="currentColor" className="text-primary-600 ml-1" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* 9. TESTIMONIALS SECTION */}
-      <section className="py-32 bg-slate-50 text-slate-900">
+      <section className="pt-12 pb-12 bg-slate-50 text-slate-900">
         <div className="container mx-auto px-6">
-          <motion.div {...fadeIn} className="text-center mb-20 space-y-4">
-             <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-slate-900">Loved by Industry Leaders</h2>
-             <p className="text-slate-500 font-medium">Join 500+ enterprises modernizing their workforce with our platform.</p>
+          <motion.div {...fadeIn} className="text-center mb-10 space-y-4">
+            <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-slate-900">Loved by Industry Leaders</h2>
+            <p className="text-slate-500 font-medium">Join 500+ enterprises modernizing their workforce with our platform.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -544,22 +568,22 @@ const LandingPage = () => {
               { name: 'David Chen', role: 'COO', co: 'ScaleUp Systems', quote: "Unified payroll and compliance across 12 countries. It just works seamlessly." },
               { name: 'Marcus Aurelius', role: 'Founder', co: 'Empire Inc.', quote: "The cleanest HCM interface I've seen in 20 years. My employees actually love using it." },
             ].map((t, i) => (
-              <motion.div 
-                key={i} 
+              <motion.div
+                key={i}
                 {...fadeIn}
                 transition={{ delay: i * 0.1 }}
                 className="bg-white border border-slate-100 p-12 rounded-[3.5rem] relative hover:shadow-2xl transition-all group shadow-soft"
               >
                 <div className="flex gap-1 mb-8">
-                   {[1, 2, 3, 4, 5].map(s => <Star key={s} size={16} fill="currentColor" className="text-amber-400" />)}
+                  {[1, 2, 3, 4, 5].map(s => <Star key={s} size={16} fill="currentColor" className="text-amber-400" />)}
                 </div>
                 <p className="text-xl font-bold italic text-slate-600 leading-relaxed mb-10 group-hover:text-slate-900 transition-colors">"{t.quote}"</p>
                 <div className="flex items-center gap-5">
-                   <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-2xl flex items-center justify-center text-lg font-black">{t.name[0]}</div>
-                   <div>
-                      <p className="font-black tracking-tight text-slate-900">{t.name}</p>
-                      <p className="text-[10px] font-bold text-primary-600 uppercase tracking-widest">{t.role} • {t.co}</p>
-                   </div>
+                  <div className="w-12 h-12 bg-primary-50 text-primary-600 rounded-2xl flex items-center justify-center text-lg font-black">{t.name[0]}</div>
+                  <div>
+                    <p className="font-black tracking-tight text-slate-900">{t.name}</p>
+                    <p className="text-[10px] font-bold text-primary-600 uppercase tracking-widest">{t.role} • {t.co}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -568,129 +592,398 @@ const LandingPage = () => {
       </section>
 
       {/* 10. PRICING / CTA SECTION */}
-      <section id="pricing" className="py-40 bg-white">
+      <section id="pricing" className="pt-12 pb-12 bg-white">
         <div className="container mx-auto px-6 text-center">
-           <motion.div {...fadeIn} className="max-w-4xl mx-auto space-y-12">
-              <div className="w-24 h-24 bg-primary-50 text-primary-600 rounded-[2.5rem] flex items-center justify-center mx-auto mb-10 shadow-lg rotate-12 transition-transform hover:rotate-0">
-                 <Zap size={48} />
-              </div>
-              <h2 className="text-5xl lg:text-8xl font-black text-slate-900 tracking-tighter leading-[0.85]">Ready to modernize <br /> your workforce?</h2>
-              <p className="text-xl text-slate-500 font-medium tracking-tight max-w-2xl mx-auto">
-                 Start your 14-day free trial today. No credit card required. Scalable pricing designed for every stage of growth.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-10">
-                 <button 
-                  onClick={() => navigate('/login')}
-                  className="w-full sm:w-auto px-12 py-6 bg-primary-600 text-white rounded-[2.5rem] font-black uppercase tracking-[0.3em] shadow-3xl shadow-primary-200 hover:bg-primary-700 transition-all hover:scale-105 active:scale-95"
-                >
-                   Start Trial
-                </button>
-                 <button onClick={() => navigate('/book-demo')} className="w-full sm:w-auto px-12 py-6 bg-white text-slate-900 border-2 border-slate-100 rounded-[2.5rem] font-black uppercase tracking-[0.3em] hover:bg-slate-50 transition-all shadow-soft active:scale-95">
-                   Book A Demo
-                </button>
-              </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] pt-8">Trusted by 5,000+ Teams Worldwide</p>
-           </motion.div>
+          <motion.div {...fadeIn} className="max-w-4xl mx-auto space-y-8">
+            <div className="w-24 h-24 bg-primary-50 text-primary-600 rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-lg rotate-12 transition-transform hover:rotate-0">
+              <Zap size={48} />
+            </div>
+            <h2 className="text-5xl lg:text-8xl font-black text-slate-900 tracking-tighter leading-[0.85]">Ready to modernize <br /> your workforce?</h2>
+            <p className="text-xl text-slate-500 font-medium tracking-tight max-w-2xl mx-auto">
+              Start your 14-day free trial today. No credit card required. Scalable pricing designed for every stage of growth.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-10">
+              <button
+                onClick={() => navigate('/login')}
+                className="w-full sm:w-auto px-12 py-6 bg-primary-600 text-white rounded-[2.5rem] font-black uppercase tracking-[0.3em] shadow-3xl shadow-primary-200 hover:bg-primary-700 transition-all hover:scale-105 active:scale-95"
+              >
+                Start Trial
+              </button>
+              <button onClick={() => navigate('/book-demo')} className="w-full sm:w-auto px-12 py-6 bg-white text-slate-900 border-2 border-slate-100 rounded-[2.5rem] font-black uppercase tracking-[0.3em] hover:bg-slate-50 transition-all shadow-soft active:scale-95">
+                Book A Demo
+              </button>
+            </div>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] pt-8">Trusted by 5,000+ Teams Worldwide</p>
+          </motion.div>
         </div>
       </section>
 
       {/* 11. FAQ SECTION */}
-      <section className="py-32 bg-slate-50">
+      <section id="faq" className="pt-12 pb-24 bg-slate-50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-             <motion.div {...fadeIn}>
-                <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-4 inline-block">Frequently Asked</span>
-                <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter leading-none mb-10">Commonly Asked <br /> Knowledge.</h2>
-                <p className="text-lg text-slate-400 font-medium leading-relaxed tracking-tight mb-10">Find quick answers to common questions about our platform and how it integrates into your existing workflows.</p>
-                <div className="p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-soft flex items-center gap-6">
-                   <div className="p-4 bg-primary-50 text-primary-600 rounded-2xl">
-                      <HelpCircle size={28} />
-                   </div>
-                   <div>
-                      <p className="font-bold text-slate-900 tracking-tight">Need dedicated support?</p>
-                      <button className="text-[10px] font-black text-primary-600 uppercase tracking-widest mt-2 hover:underline">Contact Support Desk</button>
-                   </div>
+            <motion.div {...fadeIn}>
+              <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-4 inline-block">Frequently Asked</span>
+              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter leading-none mb-10">Commonly Asked <br /> Knowledge.</h2>
+              <p className="text-lg text-slate-400 font-medium leading-relaxed tracking-tight mb-10">Find quick answers to common questions about our platform and how it integrates into your existing workflows.</p>
+              <div className="p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-soft flex items-center gap-6">
+                <div className="p-4 bg-primary-50 text-primary-600 rounded-2xl">
+                  <HelpCircle size={28} />
                 </div>
-             </motion.div>
+                <div>
+                  <p className="font-bold text-slate-900 tracking-tight">Need dedicated support?</p>
+                  <button className="text-[10px] font-black text-primary-600 uppercase tracking-widest mt-2 hover:underline">Contact Support Desk</button>
+                </div>
+              </div>
+            </motion.div>
 
-             <div className="space-y-4">
-               {[
-                 { q: 'Is the platform customizable?', a: 'Yes, every aspect of the branding and portal flows can be tailored to match your organizational identity.' },
-                 { q: 'Does it support multi-country payroll?', a: 'We currently support integrated payroll for 12+ regions with automated tax and compliance handling.' },
-                 { q: 'Is my data secure?', a: 'We employ bank-grade encryption and satisfy SOC2 Type II and GDPR requirements globally.' },
-                 { q: 'Can I manage multiple roles?', a: 'Absolutely. A single user can hold multiple roles and switch between portals seamlessly.' },
-                 { q: 'Does AI really screen resumes?', a: 'Yes, our proprietary ML models analyze resumes against job requirements providing a 0-100 fit score instantly.' },
-               ].map((item, i) => (
-                 <motion.div 
-                   key={i}
-                   {...fadeIn}
-                   transition={{ delay: i * 0.1 }}
-                   className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-soft group cursor-pointer"
-                 >
-                   <div className="flex items-center justify-between">
-                      <h4 className="text-lg font-black text-slate-900 tracking-tight">{item.q}</h4>
-                      <ChevronDown size={20} className="text-slate-300 group-hover:text-primary-600 transition-colors" />
-                   </div>
-                   <div className="mt-4 text-sm font-medium text-slate-400 leading-relaxed overflow-hidden h-0 group-hover:h-auto transition-all">
-                      {item.a}
-                   </div>
-                 </motion.div>
-               ))}
-             </div>
+            <div className="space-y-4">
+              {[
+                { q: 'Is the platform customizable?', a: 'Yes, every aspect of the branding and portal flows can be tailored to match your organizational identity.' },
+                { q: 'Does it support multi-country payroll?', a: 'We currently support integrated payroll for 12+ regions with automated tax and compliance handling.' },
+                { q: 'Is my data secure?', a: 'We employ bank-grade encryption and satisfy SOC2 Type II and GDPR requirements globally.' },
+                { q: 'Can I manage multiple roles?', a: 'Absolutely. A single user can hold multiple roles and switch between portals seamlessly.' },
+                { q: 'Does AI really screen resumes?', a: 'Yes, our proprietary ML models analyze resumes against job requirements providing a 0-100 fit score instantly.' },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  {...fadeIn}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-soft group cursor-pointer"
+                >
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-lg font-black text-slate-900 tracking-tight">{item.q}</h4>
+                    <ChevronDown size={20} className="text-slate-300 group-hover:text-primary-600 transition-colors" />
+                  </div>
+                  <div className="mt-4 text-sm font-medium text-slate-400 leading-relaxed overflow-hidden h-0 group-hover:h-auto transition-all">
+                    {item.a}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Careers Section */}
+      <section id="careers" className="pt-12 pb-24 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <motion.div {...fadeIn} className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
+              <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Join Our Team</span>
+              <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-none">
+                Build the Future of <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-600">Workforce OS</span>
+              </h2>
+              <p className="text-base text-slate-500 font-medium leading-relaxed tracking-tight">
+                We're on a mission to build the world's most intelligent workforce operating system. Join us to solve challenging AI, data, and user experience problems.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
+                {[
+                  { icon: Globe, title: 'Remote First', desc: 'Work from anywhere with core hour syncs.' },
+                  { icon: Brain, title: 'Cutting Edge AI', desc: 'Work with proprietary LLMs & agents.' },
+                  { icon: Target, title: 'Learning Budget', desc: '$2,500 annual growth & courses budget.' },
+                  { icon: Heart, title: 'Premium Health', desc: 'Comprehensive medical, dental & vision plans.' }
+                ].map((item, i) => (
+                  <div key={i} className="space-y-2">
+                    <div className="p-3 bg-slate-50 text-slate-700 rounded-xl w-fit">
+                      <item.icon size={20} className="text-primary-600" />
+                    </div>
+                    <h4 className="text-sm font-black text-slate-900 tracking-tight">{item.title}</h4>
+                    <p className="text-xs font-medium text-slate-400 leading-relaxed tracking-tight">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div {...fadeIn} className="lg:col-span-7 space-y-6">
+              <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2">Open Opportunities</h3>
+              {[
+                { title: 'Senior AI Engineer (NLP/LLMs)', dept: 'Engineering', loc: 'Remote (US/EU)', type: 'Full-time' },
+                { title: 'Senior Frontend Engineer (React)', dept: 'Engineering', loc: 'Hybrid (SF/NYC)', type: 'Full-time' },
+                { title: 'Enterprise Customer Success Lead', dept: 'Operations', loc: 'On-site (London)', type: 'Full-time' },
+                { title: 'Growth Marketing Manager', dept: 'Marketing', loc: 'Remote', type: 'Full-time' }
+              ].map((job, idx) => (
+                <div key={idx} className="bg-white p-6 sm:p-8 rounded-[2rem] border border-slate-100 shadow-soft hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-6 group">
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-3 py-1 bg-slate-50 text-slate-450 border border-slate-100 rounded-full text-[9px] font-black uppercase tracking-widest flex items-center gap-1">
+                        <Building size={10} />
+                        {job.dept}
+                      </span>
+                      <span className="px-3 py-1 bg-primary-50 text-primary-600 rounded-full text-[9px] font-black uppercase tracking-widest">
+                        {job.loc}
+                      </span>
+                    </div>
+                    <h4 className="text-lg font-black text-slate-900 tracking-tight group-hover:text-primary-600 transition-colors">{job.title}</h4>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{job.type} • Competitive Equity</p>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setApplyJobTitle(job.title);
+                      setApplyStep(1);
+                      setApplyFormData({ name: '', email: '', phone: '', resumeName: '', portfolioUrl: '', explanation: '' });
+                      setIsApplyModalOpen(true);
+                    }}
+                    className="sm:w-auto px-6 py-3.5 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary-600 transition-all flex items-center justify-center gap-2 group-hover:scale-105"
+                  >
+                    Apply Now <ArrowRight size={14} />
+                  </button>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="pt-12 pb-24 bg-slate-50">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
+            <motion.div {...fadeIn} className="lg:col-span-5 flex flex-col justify-between space-y-8">
+              <div className="space-y-6">
+                <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Get In Touch</span>
+                <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-none">
+                  Let's Discuss <br /> Your Workforce.
+                </h2>
+                <p className="text-base text-slate-500 font-medium leading-relaxed tracking-tight">
+                  Reach out to our global team for sales inquiries, custom integrations, or dedicated enterprise support.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                {[
+                  { icon: Mail, label: 'Email Support', val: 'info@aihcm.com', href: 'mailto:info@aihcm.com' },
+                  { icon: Phone, label: 'Call HQ', val: '+1 (800) 555-0199', href: 'tel:+18005550199' },
+                  { icon: MapPin, label: 'HQ Location', val: '100 Pine St, Suite 1250, San Francisco, CA', href: '#' }
+                ].map((item, i) => (
+                  <a href={item.href} key={i} className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-soft hover:border-primary-500 transition-all group">
+                    <div className="p-3 bg-primary-50 text-primary-600 rounded-xl group-hover:bg-primary-600 group-hover:text-white transition-all">
+                      <item.icon size={20} />
+                    </div>
+                    <div>
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{item.label}</p>
+                      <p className="text-sm font-bold text-slate-800 mt-0.5">{item.val}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              <div className="p-5 bg-white border border-slate-150 rounded-[2rem] shadow-soft flex items-center gap-4 w-fit">
+                <div className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </div>
+                <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest">
+                  Live Status: Support Desk online (Avg response &lt; 2 hrs)
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div {...fadeIn} className="lg:col-span-7">
+              <div className="bg-white p-8 sm:p-12 rounded-[2.5rem] border border-slate-100 shadow-soft h-full flex flex-col justify-center">
+                {contactFormStep === 1 ? (
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    setContactFormSubmitting(true);
+                    setTimeout(() => {
+                      setContactFormSubmitting(false);
+                      setContactFormStep(2);
+                    }, 1000);
+                  }} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Your Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={contactFormData.name}
+                          onChange={(e) => setContactFormData({ ...contactFormData, name: e.target.value })}
+                          placeholder="Alex Rivera"
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                        <input
+                          type="email"
+                          required
+                          value={contactFormData.email}
+                          onChange={(e) => setContactFormData({ ...contactFormData, email: e.target.value })}
+                          placeholder="alex@company.com"
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Inquiry Topic</label>
+                      <select
+                        value={contactFormData.subject}
+                        onChange={(e) => setContactFormData({ ...contactFormData, subject: e.target.value })}
+                        className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950 cursor-pointer"
+                      >
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Sales / Enterprise Pricing">Sales & Enterprise Pricing</option>
+                        <option value="Technical Support">Technical Support</option>
+                        <option value="Partnerships">Partnership Inquiry</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Message</label>
+                      <textarea
+                        required
+                        rows={4}
+                        value={contactFormData.message}
+                        onChange={(e) => setContactFormData({ ...contactFormData, message: e.target.value })}
+                        placeholder="How can we help your team?"
+                        className="input-field bg-slate-50 border-transparent font-medium text-slate-950 p-4 resize-none"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={contactFormSubmitting}
+                      className="w-full btn-primary h-16 shadow-xl shadow-primary-200 font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 text-xs"
+                    >
+                      {contactFormSubmitting ? "Sending..." : "Submit Inquiry"} <ArrowRight size={16} />
+                    </button>
+                  </form>
+                ) : (
+                  <div className="text-center space-y-8 py-6">
+                    <div className="w-24 h-24 bg-emerald-50 rounded-[2.5rem] flex items-center justify-center mx-auto text-emerald-600 shadow-inner">
+                      <CheckCircle2 size={48} className="animate-pulse" />
+                    </div>
+                    <div className="space-y-4">
+                      <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.4em] block">Inquiry Dispatched</span>
+                      <h3 className="text-3xl font-black text-slate-900 tracking-tighter leading-none">
+                        Thank you, {contactFormData.name}!
+                      </h3>
+                      <p className="text-sm font-medium text-slate-500 max-w-md mx-auto leading-relaxed">
+                        We've received your request regarding <strong>{contactFormData.subject}</strong>. A tracking confirmation has been sent to <strong>{contactFormData.email}</strong>.
+                      </p>
+                      <p className="text-xs text-slate-450 leading-normal max-w-sm mx-auto font-medium">
+                        An AI HCM representative will review your message and reach out to you within two business hours.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setContactFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
+                        setContactFormStep(1);
+                      }}
+                      className="btn-primary w-full max-w-xs mx-auto py-5 shadow-xl shadow-primary-200 font-bold uppercase tracking-[0.3em] text-[10px]"
+                    >
+                      Send Another Message
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* 12. FOOTER */}
-      <footer className="pt-32 pb-16 bg-white border-t border-slate-100">
+      <footer className="pt-16 pb-8 bg-white border-t border-slate-100">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16 mb-24">
-             <div className="lg:col-span-2 space-y-8">
-               <Link to="/" className="flex items-center gap-3 group">
-                  <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center text-white shadow-lg transition-transform hover:rotate-6">
-                    <Zap size={24} fill="currentColor" />
-                  </div>
-                  <span className="text-2xl font-black tracking-tighter">AI HCM <span className="text-primary-600">Platform</span></span>
-               </Link>
-               <p className="text-sm font-medium text-slate-400 leading-relaxed max-w-sm tracking-tight">
-                  The world's most intelligent workforce management ecosystem. Built for growth-driven enterprises that prioritize their people.
-               </p>
-               <div className="flex items-center gap-4">
-                  {[Share2, Globe, Mail].map((Icon, i) => (
-                    <button key={i} className="p-3 bg-slate-50 text-slate-400 rounded-xl hover:bg-primary-600 hover:text-white transition-all">
-                       <Icon size={20} />
-                    </button>
-                  ))}
-               </div>
-             </div>
-
-             {[
-               { title: 'Product', links: ['Features', 'Pricing', 'API Docs', 'Integrations'] },
-               { title: 'Company', links: ['About Us', 'Careers', 'Brand Guide', 'Contact'] },
-               { title: 'Resources', links: ['Help Center', 'Privacy Policy', 'Terms of Use', 'Security'] }
-             ].map((col, i) => (
-               <div key={i} className="space-y-8">
-                  <h5 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900">{col.title}</h5>
-                  <ul className="space-y-4">
-                     {col.links.map(link => (
-                       <li key={link}>
-                         <a href="#" className="text-sm font-bold text-slate-400 hover:text-primary-600 transition-colors uppercase tracking-widest">{link}</a>
-                       </li>
-                     ))}
-                  </ul>
-               </div>
-             ))}
-          </div>
-          
-          <div className="pt-12 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6">
-             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">© 2026 AI HCM Platform • Enterprise Grade Workforce OS</p>
-             <div className="flex items-center gap-8">
-                <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">US • UK • APAC</span>
-                <div className="flex items-center gap-2 text-emerald-500">
-                   <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                   <span className="text-[10px] font-black uppercase tracking-widest">Systems Operational</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-16 mb-12">
+            <div className="lg:col-span-2 space-y-4">
+              <Link to="/" className="flex items-center gap-3 group">
+                <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-lg transition-transform hover:rotate-6">
+                  <Zap size={20} fill="currentColor" />
                 </div>
-             </div>
+                <span className="text-xl font-black tracking-tighter">AI HCM <span className="text-primary-600">Platform</span></span>
+              </Link>
+              <p className="text-xs font-medium text-slate-400 leading-relaxed max-w-sm tracking-tight">
+                The world's most intelligent workforce management ecosystem. Built for growth-driven enterprises that prioritize their people.
+              </p>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert("Website link copied to clipboard!");
+                  }}
+                  className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-primary-600 hover:text-white transition-all"
+                  title="Copy Link"
+                >
+                  <Share2 size={16} />
+                </button>
+                <a href="/" className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-primary-600 hover:text-white transition-all" title="Website">
+                  <Globe size={16} />
+                </a>
+                <a href="mailto:support@aihcm.com" className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-primary-600 hover:text-white transition-all" title="Email Us">
+                  <Mail size={16} />
+                </a>
+              </div>
+            </div>
+
+            {[
+              {
+                title: 'Product',
+                links: [
+                  { label: 'Features', href: '#features' },
+                  { label: 'Pricing', href: '#pricing' },
+                  { label: 'API Docs', href: '#features' },
+                  { label: 'Integrations', href: '#features' }
+                ]
+              },
+              {
+                title: 'Company',
+                links: [
+                  { label: 'About Us', href: '#roles' },
+                  { label: 'Careers', href: '#careers' },
+                  { label: 'Brand Guide', href: '#home' },
+                  { label: 'Contact', href: '#contact' }
+                ]
+              },
+              {
+                title: 'Resources',
+                links: [
+                  { label: 'Help Center', href: '#faq' },
+                  { label: 'Privacy Policy', href: '#' },
+                  { label: 'Terms of Use', href: '#' },
+                  { label: 'Security', href: '#' }
+                ]
+              }
+            ].map((col, i) => (
+              <div key={i} className="space-y-4">
+                <h5 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900">{col.title}</h5>
+                <ul className="space-y-2">
+                  {col.links.map(link => (
+                    <li key={link.label}>
+                      {link.onClick ? (
+                        <button
+                          onClick={link.onClick}
+                          className="text-xs font-bold text-slate-400 hover:text-primary-600 transition-colors uppercase tracking-widest text-left"
+                        >
+                          {link.label}
+                        </button>
+                      ) : (
+                        <a
+                          href={link.href}
+                          className="text-xs font-bold text-slate-400 hover:text-primary-600 transition-colors uppercase tracking-widest"
+                        >
+                          {link.label}
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-6 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">© 2026 AI HCM Platform • Enterprise Grade Workforce OS</p>
+            <div className="flex items-center gap-8">
+              <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">US • UK • APAC</span>
+              <div className="flex items-center gap-2 text-emerald-500">
+                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Systems Operational</span>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
@@ -832,8 +1125,8 @@ const LandingPage = () => {
                               onClick={() => setSelectedDate(dateOption)}
                               className={cn(
                                 "p-4 rounded-2xl border text-center transition-all duration-300 flex flex-col items-center justify-center",
-                                isSelected 
-                                  ? "bg-primary-600 border-primary-600 text-white shadow-xl shadow-primary-200" 
+                                isSelected
+                                  ? "bg-primary-600 border-primary-600 text-white shadow-xl shadow-primary-200"
                                   : "bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-600"
                               )}
                             >
@@ -938,17 +1231,259 @@ const LandingPage = () => {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Careers Apply Modal */}
+      <AnimatePresence>
+        {isApplyModalOpen && (
+          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsApplyModalOpen(false)}
+              className="absolute inset-0 bg-slate-900/50 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-[calc(100%-2rem)] sm:w-full max-w-2xl bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800 text-left p-6 sm:p-8 md:p-12 z-10"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsApplyModalOpen(false)}
+                className="absolute right-6 top-6 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all"
+              >
+                <X size={20} />
+              </button>
+
+              {applyStep === 1 && (
+                <div className="space-y-8">
+                  <div>
+                    <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-2 block">Step 1 of 2</span>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">
+                      Apply for {applyJobTitle}
+                    </h3>
+                    <p className="text-sm font-medium text-slate-400 mt-2">
+                      Please enter your contact details to begin the application.
+                    </p>
+                  </div>
+
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setApplyStep(2);
+                    }}
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={applyFormData.name}
+                          onChange={(e) => setApplyFormData({ ...applyFormData, name: e.target.value })}
+                          placeholder="Alex Rivera"
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                        <input
+                          type="email"
+                          required
+                          value={applyFormData.email}
+                          onChange={(e) => setApplyFormData({ ...applyFormData, email: e.target.value })}
+                          placeholder="alex@company.com"
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950"
+                        />
+                      </div>
+                      <div className="space-y-2 md:col-span-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Phone Number</label>
+                        <input
+                          type="tel"
+                          required
+                          value={applyFormData.phone}
+                          onChange={(e) => setApplyFormData({ ...applyFormData, phone: e.target.value })}
+                          placeholder="+1 (555) 000-0000"
+                          className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full btn-primary h-16 shadow-xl shadow-primary-200 font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3 text-xs mt-4"
+                    >
+                      Next: Experience details <ArrowRight size={16} />
+                    </button>
+                  </form>
+                </div>
+              )}
+
+              {applyStep === 2 && !isAnalyzing && (
+                <div className="space-y-8">
+                  <div>
+                    <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-2 block">Step 2 of 2</span>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">
+                      Tell us about your background
+                    </h3>
+                    <p className="text-sm font-medium text-slate-400 mt-2">
+                      Upload your resume and links for AI-driven candidate ranking evaluation.
+                    </p>
+                  </div>
+
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setIsAnalyzing(true);
+                      // Simulate AI scanning resume
+                      setTimeout(() => {
+                        setIsAnalyzing(false);
+                        setAiScore(Math.floor(Math.random() * 9) + 88); // 88 to 96
+                        setApplyStep(3);
+                      }, 2500);
+                    }}
+                    className="space-y-6"
+                  >
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Resume Upload</label>
+                      <div 
+                        onClick={() => {
+                          setApplyFormData({ ...applyFormData, resumeName: 'resume_pdf_hcm.pdf' });
+                        }}
+                        className="border-2 border-dashed border-slate-200 hover:border-primary-500 rounded-3xl p-6 text-center cursor-pointer transition-all bg-slate-50 flex flex-col items-center justify-center gap-2 group"
+                      >
+                        <UploadCloud size={32} className="text-slate-450 group-hover:text-primary-600 transition-colors" />
+                        {applyFormData.resumeName ? (
+                          <div className="text-sm font-bold text-emerald-600 flex items-center gap-1.5">
+                            <CheckCircle2 size={16} />
+                            <span>{applyFormData.resumeName} uploaded successfully</span>
+                          </div>
+                        ) : (
+                          <>
+                            <span className="text-xs font-bold text-slate-800">Click to upload your resume (PDF, DOCX)</span>
+                            <span className="text-[9px] text-slate-450 uppercase font-black tracking-widest">Max file size 10MB</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Portfolio / LinkedIn Profile URL</label>
+                      <input
+                        type="url"
+                        required
+                        value={applyFormData.portfolioUrl}
+                        onChange={(e) => setApplyFormData({ ...applyFormData, portfolioUrl: e.target.value })}
+                        placeholder="https://linkedin.com/in/alexrivera"
+                        className="input-field h-14 bg-slate-50 border-transparent font-medium text-slate-950"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Why do you want to join AI HCM?</label>
+                      <textarea
+                        required
+                        rows={3}
+                        value={applyFormData.explanation}
+                        onChange={(e) => setApplyFormData({ ...applyFormData, explanation: e.target.value })}
+                        placeholder="Share a brief explanation..."
+                        className="input-field bg-slate-50 border-transparent font-medium text-slate-950 p-4 resize-none"
+                      />
+                    </div>
+
+                    <div className="pt-4 flex gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setApplyStep(1)}
+                        className="flex-1 py-4 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-2xl font-bold uppercase tracking-[0.2em] text-[10px] transition-all"
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={!applyFormData.resumeName}
+                        className="flex-2 py-4 btn-primary shadow-xl shadow-primary-200 font-bold uppercase tracking-[0.2em] text-[10px] disabled:opacity-50"
+                      >
+                        Submit & Scan Application
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {applyStep === 2 && isAnalyzing && (
+                <div className="text-center space-y-8 py-12">
+                  <div className="w-24 h-24 bg-primary-50 rounded-[2.5rem] flex items-center justify-center mx-auto text-primary-600 shadow-xl relative animate-spin">
+                    <Brain size={44} />
+                  </div>
+                  <div className="space-y-3">
+                    <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] block">Proprietary Matcher Active</span>
+                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter leading-none">
+                      AI Screening Candidate Profile...
+                    </h3>
+                    <p className="text-xs font-medium text-slate-400 max-w-sm mx-auto leading-relaxed pt-2">
+                      Our machine learning screening service is comparing resume entities, tech stacks, and domain metrics against our profile alignment model...
+                    </p>
+                  </div>
+                  <div className="w-full max-w-xs mx-auto h-2 bg-slate-100 rounded-full overflow-hidden relative">
+                    <motion.div 
+                      initial={{ width: 0 }} 
+                      animate={{ width: "100%" }} 
+                      transition={{ duration: 2.2, ease: "easeInOut" }} 
+                      className="h-full bg-primary-600 rounded-full" 
+                    />
+                  </div>
+                </div>
+              )}
+
+              {applyStep === 3 && (
+                <div className="text-center space-y-10 py-6">
+                  <div className="w-24 h-24 bg-primary-600 rounded-[2.5rem] flex flex-col items-center justify-center mx-auto text-white shadow-2xl relative">
+                    <Award size={36} className="mb-0.5" />
+                    <span className="text-sm font-black tracking-tighter leading-none">{aiScore}%</span>
+                  </div>
+                  <div className="space-y-4">
+                    <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] block">Match Score Computed</span>
+                    <h3 className="text-4xl font-black text-slate-900 tracking-tighter leading-none">
+                      Excellent Alignment, {applyFormData.name}!
+                    </h3>
+                    <p className="text-sm font-medium text-slate-500 max-w-md mx-auto leading-relaxed">
+                      Our screening engine evaluated your profile with a match score of <strong>{aiScore}%</strong> for the <strong>{applyJobTitle}</strong> position.
+                    </p>
+                    <p className="text-xs text-slate-450 leading-normal max-w-sm mx-auto pt-2 font-medium">
+                      Based on this scoring bracket, your candidate profile has been flagged for prioritized review. An HCM HR team partner will contact you at <strong>{applyFormData.email}</strong> or <strong>{applyFormData.phone}</strong> within 24 hours.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setIsApplyModalOpen(false);
+                      setApplyStep(1);
+                    }}
+                    className="btn-primary w-full max-w-xs mx-auto py-5 shadow-xl shadow-primary-200 font-bold uppercase tracking-[0.3em] text-[10px]"
+                  >
+                    Great, thank you!
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
 const Sparkles = ({ size, ...props }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    xmlns="http://www.w3.org/2000/svg" 
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path d="M12 2L13.8 6.2L18 8L13.8 9.8L12 14L10.2 9.8L6 8L10.2 6.2L12 2Z" fill="currentColor" />
