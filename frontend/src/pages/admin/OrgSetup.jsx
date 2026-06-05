@@ -137,35 +137,35 @@ const OrgSetup = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Main Form Area */}
-        <div className="lg:col-span-8 space-y-8">
+        <div className="lg:col-span-8 space-y-4">
           {/* General Information Card */}
-          <div className="card p-10 bg-white border-none shadow-soft">
-            <div className="flex items-center gap-4 mb-10 pb-6 border-b border-slate-50">
-              <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
-                <Building2 size={24} />
+          <div className="card p-6 bg-white border-none shadow-soft">
+            <div className="flex items-center gap-4 mb-6 pb-4 border-b border-slate-50">
+              <div className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
+                <Building2 size={20} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900">General Information</h3>
+              <h3 className="text-lg font-bold text-slate-900">General Information</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Company Name */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Company Name
                 </label>
                 <div className="relative group">
-                  <Building2 className="absolute left-4 top-4 text-slate-300 group-focus-within:text-primary-600 transition-colors" size={18} />
+                  <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary-600 transition-colors" size={18} />
                   <input
                     type="text"
                     name="companyName"
                     placeholder="Global Tech Corp"
-                    className="input-field h-14 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                    className="input-field h-11 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                     value={formData.companyName}
                     onChange={handleChange}
                   />
                 </div>
               </div>
               {/* Legal Name */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Legal Name
                 </label>
@@ -173,36 +173,36 @@ const OrgSetup = () => {
                   type="text"
                   name="legalName"
                   placeholder="Global Tech Corp International Ltd."
-                  className="input-field h-14 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                  className="input-field h-11 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                   value={formData.legalName}
                   onChange={handleChange}
                 />
               </div>
               {/* Website URL */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Website URL
                 </label>
                 <div className="relative group">
-                  <Globe className="absolute left-4 top-4 text-slate-300 transition-colors" size={18} />
+                  <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 transition-colors" size={18} />
                   <input
                     type="text"
                     name="website"
                     placeholder="https://globaltech.com"
-                    className="input-field h-14 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                    className="input-field h-11 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                     value={formData.website}
                     onChange={handleChange}
                   />
                 </div>
               </div>
               {/* Industry */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Industry
                 </label>
                 <select
                   name="industry"
-                  className="input-field h-14 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700 appearance-none pr-10"
+                  className="input-field h-11 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700 appearance-none pr-10"
                   value={formData.industry}
                   onChange={handleChange}
                 >
@@ -213,13 +213,13 @@ const OrgSetup = () => {
                 </select>
               </div>
               {/* Company Size */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Company Size
                 </label>
                 <select
                   name="companySize"
-                  className="input-field h-14 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                  className="input-field h-11 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                   value={formData.companySize}
                   onChange={handleChange}
                 >
@@ -230,17 +230,17 @@ const OrgSetup = () => {
                 </select>
               </div>
               {/* Tax ID / GSTIN */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Tax ID / GSTIN
                 </label>
                 <div className="relative group">
-                  <Hash className="absolute left-4 top-4 text-slate-300 transition-colors" size={18} />
+                  <Hash className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 transition-colors" size={18} />
                   <input
                     type="text"
                     name="taxId"
                     placeholder="US9882001X"
-                    className="input-field h-14 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                    className="input-field h-11 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                     value={formData.taxId}
                     onChange={handleChange}
                   />
@@ -250,58 +250,58 @@ const OrgSetup = () => {
           </div>
 
           {/* Regional & Contact Settings Card */}
-          <div className="card p-10 bg-white border-none shadow-soft">
-            <div className="flex items-center gap-4 mb-10 pb-6 border-b border-slate-50">
-              <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
-                <Globe2 size={24} />
+          <div className="card p-6 bg-white border-none shadow-soft">
+            <div className="flex items-center gap-4 mb-6 pb-4 border-b border-slate-50">
+              <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+                <Globe2 size={20} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900">Regional &amp; Contact Preferences</h3>
+              <h3 className="text-lg font-bold text-slate-900">Regional &amp; Contact Preferences</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Primary Email */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Primary Email
                 </label>
                 <div className="relative group">
-                  <Mail className="absolute left-4 top-4 text-slate-300" size={18} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
                   <input
                     type="email"
                     name="primaryEmail"
                     placeholder="admin@globaltech.com"
-                    className="input-field h-14 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                    className="input-field h-11 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                     value={formData.primaryEmail}
                     onChange={handleChange}
                   />
                 </div>
               </div>
               {/* Support Phone */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Support Phone
                 </label>
                 <div className="relative group">
-                  <Phone className="absolute left-4 top-4 text-slate-300" size={18} />
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
                   <input
                     type="text"
                     name="supportPhone"
                     placeholder="+1 (555) 000-0000"
-                    className="input-field h-14 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                    className="input-field h-11 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                     value={formData.supportPhone}
                     onChange={handleChange}
                   />
                 </div>
               </div>
               {/* Default Timezone */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Default Timezone
                 </label>
                 <div className="relative group">
-                  <Clock className="absolute left-4 top-4 text-slate-300" size={18} />
+                  <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
                   <select
                     name="timezone"
-                    className="input-field h-14 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                    className="input-field h-11 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                     value={formData.timezone}
                     onChange={handleChange}
                   >
@@ -312,15 +312,15 @@ const OrgSetup = () => {
                 </div>
               </div>
               {/* Currency */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Currency
                 </label>
                 <div className="relative group">
-                  <CreditCard className="absolute left-4 top-4 text-slate-300" size={18} />
+                  <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
                   <select
                     name="currency"
-                    className="input-field h-14 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
+                    className="input-field h-11 pl-12 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700"
                     value={formData.currency}
                     onChange={handleChange}
                   >
@@ -331,7 +331,7 @@ const OrgSetup = () => {
                 </div>
               </div>
               {/* Headquarters Address */}
-              <div className="md:col-span-2 space-y-2">
+              <div className="md:col-span-2 space-y-1.5">
                 <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">
                   Headquarters Address
                 </label>
@@ -339,7 +339,7 @@ const OrgSetup = () => {
                   <MapPin className="absolute left-4 top-4 text-slate-300" size={18} />
                   <textarea
                     name="address"
-                    className="input-field min-h-[100px] pl-12 py-4 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700 resize-none"
+                    className="input-field min-h-[80px] pl-12 py-3 bg-slate-50 border-transparent focus:bg-white font-bold text-slate-700 resize-none"
                     placeholder="123 Tech Avenue, Silicon Valley, CA 94025, USA"
                     value={formData.address}
                     onChange={handleChange}
@@ -351,30 +351,30 @@ const OrgSetup = () => {
         </div>
 
         {/* Sidebar / Upload */}
-        <div className="lg:col-span-4 space-y-8">
-          <div className="card p-10 bg-white border-none shadow-soft flex flex-col items-center">
-            <h3 className="text-xs font-extrabold uppercase tracking-widest text-slate-400 mb-8 w-full">Company Logo</h3>
-            <div className="w-40 h-40 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center p-6 group cursor-pointer hover:border-primary-100 hover:bg-primary-50/20 transition-all">
-              <div className="p-4 bg-white rounded-2xl shadow-sm text-slate-300 group-hover:text-primary-600 transition-colors translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                <Upload size={32} />
+        <div className="lg:col-span-4 space-y-4">
+          <div className="card p-6 bg-white border-none shadow-soft flex flex-col items-center">
+            <h3 className="text-xs font-extrabold uppercase tracking-widest text-slate-400 mb-4 w-full">Company Logo</h3>
+            <div className="w-32 h-32 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-100 flex flex-col items-center justify-center p-4 group cursor-pointer hover:border-primary-100 hover:bg-primary-50/20 transition-all">
+              <div className="p-3 bg-white rounded-xl shadow-sm text-slate-300 group-hover:text-primary-600 transition-colors translate-y-1 group-hover:translate-y-0 transition-all duration-300">
+                <Upload size={24} />
               </div>
-              <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest mt-6 text-center">Click or Drag to Upload</span>
+              <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest mt-4 text-center">Click or Drag to Upload</span>
             </div>
-            <p className="text-[10px] font-medium text-slate-400 mt-6 text-center px-4 leading-relaxed tracking-tight italic">
+            <p className="text-[10px] font-medium text-slate-400 mt-4 text-center px-4 leading-relaxed tracking-tight italic">
               Preferred format: PNG or SVG (Max 5MB). Logo will be used in payslips and invoices.
             </p>
           </div>
 
-          <div className="card p-8 bg-indigo-600 text-white border-none shadow-soft relative overflow-hidden group">
+          <div className="card p-6 bg-indigo-600 text-white border-none shadow-soft relative overflow-hidden group">
             <div className="absolute -bottom-10 -right-10 opacity-10 pointer-events-none group-hover:scale-110 transition-transform">
-              <CheckCircle2 size={160} />
+              <CheckCircle2 size={140} />
             </div>
-            <h3 className="text-xs font-extrabold uppercase tracking-[0.3em] text-primary-300 mb-6">Setup Progress</h3>
-            <div className="space-y-6 relative z-10">
+            <h3 className="text-xs font-extrabold uppercase tracking-[0.3em] text-primary-300 mb-4">Setup Progress</h3>
+            <div className="space-y-4 relative z-10">
               {[{ label: 'Organization Profile', done: true }, { label: 'Branding & Identity', done: true }, { label: 'Regional Preferences', done: false }, { label: 'Billing Setup', done: false }].map((step, i) => (
-                <div key={i} className="flex items-center gap-4 group/step">
-                  <div className={cn('w-6 h-6 rounded-full flex items-center justify-center border-2 transition-all group-hover/step:scale-110', step.done ? 'bg-white border-white text-indigo-600 shadow-lg' : 'border-white/20 text-white/40')}>
-                    {step.done ? <CheckCircle2 size={14} /> : i + 1}
+                <div key={i} className="flex items-center gap-3 group/step">
+                  <div className={cn('w-5 h-5 rounded-full flex items-center justify-center border-2 transition-all group-hover/step:scale-110 text-[10px]', step.done ? 'bg-white border-white text-indigo-600 shadow-lg' : 'border-white/20 text-white/40')}>
+                    {step.done ? <CheckCircle2 size={12} /> : i + 1}
                   </div>
                   <span className={cn('text-xs font-bold transition-opacity', step.done ? 'text-white' : 'text-white/40')}>{step.label}</span>
                 </div>

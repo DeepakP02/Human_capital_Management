@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calculator, X, DollarSign } from 'lucide-react';
 import { useAdmin } from '../../../context/AdminContext';
+import { formatCurrency, getCurrencyIcon, getCurrencySymbol } from '../../../utils/currencyHelper';
 
 const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
-  const { updatePayrollDetails, showToast } = useAdmin();
+  const { updatePayrollDetails, showToast, appSettings } = useAdmin();
+  const defaultCurrency = appSettings?.general?.defaultCurrency;
+  const CurrencyIcon = getCurrencyIcon(defaultCurrency);
+  const currencySymbol = getCurrencySymbol(defaultCurrency);
   const [formData, setFormData] = useState({
     basic: 0,
     bonus: 0,
@@ -47,7 +51,7 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
         net: netPayable
       });
       if (showToast) {
-        showToast(`Salary details saved for ${employee.name}. Take-home Net: $${netPayable.toLocaleString()}`);
+        showToast(`Salary details saved for ${employee.name}. Take-home Net: ${formatCurrency(netPayable, defaultCurrency)}`);
       }
     }
     onClose();
@@ -112,7 +116,7 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
                   <div className="space-y-2">
                     <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Basic Salary</label>
                     <div className="relative">
-                      <DollarSign className="absolute left-4 top-3.5 text-slate-300" size={16} />
+                      <CurrencyIcon className="absolute left-4 top-3.5 text-slate-300" size={16} />
                       <input
                         required
                         type="number"
@@ -127,7 +131,7 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
                   <div className="space-y-2">
                     <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Bonus & Allowances</label>
                     <div className="relative">
-                      <DollarSign className="absolute left-4 top-3.5 text-slate-300" size={16} />
+                      <CurrencyIcon className="absolute left-4 top-3.5 text-slate-300" size={16} />
                       <input
                         required
                         type="number"
@@ -142,7 +146,7 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
                   <div className="space-y-2">
                     <label className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest px-1">Pre-Tax Deductions</label>
                     <div className="relative">
-                      <DollarSign className="absolute left-4 top-3.5 text-slate-300" size={16} />
+                      <CurrencyIcon className="absolute left-4 top-3.5 text-slate-300" size={16} />
                       <input
                         required
                         type="number"
@@ -162,15 +166,15 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs text-slate-500 font-medium">
                       <span>Basic Earnings</span>
-                      <span className="font-bold text-slate-800 dark:text-white">${basicVal.toLocaleString()}</span>
+                      <span className="font-bold text-slate-800 dark:text-white">{formatCurrency(basicVal, defaultCurrency)}</span>
                     </div>
                     <div className="flex justify-between text-xs text-slate-500 font-medium">
                       <span>Allowances & Bonuses</span>
-                      <span className="font-bold text-emerald-600">+${bonusVal.toLocaleString()}</span>
+                      <span className="font-bold text-emerald-600">+{formatCurrency(bonusVal, defaultCurrency)}</span>
                     </div>
                     <div className="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300 border-t pt-1.5">
                       <span>Gross Earnings</span>
-                      <span>${totalEarnings.toLocaleString()}</span>
+                      <span>{formatCurrency(totalEarnings, defaultCurrency)}</span>
                     </div>
                   </div>
 
@@ -179,27 +183,27 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Statutory Tax Placeholders</p>
                     <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                       <span>Federal Income Tax (12%)</span>
-                      <span className="font-semibold text-rose-500">-${fedTax.toLocaleString()}</span>
+                      <span className="font-semibold text-rose-500">-{formatCurrency(fedTax, defaultCurrency)}</span>
                     </div>
                     <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                       <span>Social Security FICA (6.2%)</span>
-                      <span className="font-semibold text-rose-500">-${socialSecurity.toLocaleString()}</span>
+                      <span className="font-semibold text-rose-500">-{formatCurrency(socialSecurity, defaultCurrency)}</span>
                     </div>
                     <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                       <span>Medicare (1.45%)</span>
-                      <span className="font-semibold text-rose-500">-${medicare.toLocaleString()}</span>
+                      <span className="font-semibold text-rose-500">-{formatCurrency(medicare, defaultCurrency)}</span>
                     </div>
                     <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                       <span>State Tax (4%)</span>
-                      <span className="font-semibold text-rose-500">-${stateTax.toLocaleString()}</span>
+                      <span className="font-semibold text-rose-500">-{formatCurrency(stateTax, defaultCurrency)}</span>
                     </div>
                     <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                       <span>Custom Deductions</span>
-                      <span className="font-semibold text-rose-500">-${customDeductions.toLocaleString()}</span>
+                      <span className="font-semibold text-rose-500">-{formatCurrency(customDeductions, defaultCurrency)}</span>
                     </div>
                     <div className="flex justify-between text-xs font-bold text-rose-600 border-t pt-1.5">
                       <span>Total Deductions & Taxes</span>
-                      <span>-${(totalTax + customDeductions).toLocaleString()}</span>
+                      <span>-{formatCurrency(totalTax + customDeductions, defaultCurrency)}</span>
                     </div>
                   </div>
 
@@ -207,7 +211,7 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
                   <div className="p-4 bg-slate-900 rounded-xl text-white flex items-center justify-between mt-4">
                     <div>
                       <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Take-Home Net Pay</p>
-                      <p className="text-2xl font-black text-white mt-0.5">${netPayable.toLocaleString()}</p>
+                      <p className="text-2xl font-black text-white mt-0.5">{formatCurrency(netPayable, defaultCurrency)}</p>
                     </div>
                     <span className="text-[9px] font-extrabold bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded uppercase tracking-wider">
                       Tax Compliant

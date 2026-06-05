@@ -6,17 +6,22 @@ import {
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useEmployee } from '../../context/EmployeeContext';
+import { useAdmin } from '../../context/AdminContext';
 import CenterModal from '../../shared/components/layout/CenterModal';
+import { formatCurrency, getCurrencyIcon, getCurrencySymbol } from '../../utils/currencyHelper';
 
 const EmployeePayroll = () => {
   const { payroll, showToast } = useEmployee();
+  const { appSettings } = useAdmin();
   const [selectedMonth, setSelectedMonth] = useState('All');
   const [selectedPayslip, setSelectedPayslip] = useState(null);
 
+  const defaultCurrency = appSettings?.general?.defaultCurrency;
+
   const stats = [
     { label: 'Next Pay Date', value: 'Oct 31', icon: Calendar, color: 'text-primary-600', bg: 'bg-primary-50' },
-    { label: 'Yearly Net', value: '$78,400', icon: Wallet, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { label: 'Tax Savings', value: '$4,280', icon: ShieldCheck, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+    { label: 'Yearly Net', value: formatCurrency(78400, defaultCurrency), icon: getCurrencyIcon(defaultCurrency), color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { label: 'Tax Savings', value: formatCurrency(4280, defaultCurrency), icon: ShieldCheck, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     { label: 'Active Loans', value: 'None', icon: CreditCard, color: 'text-rose-600', bg: 'bg-rose-50' },
   ];
 
@@ -89,10 +94,10 @@ const EmployeePayroll = () => {
                         </h4>
                         <div className="space-y-4">
                            {[
-                             { label: 'Basic Salary', value: '$5,000' },
-                             { label: 'HRA Component', value: '$1,500' },
-                             { label: 'Performance Bonus', value: '$1,200' },
-                             { label: 'Special Allowance', value: '$800' },
+                             { label: 'Basic Salary', value: formatCurrency(5000, defaultCurrency) },
+                             { label: 'HRA Component', value: formatCurrency(1500, defaultCurrency) },
+                             { label: 'Performance Bonus', value: formatCurrency(1200, defaultCurrency) },
+                             { label: 'Special Allowance', value: formatCurrency(800, defaultCurrency) },
                            ].map((item, i) => (
                               <div key={i} className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100">
                                  <span className="text-xs font-black text-slate-600 uppercase tracking-tight">{item.label}</span>
@@ -109,10 +114,10 @@ const EmployeePayroll = () => {
                         </h4>
                         <div className="space-y-4">
                            {[
-                             { label: 'Provident Fund', value: '$350' },
-                             { label: 'Health Insurance', value: '$120' },
-                             { label: 'Professional Tax', value: '$50' },
-                             { label: 'TDS / Income Tax', value: '$850' },
+                             { label: 'Provident Fund', value: formatCurrency(350, defaultCurrency) },
+                             { label: 'Health Insurance', value: formatCurrency(120, defaultCurrency) },
+                             { label: 'Professional Tax', value: formatCurrency(50, defaultCurrency) },
+                             { label: 'TDS / Income Tax', value: formatCurrency(850, defaultCurrency) },
                            ].map((item, i) => (
                               <div key={i} className="flex justify-between items-center bg-rose-50/30 p-4 rounded-xl border border-rose-50">
                                  <span className="text-xs font-black text-slate-600 uppercase tracking-tight">{item.label}</span>
@@ -126,7 +131,7 @@ const EmployeePayroll = () => {
                   <div className="mt-12 p-10 bg-slate-900 rounded-[2.5rem] flex flex-col md:flex-row justify-between items-center gap-10 relative overflow-hidden group shadow-premium">
                      <div className="relative z-10 text-center md:text-left">
                         <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary-400 mb-2">Net Pay Estimate</p>
-                        <h4 className="text-5xl lg:text-6xl font-black text-white tracking-tighter tabular-nums italic">$7,130.00</h4>
+                        <h4 className="text-5xl lg:text-6xl font-black text-white tracking-tighter tabular-nums italic">{formatCurrency(7130, defaultCurrency)}</h4>
                      </div>
                      <div className="relative z-10 flex flex-col items-center md:items-end text-center md:text-right">
                         <div className="flex items-center gap-3 mb-3 px-5 py-2.5 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-sm">
@@ -167,7 +172,7 @@ const EmployeePayroll = () => {
                               <p className="text-sm font-black tracking-tight">{record.month}</p>
                               <div className="flex items-center gap-3 mt-1.5">
                                  <span className="text-[9px] font-black text-emerald-500 uppercase tracking-widest px-2 py-0.5 bg-emerald-500/10 rounded-md group-hover:bg-white/10 group-hover:text-emerald-400 transition-colors">{record.status}</span>
-                                 <span className="text-[9px] font-black text-slate-400 tracking-widest uppercase group-hover:text-slate-500">{record.net}</span>
+                                 <span className="text-[9px] font-black text-slate-400 tracking-widest uppercase group-hover:text-slate-500">{formatCurrency(record.net, defaultCurrency)}</span>
                               </div>
                            </div>
                         </div>
@@ -181,7 +186,7 @@ const EmployeePayroll = () => {
                <div className="mt-10 p-8 bg-primary-50 rounded-[2.5rem] border border-primary-100/50 flex flex-col items-center text-center group cursor-pointer hover:bg-primary-100 transition-colors">
                   <PieChart className="text-primary-600 mb-5 group-hover:rotate-12 transition-transform" size={40} />
                   <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2">Annual Strategy</h4>
-                  <p className="text-[10px] font-bold text-slate-500 leading-relaxed max-w-[200px] uppercase tracking-widest">Aggregate earnings of <span className="text-primary-700">$125K+</span> for this cycle.</p>
+                  <p className="text-[10px] font-bold text-slate-500 leading-relaxed max-w-[200px] uppercase tracking-widest">Aggregate earnings of <span className="text-primary-700">{getCurrencySymbol(defaultCurrency)}125K+</span> for this cycle.</p>
                   <div className="mt-5 flex items-center gap-2 text-[9px] font-black text-primary-600 uppercase tracking-[0.3em]">
                      Full Insight <ArrowRight size={12} />
                   </div>
@@ -214,18 +219,18 @@ const EmployeePayroll = () => {
                   <div className="space-y-6">
                      <h4 className="text-[10px] font-black text-primary-600 uppercase tracking-[0.2em] border-b border-primary-100 pb-2">Credit Breakdown</h4>
                      <div className="space-y-3">
-                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Basic Pay</span><span className="text-slate-900 font-black">${selectedPayslip.basic}</span></div>
-                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>House Rent</span><span className="text-slate-900 font-black">${selectedPayslip.hra}</span></div>
-                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Conveyance</span><span className="text-slate-900 font-black">${selectedPayslip.allowance}</span></div>
-                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Performance Bonus</span><span className="text-slate-900 font-black">${selectedPayslip.bonus}</span></div>
+                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Basic Pay</span><span className="text-slate-900 font-black">{formatCurrency(selectedPayslip.basic, defaultCurrency)}</span></div>
+                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>House Rent</span><span className="text-slate-900 font-black">{formatCurrency(selectedPayslip.hra, defaultCurrency)}</span></div>
+                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Conveyance</span><span className="text-slate-900 font-black">{formatCurrency(selectedPayslip.allowance, defaultCurrency)}</span></div>
+                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Performance Bonus</span><span className="text-slate-900 font-black">{formatCurrency(selectedPayslip.bonus, defaultCurrency)}</span></div>
                      </div>
                   </div>
                   <div className="space-y-6">
                      <h4 className="text-[10px] font-black text-rose-600 uppercase tracking-[0.2em] border-b border-rose-100 pb-2">Debit Breakdown</h4>
                      <div className="space-y-3">
-                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Provident Fund</span><span className="text-rose-600 font-black">-${selectedPayslip.pf}</span></div>
-                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Income Tax</span><span className="text-rose-600 font-black">-${selectedPayslip.tax}</span></div>
-                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Prof. Tax</span><span className="text-rose-600 font-black">-$50</span></div>
+                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Provident Fund</span><span className="text-rose-600 font-black">-{formatCurrency(selectedPayslip.pf, defaultCurrency)}</span></div>
+                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Income Tax</span><span className="text-rose-600 font-black">-{formatCurrency(selectedPayslip.tax, defaultCurrency)}</span></div>
+                        <div className="flex justify-between text-xs font-bold text-slate-500 italic"><span>Prof. Tax</span><span className="text-rose-600 font-black">-{formatCurrency(50, defaultCurrency)}</span></div>
                      </div>
                   </div>
                </div>
@@ -233,7 +238,7 @@ const EmployeePayroll = () => {
                <div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 flex items-center justify-between">
                   <div>
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Total Net Payable</p>
-                     <h3 className="text-4xl font-black text-slate-900 tracking-tighter italic">${selectedPayslip.net}.00</h3>
+                     <h3 className="text-4xl font-black text-slate-900 tracking-tighter italic">{formatCurrency(selectedPayslip.net, defaultCurrency)}</h3>
                   </div>
                   <div className="flex gap-3">
                      <button className="p-4 bg-white border border-slate-200 rounded-2xl hover:bg-slate-100 transition-all shadow-sm"><Printer size={20} /></button>

@@ -37,7 +37,7 @@ export const sidebarConfig = {
       items: [
         { label: 'Master Dashboard', icon: LayoutDashboard, path: '/superadmin/dashboard' },
         { label: 'Global Analytics', icon: BarChart2, path: '/superadmin/analytics' },
-        { label: 'Security Roles', icon: ShieldCheck, path: '/superadmin/roles' },
+        { label: 'Roles & Permissions', icon: ShieldCheck, path: '/superadmin/roles' },
         { label: 'User Control', icon: Users, path: '/superadmin/users' },
         { label: 'Departments', icon: Building2, path: '/superadmin/departments' },
         { label: 'Payroll Management', icon: CreditCard, path: '/superadmin/payroll' },

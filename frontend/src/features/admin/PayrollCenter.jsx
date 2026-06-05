@@ -10,14 +10,17 @@ import { cn } from '../../utils/cn';
 import TaxRulesModal from '../../shared/components/admin/TaxRulesModal';
 import PayrollBreakdownModal from '../../shared/components/admin/PayrollBreakdownModal';
 import ActionDropdown from '../../shared/components/admin/ActionDropdown';
+import { formatCurrency, getCurrencyIcon } from '../../utils/currencyHelper';
 
 const PayrollCenter = () => {
-  const { payrollList, runPayroll, showToast, updatePayrollDetails } = useAdmin();
+  const { payrollList, runPayroll, showToast, updatePayrollDetails, appSettings } = useAdmin();
   const [activeTab, setActiveTab] = useState('list');
   const [isRunningPayroll, setIsRunningPayroll] = useState(false);
   const [isTaxModalOpen, setIsTaxModalOpen] = useState(false);
   const [employeeToView, setEmployeeToView] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const defaultCurrency = appSettings?.general?.defaultCurrency;
 
   const filteredPayroll = payrollList.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -30,7 +33,7 @@ const PayrollCenter = () => {
 
   const stats = [
     { label: 'Payroll Month', value: 'Oct 2026', icon: Calendar, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-    { label: 'Total Payout', value: `$${totalPayout.toLocaleString()}`, icon: DollarSign, color: 'text-primary-600', bg: 'bg-primary-50' },
+    { label: 'Total Payout', value: formatCurrency(totalPayout, defaultCurrency), icon: getCurrencyIcon(defaultCurrency), color: 'text-primary-600', bg: 'bg-primary-50' },
     { label: 'Employees', value: totalEmployees.toString(), icon: Users, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { label: 'Pending Lock', value: 'Finance', icon: Lock, color: 'text-amber-600', bg: 'bg-amber-50' },
   ];
@@ -142,10 +145,10 @@ const PayrollCenter = () => {
                                  <p className="font-bold text-slate-900 tracking-tight">{emp.name}</p>
                               </div>
                            </td>
-                           <td className="px-8 py-6 text-center font-medium text-slate-600">${emp.basic?.toLocaleString()}</td>
-                           <td className="px-8 py-6 text-center text-emerald-600 font-bold">{emp.bonus ? `$${emp.bonus.toLocaleString()}` : '-'}</td>
-                           <td className="px-8 py-6 text-center text-rose-500 font-bold">{emp.deductions ? `$${emp.deductions.toLocaleString()}` : '-'}</td>
-                           <td className="px-8 py-6 text-center font-black text-slate-900">${emp.net?.toLocaleString()}</td>
+                           <td className="px-8 py-6 text-center font-medium text-slate-600">{formatCurrency(emp.basic, defaultCurrency)}</td>
+                           <td className="px-8 py-6 text-center text-emerald-600 font-bold">{emp.bonus ? formatCurrency(emp.bonus, defaultCurrency) : '-'}</td>
+                           <td className="px-8 py-6 text-center text-rose-500 font-bold">{emp.deductions ? formatCurrency(emp.deductions, defaultCurrency) : '-'}</td>
+                           <td className="px-8 py-6 text-center font-black text-slate-900">{formatCurrency(emp.net, defaultCurrency)}</td>
                            <td className="px-8 py-6 text-center">
                               <span className={cn(
                                  "px-2.5 py-1 rounded-lg text-[9px] font-extrabold uppercase tracking-widest border",
@@ -226,13 +229,13 @@ const PayrollCenter = () => {
                   </button>
                </div>
                
-               <div className="flex-1 overflow-y-auto p-10 space-y-12 shrink-0">
+               <div className="flex-1 overflow-y-auto p-10 space-y-12">
                   <div className="card p-10 bg-slate-900 text-white border-none shadow-soft relative overflow-hidden group">
                      <div className="absolute inset-x-0 bottom-0 h-1 bg-white/5 group-hover:bg-primary-500 transition-all duration-1000" />
                      <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary-400 mb-6 px-1">Review Configuration</p>
                      <div className="grid grid-cols-2 gap-10">
                         <div>
-                           <p className="text-4xl font-black text-white">${totalPayout.toLocaleString()}</p>
+                           <p className="text-4xl font-black text-white">{formatCurrency(totalPayout, defaultCurrency)}</p>
                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2">Total Est. Payout</p>
                         </div>
                         <div className="text-right">

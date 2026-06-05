@@ -209,7 +209,7 @@ function App() {
               <Route path="dashboard" element={<SuperAdminDashboard />} />
               <Route path="analytics" element={<GlobalAnalytics />} />
               <Route path="users" element={<UserManagement />} />
-              <Route path="roles" element={<RoleManagement />} />
+              <Route path="roles" element={<RolesPermissions />} />
               <Route path="departments" element={<DepartmentManagement />} />
               <Route path="payroll" element={<SuperAdminPayrollCenter />} />
               <Route path="benefits" element={<SuperAdminBenefitsConfig />} />

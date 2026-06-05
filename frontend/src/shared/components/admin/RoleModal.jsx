@@ -228,10 +228,10 @@ const RoleModal = ({ isOpen, onClose, roleToEdit = null }) => {
                             <div className="bg-slate-50 border border-slate-100 rounded-[2rem] overflow-hidden overflow-x-auto">
                                 <div className="min-w-[760px]">
                                     <div className="grid grid-cols-12 bg-slate-900 p-6">
-                                        <div className="col-span-4 text-[10px] font-black text-white/40 uppercase tracking-widest">Module</div>
+                                        <div className="col-span-4 text-[10px] font-black text-white uppercase tracking-widest">Module</div>
                                         <div className="col-span-8 grid grid-cols-7 gap-1">
                                             {actions.map(action => (
-                                                <div key={action} className="text-[9px] font-black text-white/40 uppercase tracking-widest text-center">{action}</div>
+                                                <div key={action} className="text-[9px] font-black text-white uppercase tracking-widest text-center">{action}</div>
                                             ))}
                                         </div>
                                     </div>

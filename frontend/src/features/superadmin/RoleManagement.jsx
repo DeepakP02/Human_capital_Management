@@ -108,7 +108,7 @@ const RoleManagement = () => {
         <div className="text-left">
           <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
             <Shield className="text-emerald-600" size={32} />
-            Security Roles & Permissions
+            Roles & Permissions
           </h1>
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
             Define enterprise access permissions, security profiles, and system access levels.

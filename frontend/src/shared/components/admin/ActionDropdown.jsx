@@ -19,8 +19,8 @@ const ActionDropdown = ({ actions }) => {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
+      <button
+        onClick={() => setIsOpen(!isOpen)}
         className={cn("p-2 rounded-lg transition-all", isOpen ? "bg-slate-100 text-slate-700" : "text-slate-400 hover:bg-slate-50")}
       >
         <MoreVertical size={18} />

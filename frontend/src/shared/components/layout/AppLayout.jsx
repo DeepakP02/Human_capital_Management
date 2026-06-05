@@ -5,7 +5,6 @@ import Navbar from './Navbar';
 import { useAuth } from '../../../hooks/useAuth';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../../utils/cn';
-import { ChevronRight, Home } from 'lucide-react';
 import RolePreviewBanner from './RolePreviewBanner';
 import Toast from '../admin/Toast';
 
@@ -23,7 +22,7 @@ const AppLayout = () => {
 
   if (!user) return <Navigate to="/login" replace />;
 
-  const pathSegments = location.pathname.split('/').filter(Boolean);
+
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex transition-colors duration-300">
@@ -68,19 +67,7 @@ const AppLayout = () => {
         <Navbar toggleMobileSidebar={() => setMobileSidebarOpen(true)} />
         
         <main className="flex-1 p-4 lg:p-8">
-          {/* Breadcrumbs */}
-          <div className="flex flex-wrap items-center gap-2 mb-6 text-sm text-slate-400">
-            <Home size={14} />
-            <ChevronRight size={14} />
-            {pathSegments.map((segment, idx) => (
-              <React.Fragment key={idx}>
-                <span className={cn("capitalize", idx === pathSegments.length - 1 && "text-slate-600 font-medium")}>
-                  {segment.replace('-', ' ')}
-                </span>
-                {idx < pathSegments.length - 1 && <ChevronRight size={14} />}
-              </React.Fragment>
-            ))}
-          </div>
+
 
           {/* Page Outlet */}
           <motion.div
