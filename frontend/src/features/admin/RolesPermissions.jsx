@@ -24,12 +24,107 @@ import {
    Copy,
    Info,
    Layers,
-   Trash2
+   Trash2,
+   LayoutDashboard,
+   Building2,
+   CreditCard,
+   Calendar,
+   CalendarDays,
+   Bot,
+   Scale,
+   Plug,
+   Receipt,
+   FileSearch,
+   BarChart2,
+   Briefcase,
+   GitMerge,
+   UserCheck,
+   MessageSquare,
+   Clock,
+   CheckSquare,
+   Target,
+   ClipboardList,
+   Star,
+   User,
+   Gift,
+   BookOpen,
+   Bell,
+   Edit3
 } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 import { cn } from '../../utils/cn';
 import RoleModal from '../../shared/components/admin/RoleModal';
 import ConfirmDialog from '../../shared/components/admin/ConfirmDialog';
+
+const ROLE_MODULES = {
+   admin: [
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { id: 'org_setup', label: 'Org Setup', icon: Building2 },
+      { id: 'departments', label: 'Departments', icon: Building2 },
+      { id: 'users', label: 'Users', icon: Users },
+      { id: 'roles_permissions', label: 'Roles & Permissions', icon: ShieldCheck },
+      { id: 'payroll_center', label: 'Payroll Center', icon: CreditCard },
+      { id: 'holidays', label: 'Holidays', icon: CalendarDays },
+      { id: 'benefits_config', label: 'Benefits Config', icon: Gift },
+      { id: 'ai_center', label: 'AI Center', icon: Bot },
+      { id: 'compliance', label: 'Compliance', icon: Scale },
+      { id: 'integrations', label: 'Integrations', icon: Plug },
+      { id: 'billing', label: 'Billing', icon: Receipt },
+      { id: 'audit_logs', label: 'Audit Logs', icon: FileSearch },
+      { id: 'reports', label: 'Reports', icon: BarChart2 },
+      { id: 'settings', label: 'Settings', icon: Settings },
+   ],
+   hr: [
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { id: 'job_posts', label: 'Job Posts', icon: Briefcase },
+      { id: 'candidates', label: 'Candidates', icon: Users },
+      { id: 'interviews', label: 'Interviews', icon: Calendar },
+      { id: 'hiring_pipeline', label: 'Hiring Pipeline', icon: GitMerge },
+      { id: 'offer_management', label: 'Offer Management', icon: FileText },
+      { id: 'onboarding', label: 'Onboarding', icon: UserCheck },
+      { id: 'reports', label: 'Reports', icon: BarChart2 },
+      { id: 'messages', label: 'Messages', icon: MessageSquare },
+   ],
+   manager: [
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { id: 'team_members', label: 'Team Members', icon: Users },
+      { id: 'attendance_review', label: 'Attendance Review', icon: Clock },
+      { id: 'leave_approval', label: 'Leave Approval', icon: CheckSquare },
+      { id: 'kpi_tracking', label: 'KPI Tracking', icon: Target },
+      { id: 'tasks', label: 'Tasks', icon: ClipboardList },
+      { id: 'reviews', label: 'Reviews', icon: Star },
+      { id: 'reports', label: 'Reports', icon: BarChart2 },
+   ],
+   employee: [
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { id: 'profile', label: 'Profile', icon: User },
+      { id: 'attendance', label: 'Attendance', icon: Clock },
+      { id: 'leave', label: 'Leave', icon: CalendarDays },
+      { id: 'payroll', label: 'Payroll', icon: CreditCard },
+      { id: 'benefits', label: 'Benefits', icon: Gift },
+      { id: 'documents', label: 'Documents', icon: FileText },
+      { id: 'performance', label: 'Performance', icon: Activity },
+      { id: 'help_desk', label: 'Help Desk', icon: BookOpen },
+   ],
+   candidate: [
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { id: 'browse_jobs', label: 'Browse Jobs', icon: Briefcase },
+      { id: 'my_applications', label: 'My Applications', icon: ClipboardList },
+      { id: 'resume_builder', label: 'Resume Builder', icon: FileText },
+      { id: 'ai_resume_score', label: 'AI Resume Score', icon: Star },
+      { id: 'interview_schedule', label: 'Interview Schedule', icon: Calendar },
+      { id: 'notifications', label: 'Notifications', icon: Bell },
+   ]
+};
+
+const getModulesForRole = (roleName) => {
+   const normalized = (roleName || '').toLowerCase();
+   if (normalized.includes('admin')) return ROLE_MODULES.admin;
+   if (normalized.includes('hr')) return ROLE_MODULES.hr;
+   if (normalized.includes('manager')) return ROLE_MODULES.manager;
+   if (normalized.includes('candidate')) return ROLE_MODULES.candidate;
+   return ROLE_MODULES.employee;
+};
 
 const RolesPermissions = () => {
    const { roles, users, deleteRole, updateRole, showToast } = useAdmin();
@@ -45,18 +140,7 @@ const RolesPermissions = () => {
 
    const currentRole = displayRoles.find(r => r.name === selectedRoleName) || displayRoles[0];
 
-   const modules = [
-      { id: 'dashboard', label: 'Dashboard', icon: Layout },
-      { id: 'users', label: 'Users Management', icon: Users },
-      { id: 'departments', label: 'Departments', icon: Layers },
-      { id: 'payroll', label: 'Payroll Center', icon: Settings },
-      { id: 'holidays', label: 'Holidays', icon: Settings },
-      { id: 'benefits', label: 'Benefits', icon: Settings },
-      { id: 'ai', label: 'AI Center', icon: Settings },
-      { id: 'compliance', label: 'Compliance', icon: ShieldCheck },
-      { id: 'reports', label: 'Reports', icon: Layout },
-      { id: 'settings', label: 'System Settings', icon: Settings },
-   ];
+   const modules = getModulesForRole(currentRole?.name);
 
    const actions = ['view', 'create', 'edit', 'delete', 'approve', 'manage'];
 
@@ -78,19 +162,20 @@ const RolesPermissions = () => {
                <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Roles & Permissions</h1>
                <p className="text-slate-500 font-medium tracking-tight">Granular access control and permission management for all platform roles</p>
             </div>
-            <div className="flex items-center gap-3">
-
-               <button
-                  onClick={() => {
-                     setRoleToEdit(null);
-                     setIsRoleModalOpen(true);
-                  }}
-                  className="btn-primary px-8 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200 cursor-pointer"
-               >
-                  <Plus size={18} />
-                  <span>Create Custom Role</span>
-               </button>
-            </div>
+            {isAdminPanel && (
+               <div className="flex items-center gap-3">
+                  <button
+                     onClick={() => {
+                        setRoleToEdit(null);
+                        setIsRoleModalOpen(true);
+                     }}
+                     className="btn-primary px-8 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200 cursor-pointer"
+                  >
+                     <Plus size={18} />
+                     <span>Create Custom Role</span>
+                  </button>
+               </div>
+            )}
          </div>
 
          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start h-full">
@@ -107,7 +192,8 @@ const RolesPermissions = () => {
                                  "w-full p-5 rounded-[2rem] text-left transition-all border group flex items-center justify-between cursor-pointer",
                                  selectedRoleName === role.name
                                     ? "bg-slate-900 dark:bg-slate-800 border-slate-900 dark:border-slate-700 text-white shadow-xl shadow-slate-200 dark:shadow-none"
-                                    : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/40 hover:border-slate-200 dark:hover:border-slate-700 shadow-sm"
+                                    : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/40 hover:border-slate-200 dark:hover:border-slate-700 shadow-sm",
+                                 role.isCustom && "pr-24"
                               )}
                            >
                               <div className="flex-1 min-w-0 pr-4">
@@ -120,29 +206,41 @@ const RolesPermissions = () => {
                                     {users.filter(u => u.role === role.name).length} Active Users
                                  </p>
                               </div>
-                              <ChevronRight size={18} className={cn("shrink-0", selectedRoleName === role.name ? "text-white/30" : "text-slate-200 dark:text-slate-850")} />
+                              {!role.isCustom && (
+                                 <ChevronRight size={18} className={cn("shrink-0", selectedRoleName === role.name ? "text-white/30" : "text-slate-200 dark:text-slate-850")} />
+                              )}
                            </button>
 
                            {role.isCustom && (
-                              <div className="absolute top-1/2 -translate-y-1/2 -left-12 opacity-0 group-hover/role:opacity-100 transition-opacity flex flex-col gap-2">
+                              <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-2">
                                  <button
                                     onClick={(e) => {
                                        e.stopPropagation();
                                        setRoleToEdit(role);
                                        setIsRoleModalOpen(true);
                                     }}
-                                    className="p-2 bg-white rounded-lg border border-slate-100 text-slate-400 hover:text-primary-600 shadow-sm"
+                                    className={cn(
+                                       "p-2 rounded-xl border transition-all shadow-sm cursor-pointer",
+                                       selectedRoleName === role.name
+                                          ? "bg-slate-800 dark:bg-slate-700 border-slate-700 dark:border-slate-600 text-white/80 hover:text-white hover:bg-slate-700"
+                                          : "bg-slate-50 border-slate-100 text-slate-400 hover:text-primary-600 hover:bg-white"
+                                    )}
                                  >
-                                    <Edit3 size={14} />
+                                    <Edit3 size={16} />
                                  </button>
                                  <button
                                     onClick={(e) => {
                                        e.stopPropagation();
                                        setRoleToDelete(role);
                                     }}
-                                    className="p-2 bg-white rounded-lg border border-slate-100 text-slate-400 hover:text-rose-600 shadow-sm"
+                                    className={cn(
+                                       "p-2 rounded-xl border transition-all shadow-sm cursor-pointer",
+                                       selectedRoleName === role.name
+                                          ? "bg-slate-800 dark:bg-slate-700 border-slate-700 dark:border-slate-600 text-rose-400 hover:text-rose-300 hover:bg-rose-950/30 hover:border-rose-950/50"
+                                          : "bg-slate-50 border-slate-100 text-slate-450 hover:text-rose-600 hover:bg-white"
+                                    )}
                                  >
-                                    <Trash2 size={14} />
+                                    <Trash2 size={16} />
                                  </button>
                               </div>
                            )}

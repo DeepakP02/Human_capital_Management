@@ -76,11 +76,11 @@ const RoleManagement = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !description) return;
+    if (!name) return;
 
     const payload = {
       name,
-      description,
+      description: '',
       permissions: selectedPermissions,
       permissionsCount: selectedPermissions.length
     };
@@ -256,17 +256,6 @@ const RoleManagement = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Profile Description</label>
-                  <textarea
-                    required
-                    rows="2"
-                    placeholder="Describe role responsibilities and authority bounds..."
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold resize-none"
-                  />
-                </div>
 
                 <div>
                   <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Granular System Permissions</label>

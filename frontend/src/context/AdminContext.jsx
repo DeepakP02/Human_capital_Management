@@ -406,7 +406,7 @@ export const AdminProvider = ({ children }) => {
 
   // --- REPORTS STATE ---
   const [reportSchedules, setReportSchedules] = usePersistedState('reportSchedules', []);
-  
+
   const addReportSchedule = (schedule) => {
     setReportSchedules(prev => [...prev, { ...schedule, id: Date.now() }]);
     showToast(`Report schedule "${schedule.name}" created`);
