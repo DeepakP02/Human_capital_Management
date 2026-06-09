@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Plus, Search, RotateCcw, MoreVertical, 
+  Plus, Search, MoreVertical, 
   Download, Users, User, MoreHorizontal, X, ExternalLink, MapPin, Mail, Phone, Calendar
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useHR } from '../../context/HRContext';
+import { useAdmin } from '../../context/AdminContext';
 
 const HiringPipeline = () => {
-  const { candidates, moveCandidateStage, showToast, updateCandidate } = useHR();
+  const { candidates, moveCandidateStage, showToast } = useHR();
+  const { users } = useAdmin();
   const navigate = useNavigate();
   
   const [activeCandidate, setActiveCandidate] = useState(null);
@@ -40,8 +42,6 @@ const HiringPipeline = () => {
     const candId = e.dataTransfer.getData('text/plain');
     if(candId) {
        moveCandidateStage(candId, targetStage);
-       // Sync general status as well
-       updateCandidate(candId, { status: targetStage });
     }
   };
 
@@ -54,17 +54,13 @@ const HiringPipeline = () => {
     if(currentIndex < stages.length - 1) {
        const nextStage = stages[currentIndex + 1].id;
        moveCandidateStage(cand.id, nextStage);
-       updateCandidate(cand.id, { status: nextStage });
        setActiveCandidate({...cand, stage: nextStage, status: nextStage});
-       showToast(`Moved ${cand.name} to ${nextStage}`);
     }
   };
 
   const rejectCandidate = (cand) => {
     moveCandidateStage(cand.id, 'Rejected');
-    updateCandidate(cand.id, { status: 'Rejected' });
     setActiveCandidate(null);
-    showToast(`${cand.name} has been rejected`, 'error');
   };
 
   return (
@@ -98,9 +94,6 @@ const HiringPipeline = () => {
             <option value="Design">Design</option>
             <option value="Manager">Product / Mgmt</option>
           </select>
-          <button onClick={() => { setSearchTerm(''); setFilterRole(''); }} className="p-2.5 text-slate-400 hover:text-primary-600 hover:bg-slate-50 border border-slate-100 rounded-xl transition-all h-11 w-11 flex items-center justify-center shrink-0">
-            <RotateCcw size={18} />
-          </button>
         </div>
       </div>
 
@@ -120,7 +113,6 @@ const HiringPipeline = () => {
                       <span className={cn("px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-widest border", stage.color)}>
                          {stage.label}
                       </span>
-                      <span className="text-xs font-bold text-slate-400">{stageCandidates.length}</span>
                    </div>
                    <button onClick={() => navigate('/hr/candidates', { state: { openCreate: true } })} className="p-1.5 text-slate-300 hover:text-slate-600 transition-colors">
                       <Plus size={18} />
@@ -167,11 +159,33 @@ const HiringPipeline = () => {
                                  </div>
                               </div>
                               <div className="flex -space-x-1.5 overflow-hidden">
-                                 {[1,2,3].map(i => (
-                                    <div key={i} className="w-5 h-5 rounded-full ring-2 ring-white bg-slate-100 flex items-center justify-center text-[8px] font-extrabold text-slate-400">
-                                       {i === 3 ? '+2' : <User size={10} />}
+                                 {(cand.interviewers || []).slice(0, 2).map((name, idx) => {
+                                    const member = users.find(u => u.name === name) || {};
+                                    const initials = name.split(' ').map(n => n[0]).join('');
+                                    return (
+                                       <div 
+                                         key={idx} 
+                                         className="w-5 h-5 rounded-full ring-2 ring-white bg-slate-200 flex items-center justify-center text-[8px] font-black text-slate-700 uppercase overflow-hidden"
+                                         title={name}
+                                       >
+                                          {member.img ? (
+                                             <img src={member.img} alt={name} className="w-full h-full object-cover" />
+                                          ) : (
+                                             initials
+                                          )}
+                                       </div>
+                                    );
+                                 })}
+                                 {(cand.interviewers || []).length > 2 && (
+                                    <div className="w-5 h-5 rounded-full ring-2 ring-white bg-slate-800 flex items-center justify-center text-[8px] font-extrabold text-white" title={`${(cand.interviewers || []).slice(2).join(', ')}`}>
+                                       +{(cand.interviewers || []).length - 2}
                                     </div>
-                                 ))}
+                                 )}
+                                 {(!cand.interviewers || cand.interviewers.length === 0) && (
+                                    <div className="w-5 h-5 rounded-full ring-2 ring-white bg-slate-100 flex items-center justify-center text-slate-400" title="No assigned team members">
+                                       <User size={10} />
+                                    </div>
+                                 )}
                               </div>
                            </div>
                         </motion.div>
@@ -239,6 +253,25 @@ const HiringPipeline = () => {
                         <div className="col-span-2 p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-4 text-slate-600 text-sm">
                            <Mail size={16} /> <span className="font-medium">{activeCandidate.email}</span>
                         </div>
+                     </div>
+                  </section>
+
+                  <section className="space-y-4">
+                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Assigned Team Members / Interviewers</h3>
+                     <div className="flex flex-wrap gap-2">
+                        {(activeCandidate.interviewers || []).length > 0 ? (
+                           (activeCandidate.interviewers || []).map((name, idx) => {
+                              const member = users.find(u => u.name === name) || {};
+                              return (
+                                 <div key={idx} className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl text-xs font-bold text-slate-700 shadow-sm">
+                                    <img src={member.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`} alt={name} className="w-5 h-5 rounded-full object-cover" />
+                                    <span>{name}</span>
+                                 </div>
+                              );
+                           })
+                        ) : (
+                           <span className="text-xs font-bold text-slate-400 italic">No team members assigned</span>
+                        )}
                      </div>
                   </section>
 

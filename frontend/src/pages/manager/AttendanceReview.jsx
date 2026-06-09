@@ -261,12 +261,11 @@ const AttendanceReview = () => {
         onClose={() => setSelectedEntry(null)} 
         title="Attendance Record Details"
       >
-         {selectedEntry && (
-            <div className="p-10 space-y-12 text-left">
-               <div className="flex items-center gap-6 mb-10 pb-8 border-b border-slate-50">
-                  <img src={`https://i.pravatar.cc/150?u=${selectedEntry.name}`} className="w-20 h-20 rounded-3xl object-cover ring-4 ring-slate-50 shadow-xl" />
+         {selectedEntry && (            <div className="p-6 sm:p-8 space-y-6 text-left">
+               <div className="flex items-center gap-4 mb-6 pb-4 border-b border-slate-50">
+                  <img src={`https://i.pravatar.cc/150?u=${selectedEntry.name}`} className="w-14 h-14 rounded-2xl object-cover ring-2 ring-slate-50 shadow-lg" />
                   <div className="text-left">
-                     <h2 className="text-2xl font-black text-slate-900 leading-none">{selectedEntry.name}</h2>
+                     <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-none">{selectedEntry.name}</h2>
                      <p className="text-[10px] font-black text-primary-600 uppercase tracking-widest mt-2">{selectedEntry.date}</p>
                      <div className="mt-4 flex items-center gap-3">
                         <span className={cn(
@@ -278,20 +277,20 @@ const AttendanceReview = () => {
                   </div>
                </div>
                
-               <div className="grid grid-cols-2 gap-8 h-40">
-                  <div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 flex flex-col justify-center items-center">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Hours</p>
-                     <h4 className="text-3xl font-black text-slate-900">8.5h</h4>
+               <div className="grid grid-cols-2 gap-4 sm:gap-6">
+                  <div className="p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col justify-center items-center">
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Hours</p>
+                     <h4 className="text-2xl font-black text-slate-900">8.5h</h4>
                   </div>
-                  <div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 flex flex-col justify-center items-center">
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Break Time</p>
-                     <h4 className="text-3xl font-black text-slate-900">{selectedEntry.breakTime || '1h'}</h4>
+                  <div className="p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col justify-center items-center">
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Break Time</p>
+                     <h4 className="text-2xl font-black text-slate-900">{selectedEntry.breakTime || '1h'}</h4>
                   </div>
                </div>
 
-               <section className="space-y-6">
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-50 pb-4 text-left">Timeline Activity</h3>
-                  <div className="space-y-8 relative ml-4 pl-10 border-l-2 border-slate-100 text-left">
+               <section className="space-y-4">
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-slate-50 pb-2.5 text-left">Timeline Activity</h3>
+                  <div className="space-y-5 relative ml-3 pl-8 border-l-2 border-slate-100 text-left">
                      {[
                         { time: selectedEntry.checkIn, label: 'Clocked In', icon: Clock, color: 'bg-emerald-500' },
                         { time: '01:00 PM', label: 'Break Started', icon: Timer, color: 'bg-amber-500' },
@@ -299,13 +298,13 @@ const AttendanceReview = () => {
                         { time: selectedEntry.checkOut || '--:--', label: 'Clocked Out', icon: Clock, color: 'bg-slate-900' },
                      ].map((log, i) => (
                         <div key={i} className="relative group">
-                           <div className={cn("absolute -left-[53px] top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white", log.color)}>
-                              <log.icon size={14} />
+                           <div className={cn("absolute -left-[45px] top-1/2 -translate-y-1/2 w-7 h-7 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white", log.color)}>
+                              <log.icon size={12} />
                            </div>
                             <div className="flex items-center justify-between group-hover:translate-x-1 transition-transform">
                               <div className="text-left">
-                                 <p className="text-base font-black text-slate-900 leading-none">{log.time}</p>
-                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1.5">{log.label}</p>
+                                 <p className="text-sm sm:text-base font-black text-slate-900 leading-none">{log.time}</p>
+                                 <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">{log.label}</p>
                               </div>
                            </div>
                         </div>
@@ -313,9 +312,9 @@ const AttendanceReview = () => {
                   </div>
                </section>
 
-               <div className="pt-10 flex gap-4">
-                  <button className="flex-1 py-4 bg-slate-50 text-slate-600 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-100 transition-all">Flag Record</button>
-                  <button onClick={() => setSelectedEntry(null)} className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">Confirm View</button>
+               <div className="pt-6 border-t border-slate-50 flex gap-3">
+                  <button className="flex-1 py-2.5 sm:py-3 bg-slate-50 text-slate-600 rounded-xl font-bold uppercase tracking-widest hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 text-xs sm:text-sm">Flag Record</button>
+                  <button onClick={() => setSelectedEntry(null)} className="flex-1 py-2.5 sm:py-3 bg-slate-900 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 text-xs sm:text-sm">Confirm View</button>
                </div>
             </div>
          )}
@@ -327,25 +326,25 @@ const AttendanceReview = () => {
         onClose={() => setShowManualModal(false)} 
         title="Add Attendance Record"
       >
-         <form onSubmit={handleManualEntry} className="p-10 space-y-8 text-left">
+         <form onSubmit={handleManualEntry} className="p-6 sm:p-8 space-y-4 sm:space-y-6 text-left">
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1 text-left">Select Employee</label>
                <select 
-                 className="input-field h-14 font-bold appearance-none bg-white"
-                 value={newEntry.employeeId}
-                 onChange={e => setNewEntry({...newEntry, employeeId: e.target.value})}
+                  className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
+                  value={newEntry.employeeId}
+                  onChange={e => setNewEntry({...newEntry, employeeId: e.target.value})}
                >
                   <option value="">Choose from Team</option>
                   {teamMembers.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
                </select>
             </div>
             
-            <div className="grid grid-cols-2 gap-8 text-left">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 text-left">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Date</label>
                   <input 
                     type="date" 
-                    className="input-field h-14 font-bold" 
+                    className="input-field h-11 sm:h-12 font-semibold text-sm" 
                     value={newEntry.date}
                     onChange={e => setNewEntry({...newEntry, date: e.target.value})}
                   />
@@ -353,7 +352,7 @@ const AttendanceReview = () => {
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Work Mode</label>
                   <select 
-                    className="input-field h-14 font-bold appearance-none bg-white"
+                    className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
                     value={newEntry.mode}
                     onChange={e => setNewEntry({...newEntry, mode: e.target.value})}
                   >
@@ -367,7 +366,7 @@ const AttendanceReview = () => {
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">In Time</label>
                   <input 
                     type="time" 
-                    className="input-field h-14 font-bold" 
+                    className="input-field h-11 sm:h-12 font-semibold text-sm" 
                     value={newEntry.checkIn}
                     onChange={e => setNewEntry({...newEntry, checkIn: e.target.value})}
                   />
@@ -376,7 +375,7 @@ const AttendanceReview = () => {
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Out Time</label>
                   <input 
                     type="time" 
-                    className="input-field h-14 font-bold" 
+                    className="input-field h-11 sm:h-12 font-semibold text-sm" 
                     value={newEntry.checkOut}
                     onChange={e => setNewEntry({...newEntry, checkOut: e.target.value})}
                   />
@@ -385,16 +384,16 @@ const AttendanceReview = () => {
 
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Attendance Status</label>
-               <div className="grid grid-cols-3 gap-4">
+               <div className="grid grid-cols-3 gap-3">
                   {['Present', 'Late', 'On Leave'].map(s => (
                     <button
-                      key={s}
-                      type="button"
-                      onClick={() => setNewEntry({...newEntry, status: s})}
-                      className={cn(
-                        "py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all border",
-                        newEntry.status === s ? "bg-slate-900 text-white border-slate-900 shadow-xl" : "bg-slate-50 text-slate-400 border-slate-100 hover:bg-slate-100"
-                      )}
+                       key={s}
+                       type="button"
+                       onClick={() => setNewEntry({...newEntry, status: s})}
+                       className={cn(
+                        "py-2.5 sm:py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border",
+                        newEntry.status === s ? "bg-slate-900 text-white border-slate-900 shadow-md" : "bg-slate-50 text-slate-400 border-slate-100 hover:bg-slate-100"
+                       )}
                     >
                       {s}
                     </button>
@@ -402,9 +401,9 @@ const AttendanceReview = () => {
                </div>
             </div>
 
-            <div className="pt-6 flex flex-col gap-4 text-left">
-               <button type="submit" className="btn-primary w-full py-4 font-black uppercase tracking-[0.2em] shadow-xl shadow-primary-100">Record Entry</button>
-               <button type="button" onClick={() => setShowManualModal(false)} className="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Dismiss</button>
+            <div className="pt-4 flex flex-col gap-3 text-left">
+               <button type="submit" className="btn-primary w-full py-2.5 sm:py-3 font-bold uppercase tracking-[0.2em] shadow-md shadow-primary-100 text-sm">Record Entry</button>
+               <button type="button" onClick={() => setShowManualModal(false)} className="w-full py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Dismiss</button>
             </div>
          </form>
       </CenterModal>

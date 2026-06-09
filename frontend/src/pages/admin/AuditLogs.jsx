@@ -60,41 +60,22 @@ const AuditLogs = () => {
             <Download size={18} />
             <span className="hidden sm:inline">Export Audit Report</span>
           </button>
-          <button onClick={() => setIsScanOpen(true)} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
-             <ShieldCheck size={18} fill="currentColor" />
-             <span>Security Scan</span>
-          </button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
          <div className="lg:col-span-12 space-y-6 h-full">
             <div className="card p-0 bg-white border border-slate-100 shadow-soft overflow-hidden">
-               <div className="p-8 border-b border-slate-50 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                  <div className="flex items-center gap-10">
-                     <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Live Feed</span>
-                        <div className="flex items-center gap-2">
-                           <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                           <span className="text-sm font-extrabold text-slate-900 tracking-tight">System Recording...</span>
-                        </div>
-                     </div>
-                     <div className="hidden sm:flex flex-col border-l border-slate-100 pl-10">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Retention</span>
-                        <span className="text-sm font-extrabold text-slate-900 tracking-tight">365 Days</span>
-                     </div>
+                <div className="p-6 border-b border-slate-50 flex items-center justify-between gap-4">
+                  <div className="relative flex-1">
+                     <Search className="absolute left-3.5 top-3 text-slate-400" size={16} />
+                     <input type="text" placeholder="Search logs..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="input-field pl-10 h-10 bg-slate-50 border-none shadow-sm text-xs font-bold w-full" />
                   </div>
-                  <div className="flex items-center gap-3 w-full lg:w-auto">
-                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-3 text-slate-300" size={18} />
-                        <input type="text" placeholder="Search logs..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="input-field pl-10 h-11 bg-slate-50 border-none shadow-sm text-xs font-bold" />
-                     </div>
-                     <button onClick={() => setIsFilterOpen(true)} className={cn("p-2.5 hover:text-primary-600 hover:bg-white border border-slate-50 rounded-xl transition-all h-11 shadow-sm relative", Object.values(filters).some(f => f !== 'All') ? "text-primary-600 bg-primary-50 border-primary-100" : "text-slate-400 bg-slate-50")}>
-                        <Filter size={18} />
-                        {Object.values(filters).some(f => f !== 'All') && <span className="absolute top-1 right-1 w-2 h-2 bg-primary-600 rounded-full" />}
-                     </button>
-                  </div>
-               </div>
+                  <button onClick={() => setIsFilterOpen(true)} className={cn("p-2.5 hover:text-primary-600 hover:bg-white border border-slate-50 rounded-xl transition-all h-10 shadow-sm relative shrink-0", Object.values(filters).some(f => f !== 'All') ? "text-primary-600 bg-primary-50 border-primary-100" : "text-slate-400 bg-slate-50")}>
+                     <Filter size={18} />
+                     {Object.values(filters).some(f => f !== 'All') && <span className="absolute top-1 right-1 w-2 h-2 bg-primary-600 rounded-full" />}
+                  </button>
+                </div>
 
                <div className="p-0 overflow-x-auto min-h-[600px]">
                   <table className="w-full text-left">

@@ -1,143 +1,1278 @@
-import React, { useMemo } from 'react';
-import StatCard from './StatCard';
-import { CreditCard, BarChart2, TrendingUp } from 'lucide-react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { useSuperAdmin } from '../../context/SuperAdminContext';
 import { usePayroll } from '../../features/payroll/PayrollContext';
+import { PageHeader } from '../../shared/components/layout/PageHeader';
+import {
+  CreditCard,
+  BarChart2,
+  TrendingUp,
+  TrendingDown,
+  Download,
+  Search,
+  Plus,
+  Trash2,
+  Edit2,
+  Eye,
+  Check,
+  X,
+  Settings,
+  DollarSign,
+  AlertCircle,
+  Calendar,
+  Users,
+  Printer,
+  Mail,
+  FileText,
+  CheckCircle,
+  XCircle,
+  ChevronUp,
+  ChevronDown
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// --- Toast helper ---
+const toast = (message, type = 'success') =>
+  window.dispatchEvent(new CustomEvent('app_toast', { detail: { message, type } }));
+
+// --- Page layout animation variants ---
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.05 } }
+};
+const itemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } }
+};
 
 const PayrollCenter = () => {
-  const { payrollHistory } = usePayroll();
+  const { users, departments } = useSuperAdmin();
+  const {
+    payrollHistory,
+    payrollSettings,
+    updatePayrollSettings,
+    addPayrollRecord,
+    updatePayrollRecord,
+    deletePayrollRecord,
+    bulkApprovePayroll
+  } = usePayroll();
 
-  // Simple analytics derived from mock payrollHistory
-  const analytics = useMemo(() => {
-    const thisMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
-    const monthHistory = payrollHistory.filter((p) => p.month.startsWith(thisMonth));
-    const totalPayroll = monthHistory.reduce((sum, p) => sum + (p.net || 0), 0);
-    const employeesPaid = monthHistory.length;
-    const pending = payrollHistory.filter((p) => p.status !== 'Paid').length;
-    const avgSalary = employeesPaid ? totalPayroll / employeesPaid : 0;
-    const growth = payrollHistory.length > 1 ? ((totalPayroll - payrollHistory[payrollHistory.length - 2].net) / payrollHistory[payrollHistory.length - 2].net) * 100 : 0;
-    return { totalPayroll, employeesPaid, pending, avgSalary, growth };
+  // --- Search & Filter States ---
+  const [searchTerm, setSearchTerm] = useState('');
+  const [monthFilter, setMonthFilter] = useState('all');
+  const [deptFilter, setDeptFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [selectedIds, setSelectedIds] = useState([]);
+  
+  // --- Pagination & Sorting ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const [sortField, setSortField] = useState('month');
+  const [sortDirection, setSortDirection] = useState('desc');
+
+  // --- Modal & Drawer States ---
+  const [showGenerateModal, setShowGenerateModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showPayslipModal, setShowPayslipModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  
+  const [generateMonth, setGenerateMonth] = useState(() => new Date().toISOString().slice(0, 7));
+  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [editingRecord, setEditingRecord] = useState(null);
+
+  // Print reference for payslip print action
+  const payslipPrintRef = useRef();
+
+  // --- Policy/Settings form state ---
+  const [settingsForm, setSettingsForm] = useState({
+    taxRate: 10,
+    pfRate: 12,
+    baseSalaries: { superuser: 8000, admin: 6500, hr: 5500, manager: 6000, employee: 5000 },
+    allowances: { superuser: 2000, admin: 1500, hr: 1200, manager: 1300, employee: 1000 }
+  });
+
+  useEffect(() => {
+    if (payrollSettings) {
+      setSettingsForm(payrollSettings);
+    }
+  }, [payrollSettings]);
+
+  // --- Get unique months for filter ---
+  const uniqueMonths = useMemo(() => {
+    const months = new Set(payrollHistory.map(p => p.month));
+    // Ensure current month is selectable
+    months.add(new Date().toISOString().slice(0, 7));
+    return Array.from(months).sort().reverse();
   }, [payrollHistory]);
 
-  const cards = [
-    { icon: CreditCard, label: 'Total Payroll This Month', value: `$${analytics.totalPayroll.toLocaleString()}`, sub: 'Current month', style: { color: 'from-emerald-400 to-emerald-600', bg: 'bg-emerald-100', text: 'text-emerald-600', border: 'border-emerald-200' } },
-    { icon: BarChart2, label: 'Employees Paid', value: analytics.employeesPaid, sub: 'Paid this month', style: { color: 'from-blue-400 to-blue-600', bg: 'bg-blue-100', text: 'text-blue-600', border: 'border-blue-200' } },
-    { icon: TrendingUp, label: 'Pending Payroll', value: analytics.pending, sub: 'Awaiting processing', style: { color: 'from-yellow-400 to-yellow-600', bg: 'bg-yellow-100', text: 'text-yellow-600', border: 'border-yellow-200' } },
-    { icon: BarChart2, label: 'Average Salary', value: `$${analytics.avgSalary.toFixed(2)}`, sub: 'Per employee', style: { color: 'from-purple-400 to-purple-600', bg: 'bg-purple-100', text: 'text-purple-600', border: 'border-purple-200' } },
-    { icon: TrendingUp, label: 'Payroll Growth', value: `${analytics.growth.toFixed(1)}%`, sub: 'Since last month', style: { color: 'from-pink-400 to-pink-600', bg: 'bg-pink-100', text: 'text-pink-600', border: 'border-pink-200' } },
-  ];
-  const hasPayrollData = payrollHistory && payrollHistory.length > 0;
+  // --- Filtered and sorted payroll records ---
+  const filteredRecords = useMemo(() => {
+    return payrollHistory
+      .filter(p => {
+        const matchesSearch =
+          p.employeeName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          p.employeeId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (p.designation || '').toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesMonth = monthFilter === 'all' || p.month === monthFilter;
+        const matchesDept = deptFilter === 'all' || p.department === deptFilter;
+        const matchesStatus = statusFilter === 'all' || p.status === statusFilter;
+        return matchesSearch && matchesMonth && matchesDept && matchesStatus;
+      })
+      .sort((a, b) => {
+        let valA = a[sortField];
+        let valB = b[sortField];
+        if (typeof valA === 'string') {
+          return sortDirection === 'asc'
+            ? valA.localeCompare(valB)
+            : valB.localeCompare(valA);
+        }
+        return sortDirection === 'asc' ? valA - valB : valB - valA;
+      });
+  }, [payrollHistory, searchTerm, monthFilter, deptFilter, statusFilter, sortField, sortDirection]);
+
+  // --- Pagination logic ---
+  const totalPages = Math.ceil(filteredRecords.length / itemsPerPage) || 1;
+  const paginatedRecords = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredRecords.slice(start, start + itemsPerPage);
+  }, [filteredRecords, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, monthFilter, deptFilter, statusFilter]);
+
+  // --- 6 Compact KPI Card metrics derived from filtered records ---
+  const kpis = useMemo(() => {
+    const activeMonth = monthFilter !== 'all' ? monthFilter : new Date().toISOString().slice(0, 7);
+    const monthRecords = payrollHistory.filter(p => p.month === activeMonth);
+    
+    const totalPayroll = monthRecords.reduce((sum, p) => sum + (p.net || 0), 0);
+    const employeesPaid = monthRecords.filter(p => p.status === 'Paid').length;
+    const pendingPayroll = monthRecords.filter(p => ['Draft', 'Pending', 'Processing', 'Approved'].includes(p.status)).length;
+    const avgSalary = monthRecords.length ? totalPayroll / monthRecords.length : 0;
+    
+    // Total deductions = tax + pf + custom deductions
+    const totalDeductions = monthRecords.reduce((sum, p) => sum + ((p.pf || 0) + (p.tax || 0) + (p.deductions || 0)), 0);
+    const grossPayroll = monthRecords.reduce((sum, p) => sum + ((p.basic || 0) + (p.allowance || 0) + (p.bonus || 0)), 0);
+
+    return {
+      totalPayroll,
+      employeesPaid,
+      pendingPayroll,
+      avgSalary,
+      totalDeductions,
+      grossPayroll,
+      activeMonth
+    };
+  }, [payrollHistory, monthFilter]);
+
+  // --- Dynamic calculation handler (when generating payroll) ---
+  const handleProceedGenerate = () => {
+    const existingForMonth = payrollHistory.filter(p => p.month === generateMonth);
+    const employeesList = users.filter(u => u.role !== 'superuser'); // Generate for employees, managers, hr
+
+    let newlyGenerated = 0;
+    let skipped = 0;
+
+    // Load global attendance, leaves, benefit claims from local storage
+    const globalAttendance = JSON.parse(localStorage.getItem('hcm_global_attendance') || '[]');
+    const globalLeaves = JSON.parse(localStorage.getItem('hcm_global_leaves') || '[]');
+    const globalClaims = JSON.parse(localStorage.getItem('hcm_global_benefit_claims') || '[]');
+
+    employeesList.forEach(emp => {
+      // Avoid duplicate generation
+      if (existingForMonth.some(p => p.employeeName === emp.name)) {
+        skipped++;
+        return;
+      }
+
+      // 1. Fetch base configs
+      const roleKey = emp.role || 'employee';
+      const basic = payrollSettings.baseSalaries[roleKey] || defaultSettings.baseSalaries[roleKey] || 5000;
+      const baseAllowance = payrollSettings.allowances[roleKey] || defaultSettings.allowances[roleKey] || 1000;
+
+      // 2. Fetch attendance stats (Present/Late) for this employee & month
+      const empAttendance = globalAttendance.filter(a =>
+        a.name === emp.name && a.date && a.date.startsWith(generateMonth)
+      );
+      const presentDays = empAttendance.filter(a => ['Present', 'Late', 'OnTime'].includes(a.status)).length;
+      
+      // 3. Fetch leaves
+      const empLeaves = globalLeaves.filter(l =>
+        l.name === emp.name && l.status === 'Approved' && l.startDate && l.startDate.startsWith(generateMonth)
+      );
+      const leaveDays = empLeaves.reduce((acc, curr) => acc + (curr.days || 1), 0);
+      const unpaidDays = empLeaves.filter(l =>
+        (l.type || '').toLowerCase().includes('unpaid') || (l.type || '').toLowerCase().includes('loss of pay')
+      ).reduce((acc, curr) => acc + (curr.days || 1), 0);
+
+      // 4. Fetch approved reimbursable benefit claims for this month
+      const empClaims = globalClaims.filter(c =>
+        c.name === emp.name && c.status === 'Approved' && c.date && c.date.startsWith(generateMonth)
+      );
+      const claimsAmount = empClaims.reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
+
+      // 5. Compute components
+      const allowance = baseAllowance + claimsAmount;
+      const bonus = emp.role === 'manager' ? 200 : 0; // manager bonus structure
+      const pf = Math.round(basic * (payrollSettings.pfRate / 100));
+      const tax = Math.round((basic + allowance + bonus) * (payrollSettings.taxRate / 100));
+      
+      // Unpaid leave deduction: basic salary divided by standard 22 working days
+      const unpaidDeduction = Math.round((basic / 22) * unpaidDays);
+      const deductions = pf + tax + unpaidDeduction;
+      
+      const net = Math.max(0, basic + allowance + bonus - deductions);
+
+      const record = {
+        id: `PAY-${emp.id}-${generateMonth.replace('-', '')}-${Date.now().toString().slice(-3)}`,
+        employeeId: `EMP-${emp.id.padStart(3, '0')}`,
+        employeeName: emp.name,
+        department: emp.department || 'General',
+        designation: emp.role.charAt(0).toUpperCase() + emp.role.slice(1),
+        basic,
+        allowance,
+        bonus,
+        pf,
+        tax,
+        deductions: unpaidDeduction, // unpaid deduction goes here
+        net,
+        month: generateMonth,
+        status: 'Draft',
+        date: new Date().toISOString().slice(0, 10),
+        attendancePresent: presentDays || (22 - unpaidDays - leaveDays),
+        attendanceAbsent: unpaidDays,
+        leavesTaken: leaveDays
+      };
+
+      addPayrollRecord(record);
+      newlyGenerated++;
+    });
+
+    if (newlyGenerated > 0) {
+      toast(`Generated payroll for ${newlyGenerated} employees for ${generateMonth}`, 'success');
+    }
+    if (skipped > 0) {
+      toast(`Skipped ${skipped} employees who already had payroll generated.`, 'info');
+    }
+    if (newlyGenerated === 0 && skipped === 0) {
+      toast('No employees found to generate payroll.', 'warning');
+    }
+
+    setShowGenerateModal(false);
+  };
+
+  // --- Bulk status approvals ---
+  const handleBulkApprove = () => {
+    if (selectedIds.length === 0) {
+      toast('Please select at least one payroll record', 'warning');
+      return;
+    }
+    bulkApprovePayroll(selectedIds);
+    toast(`Successfully approved ${selectedIds.length} payroll records`, 'success');
+    setSelectedIds([]);
+  };
+
+  // --- Single record actions ---
+  const handleQuickStatusChange = (id, newStatus) => {
+    updatePayrollRecord(id, { status: newStatus });
+    toast(`Record status updated to ${newStatus}`, 'success');
+  };
+
+  const handleEditRecord = (record) => {
+    setEditingRecord({ ...record });
+    setShowEditModal(true);
+  };
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    const basic = parseFloat(editingRecord.basic) || 0;
+    const allowance = parseFloat(editingRecord.allowance) || 0;
+    const bonus = parseFloat(editingRecord.bonus) || 0;
+    
+    const pf = Math.round(basic * (payrollSettings.pfRate / 100));
+    const tax = Math.round((basic + allowance + bonus) * (payrollSettings.taxRate / 100));
+    const unpaidDeduction = parseFloat(editingRecord.deductions) || 0;
+    
+    const net = Math.max(0, basic + allowance + bonus - pf - tax - unpaidDeduction);
+
+    updatePayrollRecord(editingRecord.id, {
+      basic,
+      allowance,
+      bonus,
+      pf,
+      tax,
+      deductions: unpaidDeduction,
+      net,
+      status: editingRecord.status
+    });
+
+    toast('Payroll record updated successfully');
+    setShowEditModal(false);
+  };
+
+  const handleDeleteRecord = (id) => {
+    if (window.confirm('Are you sure you want to delete this payroll record?')) {
+      deletePayrollRecord(id);
+      toast('Payroll record deleted', 'error');
+    }
+  };
+
+  // --- Save settings/policy handler ---
+  const handleSaveSettings = (e) => {
+    e.preventDefault();
+    updatePayrollSettings(settingsForm);
+    toast('Payroll policies updated successfully', 'success');
+    setShowSettingsModal(false);
+  };
+
+  // --- CSV Export ---
+  const handleExport = () => {
+    const headers = ['Employee ID', 'Employee Name', 'Department', 'Designation', 'Basic Salary', 'Allowances', 'Bonus', 'PF', 'Tax', 'Unpaid Deductions', 'Net Salary', 'Month', 'Status'].join(',');
+    const rows = filteredRecords.map(p => [
+      `"${p.employeeId}"`,
+      `"${p.employeeName}"`,
+      `"${p.department}"`,
+      `"${p.designation}"`,
+      `"${p.basic}"`,
+      `"${p.allowance}"`,
+      `"${p.bonus}"`,
+      `"${p.pf}"`,
+      `"${p.tax}"`,
+      `"${p.deductions}"`,
+      `"${p.net}"`,
+      `"${p.month}"`,
+      `"${p.status}"`
+    ].join(','));
+    
+    const csvContent = [headers, ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `hcm_payroll_report_${monthFilter === 'all' ? 'all' : monthFilter}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast('Payroll data exported successfully');
+  };
+
+  // --- Print Payslip stub ---
+  const handlePrintPayslip = () => {
+    const printContent = payslipPrintRef.current.innerHTML;
+    const originalContent = document.body.innerHTML;
+    
+    const printWindow = window.open('', '_blank', 'width=800,height=800');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Payslip - ${selectedRecord?.employeeName}</title>
+          <style>
+            body { font-family: 'Inter', sans-serif; padding: 40px; color: #1e293b; }
+            .border { border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; }
+            .header { display: flex; justify-content: space-between; border-bottom: 2px solid #6366f1; padding-bottom: 15px; margin-bottom: 20px; }
+            .grid { display: grid; grid-cols-2; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            th, td { border-bottom: 1px solid #f1f5f9; padding: 10px 0; text-align: left; }
+            th { font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: bold; }
+            .total { font-weight: bold; background: #f8fafc; padding: 12px; font-size: 16px; border-top: 2px solid #6366f1; display: flex; justify-content: space-between; }
+          </style>
+        </head>
+        <body>
+          <div class="border">
+            ${printContent}
+          </div>
+          <script>
+            window.onload = function() { window.print(); window.close(); }
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
+  const handleEmailPayslip = () => {
+    toast(`Payslip emailed successfully to ${selectedRecord?.employeeName.toLowerCase().replace(' ', '')}@hcm.ai`, 'success');
+  };
+
+  // --- Toggle select all checkbox ---
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(paginatedRecords.map(r => r.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectOne = (id) => {
+    setSelectedIds(prev =>
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
+  };
+
+  // --- SVG Analytics calculations ---
+  const analyticsData = useMemo(() => {
+    // 1. Monthly trend (last 5 months in uniqueMonths)
+    const sortedMonths = [...uniqueMonths].reverse().slice(-5);
+    const monthlyTotals = sortedMonths.map(m => {
+      const total = payrollHistory.filter(p => p.month === m).reduce((sum, p) => sum + p.net, 0);
+      return { month: m, total };
+    });
+
+    // 2. Department Cost
+    const deptMap = {};
+    payrollHistory.forEach(p => {
+      if (monthFilter === 'all' || p.month === monthFilter) {
+        deptMap[p.department] = (deptMap[p.department] || 0) + p.net;
+      }
+    });
+    const deptCosts = Object.entries(deptMap).map(([name, cost]) => ({ name, cost }));
+
+    // 3. Paid vs Pending
+    const paid = payrollHistory.filter(p => (monthFilter === 'all' || p.month === monthFilter) && p.status === 'Paid').reduce((sum, p) => sum + p.net, 0);
+    const pending = payrollHistory.filter(p => (monthFilter === 'all' || p.month === monthFilter) && p.status !== 'Paid').reduce((sum, p) => sum + p.net, 0);
+    
+    return {
+      monthlyTotals,
+      deptCosts,
+      paid,
+      pending
+    };
+  }, [payrollHistory, uniqueMonths, monthFilter]);
 
   return (
-    <div className="p-4 sm:p-6">
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">Payroll Management</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {cards.map((c, i) => (
-          <StatCard
-            key={i}
-            icon={c.icon}
-            label={c.label}
-            value={c.value}
-            sub={c.sub}
-            style={c.style}
-          />
-        ))}
-      </div>
-      <div className="mt-6 space-y-4">
-        {/* Action Toolbar */}
-        <div className="flex flex-wrap gap-4">
-          <button className="btn-primary flex items-center gap-2" onClick={() => {
-            // Stub generate payroll action
-            window.dispatchEvent(new CustomEvent('app_toast', { detail: { message: 'Payroll generated', type: 'success' } }));
-          }}>
-            <CreditCard size={18} /> Generate Payroll
+    <motion.div
+      className="space-y-6 max-w-7xl mx-auto"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* ── Page Header ── */}
+      <motion.div variants={itemVariants}>
+        <PageHeader
+          icon={CreditCard}
+          title="Payroll Management"
+          subtitle={`Platform Enterprise Payroll Console • Selected Month: ${monthFilter === 'all' ? 'All Months' : monthFilter}`}
+        >
+          <button
+            className="btn-primary flex items-center gap-1.5 text-xs px-3 py-2"
+            onClick={() => setShowGenerateModal(true)}
+          >
+            <Plus size={14} /> Run Payroll
           </button>
-          <button className="btn-secondary flex items-center gap-2" onClick={() => {
-            // Stub process payroll action
-            window.dispatchEvent(new CustomEvent('app_toast', { detail: { message: 'Payroll processed', type: 'success' } }));
-          }}>
-            <TrendingUp size={18} /> Process Payroll
+          <button
+            className="btn-secondary flex items-center gap-1.5 text-xs px-3 py-2"
+            onClick={() => setShowSettingsModal(true)}
+          >
+            <Settings size={14} /> Policies
           </button>
-          <button className="btn-outline flex items-center gap-2" onClick={() => {
-            // Stub download payslip
-            window.dispatchEvent(new CustomEvent('app_toast', { detail: { message: 'Payslip downloaded', type: 'success' } }));
-          }}>
-            <CreditCard size={18} /> Download Payslip
+        </PageHeader>
+      </motion.div>
+
+      {/* ── KPI Row Section ── */}
+      <motion.div
+        variants={itemVariants}
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"
+      >
+        {[
+          { label: 'Payroll cost', value: `$${kpis.totalPayroll.toLocaleString()}`, sub: 'Approved/Paid net', icon: DollarSign, color: 'from-primary-500 to-indigo-600', text: 'text-primary-600', bg: 'bg-primary-50 dark:bg-primary-950/20', border: 'border-primary-100 dark:border-primary-900/30' },
+          { label: 'Employees Paid', value: kpis.employeesPaid, sub: 'Marked as Paid', icon: Users, color: 'from-emerald-500 to-teal-600', text: 'text-emerald-600', bg: 'bg-emerald-50 dark:bg-emerald-950/20', border: 'border-emerald-100 dark:border-emerald-900/30' },
+          { label: 'Pending Runs', value: kpis.pendingPayroll, sub: 'Needs approval/payout', icon: AlertCircle, color: 'from-amber-500 to-orange-600', text: 'text-amber-600', bg: 'bg-amber-50 dark:bg-amber-950/20', border: 'border-amber-100 dark:border-amber-900/30' },
+          { label: 'Average Salary', value: `$${Math.round(kpis.avgSalary).toLocaleString()}`, sub: 'Per employee', icon: TrendingUp, color: 'from-violet-500 to-purple-600', text: 'text-purple-600', bg: 'bg-purple-50 dark:bg-purple-950/20', border: 'border-purple-100 dark:border-purple-900/30' },
+          { label: 'Total Deductions', value: `$${kpis.totalDeductions.toLocaleString()}`, sub: 'Tax + PF withheld', icon: TrendingDown, color: 'from-rose-500 to-pink-600', text: 'text-rose-600', bg: 'bg-rose-50 dark:bg-rose-950/20', border: 'border-rose-100 dark:border-rose-900/30' },
+          { label: 'Gross Payroll', value: `$${kpis.grossPayroll.toLocaleString()}`, sub: 'Before withholding', icon: DollarSign, color: 'from-sky-500 to-blue-600', text: 'text-sky-600', bg: 'bg-sky-50 dark:bg-sky-950/20', border: 'border-sky-100 dark:border-sky-900/30' }
+        ].map((k, idx) => {
+          const IconComp = k.icon;
+          return (
+            <div
+              key={idx}
+              className={`bg-white dark:bg-slate-900 rounded-xl border ${k.border} shadow-sm overflow-hidden p-3.5 flex flex-col justify-between h-28 relative group`}
+            >
+              <div className="flex justify-between items-start">
+                <div className={`w-8 h-8 rounded-lg ${k.bg} flex items-center justify-center shrink-0`}>
+                  <IconComp size={15} className={k.text} />
+                </div>
+                <span className="text-[8px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">{k.label}</span>
+              </div>
+              <div className="mt-2 text-left">
+                <h3 className="text-xl font-black text-slate-800 dark:text-white leading-none tracking-tight">{k.value}</h3>
+                <p className="text-[9px] text-slate-400 dark:text-slate-500 mt-1 truncate">{k.sub}</p>
+              </div>
+              <div className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${k.color} opacity-0 group-hover:opacity-100 transition-opacity`} />
+            </div>
+          );
+        })}
+      </motion.div>
+
+      {/* ── Filters & Actions Toolbar ── */}
+      <motion.div
+        variants={itemVariants}
+        className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between"
+      >
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full md:w-auto">
+          {/* Month Filter */}
+          <div>
+            <select
+              value={monthFilter}
+              onChange={e => setMonthFilter(e.target.value)}
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:border-primary-500 text-slate-700 dark:text-slate-300"
+            >
+              <option value="all">All Months</option>
+              {uniqueMonths.map(m => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+          </div>
+          
+          {/* Department Filter */}
+          <div>
+            <select
+              value={deptFilter}
+              onChange={e => setDeptFilter(e.target.value)}
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:border-primary-500 text-slate-700 dark:text-slate-300"
+            >
+              <option value="all">All Depts</option>
+              {departments.map(d => (
+                <option key={d.id} value={d.name}>{d.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Status Filter */}
+          <div>
+            <select
+              value={statusFilter}
+              onChange={e => setStatusFilter(e.target.value)}
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:border-primary-500 text-slate-700 dark:text-slate-300"
+            >
+              <option value="all">All Statuses</option>
+              {['Draft', 'Pending', 'Processing', 'Approved', 'Paid', 'Rejected'].map(s => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Search box */}
+          <div className="relative">
+            <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search employee…"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="pl-8 pr-2.5 py-2 w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-semibold focus:outline-none focus:border-primary-500 text-slate-900 dark:text-white placeholder:text-slate-400"
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-2 w-full md:w-auto justify-end">
+          <button
+            onClick={handleBulkApprove}
+            disabled={selectedIds.length === 0}
+            className="btn-primary text-xs px-3 py-2 flex items-center gap-1 disabled:opacity-50 disabled:pointer-events-none"
+          >
+            <Check size={14} /> Bulk Approve ({selectedIds.length})
           </button>
-          <button className="btn-outline flex items-center gap-2" onClick={() => {
-            // Stub view history
-            window.dispatchEvent(new CustomEvent('app_toast', { detail: { message: 'Viewing payroll history', type: 'info' } }));
-          }}>
-            <BarChart2 size={18} /> View History
+          <button
+            onClick={handleExport}
+            className="btn-secondary text-xs px-3 py-2 flex items-center gap-1"
+          >
+            <Download size={14} /> Export CSV
           </button>
         </div>
-        {/* Payroll Table */}
-        {hasPayrollData ? (
-          <>
-            <div className="hidden sm:block overflow-x-auto rounded-lg border">
-              <table className="min-w-full bg-white dark:bg-slate-900">
-                <thead className="bg-gray-100 dark:bg-slate-800">
-                  <tr>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Month</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Basic</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">HRA</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Allowance</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Bonus</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">PF</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Tax</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Net</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Status</th>
+      </motion.div>
+
+      {/* ── Table & Analytics Layout ── */}
+      <motion.div
+        variants={itemVariants}
+        className="grid grid-cols-1 xl:grid-cols-4 gap-6"
+      >
+        {/* Payroll list (takes 3 cols on desktop) */}
+        <div className="xl:col-span-3 space-y-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/60 shadow-soft overflow-hidden">
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-950/40 border-b border-slate-100 dark:border-slate-800 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    <th className="p-3 pl-4 w-10">
+                      <input
+                        type="checkbox"
+                        className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                        onChange={handleSelectAll}
+                        checked={paginatedRecords.length > 0 && selectedIds.length === paginatedRecords.length}
+                      />
+                    </th>
+                    <th className="p-3 cursor-pointer" onClick={() => { setSortField('employeeId'); setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'); }}>ID</th>
+                    <th className="p-3 cursor-pointer" onClick={() => { setSortField('employeeName'); setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'); }}>Name</th>
+                    <th className="p-3">Department</th>
+                    <th className="p-3">Basic</th>
+                    <th className="p-3">Allowances</th>
+                    <th className="p-3">Deductions</th>
+                    <th className="p-3 cursor-pointer" onClick={() => { setSortField('net'); setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'); }}>Net Salary</th>
+                    <th className="p-3">Month</th>
+                    <th className="p-3 cursor-pointer" onClick={() => { setSortField('status'); setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'); }}>Status</th>
+                    <th className="p-3 text-right pr-4">Actions</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {payrollHistory.map((p) => (
-                    <tr key={p.id} className="border-t border-gray-200 dark:border-slate-700">
-                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{p.month}</td>
-                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{p.basic}</td>
-                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{p.hra}</td>
-                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{p.allowance}</td>
-                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{p.bonus}</td>
-                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{p.pf}</td>
-                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{p.tax}</td>
-                      <td className="px-4 py-2 font-bold text-gray-800 dark:text-gray-200">{p.net}</td>
-                      <td className="px-4 py-2 text-gray-800 dark:text-gray-200">{p.status}</td>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
+                  {paginatedRecords.length > 0 ? (
+                    paginatedRecords.map(p => (
+                      <tr key={p.id} className="hover:bg-slate-50/40 dark:hover:bg-slate-950/10 transition-colors text-xs">
+                        <td className="p-3 pl-4">
+                          <input
+                            type="checkbox"
+                            className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                            checked={selectedIds.includes(p.id)}
+                            onChange={() => handleSelectOne(p.id)}
+                          />
+                        </td>
+                        <td className="p-3 font-mono text-slate-400">{p.employeeId}</td>
+                        <td className="p-3 font-semibold text-slate-800 dark:text-slate-200">{p.employeeName}</td>
+                        <td className="p-3 text-slate-500">{p.department}</td>
+                        <td className="p-3 font-medium">${p.basic.toLocaleString()}</td>
+                        <td className="p-3 text-slate-500">${p.allowance.toLocaleString()}</td>
+                        <td className="p-3 text-rose-500">${(p.pf + p.tax + (p.deductions || 0)).toLocaleString()}</td>
+                        <td className="p-3 font-bold text-slate-800 dark:text-white">${p.net.toLocaleString()}</td>
+                        <td className="p-3 text-slate-400 font-medium">{p.month}</td>
+                        <td className="p-3">
+                          <select
+                            value={p.status}
+                            onChange={(e) => handleQuickStatusChange(p.id, e.target.value)}
+                            className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider outline-none border border-transparent ${
+                              p.status === 'Paid' ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 border-emerald-100 dark:border-emerald-900/30' :
+                              p.status === 'Approved' ? 'bg-primary-50 dark:bg-primary-950/20 text-primary-600 border-primary-100 dark:border-primary-900/30' :
+                              p.status === 'Processing' ? 'bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600 border-indigo-100 dark:border-indigo-900/30' :
+                              p.status === 'Pending' ? 'bg-amber-50 dark:bg-amber-950/20 text-amber-600 border-amber-100 dark:border-amber-900/30' :
+                              p.status === 'Rejected' ? 'bg-rose-50 dark:bg-rose-950/20 text-rose-600 border-rose-100 dark:border-rose-900/30' :
+                              'bg-slate-50 dark:bg-slate-850 text-slate-500 border-slate-200 dark:border-slate-800'
+                            }`}
+                          >
+                            {['Draft', 'Pending', 'Processing', 'Approved', 'Paid', 'Rejected'].map(s => (
+                              <option key={s} value={s}>{s}</option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="p-3 text-right pr-4">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => { setSelectedRecord(p); setShowPayslipModal(true); }}
+                              className="p-1 text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 rounded transition-colors"
+                              title="View Payslip"
+                            >
+                              <Eye size={14} />
+                            </button>
+                            <button
+                              onClick={() => handleEditRecord(p)}
+                              className="p-1 text-slate-400 hover:text-amber-500 rounded transition-colors"
+                              title="Edit Record"
+                            >
+                              <Edit2 size={14} />
+                            </button>
+                            {p.status !== 'Paid' && (
+                              <button
+                                onClick={() => handleQuickStatusChange(p.id, 'Paid')}
+                                className="p-1 text-slate-400 hover:text-emerald-500 rounded transition-colors"
+                                title="Mark Paid"
+                              >
+                                <Check size={14} />
+                              </button>
+                            )}
+                            <button
+                              onClick={() => handleDeleteRecord(p.id)}
+                              className="p-1 text-slate-400 hover:text-rose-500 rounded transition-colors"
+                              title="Delete Record"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="11" className="p-8 text-center text-slate-400 font-medium text-xs">
+                        No payroll records matching your filters found.
+                      </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
-            {/* Mobile Responsive Card Layout */}
-            <div className="block sm:hidden space-y-4">
-              {payrollHistory.map((p) => (
-                <div key={p.id} className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl space-y-2 shadow-soft">
-                  <div className="flex justify-between items-center border-b pb-2 mb-2 border-slate-100 dark:border-slate-800">
-                    <span className="font-bold text-slate-800 dark:text-slate-200">{p.month}</span>
-                    <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full ${p.status === 'Paid' ? 'bg-emerald-100 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400' : 'bg-amber-100 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400'}`}>
-                      {p.status}
-                    </span>
+
+            {/* Mobile Card Grid View (screens < 768px) */}
+            <div className="block md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+              {paginatedRecords.length > 0 ? (
+                paginatedRecords.map(p => (
+                  <div key={p.id} className="p-4 space-y-3 text-xs text-left">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-bold text-slate-800 dark:text-slate-200">{p.employeeName}</h4>
+                        <span className="text-[10px] text-slate-400 font-mono">{p.employeeId} • {p.department}</span>
+                      </div>
+                      <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
+                        p.status === 'Paid' ? 'bg-emerald-100 dark:bg-emerald-950/20 text-emerald-700' :
+                        p.status === 'Approved' ? 'bg-primary-100 dark:bg-primary-950/20 text-primary-700' :
+                        p.status === 'Pending' ? 'bg-amber-100 dark:bg-amber-950/20 text-amber-700' :
+                        'bg-slate-100 dark:bg-slate-800 text-slate-500'
+                      }`}>{p.status}</span>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 border-y border-slate-50 dark:border-slate-800/60 py-2 text-[11px]">
+                      <div>Basic: <strong className="text-slate-700 dark:text-slate-300">${p.basic}</strong></div>
+                      <div>Allow: <strong className="text-slate-700 dark:text-slate-300">${p.allowance}</strong></div>
+                      <div>Net: <strong className="text-slate-900 dark:text-white font-black">${p.net}</strong></div>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-1">
+                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{p.month}</span>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => { setSelectedRecord(p); setShowPayslipModal(true); }}
+                          className="px-2.5 py-1 bg-slate-50 dark:bg-slate-850 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-lg font-bold text-[10px]"
+                        >
+                          Payslip
+                        </button>
+                        <button
+                          onClick={() => handleEditRecord(p)}
+                          className="p-1 bg-amber-50 dark:bg-amber-950/20 text-amber-600 rounded-lg border border-amber-100/30"
+                        >
+                          <Edit2 size={12} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteRecord(p.id)}
+                          className="p-1 bg-rose-50 dark:bg-rose-950/20 text-rose-600 rounded-lg border border-rose-100/30"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
-                    <div>Basic: <span className="font-bold text-slate-700 dark:text-slate-300">{p.basic}</span></div>
-                    <div>HRA: <span className="font-bold text-slate-700 dark:text-slate-300">{p.hra}</span></div>
-                    <div>Allowance: <span className="font-bold text-slate-700 dark:text-slate-300">{p.allowance}</span></div>
-                    <div>Bonus: <span className="font-bold text-slate-700 dark:text-slate-300">{p.bonus}</span></div>
-                    <div>PF: <span className="font-bold text-slate-700 dark:text-slate-300">{p.pf}</span></div>
-                    <div>Tax: <span className="font-bold text-slate-700 dark:text-slate-300">{p.tax}</span></div>
-                  </div>
-                  <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800 text-sm">
-                    <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Net Pay</span>
-                    <span className="font-black text-slate-800 dark:text-slate-200">{p.net}</span>
-                  </div>
+                ))
+              ) : (
+                <div className="p-8 text-center text-slate-400 font-medium">
+                  No records found.
                 </div>
+              )}
+            </div>
+          </div>
+
+          {/* Table pagination navigation */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-100 dark:border-slate-800">
+              <span className="text-[11px] font-bold text-slate-400 uppercase">Page {currentPage} of {totalPages}</span>
+              <div className="flex gap-1.5">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 disabled:opacity-40"
+                >
+                  Prev
+                </button>
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  className="px-3 py-1.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Analytics & Cost breakdown widgets (takes 1 col on desktop) */}
+        <div className="space-y-4 text-left">
+          {/* Monthly Trend SVG sparkline */}
+          <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800/60 shadow-sm">
+            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-1.5">
+              <BarChart2 size={13} className="text-primary-600" />
+              Payroll Trend
+            </h3>
+            <div className="h-24 w-full flex items-end justify-center mb-2">
+              <svg viewBox="0 0 200 80" className="w-full h-full overflow-visible">
+                <defs>
+                  <linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#4f46e5" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                {/* SVG sparkline path */}
+                {analyticsData.monthlyTotals.length > 1 && (
+                  <>
+                    <path
+                      d={`M ${analyticsData.monthlyTotals.map((t, i) => {
+                        const maxVal = Math.max(...analyticsData.monthlyTotals.map(x => x.total), 1);
+                        const x = (i / (analyticsData.monthlyTotals.length - 1)) * 180 + 10;
+                        const y = 70 - (t.total / maxVal) * 50;
+                        return `${x} ${y}`;
+                      }).join(' L ')}`}
+                      fill="none"
+                      stroke="#4f46e5"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d={`M 10 70 L ${analyticsData.monthlyTotals.map((t, i) => {
+                        const maxVal = Math.max(...analyticsData.monthlyTotals.map(x => x.total), 1);
+                        const x = (i / (analyticsData.monthlyTotals.length - 1)) * 180 + 10;
+                        const y = 70 - (t.total / maxVal) * 50;
+                        return `${x} ${y}`;
+                      }).join(' L ')} L 190 70 Z`}
+                      fill="url(#trendGrad)"
+                    />
+                    {analyticsData.monthlyTotals.map((t, i) => {
+                      const maxVal = Math.max(...analyticsData.monthlyTotals.map(x => x.total), 1);
+                      const x = (i / (analyticsData.monthlyTotals.length - 1)) * 180 + 10;
+                      const y = 70 - (t.total / maxVal) * 50;
+                      return (
+                        <g key={i} className="group cursor-pointer">
+                          <circle cx={x} cy={y} r="3" fill="#4f46e5" className="hover:r-5 transition-all" />
+                        </g>
+                      );
+                    })}
+                  </>
+                )}
+              </svg>
+            </div>
+            <div className="flex justify-between text-[8px] font-bold text-slate-400 uppercase tracking-wider">
+              {analyticsData.monthlyTotals.map((t, i) => (
+                <span key={i}>{t.month}</span>
               ))}
             </div>
-          </>
-        ) : (
-          <div className="p-4 text-center text-gray-500 dark:text-gray-400">
-            No payroll records available. Use the actions above to generate payroll.
+          </div>
+
+          {/* Department cost distribution */}
+          <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800/60 shadow-sm">
+            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-1.5">
+              <Users size={13} className="text-emerald-500" />
+              Dept Cost Share
+            </h3>
+            <div className="space-y-3">
+              {analyticsData.deptCosts.length > 0 ? (
+                analyticsData.deptCosts.slice(0, 4).map((d, i) => {
+                  const maxCost = Math.max(...analyticsData.deptCosts.map(x => x.cost), 1);
+                  const pct = Math.round((d.cost / maxCost) * 100);
+                  const colors = ['bg-primary-500', 'bg-emerald-500', 'bg-amber-500', 'bg-rose-500'];
+                  return (
+                    <div key={i} className="space-y-1">
+                      <div className="flex justify-between items-center text-[10px] font-bold text-slate-600 dark:text-slate-400">
+                        <span className="truncate">{d.name}</span>
+                        <span>${d.cost.toLocaleString()}</span>
+                      </div>
+                      <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div className={`h-full ${colors[i % 4]} rounded-full`} style={{ width: `${pct}%` }} />
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-[10px] text-slate-400 text-center py-2">No payroll cost records found.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Paid vs Pending distribution segment */}
+          <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800/60 shadow-sm">
+            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-1.5">
+              <AlertCircle size={13} className="text-purple-500" />
+              Paid vs Pending
+            </h3>
+            <div className="flex gap-2 items-center mb-3">
+              <div className="flex-1 text-center">
+                <span className="text-[9px] font-bold text-slate-400 block uppercase">Paid</span>
+                <span className="text-sm font-black text-emerald-600">${analyticsData.paid.toLocaleString()}</span>
+              </div>
+              <div className="w-px h-8 bg-slate-200 dark:bg-slate-800" />
+              <div className="flex-1 text-center">
+                <span className="text-[9px] font-bold text-slate-400 block uppercase">Pending</span>
+                <span className="text-sm font-black text-amber-500">${analyticsData.pending.toLocaleString()}</span>
+              </div>
+            </div>
+            <div className="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full flex overflow-hidden">
+              {analyticsData.paid + analyticsData.pending > 0 ? (
+                <>
+                  <div
+                    className="h-full bg-emerald-500"
+                    style={{ width: `${(analyticsData.paid / (analyticsData.paid + analyticsData.pending)) * 100}%` }}
+                    title="Paid"
+                  />
+                  <div
+                    className="h-full bg-amber-400"
+                    style={{ width: `${(analyticsData.pending / (analyticsData.paid + analyticsData.pending)) * 100}%` }}
+                    title="Pending"
+                  />
+                </>
+              ) : (
+                <div className="h-full bg-slate-300 dark:bg-slate-700 w-full" />
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* ── Generate Monthly Payroll Modal ── */}
+      <AnimatePresence>
+        {showGenerateModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-slate-900 rounded-2xl p-6 max-w-md w-full border border-slate-100 dark:border-slate-800 shadow-2xl relative text-left"
+            >
+              <h3 className="text-base font-black text-slate-800 dark:text-slate-100 mb-2">Run Monthly Payroll Engine</h3>
+              <p className="text-xs text-slate-400 mb-4">Select the calendar month to generate payroll records. The calculations will automatically query active employees, leaves, attendance entries, and active benefit configurations.</p>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Target Month</label>
+                  <input
+                    type="month"
+                    value={generateMonth}
+                    onChange={e => setGenerateMonth(e.target.value)}
+                    className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl px-3.5 py-2.5 text-sm font-semibold border border-slate-200 dark:border-slate-700 outline-none text-slate-800 dark:text-slate-200"
+                  />
+                </div>
+
+                <div className="flex gap-2.5 pt-2">
+                  <button
+                    onClick={() => setShowGenerateModal(false)}
+                    className="flex-1 btn-secondary py-2 text-xs"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleProceedGenerate}
+                    className="flex-1 btn-primary py-2 text-xs flex items-center justify-center gap-1.5"
+                  >
+                    <CheckCircle size={14} /> Proceed
+                  </button>
+                </div>
+              </div>
+            </motion.div>
           </div>
         )}
-      </div>
-    </div>
+      </AnimatePresence>
+
+      {/* ── SuperAdmin Policy/Settings Modal ── */}
+      <AnimatePresence>
+        {showSettingsModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-slate-900 rounded-2xl p-6 max-w-lg w-full border border-slate-100 dark:border-slate-800 shadow-2xl relative text-left"
+            >
+              <button
+                onClick={() => setShowSettingsModal(false)}
+                className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition-colors"
+              >
+                <X size={18} />
+              </button>
+              
+              <h3 className="text-base font-black text-slate-800 dark:text-slate-100 mb-1">Payroll Configurations</h3>
+              <p className="text-xs text-slate-400 mb-5">Manage taxes, retirement funds (PF) withholding rates, and base salary slabs per role.</p>
+              
+              <form onSubmit={handleSaveSettings} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Income Tax Rate (%)</label>
+                    <input
+                      type="number"
+                      required
+                      value={settingsForm.taxRate}
+                      onChange={e => setSettingsForm({ ...settingsForm, taxRate: parseInt(e.target.value) || 0 })}
+                      className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl px-3.5 py-2.5 text-sm font-semibold border border-slate-200 dark:border-slate-700 outline-none text-slate-800 dark:text-slate-200"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">PF Withholding (%)</label>
+                    <input
+                      type="number"
+                      required
+                      value={settingsForm.pfRate}
+                      onChange={e => setSettingsForm({ ...settingsForm, pfRate: parseInt(e.target.value) || 0 })}
+                      className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl px-3.5 py-2.5 text-sm font-semibold border border-slate-200 dark:border-slate-700 outline-none text-slate-800 dark:text-slate-200"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 border-b pb-1">Base Salaries per Role</h4>
+                  <div className="grid grid-cols-2 gap-3 max-h-36 overflow-y-auto pr-1">
+                    {Object.keys(settingsForm.baseSalaries).map(role => (
+                      <div key={role} className="flex flex-col gap-1">
+                        <span className="text-[9px] font-bold text-slate-400 uppercase">{role}</span>
+                        <input
+                          type="number"
+                          value={settingsForm.baseSalaries[role]}
+                          onChange={e => {
+                            const salaries = { ...settingsForm.baseSalaries, [role]: parseInt(e.target.value) || 0 };
+                            setSettingsForm({ ...settingsForm, baseSalaries: salaries });
+                          }}
+                          className="bg-slate-50 dark:bg-slate-800 rounded-lg px-2.5 py-1.5 text-xs font-medium border border-slate-200 dark:border-slate-700 outline-none text-slate-700 dark:text-slate-300"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-3 border-t dark:border-slate-850">
+                  <button
+                    type="button"
+                    onClick={() => setShowSettingsModal(false)}
+                    className="flex-1 btn-secondary py-2 text-xs"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 btn-primary py-2 text-xs"
+                  >
+                    Save Policies
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Edit single record details Modal ── */}
+      <AnimatePresence>
+        {showEditModal && editingRecord && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-slate-900 rounded-2xl p-6 max-w-md w-full border border-slate-100 dark:border-slate-800 shadow-2xl relative text-left"
+            >
+              <h3 className="text-base font-black text-slate-800 dark:text-slate-100 mb-1">Edit Payroll: {editingRecord.employeeName}</h3>
+              <p className="text-xs text-slate-400 mb-4">Edit basic salary, allowances, custom deductions, or status.</p>
+              
+              <form onSubmit={handleSaveEdit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Basic Salary ($)</label>
+                    <input
+                      type="number"
+                      required
+                      value={editingRecord.basic}
+                      onChange={e => setEditingRecord({ ...editingRecord, basic: parseFloat(e.target.value) || 0 })}
+                      className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl px-3 py-2 text-xs font-semibold border border-slate-200 dark:border-slate-700 outline-none text-slate-800 dark:text-slate-200"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Allowances ($)</label>
+                    <input
+                      type="number"
+                      value={editingRecord.allowance}
+                      onChange={e => setEditingRecord({ ...editingRecord, allowance: parseFloat(e.target.value) || 0 })}
+                      className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl px-3 py-2 text-xs font-semibold border border-slate-200 dark:border-slate-700 outline-none text-slate-800 dark:text-slate-200"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Bonus ($)</label>
+                    <input
+                      type="number"
+                      value={editingRecord.bonus}
+                      onChange={e => setEditingRecord({ ...editingRecord, bonus: parseFloat(e.target.value) || 0 })}
+                      className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl px-3 py-2 text-xs font-semibold border border-slate-200 dark:border-slate-700 outline-none text-slate-800 dark:text-slate-200"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Unpaid Deductions ($)</label>
+                    <input
+                      type="number"
+                      value={editingRecord.deductions}
+                      onChange={e => setEditingRecord({ ...editingRecord, deductions: parseFloat(e.target.value) || 0 })}
+                      className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl px-3 py-2 text-xs font-semibold border border-slate-200 dark:border-slate-700 outline-none text-slate-800 dark:text-slate-200"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Payroll Status</label>
+                  <select
+                    value={editingRecord.status}
+                    onChange={e => setEditingRecord({ ...editingRecord, status: e.target.value })}
+                    className="w-full bg-slate-50 dark:bg-slate-800 rounded-xl px-3 py-2 text-xs font-semibold border border-slate-200 dark:border-slate-700 outline-none text-slate-850 dark:text-slate-200"
+                  >
+                    {['Draft', 'Pending', 'Processing', 'Approved', 'Paid', 'Rejected'].map(s => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowEditModal(false)}
+                    className="flex-1 btn-secondary py-2 text-xs"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 btn-primary py-2 text-xs"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Payslip Management Modal (View Details, Print, Email) ── */}
+      <AnimatePresence>
+        {showPayslipModal && selectedRecord && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white dark:bg-slate-900 rounded-2xl p-6 max-w-xl w-full border border-slate-100 dark:border-slate-800 shadow-2xl relative text-left"
+            >
+              <button
+                onClick={() => setShowPayslipModal(false)}
+                className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-slate-600 rounded-lg transition-colors"
+              >
+                <X size={18} />
+              </button>
+
+              {/* Printable Area Wrapper */}
+              <div ref={payslipPrintRef} className="space-y-6">
+                {/* Payslip Header Info */}
+                <div className="flex justify-between items-start border-b border-primary-100 dark:border-slate-800 pb-4">
+                  <div>
+                    <h2 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider">HCM.ai Solutions</h2>
+                    <p className="text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest mt-0.5">Enterprise Employee Paystub</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs font-bold font-mono text-slate-400">PAYSLIP ID: {selectedRecord.id}</span>
+                    <p className="text-[10px] text-slate-500 mt-1">Month: <strong>{selectedRecord.month}</strong></p>
+                  </div>
+                </div>
+
+                {/* Employee / Issue details */}
+                <div className="grid grid-cols-2 gap-4 text-xs">
+                  <div>
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Employee Details</p>
+                    <p className="font-bold text-slate-800 dark:text-slate-200">{selectedRecord.employeeName}</p>
+                    <p className="text-slate-400 font-mono mt-0.5">{selectedRecord.employeeId}</p>
+                    <p className="text-slate-500 mt-0.5">{selectedRecord.designation} • {selectedRecord.department}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Attendance Summary</p>
+                    <p className="text-slate-600 dark:text-slate-400">Days Present: <strong>{selectedRecord.attendancePresent}</strong></p>
+                    <p className="text-slate-600 dark:text-slate-400">Days Absent/Unpaid: <strong>{selectedRecord.attendanceAbsent}</strong></p>
+                    <p className="text-slate-600 dark:text-slate-400">Leaves Taken: <strong>{selectedRecord.leavesTaken}</strong></p>
+                  </div>
+                </div>
+
+                {/* Breakdown Tables (Earnings vs Deductions) */}
+                <div className="grid grid-cols-2 gap-6 pt-2">
+                  {/* Earnings */}
+                  <div className="space-y-1 text-xs">
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase border-b pb-1 border-slate-100 dark:border-slate-800">Earnings</h4>
+                    <div className="flex justify-between py-1 text-slate-600 dark:text-slate-300">
+                      <span>Basic Salary</span>
+                      <span>${selectedRecord.basic.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between py-1 text-slate-600 dark:text-slate-300">
+                      <span>Allowances</span>
+                      <span>${selectedRecord.allowance.toLocaleString()}</span>
+                    </div>
+                    {selectedRecord.bonus > 0 && (
+                      <div className="flex justify-between py-1 text-slate-600 dark:text-slate-300">
+                        <span>Bonus</span>
+                        <span>${selectedRecord.bonus.toLocaleString()}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between py-1.5 font-bold border-t border-slate-100 dark:border-slate-800/80 text-slate-800 dark:text-slate-100">
+                      <span>Gross Earnings</span>
+                      <span>${(selectedRecord.basic + selectedRecord.allowance + selectedRecord.bonus).toLocaleString()}</span>
+                    </div>
+                  </div>
+
+                  {/* Deductions */}
+                  <div className="space-y-1 text-xs">
+                    <h4 className="text-[10px] font-black text-slate-400 uppercase border-b pb-1 border-slate-100 dark:border-slate-800">Withholding / Deductions</h4>
+                    <div className="flex justify-between py-1 text-slate-600 dark:text-slate-300">
+                      <span>Provident Fund (PF)</span>
+                      <span>${selectedRecord.pf.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between py-1 text-slate-600 dark:text-slate-300">
+                      <span>Income Tax</span>
+                      <span>${selectedRecord.tax.toLocaleString()}</span>
+                    </div>
+                    {selectedRecord.deductions > 0 && (
+                      <div className="flex justify-between py-1 text-rose-500">
+                        <span>Unpaid Leave Deductions</span>
+                        <span>${selectedRecord.deductions.toLocaleString()}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between py-1.5 font-bold border-t border-slate-100 dark:border-slate-800/80 text-slate-800 dark:text-slate-100">
+                      <span>Total Withheld</span>
+                      <span>${(selectedRecord.pf + selectedRecord.tax + (selectedRecord.deductions || 0)).toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Net Total Summary */}
+                <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl flex justify-between items-center border border-slate-100 dark:border-slate-800">
+                  <div>
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Net Salary Payable</span>
+                    <h3 className="text-2xl font-black text-slate-800 dark:text-white mt-0.5">${selectedRecord.net.toLocaleString()}</h3>
+                  </div>
+                  <div className="text-right">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                      selectedRecord.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                    }`}>{selectedRecord.status}</span>
+                  </div>
+                </div>
+
+                {/* Footer terms */}
+                <div className="text-center text-[9px] text-slate-400 mt-6 border-t pt-4 border-slate-100 dark:border-slate-800">
+                  <p>This is a computer-generated document and does not require a physical signature.</p>
+                  <p className="mt-0.5">HCM.ai Payroll Processing Service Platform. Confidential. © 2026</p>
+                </div>
+              </div>
+
+              {/* Action Buttons in Modal footer */}
+              <div className="flex gap-2 pt-4 border-t dark:border-slate-850 mt-4">
+                <button
+                  onClick={handlePrintPayslip}
+                  className="flex-1 btn-secondary text-xs py-2 flex items-center justify-center gap-1.5"
+                >
+                  <Printer size={13} /> Print / PDF
+                </button>
+                <button
+                  onClick={handleEmailPayslip}
+                  className="flex-1 btn-secondary text-xs py-2 flex items-center justify-center gap-1.5"
+                >
+                  <Mail size={13} /> Email Payslip
+                </button>
+                <button
+                  onClick={() => setShowPayslipModal(false)}
+                  className="px-6 btn-primary text-xs py-2"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 

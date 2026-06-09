@@ -10,9 +10,12 @@ import {
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useHR } from '../../context/HRContext';
+import { useAdmin } from '../../context/AdminContext';
 
 const Candidates = () => {
   const { candidates, addCandidate, updateCandidate, moveCandidateStage, deleteCandidate, showToast } = useHR();
+  const { users } = useAdmin();
+  const teamMembers = users.filter(u => u.role !== 'Candidate');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -25,7 +28,7 @@ const Candidates = () => {
   const [filteredStatus, setFilteredStatus] = useState('');
 
   const [formData, setFormData] = useState({
-    name: '', email: '', role: '', exp: '1 Year', match: 75, status: 'Applied', stage: 'Applied'
+    name: '', email: '', role: '', exp: '1 Year', match: 75, status: 'Applied', stage: 'Applied', interviewers: []
   });
 
   useEffect(() => {
@@ -71,13 +74,13 @@ const Candidates = () => {
 
   const handleOpenCreate = () => {
     setEditingCandidate(null);
-    setFormData({ name: '', email: '', role: '', exp: '1 Year', match: 75, status: 'Applied', stage: 'Applied' });
+    setFormData({ name: '', email: '', role: '', exp: '1 Year', match: 75, status: 'Applied', stage: 'Applied', interviewers: [] });
     setIsModalOpen(true);
   };
 
   const handleOpenEdit = (cand) => {
     setEditingCandidate(cand.id);
-    setFormData({ ...cand });
+    setFormData({ interviewers: [], ...cand });
     setIsModalOpen(true);
     setSelectedCandidate(null);
   };
@@ -302,6 +305,25 @@ const Candidates = () => {
                   </div>
 
                   <section className="space-y-4">
+                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Assigned Team Members / Interviewers</h3>
+                     <div className="flex flex-wrap gap-2">
+                        {(selectedCandidate.interviewers || []).length > 0 ? (
+                           (selectedCandidate.interviewers || []).map((name, idx) => {
+                              const member = users.find(u => u.name === name) || {};
+                              return (
+                                 <div key={idx} className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl text-xs font-bold text-slate-700 shadow-sm">
+                                    <img src={member.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`} alt={name} className="w-5 h-5 rounded-full object-cover" />
+                                    <span>{name}</span>
+                                 </div>
+                              );
+                           })
+                        ) : (
+                           <span className="text-xs font-bold text-slate-400 italic">No team members assigned</span>
+                        )}
+                     </div>
+                  </section>
+
+                  <section className="space-y-4">
                      <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Contact Details</h3>
                      <div className="grid grid-cols-2 gap-4">
                         <div className="flex items-center gap-3 text-slate-600 italic">
@@ -496,6 +518,36 @@ const Candidates = () => {
                               <option>Rejected</option>
                            </select>
                         </div>
+                        <div className="space-y-2 md:col-span-2">
+                            <label className="text-sm font-bold text-slate-700 ml-1">Assign Team Members / Interviewers</label>
+                            <div className="flex flex-wrap gap-2 p-3 bg-slate-50 rounded-2xl border border-slate-100 max-h-40 overflow-y-auto">
+                               {teamMembers.map(member => {
+                                  const isSelected = (formData.interviewers || []).includes(member.name);
+                                  return (
+                                     <button
+                                        type="button"
+                                        key={member.id}
+                                        onClick={() => {
+                                           const currentList = formData.interviewers || [];
+                                           const newList = currentList.includes(member.name)
+                                              ? currentList.filter(name => name !== member.name)
+                                              : [...currentList, member.name];
+                                           setFormData({ ...formData, interviewers: newList });
+                                        }}
+                                        className={cn(
+                                           "flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border",
+                                           isSelected 
+                                              ? "bg-slate-900 text-white border-slate-900 shadow-sm" 
+                                              : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+                                        )}
+                                     >
+                                        <img src={member.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}`} alt={member.name} className="w-5 h-5 rounded-full object-cover" />
+                                        <span>{member.name}</span>
+                                     </button>
+                                  );
+                               })}
+                            </div>
+                         </div>
                      </div>
                   </div>
                   <div className="p-6 border-t border-slate-100 bg-slate-50/30 flex items-center justify-end gap-3 shrink-0">

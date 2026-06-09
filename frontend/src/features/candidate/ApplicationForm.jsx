@@ -94,7 +94,7 @@ const ApplicationForm = () => {
  return (
  <div className="space-y-10 pb-12 animate-fade-in max-w-7xl mx-auto text-left">
  {/* Header Section */}
- <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-10 rounded-[3.5rem] border border-slate-50 shadow-soft">
+ <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white dark:bg-slate-900 p-10 rounded-[3.5rem] border border-slate-50 dark:border-slate-800 shadow-soft">
  <div className="flex items-center gap-6">
  <button 
  onClick={() => navigate(-1)}

@@ -274,21 +274,21 @@ const KPITracking = () => {
         title="Objective Performance Review"
       >
          {selectedGoal && (
-            <div className="p-10 space-y-12 text-left">
-               <div className="p-10 bg-slate-900 rounded-[3rem] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-10 opacity-20 transform translate-x-10 -translate-y-10 group-hover:translate-x-5 group-hover:-translate-y-5 transition-transform">
-                     <Target size={180} className="text-primary-500" />
+            <div className="p-6 sm:p-8 space-y-6 sm:space-y-8 text-left">
+               <div className="p-6 bg-slate-900 rounded-2xl relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-6 opacity-20 transform translate-x-6 -translate-y-6 group-hover:translate-x-3 group-hover:-translate-y-3 transition-transform">
+                     <Target size={120} className="text-primary-500" />
                   </div>
                   <div className="relative z-10 text-left">
                      <div className="flex items-center gap-2 mb-4">
                         <Zap size={16} className="text-primary-400 fill-primary-400" />
                         <span className="text-[10px] font-black text-primary-400 uppercase tracking-[0.3em]">{selectedGoal.category} Objective</span>
                      </div>
-                     <h3 className="text-4xl font-black text-white tracking-tighter leading-tight max-w-sm">{selectedGoal.title}</h3>
+                     <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tighter leading-tight max-w-sm">{selectedGoal.title}</h3>
                      
-                     <div className="mt-8 flex flex-wrap items-center gap-6">
+                     <div className="mt-6 flex flex-wrap items-center gap-6">
                         <div className="flex items-center gap-3">
-                           <img src={selectedGoal.img} className="w-12 h-12 rounded-xl object-cover ring-2 ring-white/20" />
+                           <img src={selectedGoal.img} className="w-10 h-10 rounded-xl object-cover ring-2 ring-white/20" />
                            <div>
                               <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">Assignee</p>
                               <p className="text-sm font-black text-white">{selectedGoal.name}</p>
@@ -303,10 +303,10 @@ const KPITracking = () => {
                   </div>
                </div>
 
-               <div className="space-y-6">
+               <div className="space-y-4">
                   <div className="flex items-center justify-between text-left">
                      <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Achievement Level</h4>
-                     <span className="text-3xl font-black text-slate-900">{selectedGoal.progress}%</span>
+                     <span className="text-2xl font-black text-slate-900">{selectedGoal.progress}%</span>
                   </div>
                   <div className="relative h-4 bg-slate-50 border border-slate-100 rounded-full overflow-hidden p-1 shadow-inner">
                      <motion.div 
@@ -317,15 +317,15 @@ const KPITracking = () => {
                   </div>
                </div>
 
-               <div className="grid grid-cols-2 gap-8 text-left">
-                  <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 text-left">
+               <div className="grid grid-cols-2 gap-4 sm:gap-6 text-left">
+                  <div className="p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 text-left">
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Priority Index</p>
                      <div className="flex items-center gap-2">
                         <Star size={16} className={cn(selectedGoal.priority === 'High' ? "text-rose-500 fill-rose-500" : "text-amber-500 fill-amber-500")} />
                         <span className="text-base font-black text-slate-900">{selectedGoal.priority}</span>
                      </div>
                   </div>
-                  <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 text-left">
+                  <div className="p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 text-left">
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Weightage</p>
                      <span className="text-base font-black text-slate-900">30% (Impact)</span>
                   </div>
@@ -336,18 +336,18 @@ const KPITracking = () => {
                      <MessageSquare size={16} className="text-slate-300" /> Qualitative Feedback
                   </label>
                   <textarea 
-                    className="input-field min-h-[140px] bg-white border-slate-200 py-4 text-sm font-medium resize-none shadow-sm focus:shadow-md transition-shadow" 
-                    placeholder="Provide constructive feedback for the next sprint..."
+                     className="input-field min-h-[100px] bg-white border-slate-200 py-3 px-4 text-sm font-medium resize-none shadow-sm focus:shadow-md transition-shadow" 
+                     placeholder="Provide constructive feedback for the next sprint..."
                   ></textarea>
                </div>
 
-               <div className="pt-8 border-t border-slate-50 flex gap-4">
-                  <button onClick={() => setSelectedGoal(null)} className="flex-1 py-4 bg-slate-50 text-slate-600 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200">
-                     Discard Changes
+               <div className="pt-6 border-t border-slate-50 flex gap-4">
+                  <button onClick={() => setSelectedGoal(null)} className="flex-1 py-2.5 sm:py-3 bg-slate-50 text-slate-600 rounded-xl font-bold uppercase tracking-widest hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 text-xs sm:text-sm">
+                     Discard
                   </button>
-                  <button onClick={handleUpdateKPI} className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 flex items-center justify-center gap-3">
-                     <Save size={18} />
-                     <span>Save Objective Update</span>
+                  <button onClick={handleUpdateKPI} className="flex-1 py-2.5 sm:py-3 bg-slate-900 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 flex items-center justify-center gap-2 text-xs sm:text-sm">
+                     <Save size={16} />
+                     <span>Save Update</span>
                   </button>
                </div>
             </div>
@@ -360,23 +360,23 @@ const KPITracking = () => {
         onClose={() => setShowAddModal(false)} 
         title="Assign Performance Goal"
       >
-         <form onSubmit={handleAddGoal} className="p-10 space-y-8 text-left">
+         <form onSubmit={handleAddGoal} className="p-6 sm:p-8 space-y-4 sm:space-y-6 text-left">
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1 text-left">Goal Objective</label>
                <input 
                  type="text" 
                  placeholder="e.g. Implement Zero-trust architecture" 
-                 className="input-field h-14 font-bold"
+                 className="input-field h-11 sm:h-12 font-semibold"
                  value={newGoal.title}
                  onChange={e => setNewGoal({...newGoal, title: e.target.value})}
                />
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 text-left">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Assign to Member</label>
                   <select 
-                    className="input-field h-14 font-bold appearance-none bg-white"
+                    className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white"
                     value={newGoal.employeeId}
                     onChange={e => setNewGoal({...newGoal, employeeId: e.target.value})}
                   >
@@ -387,7 +387,7 @@ const KPITracking = () => {
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Category</label>
                   <select 
-                    className="input-field h-14 font-bold appearance-none bg-white"
+                    className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white"
                     value={newGoal.category}
                     onChange={e => setNewGoal({...newGoal, category: e.target.value})}
                   >
@@ -400,12 +400,12 @@ const KPITracking = () => {
                </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8 text-left">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 text-left">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Target Deadline</label>
                   <input 
                     type="date" 
-                    className="input-field h-14 font-bold"
+                    className="input-field h-11 sm:h-12 font-semibold"
                     value={newGoal.deadline}
                     onChange={e => setNewGoal({...newGoal, deadline: e.target.value})}
                   />
@@ -413,7 +413,7 @@ const KPITracking = () => {
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Priority Level</label>
                   <select 
-                    className="input-field h-14 font-bold appearance-none bg-white"
+                    className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white"
                     value={newGoal.priority}
                     onChange={e => setNewGoal({...newGoal, priority: e.target.value})}
                   >
@@ -425,9 +425,9 @@ const KPITracking = () => {
                </div>
             </div>
 
-            <div className="pt-6 flex flex-col gap-4 text-left">
-               <button type="submit" className="btn-primary w-full py-4 font-black uppercase tracking-[0.2em] shadow-xl shadow-primary-100">Set Objective</button>
-               <button type="button" onClick={() => setShowAddModal(false)} className="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Discard Draft</button>
+            <div className="pt-4 flex flex-col gap-3 text-left">
+               <button type="submit" className="btn-primary w-full py-2.5 sm:py-3 font-bold uppercase tracking-[0.2em] shadow-lg shadow-primary-200 text-sm">Set Objective</button>
+               <button type="button" onClick={() => setShowAddModal(false)} className="w-full py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Discard Draft</button>
             </div>
          </form>
       </CenterModal>

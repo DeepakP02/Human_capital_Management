@@ -106,17 +106,7 @@ const SuperAdminDashboard = () => {
         icon={LayoutDashboard}
         title="Super User Master Console"
         subtitle="Enterprise Management Console • Dynamic analytics, security shields, and platform configurations."
-      >
-        <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 rounded-xl">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
-            All Services Operational
-          </span>
-        </div>
-        <button className="p-2.5 bg-white dark:bg-slate-900 hover:bg-slate-50 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-400 hover:text-slate-600 transition-colors shadow-sm">
-          <RefreshCw size={16} />
-        </button>
-      </PageHeader>
+      />
 
       {/* Stats Counter Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -306,26 +296,6 @@ const SuperAdminDashboard = () => {
           </div>
         </motion.div>
 
-      </div>
-
-      {/* Notifications Alert Banner */}
-      <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-950/20 dark:to-purple-950/20 border border-indigo-100/50 dark:border-indigo-900/30 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 text-left">
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900/50 text-indigo-500 rounded-2xl flex items-center justify-center shadow-sm shrink-0">
-            <Bell size={22} className="animate-bounce" />
-          </div>
-          <div>
-            <h4 className="text-sm font-black text-indigo-950 dark:text-indigo-200 tracking-tight leading-none mb-1">
-              Enterprise Upgrade Pending
-            </h4>
-            <p className="text-xs font-medium text-slate-500 dark:text-indigo-300">
-              Patch compilation v2.4.1 is staged and optimized. Schedule deployment for low-latency hours.
-            </p>
-          </div>
-        </div>
-        <button className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-200 dark:shadow-none self-start md:self-center">
-          Review Patch Log
-        </button>
       </div>
     </motion.div>
   );

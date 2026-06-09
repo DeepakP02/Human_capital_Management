@@ -247,66 +247,65 @@ const LeaveApproval = () => {
         onClose={() => setSelectedRequest(null)} 
         title="Review Leave Application"
       >
-         {selectedRequest && (
-            <div className="p-10 space-y-12 text-left">
-               <div className="p-8 bg-slate-900 rounded-[2.5rem] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-8 opacity-10">
-                     <FileText size={120} className="text-white" />
+         {selectedRequest && (            <div className="p-6 sm:p-8 space-y-6 text-left">
+               <div className="p-5 sm:p-6 bg-slate-900 rounded-2xl relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-6 opacity-10">
+                     <FileText size={80} className="text-white" />
                   </div>
-                  <div className="flex items-center gap-6 relative z-10">
-                     <img src={`https://i.pravatar.cc/150?u=${selectedRequest.name}`} alt={selectedRequest.name} className="w-20 h-20 rounded-3xl object-cover ring-4 ring-slate-800 shadow-2xl" />
-                     <div className="text-left py-2">
-                        <h3 className="text-2xl font-black text-white tracking-tight">{selectedRequest.name}</h3>
-                        <p className="text-[10px] font-black text-primary-400 uppercase tracking-[0.2em] mt-3">Ref ID: LR-{selectedRequest.id}820</p>
-                        <div className="mt-4 flex items-center gap-4">
-                           <span className="text-xs font-bold text-white/60 bg-white/10 px-3 py-1 rounded-lg">Designer</span>
-                           <span className="text-xs font-bold text-white/60 bg-white/10 px-3 py-1 rounded-lg">Team Apex</span>
+                  <div className="flex items-center gap-4 relative z-10">
+                     <img src={`https://i.pravatar.cc/150?u=${selectedRequest.name}`} alt={selectedRequest.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover ring-2 ring-slate-800 shadow-lg" />
+                     <div className="text-left py-1">
+                        <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">{selectedRequest.name}</h3>
+                        <p className="text-[10px] font-black text-primary-400 uppercase tracking-[0.2em] mt-2">Ref ID: LR-{selectedRequest.id}820</p>
+                        <div className="mt-3 flex items-center gap-3">
+                           <span className="text-xs font-semibold text-white/60 bg-white/10 px-2 py-0.5 rounded-md">Designer</span>
+                           <span className="text-xs font-semibold text-white/60 bg-white/10 px-2 py-0.5 rounded-md">Team Apex</span>
                         </div>
                      </div>
                   </div>
                </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                  <div className="space-y-1.5 p-6 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col justify-center">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Leave Category</label>
-                     <p className="text-lg font-black text-slate-900 flex items-center gap-3">
-                        <Zap size={18} className="text-primary-600" />
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-left">
+                  <div className="space-y-1 p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-center">
+                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Leave Category</label>
+                     <p className="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <Zap size={16} className="text-primary-600" />
                         {selectedRequest.type}
                      </p>
                   </div>
-                  <div className="space-y-1.5 p-6 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col justify-center items-center">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Duration</label>
-                     <p className="text-lg font-black text-slate-900">{selectedRequest.days || '1'} Working Day(s)</p>
+                  <div className="space-y-1 p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-center items-center">
+                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Total Duration</label>
+                     <p className="text-base font-bold text-slate-900">{selectedRequest.days || '1'} Working Day(s)</p>
                   </div>
                </div>
 
-               <div className="space-y-3 text-left">
+               <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                      <MessageSquare size={16} className="text-slate-300" /> Employee reason
                   </label>
-                  <div className="p-8 bg-slate-50 rounded-[2rem] border border-slate-100 italic text-base text-slate-600 leading-relaxed font-medium">
+                  <div className="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-100 italic text-sm text-slate-600 leading-relaxed font-medium">
                      "{selectedRequest.reason}"
                   </div>
                </div>
 
-               <div className="space-y-3 text-left">
+               <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Internal review note (Optional)</label>
-                  <textarea className="input-field min-h-[140px] py-4 bg-slate-50 border-transparent resize-none text-sm font-medium" placeholder="Add feedback for the employee..."></textarea>
+                  <textarea className="input-field min-h-[100px] py-3 bg-slate-50 border-transparent resize-none text-sm font-medium" placeholder="Add feedback for the employee..."></textarea>
                </div>
                
-               <div className="pt-8 border-t border-slate-50 flex items-center gap-4">
+               <div className="pt-6 border-t border-slate-50 flex items-center gap-3">
                   <button 
                     onClick={() => handleStatusUpdate(selectedRequest.id, 'Rejected')}
-                    className="flex-1 py-4 bg-white border border-slate-200 text-rose-500 rounded-2xl font-black uppercase tracking-widest hover:bg-rose-50 hover:border-rose-100 transition-all shadow-sm flex items-center justify-center gap-3"
+                    className="flex-1 py-2.5 sm:py-3 bg-white border border-slate-200 text-rose-500 rounded-xl font-bold uppercase tracking-widest hover:bg-rose-50 hover:border-rose-100 transition-all shadow-sm flex items-center justify-center gap-2 text-xs sm:text-sm"
                   >
-                     <XCircle size={20} />
+                     <XCircle size={16} />
                      <span>Reject</span>
                   </button>
                   <button 
                     onClick={() => handleStatusUpdate(selectedRequest.id, 'Approved')}
-                    className="flex-1 py-4 bg-primary-600 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-primary-700 transition-all shadow-xl shadow-primary-200 active:scale-95 flex items-center justify-center gap-3"
+                    className="flex-1 py-2.5 sm:py-3 bg-primary-600 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm"
                   >
-                     <CheckCircle2 size={20} />
+                     <CheckCircle2 size={16} />
                      <span>Approve</span>
                   </button>
                </div>
@@ -320,23 +319,23 @@ const LeaveApproval = () => {
         onClose={() => setShowAddModal(false)} 
         title="Submit Leave Request"
       >
-         <form onSubmit={handleAddRequest} className="p-10 space-y-8 text-left">
+         <form onSubmit={handleAddRequest} className="p-6 sm:p-8 space-y-4 sm:space-y-6 text-left">
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1 text-left">Employee</label>
                <select 
-                 className="input-field h-14 font-bold appearance-none bg-white"
-                 value={newRequest.employeeId}
-                 onChange={e => setNewRequest({...newRequest, employeeId: e.target.value})}
+                  className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
+                  value={newRequest.employeeId}
+                  onChange={e => setNewRequest({...newRequest, employeeId: e.target.value})}
                >
                   <option value="">Select Member</option>
                   {teamMembers.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
                </select>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-left">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Leave Category</label>
                   <select 
-                    className="input-field h-14 font-bold appearance-none bg-white"
+                    className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
                     value={newRequest.type}
                     onChange={e => setNewRequest({...newRequest, type: e.target.value})}
                   >
@@ -352,19 +351,19 @@ const LeaveApproval = () => {
                   <input 
                     type="number" 
                     placeholder="1" 
-                    className="input-field h-14 font-bold"
+                    className="input-field h-11 sm:h-12 font-semibold text-sm"
                     value={newRequest.days}
                     onChange={e => setNewRequest({...newRequest, days: e.target.value})}
                   />
                </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-8 text-left">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 text-left">
                <div className="space-y-2 text-left">
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Start Date</label>
                   <input 
                     type="date" 
-                    className="input-field h-14 font-bold"
+                    className="input-field h-11 sm:h-12 font-semibold text-sm"
                     value={newRequest.startDate}
                     onChange={e => setNewRequest({...newRequest, startDate: e.target.value})}
                   />
@@ -373,7 +372,7 @@ const LeaveApproval = () => {
                   <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">End Date</label>
                   <input 
                     type="date" 
-                    className="input-field h-14 font-bold"
+                    className="input-field h-11 sm:h-12 font-semibold text-sm"
                     value={newRequest.endDate}
                     onChange={e => setNewRequest({...newRequest, endDate: e.target.value})}
                   />
@@ -383,18 +382,18 @@ const LeaveApproval = () => {
             <div className="space-y-2 text-left">
                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Reason for Leave</label>
                <textarea 
-                  className="input-field min-h-[120px] py-4 bg-white border-slate-200 resize-none font-medium" 
+                  className="input-field min-h-[100px] py-3 bg-white border-slate-200 resize-none text-sm font-medium" 
                   placeholder="Provide detailed context for this request..."
                   value={newRequest.reason}
                   onChange={e => setNewRequest({...newRequest, reason: e.target.value})}
                ></textarea>
             </div>
 
-            <div className="pt-6 flex flex-col gap-4 text-left">
-               <button type="submit" className="btn-primary w-full py-4 font-black uppercase tracking-[0.2em] shadow-xl shadow-primary-100">Submit Application</button>
-               <button type="button" onClick={() => setShowAddModal(false)} className="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Discard Request</button>
+            <div className="pt-4 flex flex-col gap-3 text-left">
+               <button type="submit" className="btn-primary w-full py-2.5 sm:py-3 font-bold uppercase tracking-[0.2em] shadow-md shadow-primary-100 text-sm">Submit Application</button>
+               <button type="button" onClick={() => setShowAddModal(false)} className="w-full py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Discard Request</button>
             </div>
-         </form>
+          </form>
       </CenterModal>
     </div>
   );

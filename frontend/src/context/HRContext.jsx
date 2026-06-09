@@ -49,11 +49,11 @@ export const HRProvider = ({ children }) => {
 
   // --- CANDIDATES / PIPELINE ---
   const initialCandidates = [
-    { id: 'C-1', name: 'Sarah Connor', role: 'Senior Frontend Developer', stage: 'Interview', match: 95, date: 'Oct 20, 2026', email: 'sarah@example.com' },
-    { id: 'C-2', name: 'John Wick', role: 'Product Manager', stage: 'Screening', match: 88, date: 'Oct 19, 2026', email: 'john@example.com' },
-    { id: 'C-3', name: 'Alice Cooper', role: 'Senior Frontend Developer', stage: 'Applied', match: 76, date: 'Oct 21, 2026', email: 'alice@example.com' },
-    { id: 'C-4', name: 'Bob Marley', role: 'UX Designer', stage: 'Shortlisted', match: 92, date: 'Oct 18, 2026', email: 'bob@example.com' },
-    { id: 'C-5', name: 'Eve Adams', role: 'Product Manager', stage: 'Offer', match: 90, date: 'Oct 15, 2026', email: 'eve@example.com' },
+    { id: 'C-1', name: 'Sarah Connor', role: 'Senior Frontend Developer', stage: 'Interview', match: 95, date: 'Oct 20, 2026', email: 'sarah@example.com', interviewers: ['Sarah Connor', 'John Wick'] },
+    { id: 'C-2', name: 'John Wick', role: 'Product Manager', stage: 'Screening', match: 88, date: 'Oct 19, 2026', email: 'john@example.com', interviewers: ['Alice Cooper'] },
+    { id: 'C-3', name: 'Alice Cooper', role: 'Senior Frontend Developer', stage: 'Applied', match: 76, date: 'Oct 21, 2026', email: 'alice@example.com', interviewers: ['John Wick', 'Sarah Connor', 'Bob Marley'] },
+    { id: 'C-4', name: 'Bob Marley', role: 'UX Designer', stage: 'Shortlisted', match: 92, date: 'Oct 18, 2026', email: 'bob@example.com', interviewers: ['Alice Cooper', 'Bob Marley'] },
+    { id: 'C-5', name: 'Eve Adams', role: 'Product Manager', stage: 'Offer', match: 90, date: 'Oct 15, 2026', email: 'eve@example.com', interviewers: ['John Wick'] },
   ];
   const [candidates, setCandidates] = usePersistedState('candidates', initialCandidates);
 
@@ -66,7 +66,7 @@ export const HRProvider = ({ children }) => {
     showToast('Candidate updated');
   };
   const moveCandidateStage = (id, stage) => {
-    setCandidates(candidates.map(c => {
+    setCandidates(prevCandidates => prevCandidates.map(c => {
       if (c.id === id) {
         if (stage === 'Hired' && c.stage !== 'Hired') {
           const startDate = new Date();
@@ -79,7 +79,7 @@ export const HRProvider = ({ children }) => {
             email: c.email || `${c.name.split(' ')[0].toLowerCase()}@example.com`
           });
         }
-        return { ...c, stage };
+        return { ...c, stage, status: stage };
       }
       return c;
     }));
@@ -136,7 +136,7 @@ export const HRProvider = ({ children }) => {
     setOnboarding(onboarding.map(o => (o.id === id ? { ...o, ...data} : o)));
   };
   const addOnboarding = (data) => {
-    setOnboarding([{ ...data, id: `OB-${Date.now()}`, progress: 0, status: 'Not Started' }, ...onboarding]);
+    setOnboarding(prevOnboarding => [{ ...data, id: `OB-${Date.now()}`, progress: 0, status: 'Not Started' }, ...prevOnboarding]);
     showToast('New hire added to onboarding');
   };
   const deleteOnboarding = (id) => {
