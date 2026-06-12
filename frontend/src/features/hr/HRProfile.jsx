@@ -107,7 +107,7 @@ const HRProfile = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">HR Profile</h1>
+          <h1 className="hcm-page-title">HR Profile</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Manage your professional identity and records</p>
         </div>
         <div className="flex items-center gap-3">
@@ -148,7 +148,7 @@ const HRProfile = () => {
                     )}
                  </div>
               </div>
-              <h2 className="text-xl font-extrabold text-slate-900">{profileData.personal.fullName}</h2>
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{profileData.personal.fullName}</h2>
               <span className="mt-2 inline-flex items-center justify-center px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-primary-600 bg-primary-50 rounded border border-primary-100">
                  {profileData.work.role}
               </span>
@@ -342,7 +342,7 @@ const HRProfile = () => {
                  {activeTab === 'documents' && (
                     <motion.div key="documents" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-8">
                        <div className="flex items-center justify-between">
-                          <h3 className="text-lg font-bold text-slate-900">Personal Documents</h3>
+                          <h3 className="text-lg font-bold text-slate-900 dark:text-white">Personal Documents</h3>
                           <button onClick={() => showToast('Opening file uploader...')} className="btn-primary px-4 py-2 font-bold flex items-center gap-2 shadow-sm text-sm">
                              <Upload size={16} />
                              <span>Upload File</span>

@@ -66,7 +66,7 @@ const EmployeeBenefits = () => {
          {/* Header Section */}
          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-               <h1 className="text-3xl font-black text-slate-900 tracking-tight">Benefits & Wellness</h1>
+               <h1 className="hcm-page-title">Benefits & Wellness</h1>
                <p className="text-slate-500 font-bold tracking-tight">Your comprehensive corporate perks, health and retirement plans</p>
             </div>
             <div className="flex items-center gap-3">
@@ -87,7 +87,7 @@ const EmployeeBenefits = () => {
                <motion.div
                   key={idx}
                   whileHover={{ y: -5 }}
-                  className="card p-6 bg-white border border-slate-100 shadow-soft"
+                  className="card p-6"
                >
                   <div className="flex items-center gap-4">
                      <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -95,7 +95,7 @@ const EmployeeBenefits = () => {
                      </div>
                      <div>
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1.5">{stat.label}</p>
-                        <h3 className="text-3xl font-black text-slate-900 tracking-tight">{stat.value}</h3>
+                        <h3 className="text-3xl font-black text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
                      </div>
                   </div>
                </motion.div>
@@ -104,14 +104,14 @@ const EmployeeBenefits = () => {
 
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {categories.map((cat, idx) => (
-               <div key={idx} className="card p-10 bg-white border-none shadow-soft flex flex-col group">
+               <div key={idx} className="card p-10  flex flex-col group">
                   <div className="flex items-center justify-between mb-10">
                      <div className="flex items-center gap-5">
                         <div className="w-16 h-16 rounded-[1.5rem] bg-slate-900 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
                            <cat.icon size={32} />
                         </div>
                         <div className="text-left">
-                           <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none italic">{cat.title}</h3>
+                           <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none italic dark:text-white">{cat.title}</h3>
                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em] mt-2">{cat.tag}</p>
                         </div>
                      </div>
@@ -149,7 +149,7 @@ const EmployeeBenefits = () => {
             {/* Recent Reimbursements */}
             <div className="lg:col-span-8 flex flex-col gap-8">
                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight italic">Reimbursement History</h3>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight italic dark:text-white">Reimbursement History</h3>
                   <button onClick={() => setIsClaimModalOpen(true)} className="px-6 py-2.5 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl active:scale-95 shadow-slate-200 flex items-center gap-2">
                      <Plus size={16} /> New Claim
                   </button>
@@ -207,8 +207,8 @@ const EmployeeBenefits = () => {
                   </button>
                </div>
 
-               <div className="card p-10 bg-white border-none shadow-soft text-left">
-                  <h3 className="text-xl font-black text-slate-900 italic tracking-tight mb-8 leading-none">Active Perks</h3>
+               <div className="card p-10  text-left">
+                  <h3 className="text-xl font-black text-slate-900 italic tracking-tight mb-8 leading-none dark:text-white">Active Perks</h3>
                   <div className="space-y-4">
                      {[
                         { label: 'Digital Library', icon: Activity },

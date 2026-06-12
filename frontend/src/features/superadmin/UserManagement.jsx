@@ -99,17 +99,17 @@ const UserManagement = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
+          <h1 className="hcm-page-title">
             <Users className="text-primary-600" size={32} />
             User Management
           </h1>
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
+          <p className="hcm-page-subtitle">
             Manage users, assign security roles, and map organization departments.
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="btn-primary flex items-center justify-center gap-2 self-start md:self-auto shadow-lg shadow-primary-200 dark:shadow-none"
+          className="btn-primary flex items-center justify-center gap-2 self-start md:self-auto"
         >
           <UserPlus size={18} />
           <span>Add New User</span>
@@ -117,7 +117,7 @@ const UserManagement = () => {
       </div>
 
       {/* Control Bar */}
-      <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/60 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div className="card p-4 flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="relative w-full md:max-w-md">
           <Search className="absolute left-4 top-3.5 text-slate-400" size={18} />
           <input
@@ -125,7 +125,7 @@ const UserManagement = () => {
             placeholder="Search users by name, email, department, role..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-slate-900 dark:text-slate-100 text-sm"
+            className="input-field pl-12"
           />
         </div>
         <div className="text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-50 dark:bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
@@ -142,16 +142,16 @@ const UserManagement = () => {
       </AnimatePresence>
 
       {/* Users Table / Grid */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/60 shadow-soft overflow-x-auto">
+      <div className="hcm-table-container">
         <div className="hidden sm:block min-w-[640px]">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50/50 dark:bg-slate-950/40 border-b border-slate-100 dark:border-slate-800 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                <th className="p-4 pl-6">User Info</th>
-                <th className="p-4">Department</th>
-                <th className="p-4">System Role</th>
-                <th className="p-4">Status</th>
-                <th className="p-4 text-right pr-6">Actions</th>
+          <table className="hcm-table">
+            <thead className="hcm-thead">
+              <tr className="hcm-tr">
+                <th className="hcm-th p-4 pl-6">User Info</th>
+                <th className="hcm-th p-4">Department</th>
+                <th className="hcm-th p-4">System Role</th>
+                <th className="hcm-th p-4">Status</th>
+                <th className="hcm-th p-4 text-right pr-6">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
@@ -163,9 +163,9 @@ const UserManagement = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="hover:bg-slate-50/40 dark:hover:bg-slate-950/20 transition-colors"
+                      className="hcm-tr"
                     >
-                      <td className="p-4 pl-6">
+                      <td className="hcm-td p-4 pl-6">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-950/30 text-primary-600 dark:text-primary-400 font-black flex items-center justify-center text-sm shadow-inner uppercase">
                             {user.name.charAt(0)}
@@ -179,24 +179,24 @@ const UserManagement = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="p-4">
+                      <td className="hcm-td p-4">
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/40 text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-100 dark:border-slate-800">
                           <Building2 size={12} />
                           {user.department}
                         </span>
                       </td>
-                      <td className="p-4">
+                      <td className="hcm-td p-4">
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary-50 dark:bg-primary-950/25 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase">
                           <Shield size={12} />
                           {user.role}
                         </span>
                       </td>
-                      <td className="p-4">
+                      <td className="hcm-td p-4">
                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold uppercase ${user.status === 'suspended' ? 'bg-rose-50 text-rose-600 border border-rose-100' : 'bg-emerald-50 text-emerald-600 border border-emerald-100'}`}>
                           {user.status || 'active'}
                         </span>
                       </td>
-                      <td className="p-4 text-right pr-6">
+                      <td className="hcm-td p-4 text-right pr-6">
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => toggleStatus(user)}
@@ -239,7 +239,7 @@ const UserManagement = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="p-12 text-center text-slate-400 font-medium text-sm">
+                    <td colSpan="5" className="p-12 text-center text-slate-400 font-medium text-sm">
                       No users match your search criteria.
                     </td>
                   </tr>
@@ -337,22 +337,15 @@ const UserManagement = () => {
       {/* User Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
-            />
+          <div className="hcm-modal-overlay">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800"
+              className="hcm-modal"
             >
               <div className="p-6 border-b border-slate-50 dark:border-slate-800/80 flex items-center justify-between">
-                <h3 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2.5">
+                <h3 className="hcm-section-heading flex items-center gap-2.5">
                   <UserCheck className="text-primary-600" size={22} />
                   {editingUser ? 'Edit User details' : 'Create New User'}
                 </h3>
@@ -366,36 +359,36 @@ const UserManagement = () => {
 
               <form onSubmit={handleSubmit} className="p-6 space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Full Name</label>
+                  <label className="form-label">Full Name</label>
                   <input
                     type="text"
                     required
                     placeholder="Enter full name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold"
+                    className="input-field font-semibold"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Work Email</label>
+                  <label className="form-label">Work Email</label>
                   <input
                     type="email"
                     required
                     placeholder="Enter email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold"
+                    className="input-field font-semibold"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">System Role</label>
+                    <label className="form-label">System Role</label>
                     <select
                       value={selectedRole}
                       onChange={(e) => setSelectedRole(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold capitalize"
+                      className="input-field font-semibold capitalize"
                     >
                       {roles.map(r => {
                         const val = r.name.toLowerCase().replace(/\s+manager/g, '').replace(/\s+/g, '');
@@ -411,11 +404,11 @@ const UserManagement = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Department</label>
+                    <label className="form-label">Department</label>
                     <select
                       value={selectedDept}
                       onChange={(e) => setSelectedDept(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold"
+                      className="input-field font-semibold"
                     >
                       {departments.map(d => (
                         <option key={d.id} value={d.name}>{d.name}</option>
@@ -428,13 +421,13 @@ const UserManagement = () => {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-2.5 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-sm"
+                    className="btn-secondary flex-1"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-2.5 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 transition-all text-sm shadow-lg shadow-primary-200 dark:shadow-none"
+                    className="btn-primary flex-1"
                   >
                     {editingUser ? 'Save Changes' : 'Create User'}
                   </button>

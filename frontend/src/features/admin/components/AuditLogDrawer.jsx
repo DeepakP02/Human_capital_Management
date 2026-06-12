@@ -31,7 +31,7 @@ const AuditLogDrawer = ({ isOpen, onClose, log }) => {
                     {log.user[0]}
                  </div>
                  <div>
-                   <h2 className="text-xl font-bold text-slate-900">{log.action}</h2>
+                   <h2 className="text-xl font-bold text-slate-900 dark:text-white">{log.action}</h2>
                    <p className="text-xs font-medium text-slate-500 mt-1">LOG-{log.id} • {log.time}</p>
                  </div>
               </div>
@@ -62,7 +62,7 @@ const AuditLogDrawer = ({ isOpen, onClose, log }) => {
                </div>
 
                <div className="space-y-4">
-                  <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-widest border-b border-slate-100 pb-2">Full Payload</h3>
+                  <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-widest border-b border-slate-100 pb-2 dark:text-white">Full Payload</h3>
                   <div className="bg-slate-900 p-6 rounded-2xl overflow-x-auto">
                      <pre className="font-mono text-[11px] text-emerald-400 leading-relaxed">
 {JSON.stringify({

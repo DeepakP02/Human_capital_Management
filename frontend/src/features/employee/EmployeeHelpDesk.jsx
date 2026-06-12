@@ -58,7 +58,7 @@ const EmployeeHelpDesk = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Support Ecosystem</h1>
+          <h1 className="hcm-page-title">Support Ecosystem</h1>
           <p className="text-slate-500 font-bold tracking-tight">Need assistance? Engage with our expert support team or IT specialist hubs</p>
         </div>
         <div className="flex items-center gap-3">
@@ -78,7 +78,7 @@ const EmployeeHelpDesk = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card p-6"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -86,7 +86,7 @@ const EmployeeHelpDesk = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tight">{stat.value}</h3>
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -251,7 +251,7 @@ const EmployeeHelpDesk = () => {
                      </div>
                      <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest bg-white border border-slate-100 px-3 py-1 rounded-full">{selectedTicket.status}</span>
                   </div>
-                  <h2 className="text-2xl font-black text-slate-900 italic tracking-tight">{selectedTicket.subject}</h2>
+                  <h2 className="text-2xl font-black text-slate-900 italic tracking-tight dark:text-white">{selectedTicket.subject}</h2>
                </div>
 
                <div className="flex-1 overflow-y-auto p-10 space-y-10 scrollbar-none">
@@ -268,7 +268,7 @@ const EmployeeHelpDesk = () => {
                            "p-5 rounded-2xl shadow-sm text-sm font-bold leading-relaxed transition-all",
                            msg.sender === profile.fullName 
                            ? "bg-slate-900 text-white rounded-tr-none hover:shadow-xl" 
-                           : "bg-slate-50 text-slate-700 border border-slate-100 rounded-tl-none hover:bg-white hover:shadow-xl hover:border-transparent"
+                           : "hcm-badge hcm-badge-draft border border-slate-100 rounded-tl-none hover:bg-white hover:shadow-xl hover:border-transparent"
                         )}>
                            {msg.text}
                         </div>

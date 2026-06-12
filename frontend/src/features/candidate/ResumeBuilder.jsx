@@ -100,7 +100,7 @@ const ResumeBuilder = () => {
  </button>
  </div>
  <div className="flex-1 space-y-2">
- <h3 className="text-2xl font-medium text-slate-900 tracking-tight">Personal Information</h3>
+ <h3 className="text-2xl font-medium text-slate-900 tracking-tight dark:text-white">Personal Information</h3>
  <p className="text-sm font-medium text-slate-400 leading-relaxed max-w-md">Provide your contact details and professional summary for potential employers.</p>
  </div>
  </div>
@@ -147,7 +147,7 @@ const ResumeBuilder = () => {
  <div className="space-y-12 animate-fade-in text-left">
  <div className="flex items-center justify-between">
  <div className="space-y-1">
- <h3 className="text-2xl font-bold text-slate-900">Work Experience</h3>
+ <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Work Experience</h3>
  <p className="text-sm text-slate-500">Add your previous employment history</p>
  </div>
  <button 
@@ -221,7 +221,7 @@ const ResumeBuilder = () => {
  <div className="space-y-12 animate-fade-in text-left">
  <div className="flex items-center justify-between">
  <div className="space-y-1">
- <h3 className="text-2xl font-bold text-slate-900">Education</h3>
+ <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Education</h3>
  <p className="text-sm text-slate-500">Academic background and qualifications</p>
  </div>
  <button 
@@ -272,7 +272,7 @@ const ResumeBuilder = () => {
  <div className="space-y-12 animate-fade-in text-left">
  <div className="flex items-center justify-between">
  <div className="space-y-1">
- <h3 className="text-2xl font-bold text-slate-900">Skills</h3>
+ <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Skills</h3>
  <p className="text-sm text-slate-500">Highlight your technical and professional expertise</p>
  </div>
  <button onClick={() => addItem('skills')} className="btn-primary px-8 py-3.5 shadow-lg shadow-primary-200">
@@ -511,7 +511,7 @@ const ResumeBuilder = () => {
  {/* Header Section */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-[3rem] border border-slate-50 shadow-soft">
  <div className="text-left">
- <h1 className="text-4xl font-bold text-slate-900 mb-2">Resume Builder</h1>
+ <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">Resume Builder</h1>
  <p className="text-slate-400 font-medium text-sm">Phased Configuration: <span className="text-slate-900 font-bold">{steps[activeStep].title}</span></p>
  </div>
  <div className="flex items-center gap-4">
@@ -566,10 +566,10 @@ const ResumeBuilder = () => {
 
  {/* Content Viewport */}
  <div className="lg:col-span-9 flex flex-col h-full">
- <div className="card h-full p-12 bg-white border-none shadow-soft flex flex-col relative rounded-[3.5rem] min-h-[750px]">
+ <div className="card h-full p-12  flex flex-col relative rounded-[3.5rem] min-h-[750px]">
  <div className="flex-1">
  <div className="mb-12 text-left">
- <h2 className="text-4xl font-bold text-slate-900 mb-2">{steps[activeStep].title} Details</h2>
+ <h2 className="text-4xl font-bold text-slate-900 mb-2 dark:text-white">{steps[activeStep].title} Details</h2>
  <p className="text-slate-400 font-medium text-sm">{steps[activeStep].helper}</p>
  </div>
  
@@ -653,7 +653,7 @@ const ResumeBuilder = () => {
  <div className="absolute left-0 top-2 bottom-0 w-1 bg-primary-600/5" />
  <div className="flex justify-between items-start mb-4">
  <div>
- <h4 className="text-xl font-bold text-slate-900">{e.role}</h4>
+ <h4 className="text-xl font-bold text-slate-900 dark:text-white">{e.role}</h4>
  <p className="text-xs font-bold text-primary-600 mt-2">{e.company}</p>
  </div>
  <span className="text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1 rounded-md">{e.start} — {e.current ? 'PRESENT' : e.end}</span>
@@ -688,7 +688,7 @@ const ResumeBuilder = () => {
  <div className="space-y-6">
  {localData.education.map((edu, i) => (
  <div key={i}>
- <h4 className="text-sm font-bold text-slate-900 mb-2">{edu.degree}</h4>
+ <h4 className="text-sm font-bold text-slate-900 mb-2 dark:text-white">{edu.degree}</h4>
  <p className="text-xs font-semibold text-slate-400">{edu.school}</p>
  </div>
  ))}

@@ -261,7 +261,7 @@ const RoleManagement = () => {
                                 isChecked ? prev.filter(p => p !== perm.id) : [...prev, perm.id]
                               );
                             }}
-                            className="mt-1 h-4 w-4 rounded border-slate-350 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 dark:bg-slate-800 transition-colors"
+                            className="mt-1 h-4 w-4 rounded border-slate-300 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 dark:bg-slate-800 transition-colors"
                           />
                           <div>
                             <p className="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">

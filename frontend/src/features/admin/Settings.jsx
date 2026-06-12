@@ -47,7 +47,7 @@ const Settings = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">System Settings</h1>
+          <h1 className="hcm-page-title">System Settings</h1>
           <p className="text-slate-500 font-medium tracking-tight">Global platform preferences, security protocols and organization branding</p>
         </div>
         <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ const Settings = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
          {/* Navigation Tab List */}
          <div className="lg:col-span-3 space-y-4">
-            <div className="card p-4 bg-white border-none shadow-soft h-[500px]">
+            <div className="card p-4  h-[500px]">
                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6 p-4">Configuration Tabs</p>
                <nav className="space-y-2">
                   {menuItems.map((item) => (
@@ -94,12 +94,12 @@ const Settings = () => {
          <div className="lg:col-span-9 space-y-8">
             {activeTab === 'general' && (
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                  <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                  <div className="card p-10  space-y-10">
                      <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                         <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
                            <Monitor size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900">General Preferences</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">General Preferences</h3>
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -154,12 +154,12 @@ const Settings = () => {
 
             {activeTab === 'security' && (
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                  <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                  <div className="card p-10  space-y-10">
                      <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                         <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl">
                            <ShieldCheck size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900">Security & Authentication</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Security & Authentication</h3>
                      </div>
 
                      <div className="space-y-8">
@@ -213,12 +213,12 @@ const Settings = () => {
 
             {activeTab === 'branding' && (
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                  <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                  <div className="card p-10  space-y-10">
                      <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                         <div className="p-3 bg-fuchsia-50 text-fuchsia-600 rounded-2xl">
                            <Palette size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900">Custom Branding</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Custom Branding</h3>
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

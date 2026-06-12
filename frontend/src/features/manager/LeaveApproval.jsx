@@ -19,6 +19,7 @@ import {
   MoreVertical,
   Plus,
   RotateCcw,
+
   Loader2
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
@@ -41,10 +42,10 @@ const LeaveApproval = () => {
   // Stats calculation
   const stats = useMemo(() => {
     return [
-      { label: 'Pending Requests', value: leaveRequests.filter(r => r.status === 'Pending').length.toString(), icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
-      { label: 'Approved Today', value: leaveRequests.filter(r => r.status === 'Approved').length.toString(), icon: CheckCircle2, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-      { label: 'Rejected', value: leaveRequests.filter(r => r.status === 'Rejected').length.toString(), icon: XCircle, color: 'text-rose-600', bg: 'bg-rose-50' },
-      { label: 'Total Leaves', value: leaveRequests.length.toString(), icon: CalendarDays, color: 'text-primary-600', bg: 'bg-primary-50' },
+      { label: 'Pending Requests', value: leaveRequests.filter(r => r.status === 'Pending').length.toString(), icon: Clock, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/20' },
+      { label: 'Approved Today', value: leaveRequests.filter(r => r.status === 'Approved').length.toString(), icon: CheckCircle2, color: 'text-emerald-600 dark:text-emerald-450', bg: 'bg-emerald-50 dark:bg-emerald-950/20' },
+      { label: 'Rejected', value: leaveRequests.filter(r => r.status === 'Rejected').length.toString(), icon: XCircle, color: 'text-rose-600 dark:text-rose-455', bg: 'bg-rose-50 dark:bg-rose-950/20' },
+      { label: 'Total Leaves', value: leaveRequests.length.toString(), icon: CalendarDays, color: 'text-primary-600 dark:text-primary-400', bg: 'bg-primary-50 dark:bg-primary-950/20' },
     ];
   }, [leaveRequests]);
 
@@ -91,14 +92,14 @@ const LeaveApproval = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Leave Approval</h1>
-          <p className="text-slate-500 font-medium tracking-tight mt-1">Review, manage and approve your team's leave requests</p>
+          <h1 className="hcm-page-title">Leave Approval</h1>
+          <p className="hcm-page-subtitle">Review, manage and approve your team's leave requests</p>
         </div>
         <div className="flex items-center gap-3">
           <button 
             onClick={handleExport} 
             disabled={isExporting}
-            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 disabled:opacity-50 active:scale-95 transition-all"
+            className="btn-secondary flex items-center gap-2 disabled:opacity-50"
           >
             {isExporting ? (
                <Loader2 size={18} className="animate-spin text-primary-500" />
@@ -107,7 +108,7 @@ const LeaveApproval = () => {
             )}
             <span className="hidden sm:inline">Export History</span>
           </button>
-          <button onClick={() => setShowAddModal(true)} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
+          <button onClick={() => setShowAddModal(true)} className="btn-primary flex items-center gap-2 shadow-lg shadow-primary-500/20">
              <Plus size={18} />
              <span>Add Request</span>
           </button>
@@ -120,15 +121,15 @@ const LeaveApproval = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
                   <stat.icon size={26} />
                </div>
                <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
+                  <p className="card-title mb-1.5">{stat.label}</p>
+                  <h3 className="card-value">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -145,15 +146,15 @@ const LeaveApproval = () => {
                     onClick={() => setActiveTab(cat)}
                     className={cn(
                        "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border capitalize",
-                       activeTab === cat ? "bg-slate-900 text-white shadow-xl shadow-slate-200 border-slate-900" : "bg-white text-slate-400 border-slate-100 hover:border-slate-300"
+                       activeTab === cat ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xl shadow-slate-200/10 border-slate-900 dark:border-white" : "bg-white dark:bg-slate-900 text-slate-400 dark:text-slate-500 border-slate-100 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
                     )}
                   >
                      {cat} {cat === 'Pending' ? `(${leaveRequests.filter(r => r.status === 'Pending').length})` : ''}
                   </button>
                ))}
             </div>
-            <div className="relative w-full lg:w-80">
-               <Search className="absolute left-3 top-3 text-slate-400" size={18} />
+            <div className="relative w-full lg:w-80 text-slate-400 dark:text-slate-500">
+               <Search className="absolute left-3 top-3" size={18} />
                <input 
                  type="text" 
                  placeholder="Search by name or type..." 
@@ -164,80 +165,78 @@ const LeaveApproval = () => {
             </div>
          </div>
 
-         <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
-            <div className="overflow-x-auto text-left">
-               <table className="w-full text-left">
-                  <thead>
-                     <tr className="bg-slate-50/50">
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em]">Employee</th>
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em]">Leave Type</th>
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] text-center">Duration</th>
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] text-center">Days</th>
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] text-right">Reason Preview</th>
-                        <th className="px-8 py-5 text-right text-[10px] uppercase font-black text-slate-400 tracking-[0.2em]">Action</th>
-                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-50 text-sm">
-                     {filteredRequests.map((req) => (
-                        <tr key={req.id} className="group hover:bg-slate-50/30 transition-colors">
-                           <td className="px-8 py-6">
-                              <div className="flex items-center gap-4">
-                                 <img src={`https://i.pravatar.cc/150?u=${req.name}`} alt={req.name} className="w-10 h-10 rounded-xl object-cover ring-2 ring-white shadow-sm" />
-                                 <p className="font-extrabold text-slate-900 leading-none">{req.name}</p>
-                              </div>
-                           </td>
-                           <td className="px-8 py-6">
-                              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest bg-slate-50 px-2 py-1 rounded border border-slate-100">{req.type}</span>
-                           </td>
-                           <td className="px-8 py-6 text-center whitespace-nowrap">
-                              <p className="text-xs font-black text-slate-700 tracking-tight">{req.startDate} — {req.endDate || 'Ongoing'}</p>
-                           </td>
-                           <td className="px-8 py-6 text-center">
-                              <p className="text-sm font-black text-slate-900">{req.days || '1'}</p>
-                           </td>
-                           <td className="px-8 py-6 text-right max-w-xs">
-                              <p className="text-[11px] font-medium text-slate-400 truncate italic">"{req.reason}"</p>
-                           </td>
-                           <td className="px-8 py-6 text-right">
-                              {req.status === 'Pending' ? (
-                                <div className="flex justify-end items-center gap-2">
-                                   <button 
-                                     onClick={() => setSelectedRequest(req)} 
-                                     className="p-2.5 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all" 
-                                     title="Review Request"
-                                   >
-                                      <ChevronRight size={20} />
-                                   </button>
-                                   <button 
-                                     onClick={() => handleStatusUpdate(req.id, 'Approved')}
-                                     className="p-2.5 text-emerald-500 hover:bg-emerald-50 rounded-xl transition-all shadow-sm group-hover:shadow-md" 
-                                     title="Quick Approve"
-                                   ><Check size={20} /></button>
-                                </div>
-                              ) : (
-                                <span className={cn(
-                                  "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded border",
-                                  req.status === 'Approved' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-rose-50 text-rose-500 border-rose-100"
-                                )}>
-                                  {req.status}
-                                </span>
-                              )}
-                           </td>
-                        </tr>
-                     ))}
-                     {filteredRequests.length === 0 && (
-                       <tr>
-                          <td colSpan="6" className="px-8 py-20 text-center">
-                             <div className="flex flex-col items-center gap-4 opacity-40">
-                                <Calendar size={48} className="text-slate-300" />
-                                <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">No matching requests</p>
+         <div className="hcm-table-container">
+            <table className="hcm-table">
+               <thead className="hcm-thead">
+                  <tr>
+                     <th className="hcm-th">Employee</th>
+                     <th className="hcm-th">Leave Type</th>
+                     <th className="hcm-th text-center">Duration</th>
+                     <th className="hcm-th text-center">Days</th>
+                     <th className="hcm-th text-right">Reason Preview</th>
+                     <th className="hcm-th text-right">Action</th>
+                  </tr>
+               </thead>
+               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                  {filteredRequests.map((req) => (
+                     <tr key={req.id} className="hcm-tr">
+                        <td className="hcm-td">
+                           <div className="flex items-center gap-4">
+                              <img src={`https://i.pravatar.cc/150?u=${req.name}`} alt={req.name} className="w-10 h-10 rounded-xl object-cover ring-2 ring-white dark:ring-slate-850 shadow-sm" />
+                              <p className="font-extrabold text-slate-900 dark:text-white leading-none">{req.name}</p>
+                           </div>
+                        </td>
+                        <td className="hcm-td">
+                           <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded border border-slate-105 dark:border-slate-800">{req.type}</span>
+                        </td>
+                        <td className="hcm-td text-center whitespace-nowrap">
+                           <p className="text-xs font-black text-slate-700 dark:text-slate-300 tracking-tight">{req.startDate} — {req.endDate || 'Ongoing'}</p>
+                        </td>
+                        <td className="hcm-td text-center">
+                           <p className="text-sm font-black text-slate-900 dark:text-white">{req.days || '1'}</p>
+                        </td>
+                        <td className="hcm-td text-right max-w-xs">
+                           <p className="text-[11px] font-medium text-slate-405 dark:text-slate-495 truncate italic">"{req.reason}"</p>
+                        </td>
+                        <td className="hcm-td text-right">
+                           {req.status === 'Pending' ? (
+                             <div className="flex justify-end items-center gap-2">
+                                <button 
+                                  onClick={() => setSelectedRequest(req)} 
+                                  className="p-2.5 text-slate-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-slate-800 rounded-xl transition-all" 
+                                  title="Review Request"
+                                >
+                                   <ChevronRight size={20} />
+                                </button>
+                                <button 
+                                  onClick={() => handleStatusUpdate(req.id, 'Approved')}
+                                  className="p-2.5 text-emerald-500 dark:text-emerald-450 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 rounded-xl transition-all shadow-sm" 
+                                  title="Quick Approve"
+                                ><Check size={20} /></button>
                              </div>
-                          </td>
-                       </tr>
-                     )}
-                  </tbody>
-               </table>
-            </div>
+                           ) : (
+                             <span className={cn(
+                               "text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded border",
+                               req.status === 'Approved' ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-450 border-emerald-100 dark:border-emerald-900/30" : "bg-rose-50 dark:bg-rose-950/20 text-rose-500 dark:text-rose-455 border-rose-100 dark:border-rose-900/30"
+                             )}>
+                               {req.status}
+                             </span>
+                           )}
+                        </td>
+                     </tr>
+                  ))}
+                  {filteredRequests.length === 0 && (
+                    <tr>
+                       <td colSpan="6" className="hcm-td">
+                          <div className="hcm-empty-state py-20 text-center opacity-40">
+                             <Calendar size={48} className="text-slate-300 dark:text-slate-700 mb-4" />
+                             <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">No matching requests</p>
+                          </div>
+                       </td>
+                    </tr>
+                  )}
+               </tbody>
+            </table>
          </div>
       </div>
 
@@ -247,16 +246,17 @@ const LeaveApproval = () => {
         onClose={() => setSelectedRequest(null)} 
         title="Review Leave Application"
       >
-         {selectedRequest && (            <div className="p-6 sm:p-8 space-y-6 text-left">
-               <div className="p-5 sm:p-6 bg-slate-900 rounded-2xl relative overflow-hidden group">
+         {selectedRequest && (
+            <div className="p-6 sm:p-8 space-y-6 text-left bg-white dark:bg-slate-900">
+               <div className="p-5 sm:p-6 bg-slate-900 dark:bg-slate-950 rounded-2xl relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-6 opacity-10">
                      <FileText size={80} className="text-white" />
                   </div>
                   <div className="flex items-center gap-4 relative z-10">
                      <img src={`https://i.pravatar.cc/150?u=${selectedRequest.name}`} alt={selectedRequest.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover ring-2 ring-slate-800 shadow-lg" />
                      <div className="text-left py-1">
-                        <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">{selectedRequest.name}</h3>
-                        <p className="text-[10px] font-black text-primary-400 uppercase tracking-[0.2em] mt-2">Ref ID: LR-{selectedRequest.id}820</p>
+                        <h3 className="text-xl sm:text-2xl font-black text-white dark:text-indigo-200 tracking-tight leading-none">{selectedRequest.name}</h3>
+                        <p className="text-[10px] font-black text-primary-400 dark:text-primary-550 uppercase tracking-[0.2em] mt-2">Ref ID: LR-{selectedRequest.id}820</p>
                         <div className="mt-3 flex items-center gap-3">
                            <span className="text-xs font-semibold text-white/60 bg-white/10 px-2 py-0.5 rounded-md">Designer</span>
                            <span className="text-xs font-semibold text-white/60 bg-white/10 px-2 py-0.5 rounded-md">Team Apex</span>
@@ -266,44 +266,44 @@ const LeaveApproval = () => {
                </div>
 
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-left">
-                  <div className="space-y-1 p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-center">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Leave Category</label>
-                     <p className="text-base font-bold text-slate-900 flex items-center gap-2">
-                        <Zap size={16} className="text-primary-600" />
+                  <div className="space-y-1 p-4 sm:p-5 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col justify-center">
+                     <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Leave Category</label>
+                     <p className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <Zap size={16} className="text-primary-600 dark:text-primary-400" />
                         {selectedRequest.type}
                      </p>
                   </div>
-                  <div className="space-y-1 p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-100 flex flex-col justify-center items-center">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Total Duration</label>
-                     <p className="text-base font-bold text-slate-900">{selectedRequest.days || '1'} Working Day(s)</p>
+                  <div className="space-y-1 p-4 sm:p-5 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-col justify-center items-center">
+                     <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Total Duration</label>
+                     <p className="text-base font-bold text-slate-900 dark:text-white">{selectedRequest.days || '1'} Working Day(s)</p>
                   </div>
                </div>
 
                <div className="space-y-2 text-left">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                     <MessageSquare size={16} className="text-slate-300" /> Employee reason
+                  <label className="form-label text-[10px] uppercase tracking-widest flex items-center gap-2">
+                     <MessageSquare size={16} className="text-slate-300 dark:text-slate-600" /> Employee reason
                   </label>
-                  <div className="p-4 sm:p-5 bg-slate-50 rounded-xl border border-slate-100 italic text-sm text-slate-600 leading-relaxed font-medium">
+                  <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-850 rounded-xl border border-slate-105 dark:border-slate-800 italic text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                      "{selectedRequest.reason}"
                   </div>
                </div>
 
                <div className="space-y-2 text-left">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Internal review note (Optional)</label>
+                  <label className="form-label text-[10px] uppercase tracking-widest">Internal review note (Optional)</label>
                   <textarea className="input-field min-h-[100px] py-3 bg-slate-50 border-transparent resize-none text-sm font-medium" placeholder="Add feedback for the employee..."></textarea>
                </div>
                
-               <div className="pt-6 border-t border-slate-50 flex items-center gap-3">
+               <div className="pt-6 border-t border-slate-50 dark:border-slate-800 flex items-center gap-3">
                   <button 
                     onClick={() => handleStatusUpdate(selectedRequest.id, 'Rejected')}
-                    className="flex-1 py-2.5 sm:py-3 bg-white border border-slate-200 text-rose-500 rounded-xl font-bold uppercase tracking-widest hover:bg-rose-50 hover:border-rose-100 transition-all shadow-sm flex items-center justify-center gap-2 text-xs sm:text-sm"
+                    className="flex-1 py-2.5 sm:py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-rose-500 dark:text-rose-455 rounded-xl font-bold uppercase tracking-widest hover:bg-rose-50 dark:hover:bg-rose-955/20 hover:border-rose-100 dark:hover:border-rose-900 transition-all shadow-sm flex items-center justify-center gap-2 text-xs sm:text-sm cursor-pointer"
                   >
                      <XCircle size={16} />
                      <span>Reject</span>
                   </button>
                   <button 
                     onClick={() => handleStatusUpdate(selectedRequest.id, 'Approved')}
-                    className="flex-1 py-2.5 sm:py-3 bg-primary-600 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm"
+                    className="btn-success flex-1 py-2.5 sm:py-3 uppercase tracking-widest flex items-center justify-center gap-2 text-xs sm:text-sm cursor-pointer"
                   >
                      <CheckCircle2 size={16} />
                      <span>Approve</span>
@@ -319,35 +319,35 @@ const LeaveApproval = () => {
         onClose={() => setShowAddModal(false)} 
         title="Submit Leave Request"
       >
-         <form onSubmit={handleAddRequest} className="p-6 sm:p-8 space-y-4 sm:space-y-6 text-left">
+         <form onSubmit={handleAddRequest} className="p-6 sm:p-8 space-y-4 sm:space-y-6 text-left bg-white dark:bg-slate-900">
             <div className="space-y-2 text-left">
-               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1 text-left">Employee</label>
+               <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Employee</label>
                <select 
-                  className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
+                  className="input-field h-11 sm:h-12 font-semibold text-sm"
                   value={newRequest.employeeId}
                   onChange={e => setNewRequest({...newRequest, employeeId: e.target.value})}
                >
-                  <option value="">Select Member</option>
-                  {teamMembers.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+                  <option value="" className="dark:bg-slate-900">Select Member</option>
+                  {teamMembers.map(m => <option key={m.id} value={m.id} className="dark:bg-slate-900">{m.name}</option>)}
                </select>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-left">
                <div className="space-y-2 text-left">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Leave Category</label>
+                  <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Leave Category</label>
                   <select 
-                    className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
+                    className="input-field h-11 sm:h-12 font-semibold text-sm"
                     value={newRequest.type}
                     onChange={e => setNewRequest({...newRequest, type: e.target.value})}
                   >
-                     <option>Sick Leave</option>
-                     <option>Annual Leave</option>
-                     <option>Casual Leave</option>
-                     <option>Maternity/Paternity</option>
-                     <option>Unpaid Leave</option>
+                     <option className="dark:bg-slate-900">Sick Leave</option>
+                     <option className="dark:bg-slate-900">Annual Leave</option>
+                     <option className="dark:bg-slate-900">Casual Leave</option>
+                     <option className="dark:bg-slate-900">Maternity/Paternity</option>
+                     <option className="dark:bg-slate-900">Unpaid Leave</option>
                   </select>
                </div>
                <div className="space-y-2 text-left">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Total Days</label>
+                  <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Total Days</label>
                   <input 
                     type="number" 
                     placeholder="1" 
@@ -360,7 +360,7 @@ const LeaveApproval = () => {
             
             <div className="grid grid-cols-2 gap-4 sm:gap-6 text-left">
                <div className="space-y-2 text-left">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Start Date</label>
+                  <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Start Date</label>
                   <input 
                     type="date" 
                     className="input-field h-11 sm:h-12 font-semibold text-sm"
@@ -369,7 +369,7 @@ const LeaveApproval = () => {
                   />
                </div>
                <div className="space-y-2 text-left">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">End Date</label>
+                  <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">End Date</label>
                   <input 
                     type="date" 
                     className="input-field h-11 sm:h-12 font-semibold text-sm"
@@ -380,9 +380,9 @@ const LeaveApproval = () => {
             </div>
 
             <div className="space-y-2 text-left">
-               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Reason for Leave</label>
+               <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Reason for Leave</label>
                <textarea 
-                  className="input-field min-h-[100px] py-3 bg-white border-slate-200 resize-none text-sm font-medium" 
+                  className="input-field min-h-[100px] py-3 bg-white border-slate-205 resize-none text-sm font-medium" 
                   placeholder="Provide detailed context for this request..."
                   value={newRequest.reason}
                   onChange={e => setNewRequest({...newRequest, reason: e.target.value})}
@@ -390,8 +390,8 @@ const LeaveApproval = () => {
             </div>
 
             <div className="pt-4 flex flex-col gap-3 text-left">
-               <button type="submit" className="btn-primary w-full py-2.5 sm:py-3 font-bold uppercase tracking-[0.2em] shadow-md shadow-primary-100 text-sm">Submit Application</button>
-               <button type="button" onClick={() => setShowAddModal(false)} className="w-full py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Discard Request</button>
+               <button type="submit" className="btn-primary w-full py-2.5 sm:py-3 font-bold uppercase tracking-[0.2em] shadow-md shadow-primary-500/20 text-sm">Submit Application</button>
+               <button type="button" onClick={() => setShowAddModal(false)} className="w-full py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">Discard Request</button>
             </div>
           </form>
       </CenterModal>

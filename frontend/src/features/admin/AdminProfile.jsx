@@ -119,7 +119,7 @@ const AdminProfile = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">My Profile</h1>
+          <h1 className="hcm-page-title">My Profile</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Manage your account information and preferences</p>
         </div>
         <div className="flex items-center gap-3">
@@ -160,7 +160,7 @@ const AdminProfile = () => {
                     )}
                  </div>
               </div>
-              <h2 className="text-xl font-extrabold text-slate-900">{profileData.personal.fullName}</h2>
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{profileData.personal.fullName}</h2>
               <span className="mt-2 inline-flex items-center justify-center px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-primary-600 bg-primary-50 rounded border border-primary-100">
                  {profileData.work.role}
               </span>
@@ -337,7 +337,7 @@ const AdminProfile = () => {
                        
                        {/* Change Password */}
                        <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100 space-y-6">
-                          <h3 className="text-base font-bold text-slate-900 border-b border-slate-200 pb-3">Change Password</h3>
+                          <h3 className="text-base font-bold text-slate-900 border-b border-slate-200 pb-3 dark:text-white">Change Password</h3>
                           <div className="grid grid-cols-1 gap-5">
                              {['current', 'new', 'confirm'].map((field) => (
                                 <div key={field} className="space-y-2">
@@ -369,7 +369,7 @@ const AdminProfile = () => {
 
                        {/* Security Controls */}
                        <div className="space-y-4">
-                          <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">Security Controls</h3>
+                          <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 dark:text-white">Security Controls</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                              <div className="flex items-center justify-between p-5 bg-white border border-slate-200 rounded-2xl cursor-pointer hover:border-slate-300" onClick={() => isEditing && updateField('security', 'twoFactor', !profileData.security.twoFactor)}>
                                 <div>
@@ -394,7 +394,7 @@ const AdminProfile = () => {
 
                        {/* Active Sessions */}
                        <div className="space-y-4 pt-4 border-t border-slate-100">
-                          <h3 className="text-base font-bold text-slate-900">Active Sessions</h3>
+                          <h3 className="text-base font-bold text-slate-900 dark:text-white">Active Sessions</h3>
                           <div className="card border border-slate-100 overflow-hidden shadow-none">
                              <table className="w-full text-left border-collapse">
                                 <thead className="bg-slate-50 border-b border-slate-100">

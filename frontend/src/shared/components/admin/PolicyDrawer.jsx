@@ -30,7 +30,7 @@ const PolicyDrawer = ({ isOpen, onClose, policy, onEdit }) => {
                   <FileText size={22} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">{policy.name}</h2>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">{policy.name}</h2>
                   <p className="text-xs font-medium text-slate-500 mt-1 uppercase tracking-widest">{policy.category} • V{policy.version}</p>
                 </div>
               </div>
@@ -66,12 +66,12 @@ const PolicyDrawer = ({ isOpen, onClose, policy, onEdit }) => {
                </div>
 
                <div>
-                   <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest mb-4">Description</h3>
+                   <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest mb-4 dark:text-white">Description</h3>
                    <p className="text-sm text-slate-600 leading-relaxed">{policy.description || 'No detailed description provided for this policy document.'}</p>
                </div>
 
                <div>
-                  <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest mb-4">Acknowledgment Progress</h3>
+                  <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-widest mb-4 dark:text-white">Acknowledgment Progress</h3>
                   <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-4">
                      <div className="flex justify-between items-end">
                         <div>

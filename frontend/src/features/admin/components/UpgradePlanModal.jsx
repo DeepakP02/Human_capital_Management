@@ -46,7 +46,7 @@ const UpgradePlanModal = ({ isOpen, onClose }) => {
                   <Star size={24} fill="currentColor" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-extrabold text-slate-900 leading-none">Upgrade Plan</h2>
+                  <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">Upgrade Plan</h2>
                   <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Select the best fit for your team</p>
                 </div>
               </div>
@@ -67,7 +67,7 @@ const UpgradePlanModal = ({ isOpen, onClose }) => {
                  {plans.map(plan => (
                    <div key={plan.name} onClick={() => setSelectedPlan(plan.name)} className={cn("card p-6 border-2 cursor-pointer transition-all", selectedPlan === plan.name ? "border-primary-500 bg-primary-50/20 shadow-xl shadow-primary-500/10 scale-105" : "border-slate-100 bg-white hover:border-slate-200")}>
                       <div className="flex justify-between items-start mb-4">
-                         <h3 className="font-extrabold text-slate-900 text-lg">{plan.name}</h3>
+                         <h3 className="font-extrabold text-slate-900 text-lg dark:text-white">{plan.name}</h3>
                          {selectedPlan === plan.name && <CheckCircle2 className="text-primary-600" size={20} />}
                       </div>
                       <div className="mb-6 flex items-baseline gap-1">

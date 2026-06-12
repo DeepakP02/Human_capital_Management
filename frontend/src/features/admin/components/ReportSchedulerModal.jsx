@@ -38,7 +38,7 @@ const ReportSchedulerModal = ({ isOpen, onClose }) => {
                     <Calendar size={20} />
                   </div>
                   <div>
-                     <h2 className="text-xl font-extrabold text-slate-900">Schedule Report</h2>
+                     <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Schedule Report</h2>
                      <p className="text-xs font-bold text-slate-500">Automate report deliveries</p>
                   </div>
                 </div>

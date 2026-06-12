@@ -102,7 +102,7 @@ const OfferManagement = () => {
     <div className="space-y-8 pb-12 animate-fade-in relative">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Offer Management</h1>
+          <h1 className="hcm-page-title">Offer Management</h1>
           <p className="text-slate-500 font-medium">Send and track offers for your top-selected candidates</p>
         </div>
         <div className="flex items-center gap-3">
@@ -119,14 +119,14 @@ const OfferManagement = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
-          <motion.div key={idx} whileHover={{ y: -5 }} className="card p-6 bg-white border border-slate-100 shadow-soft">
+          <motion.div key={idx} whileHover={{ y: -5 }} className="card p-6">
             <div className="flex items-center gap-4">
                <div className={cn("p-3 rounded-2xl transition-colors", stat.bg, stat.color)}>
                   <stat.icon size={26} />
                </div>
                <div>
                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">{stat.value}</h3>
+                  <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -216,7 +216,7 @@ const OfferManagement = () => {
              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" />
              <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-screen">
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
-                   <h2 className="text-xl font-extrabold text-slate-900">{editingOffer ? 'Edit Offer' : 'Create Candidate Offer'}</h2>
+                   <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{editingOffer ? 'Edit Offer' : 'Create Candidate Offer'}</h2>
                    <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-xl transition-all">
                       <X size={24} />
                    </button>
@@ -289,7 +289,7 @@ const OfferManagement = () => {
                           <FileText size={22} />
                        </div>
                        <div>
-                          <h2 className="text-lg font-extrabold text-slate-900">Offer_Letter_{previewingOffer.candidate.replace(' ', '_')}.pdf</h2>
+                          <h2 className="text-lg font-extrabold text-slate-900 dark:text-white">Offer_Letter_{previewingOffer.candidate.replace(' ', '_')}.pdf</h2>
                           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Document Preview • {previewingOffer.sentDate || 'Preview'}</p>
                        </div>
                     </div>
@@ -326,7 +326,7 @@ const OfferManagement = () => {
                           </div>
 
                           <div className="py-10 border-y border-slate-100">
-                             <h3 className="text-xl font-bold text-slate-900 mb-6">Subject: Offer of Employment - {previewingOffer.role}</h3>
+                             <h3 className="text-xl font-bold text-slate-900 mb-6 dark:text-white">Subject: Offer of Employment - {previewingOffer.role}</h3>
                              <div className="space-y-4 text-sm leading-relaxed text-slate-600">
                                 <p>Dear {previewingOffer.candidate.split(' ')[0]},</p>
                                 <p>On behalf of GlobalTech.ai, I am thrilled to formally offer you the position of <span className="font-bold text-slate-900">{previewingOffer.role}</span>. Following our recent interviews, we are confident that your expertise and vision will be a tremendous asset to our team.</p>

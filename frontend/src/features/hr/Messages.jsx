@@ -73,7 +73,7 @@ const Messages = () => {
         
         <div className={cn("w-full lg:w-96 flex flex-col border-r border-slate-50 transition-all z-10", selectedChat ? "hidden lg:flex" : "flex")}>
           <div className="p-6 border-b border-slate-50 flex items-center justify-between shrink-0">
-             <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">Messages</h2>
+             <h2 className="text-xl font-extrabold text-slate-900 tracking-tight dark:text-white">Messages</h2>
              <button className="p-2.5 bg-primary-600 text-white rounded-xl shadow-lg shadow-primary-100 hover:bg-primary-700 active:scale-95 transition-all">
                 <SquarePen size={20} />
              </button>
@@ -110,7 +110,7 @@ const Messages = () => {
                    </div>
                    <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-center mb-1">
-                         <h4 className="text-sm font-bold text-slate-900 truncate">{chat.name}</h4>
+                         <h4 className="text-sm font-bold text-slate-900 truncate dark:text-white">{chat.name}</h4>
                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{chat.time}</span>
                       </div>
                       <p className="text-xs font-medium text-slate-500 truncate mb-1">{chat.lastMsg}</p>
@@ -139,7 +139,7 @@ const Messages = () => {
                        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white" />
                     </div>
                     <div>
-                       <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                       <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2 dark:text-white">
                           {conversations.find(c => c.id === selectedChat)?.name}
                           <span className="text-[10px] font-bold px-1.5 py-0.5 bg-primary-50 text-primary-600 rounded-md uppercase tracking-widest">{conversations.find(c => c.id === selectedChat)?.role}</span>
                        </h3>
@@ -199,7 +199,7 @@ const Messages = () => {
                 <div className="w-24 h-24 bg-white rounded-[2rem] border border-slate-100 flex items-center justify-center text-primary-600 shadow-xl mb-8">
                    <MessageSquare size={48} />
                 </div>
-                <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Select a Conversation</h3>
+                <h3 className="text-2xl font-extrabold text-slate-900 mb-2 dark:text-white">Select a Conversation</h3>
                 <p className="text-slate-500 font-medium max-w-sm mb-10">Choose a candidate or team member from the sidebar to start corresponding.</p>
                 <button className="px-8 py-3.5 bg-primary-600 text-white rounded-2xl font-bold hover:bg-primary-700 transition-all shadow-lg active:scale-95 flex items-center gap-2">
                    <SquarePen size={18} />

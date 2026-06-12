@@ -205,13 +205,13 @@ const UserModal = ({ isOpen, onClose, userToEdit = null }) => {
                   {/* Status Indicator */}
                   <span className={cn(
                     "absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm transition-colors",
-                    formData.status === 'Active' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-350'
+                    formData.status === 'Active' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'
                   )} />
                 </div>
 
                 <div>
                   <div className="flex items-center gap-3">
-                    <h2 className="text-xl font-black text-slate-900 tracking-tight leading-none">
+                    <h2 className="text-xl font-black text-slate-900 tracking-tight leading-none dark:text-white">
                       {userToEdit ? 'Edit User Profile' : 'Add Workspace User'}
                     </h2>
                     <span className="text-[10px] font-bold bg-primary-50 text-primary-700 px-2.5 py-0.5 rounded-full border border-primary-100 uppercase tracking-wider hidden xs:inline-block">
@@ -243,8 +243,8 @@ const UserModal = ({ isOpen, onClose, userToEdit = null }) => {
                   <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Status</p>
                   <span className={cn(
                     "inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase mt-1 leading-none",
-                    formData.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
-                    formData.status === 'Pending' ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-slate-100 text-slate-600'
+                    formData.status === 'Active' ? 'hcm-badge hcm-badge-approved border border-emerald-200' :
+                    formData.status === 'Pending' ? 'hcm-badge hcm-badge-pending border border-amber-200' : 'bg-slate-100 text-slate-600'
                   )}>
                     {formData.status}
                   </span>
@@ -307,8 +307,8 @@ const UserModal = ({ isOpen, onClose, userToEdit = null }) => {
                         onChange={handleChange}
                         placeholder="e.g. John Doe" 
                         className={cn(
-                          "w-full h-[48px] px-4 bg-slate-50/30 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 hover:bg-slate-50/60 hover:border-slate-350 transition-all",
-                          errors.name && "border-rose-355 bg-rose-50/50 focus:border-rose-500"
+                          "w-full h-[48px] px-4 bg-slate-50/30 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 hover:bg-slate-50/60 hover:border-slate-300 transition-all",
+                          errors.name && "border-rose-400 bg-rose-50/50 focus:border-rose-500"
                         )} 
                       />
                       {errors.name && <p className="text-[10px] font-bold text-rose-500 mt-1 px-1">{errors.name}</p>}
@@ -324,7 +324,7 @@ const UserModal = ({ isOpen, onClose, userToEdit = null }) => {
                         placeholder="EMP-000" 
                         className={cn(
                           "w-full h-[48px] px-4 bg-slate-50/30 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 uppercase focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 hover:bg-slate-50/60 hover:border-slate-355 transition-all",
-                          errors.empId && "border-rose-355 bg-rose-50/50"
+                          errors.empId && "border-rose-400 bg-rose-50/50"
                         )}
                       />
                       {errors.empId && <p className="text-[10px] font-bold text-rose-500 mt-1 px-1">{errors.empId}</p>}
@@ -341,8 +341,8 @@ const UserModal = ({ isOpen, onClose, userToEdit = null }) => {
                           onChange={handleChange}
                           placeholder="john.doe@org.com" 
                           className={cn(
-                            "w-full h-[48px] pl-12 pr-4 bg-slate-50/30 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 hover:bg-slate-50/60 hover:border-slate-350 transition-all",
-                            errors.email && "border-rose-355 bg-rose-50/50 focus:border-rose-500"
+                            "w-full h-[48px] pl-12 pr-4 bg-slate-50/30 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 hover:bg-slate-50/60 hover:border-slate-300 transition-all",
+                            errors.email && "border-rose-400 bg-rose-50/50 focus:border-rose-500"
                           )}
                         />
                       </div>
@@ -359,7 +359,7 @@ const UserModal = ({ isOpen, onClose, userToEdit = null }) => {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="+1 234 567 890" 
-                          className="w-full h-[48px] pl-12 pr-4 bg-slate-50/30 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 hover:bg-slate-50/60 hover:border-slate-350 transition-all" 
+                          className="w-full h-[48px] pl-12 pr-4 bg-slate-50/30 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 hover:bg-slate-50/60 hover:border-slate-300 transition-all" 
                         />
                       </div>
                     </div>
@@ -646,14 +646,14 @@ const UserModal = ({ isOpen, onClose, userToEdit = null }) => {
                   <button 
                     type="button"
                     onClick={onClose} 
-                    className="px-6 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-550 border border-slate-150 rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-sm"
+                    className="px-6 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-550 border border-slate-200 rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-sm"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
                     disabled={isSaving || isSuccess}
-                    className="px-8 py-2.5 bg-primary-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 active:scale-95 flex items-center justify-center gap-2 min-w-[140px] disabled:bg-slate-150 disabled:text-slate-400 disabled:shadow-none"
+                    className="px-8 py-2.5 bg-primary-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 active:scale-95 flex items-center justify-center gap-2 min-w-[140px] disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none"
                   >
                     {isSaving ? (
                       <>

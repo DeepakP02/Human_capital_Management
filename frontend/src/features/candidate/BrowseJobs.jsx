@@ -164,7 +164,7 @@ const BrowseJobs = () => {
   </select>
   </div>
   </div>
-  <p className="text-[10px] font-medium text-slate-300 dark:text-slate-650 uppercase tracking-[0.3em]">Updated 2 minutes ago</p>
+  <p className="text-[10px] font-medium text-slate-300 dark:text-slate-600 uppercase tracking-[0.3em]">Updated 2 minutes ago</p>
   </div>
   </div>
 
@@ -179,7 +179,7 @@ const BrowseJobs = () => {
   animate={{ opacity: 1, scale: 1 }}
   exit={{ opacity: 0, scale: 0.9 }}
   whileHover={{ y: -8 }}
-  className="group card border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 hover:shadow-premium transition-all duration-500 overflow-hidden relative"
+  className="group card p-8 hover:shadow-premium transition-all duration-500 overflow-hidden relative"
   >
   <div className="absolute top-0 right-0 p-6 transition-opacity">
   <div className="w-24 h-24 bg-primary-50 dark:bg-primary-950/20 rounded-full -mr-12 -mt-12 flex items-center justify-center">
@@ -205,7 +205,7 @@ const BrowseJobs = () => {
   onClick={(e) => { e.stopPropagation(); saveJob(job.id); showToast(savedIndices.includes(job.id) ? 'Position Unsaved' : 'Position Saved to Radar', 'info'); }}
   className={cn(
   "p-3 rounded-2xl transition-all shadow-sm active:scale-90 border",
-  savedIndices.includes(job.id) ? "bg-primary-600 border-primary-600 text-white" : "bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-350 hover:text-primary-600"
+  savedIndices.includes(job.id) ? "bg-primary-600 border-primary-600 text-white" : "bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-450 hover:text-primary-600"
   )}
   >
   {savedIndices.includes(job.id) ? <BookmarkCheck size={22} /> : <Bookmark size={22} />}
@@ -219,7 +219,7 @@ const BrowseJobs = () => {
   { icon: Clock, text: job.type },
   { icon: Users, text: job.department },
   ].map((info, i) => (
-  <div key={i} className="flex items-center gap-3 text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-950/40 p-2.5 rounded-xl border border-slate-50 dark:border-slate-850 group-hover:bg-white dark:group-hover:bg-slate-800 transition-colors">
+  <div key={i} className="flex items-center gap-3 text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-950/40 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 group-hover:bg-white dark:group-hover:bg-slate-800 transition-colors">
   <info.icon size={16} className="text-slate-400 dark:text-slate-500 shrink-0" />
   <span className="text-[10px] font-medium truncate">{info.text}</span>
   </div>
@@ -233,20 +233,20 @@ const BrowseJobs = () => {
   <div className="flex items-center gap-4 relative z-10">
   <button 
   onClick={() => setSelectedJob(job)}
-  className="btn-secondary flex-1 py-4 shadow-sm"
+  className="btn-secondary flex-1 py-3"
   >
   View Details
   </button>
   <button 
   onClick={() => { setSelectedJob(job); setIsApplyModalOpen(true); }}
-  className="btn-primary flex-1 py-4 shadow-xl shadow-primary-200 dark:shadow-none flex items-center justify-center gap-3"
+  className="btn-primary flex-1 py-3 flex items-center justify-center gap-3"
   >
   Apply Now <ArrowRight size={16} />
   </button>
   </div>
   </motion.div>
-  )) : (
-  <div className="col-span-full py-40 flex flex-col items-center justify-center card border-dashed border-2 bg-slate-50/50 dark:bg-slate-950/20 text-slate-350 dark:text-slate-700">
+  )  ) : (
+  <div className="col-span-full py-40 flex flex-col items-center justify-center card border-dashed border-2 bg-slate-50/50 dark:bg-slate-950/20 text-slate-400 dark:text-slate-600">
   <Search size={64} className="mb-6 opacity-40 animate-pulse" />
   <p className="text-xl font-bold text-slate-900 dark:text-white">No Jobs Found</p>
   <p className="text-sm font-medium mt-2">Adjust your filters to find suitable positions</p>
@@ -259,7 +259,7 @@ const BrowseJobs = () => {
   <CenterModal isOpen={!!selectedJob && !isApplyModalOpen} onClose={() => setSelectedJob(null)} title="Job Details">
   {selectedJob && (
   <div className="p-10 space-y-12 text-left bg-white dark:bg-slate-900">
-  <div className="flex items-start gap-8 border-b border-slate-50 dark:border-slate-850 pb-10">
+  <div className="flex items-start gap-8 border-b border-slate-100 dark:border-slate-800 pb-10">
   <div className="w-24 h-24 rounded-[2rem] bg-primary-600 text-white flex items-center justify-center font-bold text-4xl shadow-2xl">
   {selectedJob.company[0]}
   </div>
@@ -289,9 +289,9 @@ const BrowseJobs = () => {
   <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-6">Requirements</h3>
   <div className="grid grid-cols-1 gap-4">
   {selectedJob.requirements.map((req, i) => (
-  <div key={i} className="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850 flex items-center gap-5 group hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg transition-all">
+  <div key={i} className="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 flex items-center gap-5 group hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg transition-all">
   <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-900 flex items-center justify-center text-primary-600 shadow-sm font-medium">{i+1}</div>
-  <p className="text-sm font-medium text-slate-700 dark:text-slate-350">{req}</p>
+  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{req}</p>
   </div>
   ))}
   </div>
@@ -299,7 +299,7 @@ const BrowseJobs = () => {
   </div>
 
   <div className="md:col-span-4 space-y-8">
-  <div className="p-8 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-850 relative overflow-hidden group">
+  <div className="p-8 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
   <div className="absolute -right-5 -top-5 opacity-[0.03] rotate-12 group-hover:scale-125 transition-transform duration-1000">
   <Zap size={150} className="text-slate-900 dark:text-white" />
   </div>
@@ -314,13 +314,13 @@ const BrowseJobs = () => {
   </div>
   <button 
   onClick={() => { setIsApplyModalOpen(true); }}
-  className="btn-primary w-full mt-10 py-4 shadow-xl shadow-primary-200 dark:shadow-none"
+  className="btn-primary w-full mt-10 py-3 shadow-xl shadow-primary-200 dark:shadow-none"
   >
   Apply Now
   </button>
   </div>
   
-  <div className="p-8 bg-slate-50 dark:bg-slate-950 rounded-[2.5rem] border border-slate-100 dark:border-slate-850">
+  <div className="p-8 bg-slate-50 dark:bg-slate-950 rounded-[2.5rem] border border-slate-100 dark:border-slate-800">
   <p className="text-sm font-medium text-slate-400 dark:text-slate-500 mb-4">Hiring Manager</p>
   <div className="flex items-center gap-4">
   <img src="https://i.pravatar.cc/100?img=12" className="w-12 h-12 rounded-xl border-2 border-white dark:border-slate-800 shadow-lg" alt="" />
@@ -340,8 +340,8 @@ const BrowseJobs = () => {
   <CenterModal isOpen={isApplyModalOpen} onClose={() => {setIsApplyModalOpen(false); setSelectedJob(null);}} title="Submit Application">
   {selectedJob && (
   <form onSubmit={handleApplySubmit} className="p-10 space-y-8 text-left bg-white dark:bg-slate-900">
-  <div className="flex items-center gap-6 p-6 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850 rounded-xl text-slate-900 dark:text-white">
-  <div className="w-14 h-14 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center font-bold text-2xl shadow-sm border border-slate-100 dark:border-slate-850">
+  <div className="flex items-center gap-6 p-6 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white">
+  <div className="w-14 h-14 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center font-bold text-2xl shadow-sm border border-slate-100 dark:border-slate-800">
   {selectedJob.company[0]}
   </div>
   <div>
@@ -353,16 +353,16 @@ const BrowseJobs = () => {
 
   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
   <div className="space-y-2">
-  <label className="text-sm font-bold text-slate-900 dark:text-white px-1">Resume</label>
-  <select className="input-field h-14 bg-slate-50 dark:bg-slate-955 border-transparent font-medium appearance-none cursor-pointer">
+  <label className="form-label px-1">Resume</label>
+  <select className="input-field h-12 font-medium appearance-none cursor-pointer">
   <option className="dark:bg-slate-900">Current_Resume_2026.pdf</option>
   <option className="dark:bg-slate-900">Product_Designer_CV.pdf</option>
   <option className="dark:bg-slate-900">Upload New Resume...</option>
   </select>
   </div>
   <div className="space-y-2">
-  <label className="text-sm font-bold text-slate-900 dark:text-white px-1">Availability</label>
-  <select name="availability" className="input-field h-14 bg-slate-50 dark:bg-slate-955 border-transparent font-medium appearance-none cursor-pointer">
+  <label className="form-label px-1">Availability</label>
+  <select name="availability" className="input-field h-12 font-medium appearance-none cursor-pointer">
   <option className="dark:bg-slate-900">Immediate</option>
   <option className="dark:bg-slate-900">2 Weeks Notice</option>
   <option className="dark:bg-slate-900">4 Weeks Notice</option>
@@ -370,25 +370,25 @@ const BrowseJobs = () => {
   </select>
   </div>
   <div className="space-y-2">
-  <label className="text-sm font-bold text-slate-900 dark:text-white px-1">Expected Salary (Annual)</label>
-  <input name="expectedSalary" type="text" placeholder="e.g. $165,000" className="input-field h-14 bg-slate-50 dark:bg-slate-955 border-transparent font-medium text-slate-900 dark:text-white" required />
+  <label className="form-label px-1">Expected Salary (Annual)</label>
+  <input name="expectedSalary" type="text" placeholder="e.g. $165,000" className="input-field h-12 font-medium" required />
   </div>
   <div className="space-y-2">
-  <label className="text-sm font-bold text-slate-900 dark:text-white px-1">Portfolio URL</label>
-  <input type="url" placeholder="https://registry.design/..." className="input-field h-14 bg-slate-50 dark:bg-slate-955 border-transparent font-medium text-slate-900 dark:text-white" />
+  <label className="form-label px-1">Portfolio URL</label>
+  <input type="url" placeholder="https://registry.design/..." className="input-field h-12 font-medium" />
   </div>
   </div>
 
   <div className="space-y-2">
-  <label className="text-sm font-bold text-slate-900 dark:text-white px-1">Cover Letter</label>
-  <textarea name="coverLetter" rows="5" required className="input-field py-5 bg-slate-50 dark:bg-slate-955 border-transparent font-medium resize-none text-slate-900 dark:text-white" placeholder="Tell us why you are a good fit for this role..."></textarea>
+  <label className="form-label px-1">Cover Letter</label>
+  <textarea name="coverLetter" rows="5" required className="input-field py-4 font-medium resize-none" placeholder="Tell us why you are a good fit for this role..."></textarea>
   </div>
 
   <div className="pt-4 flex gap-4">
-  <button type="button" onClick={() => setIsApplyModalOpen(false)} className="btn-secondary flex-1 py-4">Cancel</button>
+  <button type="button" onClick={() => setIsApplyModalOpen(false)} className="btn-secondary flex-1 py-3">Cancel</button>
   <button 
    type="submit"
-   className="btn-primary flex-1 py-4 shadow-xl shadow-primary-200 dark:shadow-none flex items-center justify-center gap-3"
+   className="btn-primary flex-1 py-3 flex items-center justify-center gap-3"
    >
    Submit Application <ArrowRight size={18} />
    </button>

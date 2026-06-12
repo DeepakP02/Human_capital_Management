@@ -40,17 +40,17 @@ const AdminDashboard = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Admin Dashboard</h1>
-          <p className="text-slate-500 font-medium tracking-tight">Master control for organization, workforce and system performance</p>
+          <h1 className="hcm-page-title">Admin Dashboard</h1>
+          <p className="hcm-page-subtitle">Master control for organization, workforce and system performance</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
+          <button className="btn-secondary px-5 py-2.5 flex items-center gap-2">
             <Download size={18} />
             <span className="hidden sm:inline">Export Data</span>
           </button>
           <button 
             onClick={() => setIsAddUserOpen(true)}
-            className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200"
+            className="btn-primary px-6 py-2.5 flex items-center gap-2"
           >
              <Plus size={18} />
              <span>Add User</span>
@@ -64,16 +64,16 @@ const AdminDashboard = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card"
           >
             <div className="flex flex-col gap-4">
                <div className={cn("p-3 rounded-2xl w-fit", stat.bg, stat.color)}>
                   <stat.icon size={22} />
                </div>
                <div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-2">{stat.label}</p>
-                  <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">{stat.value}</h3>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">{stat.trend}</p>
+                  <p className="card-title">{stat.label}</p>
+                  <h3 className="card-value">{stat.value}</h3>
+                  <p className="card-desc">{stat.trend}</p>
                </div>
             </div>
           </motion.div>
@@ -84,14 +84,14 @@ const AdminDashboard = () => {
          {/* Main Content Area */}
          <div className="lg:col-span-8 space-y-8">
             {/* Employee Growth Chart Preview */}
-            <div className="card p-8 bg-white border-none shadow-soft h-[400px] flex flex-col">
+            <div className="card h-[400px] flex flex-col">
                <div className="flex items-center justify-between mb-10">
                   <div>
-                     <h3 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                     <h3 className="hcm-section-heading flex items-center gap-2">
                         <TrendingUp className="text-primary-600" size={24} />
                         Employee Growth Trend
                      </h3>
-                     <p className="text-sm font-medium text-slate-400 tracking-tight">Monthly hiring vs attrition analytics</p>
+                     <p className="hcm-page-subtitle">Monthly hiring vs attrition analytics</p>
                   </div>
                   <select className="input-field h-10 w-32 text-xs font-bold bg-slate-50 border-none">
                      <option>Last 6 Months</option>
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
                   {[20, 45, 30, 80, 55, 90].map((h, i) => (
                      <div key={i} className="flex-1 flex flex-col items-center gap-4 group">
                         <div className="w-full relative flex items-end justify-center">
-                           <div className="w-full max-w-[40px] bg-slate-50 rounded-2xl h-48 relative overflow-hidden">
+                           <div className="w-full max-w-[40px] bg-slate-50 dark:bg-slate-800 rounded-2xl h-48 relative overflow-hidden">
                               <motion.div 
                                 initial={{ height: 0 }}
                                 animate={{ height: `${h}%` }}
@@ -118,8 +118,8 @@ const AdminDashboard = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                {/* Attendance Summary */}
-               <div className="card p-8 bg-white border-none shadow-soft">
-                  <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+               <div className="card">
+                  <h3 className="hcm-section-heading mb-6 flex items-center gap-2">
                      <Target className="text-emerald-500" size={20} />
                      Attendance Summary
                   </h3>
@@ -128,23 +128,23 @@ const AdminDashboard = () => {
                         { label: 'Present Today', val: '94%', color: 'bg-emerald-500' },
                         { label: 'On Leave', val: '4%', color: 'bg-indigo-500' },
                         { label: 'Late/Absent', val: '2%', color: 'bg-rose-500' },
-                     ].map((item, i) => (
+                      ].map((item, i) => (
                         <div key={i} className="space-y-2">
-                           <div className="flex justify-between text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+                           <div className="flex justify-between text-[10px] font-extrabold uppercase tracking-widest text-slate-450">
                               <span>{item.label}</span>
-                              <span className="text-slate-900">{item.val}</span>
+                              <span className="text-slate-900 dark:text-white">{item.val}</span>
                            </div>
-                           <div className="w-full h-1.5 bg-slate-50 rounded-full overflow-hidden">
+                           <div className="w-full h-1.5 bg-slate-50 dark:bg-slate-800 rounded-full overflow-hidden">
                               <div className={cn("h-full rounded-full", item.color)} style={{ width: item.val }} />
                            </div>
                         </div>
-                     ))}
+                      ))}
                   </div>
                </div>
 
                {/* Activity Feed */}
-               <div className="card p-8 bg-white border-none shadow-soft">
-                  <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+               <div className="card">
+                  <h3 className="hcm-section-heading mb-6 flex items-center gap-2">
                      <Activity className="text-amber-500" size={20} />
                      Recent Activities
                   </h3>
@@ -154,11 +154,11 @@ const AdminDashboard = () => {
                         { text: 'New policy added to Compliance', time: '4h ago', icon: ShieldCheck, color: 'text-indigo-500' },
                         { text: 'System backup completed', time: '6h ago', icon: Activity, color: 'text-slate-400' },
                      ].map((activity, i) => (
-                        <div key={i} className="flex gap-4">
-                           <div className={cn("mt-1", activity.color)}><activity.icon size={16} /></div>
+                        <div key={i} className="flex gap-4 text-left">
+                           <div className={cn("mt-1 shrink-0", activity.color)}><activity.icon size={16} /></div>
                            <div>
-                              <p className="text-sm font-bold text-slate-700 leading-snug">{activity.text}</p>
-                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">{activity.time}</p>
+                              <p className="text-sm font-bold text-slate-700 dark:text-slate-200 leading-snug">{activity.text}</p>
+                              <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">{activity.time}</p>
                            </div>
                         </div>
                      ))}
@@ -169,11 +169,11 @@ const AdminDashboard = () => {
 
          {/* Sidebar */}
          <div className="lg:col-span-4 space-y-8">
-            <div className="card p-8 bg-slate-900 text-white border-none shadow-soft relative overflow-hidden group">
+            <div className="card bg-slate-900 text-white border-none relative overflow-hidden group">
                <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform">
                   <Bell size={100} />
                </div>
-               <h3 className="text-xs font-extrabold uppercase tracking-[0.3em] text-primary-400 mb-6">Quick Actions</h3>
+               <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-primary-300 mb-6">Quick Actions</h3>
                <div className="grid grid-cols-2 gap-4">
                   {[
                      { label: 'Run Payroll', icon: DollarSign },
@@ -189,15 +189,15 @@ const AdminDashboard = () => {
                </div>
             </div>
 
-            <div className="card p-8 bg-white border-none shadow-soft">
-               <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <div className="card">
+               <h3 className="hcm-section-heading mb-6 flex items-center gap-2">
                   <BarChart3 className="text-primary-600" size={22} />
                   Organization Score
                </h3>
                <div className="text-center py-6">
                   <div className="relative inline-flex mb-6">
                      <svg className="w-32 h-32 transform -rotate-90">
-                        <circle cx="64" cy="64" r="58" className="stroke-slate-50 fill-none" strokeWidth="10" />
+                        <circle cx="64" cy="64" r="58" className="stroke-slate-50 dark:stroke-slate-800 fill-none" strokeWidth="10" />
                         <motion.circle 
                           cx="64" cy="64" r="58" 
                           className="stroke-primary-600 fill-none" 
@@ -211,11 +211,11 @@ const AdminDashboard = () => {
                         />
                      </svg>
                      <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-3xl font-black text-slate-900 leading-none">88</span>
+                        <span className="text-3xl font-black text-slate-900 dark:text-white leading-none">88</span>
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Perfect</span>
-                     </div>
+                      </div>
                   </div>
-                  <p className="text-sm font-medium text-slate-500 px-4 leading-relaxed tracking-tight">Your organization hygiene score is excellent this month. High compliance and payroll accuracy maintained.</p>
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400 px-4 leading-relaxed tracking-tight">Your organization hygiene score is excellent this month. High compliance and payroll accuracy maintained.</p>
                </div>
             </div>
          </div>

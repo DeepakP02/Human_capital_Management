@@ -77,7 +77,7 @@ const TaxRulesModal = ({ isOpen, onClose }) => {
                   <Calculator size={22} fill="currentColor" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-extrabold text-slate-900 leading-none">
+                  <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">
                     Tax Rules Configuration
                   </h2>
                   <p className="text-[10px] font-bold text-primary-600 uppercase tracking-[0.2em] mt-2 leading-none">
@@ -107,7 +107,7 @@ const TaxRulesModal = ({ isOpen, onClose }) => {
                     {taxRules.map(rule => (
                       <div key={rule.id} className="p-5 border border-slate-100 rounded-2xl flex items-center justify-between hover:border-primary-100 bg-white">
                         <div>
-                          <h4 className="font-bold text-slate-900">{rule.name} <span className="px-2 py-0.5 bg-slate-100 rounded text-[10px] uppercase">{rule.region}</span></h4>
+                          <h4 className="font-bold text-slate-900 dark:text-white">{rule.name} <span className="px-2 py-0.5 bg-slate-100 rounded text-[10px] uppercase">{rule.region}</span></h4>
                           <p className="text-xs text-slate-500 mt-1">{rule.percentage}% • {rule.slabType} • {rule.status}</p>
                         </div>
                         <div className="flex items-center gap-2">

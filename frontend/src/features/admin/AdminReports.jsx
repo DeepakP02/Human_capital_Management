@@ -46,7 +46,7 @@ const AdminReports = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Organization Reports</h1>
+          <h1 className="hcm-page-title">Organization Reports</h1>
           <p className="text-slate-500 font-medium tracking-tight">Generate deep-dive analytics, export historical data and track multi-dept performance</p>
         </div>
         <div className="flex items-center gap-3">
@@ -63,7 +63,7 @@ const AdminReports = () => {
 
       {/* Report Hero Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-         <div className="card p-8 bg-white border border-slate-100 shadow-soft flex flex-col justify-center gap-6">
+         <div className="card p-8 flex flex-col justify-center gap-6">
             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Monthly Data Accuracy</h3>
             <div className="flex items-center gap-6">
                <div className="relative inline-flex">
@@ -126,7 +126,7 @@ const AdminReports = () => {
                      </div>
                      <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{cat.count} Templates</span>
                   </div>
-                  <h4 className="text-xl font-black text-slate-900 mb-2 tracking-tight">{cat.title}</h4>
+                  <h4 className="text-xl font-black text-slate-900 mb-2 tracking-tight dark:text-white">{cat.title}</h4>
                   <p className="text-xs font-medium text-slate-400 leading-relaxed tracking-tight mb-8">Comprehensive datasets and visualizations for organization-wide oversight.</p>
                   <div className="pt-6 border-t border-slate-50 flex items-center justify-between">
                      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary-600">Explore Suite</span>

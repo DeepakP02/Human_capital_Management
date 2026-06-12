@@ -82,7 +82,7 @@ const IntegrationModal = ({ isOpen, onClose, integration }) => {
                         <Terminal size={22} fill="currentColor" />
                      </div>
                      <div>
-                        <h2 className="text-xl font-extrabold text-slate-900 leading-none">{integration ? 'Configure API keys' : 'Connect Integration'}</h2>
+                        <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">{integration ? 'Configure API keys' : 'Connect Integration'}</h2>
                         <p className="text-[10px] font-bold text-primary-600 uppercase tracking-[0.2em] mt-2 leading-none">Webhook & Sync Settings</p>
                      </div>
                   </div>

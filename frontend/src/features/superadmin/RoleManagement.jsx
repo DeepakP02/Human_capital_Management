@@ -106,17 +106,17 @@ const RoleManagement = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="text-left">
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
+          <h1 className="hcm-page-title">
             <Shield className="text-emerald-600" size={32} />
             Roles & Permissions
           </h1>
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
+          <p className="hcm-page-subtitle">
             Define enterprise access permissions, security profiles, and system access levels.
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold flex items-center justify-center gap-2 self-start md:self-auto shadow-lg shadow-emerald-200 dark:shadow-none transition-all"
+          className="btn-primary flex items-center justify-center gap-2 self-start md:self-auto"
         >
           <Plus size={18} />
           <span>Add Custom Role</span>
@@ -124,7 +124,7 @@ const RoleManagement = () => {
       </div>
 
       {/* Control Bar */}
-      <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/60 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div className="card p-4 flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="relative w-full md:max-w-md">
           <Search className="absolute left-4 top-3.5 text-slate-400" size={18} />
           <input
@@ -132,7 +132,7 @@ const RoleManagement = () => {
             placeholder="Search roles by name or description..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 dark:text-slate-100 text-sm"
+            className="input-field pl-12"
           />
         </div>
         <div className="text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-50 dark:bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
@@ -152,7 +152,7 @@ const RoleManagement = () => {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 12 }}
-                  className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800/60 shadow-soft hover:shadow-premium transition-all flex flex-col justify-between group relative text-left"
+                  className="card flex flex-col justify-between group relative text-left"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -164,9 +164,9 @@ const RoleManagement = () => {
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1 leading-snug">{role.name}</h3>
-                    <p className="text-sm font-medium text-slate-450 dark:text-slate-550 leading-relaxed mb-4">
-                      {role.description}
+                    <h3 className="hcm-section-heading mb-1 leading-snug">{role.name}</h3>
+                    <p className="hcm-body-text mb-4">
+                      {role.description || "No description provided."}
                     </p>
 
                     {/* Permissions list chips */}
@@ -216,22 +216,15 @@ const RoleManagement = () => {
       {/* Role Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
-            />
+          <div className="hcm-modal-overlay">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800 text-left"
+              className="hcm-modal"
             >
               <div className="p-6 border-b border-slate-50 dark:border-slate-800/80 flex items-center justify-between">
-                <h3 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2.5">
+                <h3 className="hcm-section-heading flex items-center gap-2.5">
                   <ShieldAlert className="text-emerald-600" size={22} />
                   {editingRole ? 'Edit Security Role' : 'Create Custom Role'}
                 </h3>
@@ -245,20 +238,19 @@ const RoleManagement = () => {
 
               <form onSubmit={handleSubmit} className="p-6 space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Role Name</label>
+                  <label className="form-label">Role Name</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Talent Acquisition"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold"
+                    className="input-field"
                   />
                 </div>
 
-
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Granular System Permissions</label>
+                  <label className="form-label">Granular System Permissions</label>
                   <div className="space-y-4 max-h-64 overflow-y-auto pr-2 border border-slate-100 dark:border-slate-800 p-4 rounded-xl bg-slate-50 dark:bg-slate-950/50">
                     {Array.from(new Set(PERMISSION_OPTIONS.map(p => p.category))).map(category => (
                       <div key={category} className="space-y-2.5">
@@ -275,7 +267,7 @@ const RoleManagement = () => {
                                     isChecked ? prev.filter(p => p !== perm.id) : [...prev, perm.id]
                                   );
                                 }}
-                                className="mt-1 h-4 w-4 rounded border-slate-350 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 dark:bg-slate-800 transition-colors"
+                                className="mt-1 h-4 w-4 rounded border-slate-300 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 dark:bg-slate-800 transition-colors"
                               />
                               <div>
                                 <p className="text-xs font-bold text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
@@ -297,13 +289,13 @@ const RoleManagement = () => {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-2.5 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-sm"
+                    className="btn-secondary flex-1"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-2.5 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition-all text-sm shadow-lg shadow-emerald-200 dark:shadow-none"
+                    className="btn-primary flex-1"
                   >
                     {editingRole ? 'Save Changes' : 'Create Role'}
                   </button>

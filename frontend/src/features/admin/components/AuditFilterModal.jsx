@@ -34,7 +34,7 @@ const AuditFilterModal = ({ isOpen, onClose, filters, setFilters }) => {
                    <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center">
                       <Filter size={20} />
                    </div>
-                   <h2 className="text-xl font-extrabold text-slate-900">Advanced Filters</h2>
+                   <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Advanced Filters</h2>
                 </div>
                 <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400">
                   <X size={20} />

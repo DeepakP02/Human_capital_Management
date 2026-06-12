@@ -121,7 +121,7 @@ const AddPaymentMethodModal = ({ isOpen, onClose, onSuccess }) => {
                   <CreditCard size={22} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-extrabold text-slate-900 leading-none">Add Payment Method</h2>
+                  <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">Add Payment Method</h2>
                   <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Configure credit or debit cards</p>
                 </div>
               </div>
@@ -139,7 +139,7 @@ const AddPaymentMethodModal = ({ isOpen, onClose, onSuccess }) => {
                   {submitStep === 1 ? (
                     <>
                       <Loader2 size={64} className="text-indigo-600 animate-spin mb-6" />
-                      <h3 className="text-lg font-bold text-slate-900 mb-2">Verifying Card Details</h3>
+                      <h3 className="text-lg font-bold text-slate-900 mb-2 dark:text-white">Verifying Card Details</h3>
                       <p className="text-sm font-medium text-slate-500 max-w-xs">Connecting securely to authorization gateway to confirm account status...</p>
                     </>
                   ) : (
@@ -152,7 +152,7 @@ const AddPaymentMethodModal = ({ isOpen, onClose, onSuccess }) => {
                       >
                         <CheckCircle2 size={36} />
                       </motion.div>
-                      <h3 className="text-lg font-bold text-slate-900 mb-2">Authorization Confirmed!</h3>
+                      <h3 className="text-lg font-bold text-slate-900 mb-2 dark:text-white">Authorization Confirmed!</h3>
                       <p className="text-sm font-medium text-slate-500">Your card has been verified and registered as the default method.</p>
                     </>
                   )}

@@ -44,7 +44,7 @@ const AuditArchiveModal = ({ isOpen, onClose }) => {
                   <History size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">Audit Archive</h2>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">Audit Archive</h2>
                   <p className="text-xs font-medium text-slate-500">Generate compliance activity reports</p>
                 </div>
               </div>

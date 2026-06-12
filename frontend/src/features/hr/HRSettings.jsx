@@ -94,7 +94,7 @@ const HRSettings = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Profile Settings</h1>
+          <h1 className="hcm-page-title">Profile Settings</h1>
           <p className="text-slate-500 font-medium tracking-tight">Configure your HR dashboard preferences and security</p>
         </div>
         <div className="flex items-center gap-3">
@@ -112,7 +112,7 @@ const HRSettings = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
          {/* Navigation Tab List */}
          <div className="lg:col-span-3 space-y-4">
-            <div className="card p-4 bg-white border-none shadow-soft min-h-[400px]">
+            <div className="card p-4  min-h-[400px]">
                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6 p-4">Settings Tabs</p>
                <nav className="space-y-2">
                   {menuItems.map((item) => (
@@ -141,12 +141,12 @@ const HRSettings = () => {
          <div className="lg:col-span-9 space-y-8">
             {activeTab === 'general' && (
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                  <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                  <div className="card p-10  space-y-10">
                      <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                         <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
                            <Monitor size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900">General Profile Settings</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">General Profile Settings</h3>
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -196,18 +196,18 @@ const HRSettings = () => {
 
             {activeTab === 'security' && (
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                  <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                  <div className="card p-10  space-y-10">
                      <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                         <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl">
                            <ShieldCheck size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900">Security Settings</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Security Settings</h3>
                      </div>
 
                      <div className="space-y-8">
                         {/* Change Password */}
                         <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100 space-y-6 flex-1">
-                           <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Change Account Password</h4>
+                           <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest dark:text-white">Change Account Password</h4>
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               {['current', 'new', 'confirm'].map((field) => (
                                  <div key={field} className={cn("space-y-2", field === 'current' ? "md:col-span-2" : "")}>
@@ -264,7 +264,7 @@ const HRSettings = () => {
                         {/* Active Sessions */}
                         <div className="pt-8 border-t border-slate-100 space-y-4">
                            <div className="flex items-center justify-between">
-                              <h3 className="text-base font-bold text-slate-900">Active Sessions</h3>
+                              <h3 className="text-base font-bold text-slate-900 dark:text-white">Active Sessions</h3>
                               {activeSessions.length > 1 && (
                                  <button onClick={() => {
                                     setActiveSessions(activeSessions.filter(s => s.lastActive === 'Current Session'));
@@ -300,12 +300,12 @@ const HRSettings = () => {
 
             {activeTab === 'notifications' && (
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                  <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                  <div className="card p-10  space-y-10">
                      <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                         <div className="p-3 bg-amber-50 text-amber-600 rounded-2xl">
                            <Bell size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900">Notification Alerts</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Notification Alerts</h3>
                      </div>
 
                      <div className="space-y-4">
@@ -331,12 +331,12 @@ const HRSettings = () => {
 
             {activeTab === 'preferences' && (
                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                  <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                  <div className="card p-10  space-y-10">
                      <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                         <div className="p-3 bg-slate-100 text-slate-600 rounded-2xl">
                            <SettingsIcon size={24} />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-900">Dashboard Preferences</h3>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">Dashboard Preferences</h3>
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

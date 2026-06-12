@@ -82,7 +82,7 @@ const EmployeeLeave = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Time Off Management</h1>
+          <h1 className="hcm-page-title">Time Off Management</h1>
           <p className="text-slate-500 font-bold tracking-tight">Manage your leave balance, history, and requests</p>
         </div>
         <div className="flex items-center gap-3">
@@ -106,7 +106,7 @@ const EmployeeLeave = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft group"
+            className="card p-6 group"
           >
             <div className="flex items-center justify-between mb-6">
                <div className={cn("p-3 rounded-2xl group-hover:scale-110 transition-transform", bal.bg, bal.color)}>
@@ -118,7 +118,7 @@ const EmployeeLeave = () => {
             </div>
             <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-2">{bal.label}</p>
-              <h3 className="text-3xl font-black text-slate-900 tracking-tight">{bal.value} <span className="text-sm font-bold text-slate-300">Available</span></h3>
+              <h3 className="text-3xl font-black text-slate-900 tracking-tight dark:text-white">{bal.value} <span className="text-sm font-bold text-slate-300">Available</span></h3>
             </div>
             <div className="mt-6 w-full h-2 bg-slate-50 rounded-full overflow-hidden border border-slate-100 p-[1px]">
                <motion.div 
@@ -134,7 +134,7 @@ const EmployeeLeave = () => {
       {/* History Area */}
       <div className="space-y-8">
          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <h3 className="text-2xl font-black text-slate-900 tracking-tight italic">My Leave History</h3>
+            <h3 className="text-2xl font-black text-slate-900 tracking-tight italic dark:text-white">My Leave History</h3>
             <div className="flex items-center gap-3">
                <div className="relative">
                   <Search className="absolute left-3 top-2.5 text-slate-400" size={16} />

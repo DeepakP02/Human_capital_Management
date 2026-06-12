@@ -52,7 +52,7 @@ const AuditLogs = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">System Audit Logs</h1>
+          <h1 className="hcm-page-title">System Audit Logs</h1>
           <p className="text-slate-500 font-medium tracking-tight">Immutable record of all platform activities, administrative changes and security events</p>
         </div>
         <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ const AuditLogs = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
          <div className="lg:col-span-12 space-y-6 h-full">
-            <div className="card p-0 bg-white border border-slate-100 shadow-soft overflow-hidden">
+            <div className="card p-0 overflow-hidden">
                 <div className="p-6 border-b border-slate-50 flex items-center justify-between gap-4">
                   <div className="relative flex-1">
                      <Search className="absolute left-3.5 top-3 text-slate-400" size={16} />

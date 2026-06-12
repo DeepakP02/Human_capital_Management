@@ -45,7 +45,7 @@ const InterviewSchedule = () => {
  {/* Header Section */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-10 rounded-[3.5rem] border border-slate-50 shadow-soft">
  <div>
- <h1 className="text-4xl font-medium text-slate-900 tracking-tight uppercase leading-none mb-2">UPCOMING INTERVIEWS</h1>
+ <h1 className="hcm-page-title uppercase leading-none mb-2">UPCOMING INTERVIEWS</h1>
  <p className="text-slate-400 font-medium tracking-tight uppercase text-sm">Interview Schedule • <span className="text-slate-900 font-medium">Prepare for your next step</span></p>
  </div>
  <div className="flex items-center gap-4">
@@ -83,7 +83,7 @@ const InterviewSchedule = () => {
  </div>
  <div>
  <p className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.2em] leading-none mb-2">{stat.label}</p>
- <h3 className="text-3xl font-medium text-slate-900 tracking-tight">{stat.value}</h3>
+ <h3 className="text-3xl font-medium text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
  </div>
  </div>
  </motion.div>
@@ -171,7 +171,7 @@ const InterviewSchedule = () => {
  <div className="card p-0 border-none bg-white shadow-soft overflow-hidden rounded-[3.5rem]">
  <div className="flex items-center justify-between p-10 border-b border-slate-50 bg-slate-50/20">
  <div>
- <h2 className="text-2xl font-medium text-slate-900 tracking-tight uppercase leading-none mb-2">INTERVIEW LIST</h2>
+ <h2 className="text-2xl font-medium text-slate-900 tracking-tight uppercase leading-none mb-2 dark:text-white">INTERVIEW LIST</h2>
  <p className="text-[10px] font-medium text-slate-400">History of your past and upcoming interviews</p>
  </div>
  </div>
@@ -237,7 +237,7 @@ const InterviewSchedule = () => {
  statusStyles[item.status]
  )}>{item.status}</span>
  </div>
- <h4 className="text-lg font-medium text-slate-900 uppercase tracking-tight mb-2">{item.role}</h4>
+ <h4 className="text-lg font-medium text-slate-900 uppercase tracking-tight mb-2 dark:text-white">{item.role}</h4>
  <p className="text-[10px] font-medium text-primary-600 uppercase tracking-[0.2em] mb-8">{item.company}</p>
  <div className="flex items-center justify-between pt-6 border-t border-slate-50">
  <div className="flex items-center gap-3">
@@ -269,7 +269,7 @@ const InterviewSchedule = () => {
  {selectedInterview.company[0]}
  </div>
  <div className="flex-1">
- <h2 className="text-3xl font-medium text-slate-900 tracking-tight uppercase leading-none">{selectedInterview.role}</h2>
+ <h2 className="text-3xl font-medium text-slate-900 tracking-tight uppercase leading-none dark:text-white">{selectedInterview.role}</h2>
  <p className="text-sm font-medium text-primary-600 mt-3 flex items-center gap-3">
  {selectedInterview.company} • Interview ID: {selectedInterview.id}
  </p>
@@ -354,7 +354,7 @@ const InterviewSchedule = () => {
  <AlertCircle size={40} />
  </div>
  <div>
- <h3 className="text-3xl font-medium text-slate-900 tracking-tight mb-4 uppercase">Confirm Rescheduling</h3>
+ <h3 className="text-3xl font-medium text-slate-900 tracking-tight mb-4 uppercase dark:text-white">Confirm Rescheduling</h3>
  <p className="text-sm font-medium text-slate-400 uppercase tracking-[0.1em] leading-relaxed max-w-sm mx-auto">This will notify <span className="text-slate-900">{selectedInterview?.company}</span> that you would like to reschedule your interview.</p>
  </div>
  <div className="flex gap-4 pt-4">

@@ -53,7 +53,7 @@ const Reports = () => {
     <div className="space-y-8 pb-12 animate-fade-in relative">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Reports & Analytics</h1>
+          <h1 className="hcm-page-title">Reports & Analytics</h1>
           <p className="text-slate-500 font-medium">Deep dive into hiring performance and recruiter efficiency</p>
         </div>
         <div className="flex items-center gap-3">
@@ -72,7 +72,7 @@ const Reports = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
-          <motion.div key={idx} whileHover={{ y: -5 }} className="card p-6 bg-white border border-slate-100 shadow-soft">
+          <motion.div key={idx} whileHover={{ y: -5 }} className="card p-6">
             <div className="flex items-center justify-between mb-4">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
                   <stat.icon size={26} />
@@ -84,7 +84,7 @@ const Reports = () => {
             </div>
             <div>
               <p className="text-sm font-bold text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-              <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">{stat.value}</h3>
+              <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
             </div>
           </motion.div>
         ))}
@@ -95,7 +95,7 @@ const Reports = () => {
             <div className="card p-8 border-none bg-white shadow-soft flex-1 flex flex-col">
                <div className="flex items-center justify-between mb-10 shrink-0">
                   <div className="space-y-1">
-                     <h3 className="text-xl font-bold text-slate-900">Application Performance</h3>
+                     <h3 className="text-xl font-bold text-slate-900 dark:text-white">Application Performance</h3>
                      <p className="text-sm font-medium text-slate-400">Activity comparison over the {dateRange}</p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -128,7 +128,7 @@ const Reports = () => {
 
          <div className="lg:col-span-4 space-y-8 flex flex-col">
             <div className="card p-8 border-none bg-white shadow-soft flex-1">
-               <h3 className="text-lg font-bold text-slate-900 mb-8 flex items-center gap-2">
+               <h3 className="text-lg font-bold text-slate-900 mb-8 flex items-center gap-2 dark:text-white">
                   <PieChart size={18} className="text-primary-600" />
                   Candidate Sources
                </h3>
@@ -163,7 +163,7 @@ const Reports = () => {
 
       <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
          <div className="p-8 border-b border-slate-50 flex items-center justify-between">
-            <h3 className="text-xl font-bold text-slate-900">Recruiter Efficiency Report</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Recruiter Efficiency Report</h3>
             <button className="p-2 text-slate-400 hover:text-slate-900 transition-colors">
                <Download size={20} />
             </button>
@@ -213,7 +213,7 @@ const Reports = () => {
              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsFilterModalOpen(false)} className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" />
              <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-screen">
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
-                   <h2 className="text-xl font-extrabold text-slate-900">Advanced Analytics Filters</h2>
+                   <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Advanced Analytics Filters</h2>
                    <button onClick={() => setIsFilterModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-xl transition-all"><X size={24} /></button>
                 </div>
                 <form onSubmit={applyFilters} className="flex-1 overflow-y-auto">

@@ -101,7 +101,7 @@ const ManagerProfile = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Manager Profile</h1>
+          <h1 className="hcm-page-title">Manager Profile</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Manage your team leadership identity and records</p>
         </div>
         <div className="flex items-center gap-3">
@@ -142,7 +142,7 @@ const ManagerProfile = () => {
                     )}
                  </div>
               </div>
-              <h2 className="text-xl font-extrabold text-slate-900">{profileData.personal.fullName}</h2>
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{profileData.personal.fullName}</h2>
               <span className="mt-2 inline-flex items-center justify-center px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-primary-600 bg-primary-50 rounded border border-primary-100">
                  {profileData.work.role}
               </span>
@@ -330,7 +330,7 @@ const ManagerProfile = () => {
                  {activeTab === 'documents' && (
                     <motion.div key="documents" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
                        <div className="flex items-center justify-between">
-                         <h3 className="text-xl font-bold text-slate-900">Employment Records</h3>
+                         <h3 className="text-xl font-bold text-slate-900 dark:text-white">Employment Records</h3>
                          <button className="btn-secondary px-4 py-2 font-bold text-sm">Upload New</button>
                        </div>
                        <div className="grid grid-cols-1 gap-4">

@@ -327,7 +327,7 @@ const ApplicationForm = () => {
   <item.icon size={18} />
   </div>
   <div>
-  <p className="text-[8px] font-medium uppercase tracking-[0.4em] text-slate-500 dark:text-slate-650 mb-1 leading-none">{item.label}</p>
+  <p className="text-[8px] font-medium uppercase tracking-[0.4em] text-slate-500 dark:text-slate-600 mb-1 leading-none">{item.label}</p>
   <span className="text-sm font-medium text-white">{item.text}</span>
   </div>
   </div>

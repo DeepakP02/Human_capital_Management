@@ -153,13 +153,13 @@ const Users = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">User Management</h1>
-          <p className="text-slate-500 font-medium tracking-tight">Oversee platform access, assign roles and configure workforce identities</p>
+          <h1 className="hcm-page-title">User Management</h1>
+          <p className="hcm-page-subtitle">Oversee platform access, assign roles and configure workforce identities</p>
         </div>
         <div className="flex items-center gap-3">
           <button 
             onClick={handleExport}
-            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all cursor-pointer"
+            className="btn-secondary px-5 py-2.5 flex items-center gap-2 cursor-pointer"
           >
             <Download size={18} />
             <span className="hidden sm:inline">Export CSV</span>
@@ -169,7 +169,7 @@ const Users = () => {
               setUserToEdit(null);
               setIsAddUserOpen(true);
             }}
-            className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200"
+            className="btn-primary px-6 py-2.5 flex items-center gap-2"
           >
              <UserPlus size={18} />
              <span>Add User</span>
@@ -183,15 +183,15 @@ const Users = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card"
           >
             <div className="flex items-center gap-4">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
                   <stat.icon size={26} />
                </div>
                <div>
-                  <p className="text-sm font-bold text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">{stat.value}</h3>
+                  <p className="card-title">{stat.label}</p>
+                  <h3 className="card-value">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -199,7 +199,7 @@ const Users = () => {
       </div>
 
       {/* Control Bar */}
-      <div className="card p-6 border-none bg-white shadow-soft space-y-6">
+      <div className="card space-y-6">
          <div className="flex flex-col lg:flex-row items-center gap-4">
             <div className="relative flex-1 w-full text-slate-400">
                 <Search className="absolute left-3 top-3" size={18} />
@@ -215,7 +215,7 @@ const Users = () => {
                 <select 
                     value={roleFilter}
                     onChange={(e) => setRoleFilter(e.target.value)}
-                    className="input-field h-11 pr-10 min-w-[140px] font-bold text-slate-600 bg-white shadow-sm border-none"
+                    className="input-field h-11 pr-10 min-w-[140px] font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 shadow-sm"
                 >
                     <option>All Roles</option>
                     {roles.map(r => <option key={r.id} value={r.name}>{r.name}</option>)}
@@ -223,7 +223,7 @@ const Users = () => {
                 <select 
                     value={deptFilter}
                     onChange={(e) => setDeptFilter(e.target.value)}
-                    className="input-field h-11 pr-10 min-w-[140px] font-bold text-slate-600 bg-white shadow-sm border-none"
+                    className="input-field h-11 pr-10 min-w-[140px] font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 shadow-sm"
                 >
                     <option>All Depts</option>
                     {departments.map(d => <option key={d.id} value={d.name}>{d.name}</option>)}
@@ -231,7 +231,7 @@ const Users = () => {
                 <select 
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className="input-field h-11 pr-10 min-w-[140px] font-bold text-slate-600 bg-white shadow-sm border-none"
+                    className="input-field h-11 pr-10 min-w-[140px] font-bold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900 shadow-sm"
                 >
                     <option>All Status</option>
                     <option>Active</option>
@@ -249,15 +249,15 @@ const Users = () => {
             <motion.div 
                initial={{ opacity: 0, y: -10 }}
                animate={{ opacity: 1, y: 0 }}
-               className="p-4 bg-primary-50 rounded-2xl border border-primary-100 flex items-center justify-between"
+               className="p-4 bg-primary-50 dark:bg-primary-950/20 rounded-2xl border border-primary-100 dark:border-primary-900/30 flex items-center justify-between"
             >
                <div className="flex items-center gap-4">
-                  <span className="text-xs font-black text-primary-600 uppercase tracking-widest">{selectedUsers.length} Selected</span>
-                  <div className="h-4 w-px bg-primary-200"></div>
+                  <span className="text-xs font-black text-primary-600 dark:text-primary-400 uppercase tracking-widest">{selectedUsers.length} Selected</span>
+                  <div className="h-4 w-px bg-primary-200 dark:bg-primary-800"></div>
                   <div className="flex items-center gap-2">
-                     <button onClick={() => handleBulkAction('activate')} className="p-2 text-primary-600 hover:bg-white rounded-lg transition-all text-[10px] font-bold uppercase tracking-widest">Bulk Activate</button>
-                     <button onClick={() => handleBulkAction('deactivate')} className="p-2 text-amber-600 hover:bg-white rounded-lg transition-all text-[10px] font-bold uppercase tracking-widest">Bulk Deactivate</button>
-                     <button onClick={() => handleBulkAction('delete')} className="p-2 text-rose-600 hover:bg-white rounded-lg transition-all text-[10px] font-bold uppercase tracking-widest">Bulk Delete</button>
+                     <button onClick={() => handleBulkAction('activate')} className="p-2 text-primary-600 dark:text-primary-400 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all text-[10px] font-bold uppercase tracking-widest">Bulk Activate</button>
+                     <button onClick={() => handleBulkAction('deactivate')} className="p-2 text-amber-600 dark:text-amber-400 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all text-[10px] font-bold uppercase tracking-widest">Bulk Deactivate</button>
+                     <button onClick={() => handleBulkAction('delete')} className="p-2 text-rose-600 dark:text-rose-400 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all text-[10px] font-bold uppercase tracking-widest">Bulk Delete</button>
                   </div>
                </div>
                <button onClick={() => setSelectedUsers([])} className="text-primary-400 hover:text-primary-600"><X size={18} /></button>
@@ -266,12 +266,12 @@ const Users = () => {
       </div>
 
       {/* User Table */}
-      <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
+      <div className="hcm-table-container">
          <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full text-left">
-               <thead>
-                  <tr className="bg-slate-50/50">
-                     <th className="px-8 py-5">
+            <table className="hcm-table">
+               <thead className="hcm-thead">
+                  <tr className="hcm-tr bg-slate-50/50 dark:bg-slate-950/40">
+                     <th className="hcm-th px-8 py-5">
                           <input 
                              type="checkbox" 
                              className="w-4 h-4 rounded-md accent-primary-600 cursor-pointer"
@@ -279,17 +279,17 @@ const Users = () => {
                              onChange={handleSelectAll}
                           />
                      </th>
-                     <th className="px-8 py-5 text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em]">Employee Info</th>
-                     <th className="px-8 py-5 text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em]">Role / Dept</th>
-                     <th className="px-8 py-5 text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em] text-center">Last Login</th>
-                     <th className="px-8 py-5 text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em] text-center">Status</th>
-                     <th className="px-8 py-5 text-right text-[10px] uppercase font-bold text-slate-400 tracking-[0.15em]">Action</th>
+                     <th className="hcm-th px-8 py-5">Employee Info</th>
+                     <th className="hcm-th px-8 py-5">Role / Dept</th>
+                     <th className="hcm-th px-8 py-5 text-center">Last Login</th>
+                     <th className="hcm-th px-8 py-5 text-center">Status</th>
+                     <th className="hcm-th px-8 py-5 text-right">Action</th>
                   </tr>
                </thead>
                <tbody className="divide-y divide-slate-50 text-sm">
                   {filteredUsers.length > 0 ? filteredUsers.map((user) => (
-                     <tr key={user.id} className={cn("group hover:bg-slate-50/20 transition-colors", selectedUsers.includes(user.id) && "bg-slate-50/50")}>
-                        <td className="px-8 py-6">
+                     <tr key={user.id} className={cn("hcm-tr", selectedUsers.includes(user.id) && "bg-slate-50/50 dark:bg-slate-800/40")}>
+                        <td className="hcm-td px-8 py-6">
                             <input 
                                 type="checkbox" 
                                 className="w-4 h-4 rounded-md accent-primary-600 cursor-pointer"
@@ -297,23 +297,23 @@ const Users = () => {
                                 onChange={() => handleSelectUser(user.id)}
                             />
                         </td>
-                        <td className="px-8 py-6">
+                        <td className="hcm-td px-8 py-6">
                            <div className="flex items-center gap-4">
                               <img src={user.img} alt={user.name} className="w-10 h-10 rounded-xl object-cover ring-2 ring-white shadow-sm" />
                               <div>
-                                 <p className="font-bold text-slate-900 leading-none">{user.name}</p>
+                                 <p className="font-bold text-slate-900 dark:text-white leading-none">{user.name}</p>
                                  <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">{user.email}</p>
                               </div>
                            </div>
                         </td>
-                        <td className="px-8 py-6">
-                           <p className="font-bold text-slate-700 leading-none">{user.role}</p>
+                        <td className="hcm-td px-8 py-6">
+                           <p className="font-bold text-slate-700 dark:text-slate-200 leading-none">{user.role}</p>
                            <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest leading-none">{user.department}</p>
                         </td>
-                        <td className="px-8 py-6 text-center text-xs font-bold text-slate-600">
+                        <td className="hcm-td px-8 py-6 text-center text-xs font-bold text-slate-600 dark:text-slate-400">
                            {user.lastLogin}
                         </td>
-                        <td className="px-8 py-6 text-center">
+                        <td className="hcm-td px-8 py-6 text-center">
                            <span className={cn(
                               "px-2.5 py-1 rounded-lg text-[9px] font-extrabold uppercase tracking-widest border",
                               user.status === 'Active' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
@@ -323,7 +323,7 @@ const Users = () => {
                               {user.status}
                            </span>
                         </td>
-                        <td className="px-8 py-6 text-right">
+                        <td className="hcm-td px-8 py-6 text-right">
                            <div className="flex justify-end items-center gap-1.5">
                               <button 
                                 onClick={() => setUserToView(user)}
@@ -390,7 +390,7 @@ const Users = () => {
          {/* Mobile Responsive Cards */}
          <div className="block sm:hidden divide-y divide-slate-100 dark:divide-slate-800/50">
             {filteredUsers.length > 0 ? filteredUsers.map((user) => (
-               <div key={user.id} className={cn("p-4 space-y-3 transition-colors", selectedUsers.includes(user.id) && "bg-slate-50/50")}>
+               <div key={user.id} className={cn("p-4 space-y-3 transition-colors", selectedUsers.includes(user.id) && "bg-slate-50/50 dark:bg-slate-800/40")}>
                   <div className="flex items-start justify-between gap-3">
                      <div className="flex items-center gap-3">
                         <input 
@@ -400,8 +400,8 @@ const Users = () => {
                            onChange={() => handleSelectUser(user.id)}
                         />
                         <img src={user.img} alt={user.name} className="w-10 h-10 rounded-xl object-cover ring-2 ring-white shadow-sm shrink-0" />
-                        <div className="min-w-0">
-                           <p className="font-bold text-slate-900 leading-none truncate">{user.name}</p>
+                        <div className="min-w-0 flex-1">
+                           <p className="font-bold text-slate-900 dark:text-white leading-none truncate">{user.name}</p>
                            <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest truncate">{user.email}</p>
                         </div>
                      </div>
@@ -415,7 +415,7 @@ const Users = () => {
                      </span>
                   </div>
                   <div className="flex flex-wrap gap-2 text-xs text-slate-500">
-                     <span className="font-semibold text-slate-700">{user.role}</span>
+                     <span className="font-semibold text-slate-700 dark:text-slate-200">{user.role}</span>
                      <span className="text-slate-300">•</span>
                      <span>{user.department}</span>
                      <span className="text-slate-300">•</span>
@@ -475,42 +475,35 @@ const Users = () => {
       {/* Profile Viewer Drawer */}
       <AnimatePresence>
         {userToView && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setUserToView(null)}
-              className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[150]"
-            />
+          <div className="hcm-modal-overlay">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg max-h-[90vh] bg-white shadow-2xl z-[160] flex flex-col rounded-3xl overflow-hidden"
+              className="hcm-modal max-h-[90vh] flex flex-col overflow-hidden"
             >
-               <div className="p-8 border-b border-slate-100 flex items-center justify-between">
-                  <h3 className="text-xl font-extrabold text-slate-900">User Profile</h3>
+               <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+                  <h3 className="hcm-section-heading">User Profile</h3>
                   <button onClick={() => setUserToView(null)} className="p-2 hover:bg-slate-100 rounded-xl transition-all text-slate-400"><X size={24} /></button>
                </div>
                
-               <div className="flex-1 overflow-y-auto p-8 space-y-10">
+               <div className="flex-1 overflow-y-auto p-6 space-y-8">
                   <div className="flex flex-col items-center text-center">
-                    <img src={userToView.img} className="w-32 h-32 rounded-[2.5rem] object-cover ring-8 ring-slate-50 shadow-xl" alt="" />
-                    <h2 className="text-2xl font-black text-slate-900 mt-6">{userToView.name}</h2>
-                    <p className="text-sm font-bold text-primary-600 uppercase tracking-widest mt-1">{userToView.role}</p>
-                    
-                    <div className="flex flex-wrap justify-center gap-3 mt-8">
-                        <div className="px-4 py-2 bg-slate-50 rounded-2xl flex items-center gap-2 border border-slate-100">
-                            <Mail size={14} className="text-slate-400" />
-                            <span className="text-xs font-bold text-slate-600">{userToView.email}</span>
-                        </div>
-                        <div className="px-4 py-2 bg-slate-50 rounded-2xl flex items-center gap-2 border border-slate-100">
-                            <Phone size={14} className="text-slate-400" />
-                            <span className="text-xs font-bold text-slate-600">{userToView.phone}</span>
-                        </div>
-                    </div>
+                     <img src={userToView.img} className="w-24 h-24 rounded-[2rem] object-cover ring-8 ring-slate-50 dark:ring-slate-800 shadow-xl" alt="" />
+                     <h2 className="text-xl font-black text-slate-900 dark:text-white mt-4">{userToView.name}</h2>
+                     <p className="text-xs font-bold text-primary-600 uppercase tracking-widest mt-1">{userToView.role}</p>
+                     
+                     <div className="flex flex-wrap justify-center gap-3 mt-6">
+                         <div className="px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-2xl flex items-center gap-2 border border-slate-100 dark:border-slate-800">
+                             <Mail size={14} className="text-slate-400" />
+                             <span className="text-xs font-bold text-slate-600 dark:text-slate-300">{userToView.email}</span>
+                         </div>
+                         <div className="px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-2xl flex items-center gap-2 border border-slate-100 dark:border-slate-800">
+                             <Phone size={14} className="text-slate-400" />
+                             <span className="text-xs font-bold text-slate-600 dark:text-slate-300">{userToView.phone}</span>
+                         </div>
+                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
@@ -522,52 +515,52 @@ const Users = () => {
                         { label: 'Manager', val: userToView.manager, icon: UsersIcon },
                         { label: 'Last Login', val: userToView.lastLogin, icon: Activity },
                      ].map((item, i) => (
-                        <div key={i} className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <div key={i} className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 text-left">
                            <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">
                               <item.icon size={12} />
                               {item.label}
                            </div>
-                           <p className="text-sm font-bold text-slate-800">{item.val}</p>
+                           <p className="text-sm font-bold text-slate-850 dark:text-slate-200">{item.val}</p>
                         </div>
                      ))}
                   </div>
 
                   <div className="space-y-4">
-                     <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                     <h4 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-widest flex items-center gap-2 text-left">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
                         Recent Activity Timeline
                      </h4>
-                     <div className="space-y-6 pl-2 border-l border-slate-100 ml-1">
+                     <div className="space-y-6 pl-2 border-l border-slate-100 dark:border-slate-800 ml-1 text-left">
                         {[
                            { text: 'Profile updated by Admin', time: '2h ago' },
                            { text: 'Logged in from New Device (San Jose, CA)', time: 'Yesterday, 10:45 AM' },
                            { text: 'Department assigned: Engineering', time: 'Oct 12, 2024' },
                         ].map((act, i) => (
                            <div key={i} className="relative pl-6">
-                              <div className="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-slate-200 ring-4 ring-white"></div>
-                              <p className="text-sm font-bold text-slate-700">{act.text}</p>
-                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">{act.time}</p>
+                              <div className="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700 ring-4 ring-white dark:ring-slate-900"></div>
+                              <p className="text-sm font-bold text-slate-755 dark:text-slate-300">{act.text}</p>
+                              <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">{act.time}</p>
                            </div>
                         ))}
                      </div>
                   </div>
                </div>
                
-               <div className="p-8 border-t border-slate-100 bg-slate-50 flex gap-3">
+               <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex gap-3">
                   <button 
                     onClick={() => {
                         setUserToEdit(userToView);
                         setUserToView(null);
                         setIsAddUserOpen(true);
                     }}
-                    className="flex-1 py-4 bg-primary-600 text-white rounded-2xl font-bold shadow-lg shadow-primary-200"
+                    className="flex-1 btn-primary py-3"
                   >
                     Edit Profile
                   </button>
-                  <button className="px-6 py-4 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold"><MoreVertical size={20} /></button>
+                  <button className="btn-secondary px-6 py-3"><MoreVertical size={20} /></button>
                </div>
             </motion.div>
-          </>
+          </div>
         )}
       </AnimatePresence>
 

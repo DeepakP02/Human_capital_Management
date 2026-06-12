@@ -185,7 +185,7 @@ const GlobalAnalytics = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <Cpu size={18} className="text-violet-600 animate-spin" style={{ animationDuration: '6s' }} />
-              <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
+              <h2 className="hcm-section-heading">
                 Live Server Cluster Load
               </h2>
             </div>
@@ -264,7 +264,7 @@ const GlobalAnalytics = () => {
           <div>
             <div className="flex items-center gap-2 mb-6">
               <Globe size={18} className="text-emerald-500 animate-pulse" />
-              <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
+              <h2 className="hcm-section-heading">
                 Global Edge Regions
               </h2>
             </div>
@@ -316,7 +316,7 @@ const GlobalAnalytics = () => {
           className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/60 p-6 shadow-soft"
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight flex items-center gap-2">
+            <h3 className="hcm-section-heading flex items-center gap-2">
               <Activity size={18} className="text-indigo-600" />
               Ecosystem Module Utilization
             </h3>
@@ -352,7 +352,7 @@ const GlobalAnalytics = () => {
           className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/60 p-6 shadow-soft"
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight flex items-center gap-2">
+            <h3 className="hcm-section-heading flex items-center gap-2">
               <Users size={18} className="text-emerald-500" />
               API Key & System Audits
             </h3>

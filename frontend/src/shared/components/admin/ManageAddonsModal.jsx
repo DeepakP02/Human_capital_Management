@@ -54,7 +54,7 @@ const ManageAddonsModal = ({ isOpen, onClose }) => {
                   <Zap size={24} fill="currentColor" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-extrabold text-slate-900">Manage Add-ons</h2>
+                  <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Manage Add-ons</h2>
                   <p className="text-xs font-bold text-slate-500">Supercharge your workspace</p>
                 </div>
               </div>
@@ -69,7 +69,7 @@ const ManageAddonsModal = ({ isOpen, onClose }) => {
                  return (
                    <div key={addon.name} className={cn("p-5 border-2 rounded-2xl transition-all flex items-center justify-between gap-4 cursor-pointer", isEnabled ? "border-indigo-600 bg-indigo-50/10" : "border-slate-100 bg-white hover:border-slate-200")} onClick={() => handleToggle(addon.name)}>
                       <div className="flex-1 min-w-0">
-                         <h4 className="font-bold text-slate-900 mb-1 break-words">{addon.name} <span className="inline-block text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md ml-1">+${addon.price}/mo</span></h4>
+                         <h4 className="font-bold text-slate-900 mb-1 break-words dark:text-white">{addon.name} <span className="inline-block text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md ml-1">+${addon.price}/mo</span></h4>
                          <p className="text-xs text-slate-500 font-medium leading-relaxed">{addon.desc}</p>
                       </div>
                       <div className={cn("w-12 h-6 rounded-full relative p-1 transition-colors shrink-0", isEnabled ? "bg-indigo-600" : "bg-slate-300")}>

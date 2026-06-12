@@ -63,7 +63,7 @@ const Integrations = () => {
          {/* Header */}
          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-               <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">System Integrations</h1>
+               <h1 className="hcm-page-title">System Integrations</h1>
                <p className="text-slate-500 font-medium tracking-tight">Connect third-party tools, manage API credentials and monitor realtime data sync</p>
             </div>
             <div className="flex items-center gap-3">
@@ -94,14 +94,14 @@ const Integrations = () => {
                   </div>
                </div>
             </div>
-            <div className="md:col-span-2 card p-8 bg-white border border-slate-100 shadow-soft flex flex-col justify-center">
+            <div className="md:col-span-2 card p-8 flex flex-col justify-center">
                <div className="flex items-center gap-6">
                   <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl">
                      <RefreshCw size={28} className="animate-spin-slow" />
                   </div>
                   <div className="flex-1">
                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Global Data Sync Rate</h4>
+                        <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest dark:text-white">Global Data Sync Rate</h4>
                         <span className="text-xs font-black text-indigo-600 tracking-tight">8.4 GB/hr</span>
                      </div>
                      <div className="w-full h-2 bg-slate-50 rounded-full overflow-hidden">
@@ -155,7 +155,7 @@ const Integrations = () => {
                            </div>
                         </div>
                         <div className="flex-1">
-                           <h4 className="text-lg font-extrabold text-slate-900 mb-1">{tool.name}</h4>
+                           <h4 className="text-lg font-extrabold text-slate-900 mb-1 dark:text-white">{tool.name}</h4>
                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{tool.category}</p>
                            {tool.status === 'Connected' && <p className="text-xs text-slate-500 font-medium mt-3 border-t border-slate-50 pt-3">Health: <span className="font-bold text-emerald-600">{tool.health}</span></p>}
                         </div>

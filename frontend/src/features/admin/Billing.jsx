@@ -59,7 +59,7 @@ const Billing = () => {
          {/* Header */}
          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-               <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Billing & Subscriptions</h1>
+               <h1 className="hcm-page-title">Billing & Subscriptions</h1>
                <p className="text-slate-500 font-medium tracking-tight">Manage your enterprise plan, payment methods and historical tax invoices</p>
             </div>
             <div className="flex items-center gap-3">
@@ -109,9 +109,9 @@ const Billing = () => {
                   </div>
                </div>
 
-               <div className="card p-8 bg-white border border-slate-100 shadow-soft">
+               <div className="card p-8">
                   <div className="flex items-center justify-between mb-8">
-                     <h3 className="text-lg font-bold text-slate-900 tracking-tight">Payment Method</h3>
+                     <h3 className="text-lg font-bold text-slate-900 tracking-tight dark:text-white">Payment Method</h3>
                      <button onClick={() => setIsAddPaymentOpen(true)} className="p-2 text-primary-600 hover:bg-primary-50 active:scale-[0.9] rounded-xl transition-all"><Plus size={20} /></button>
                   </div>
                   <div className="p-6 bg-slate-900/5 border border-slate-100 rounded-3xl flex items-center gap-5">
@@ -133,10 +133,10 @@ const Billing = () => {
 
             {/* Invoice Registry */}
             <div className="lg:col-span-8 space-y-6">
-               <div className="card p-8 bg-white border border-slate-100 shadow-soft">
+               <div className="card p-8">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
                      <div>
-                        <h3 className="text-xl font-bold text-slate-900 tracking-tight">Billing History</h3>
+                        <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Billing History</h3>
                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Transaction record for tax compliance</p>
                      </div>
                      <div className="relative w-full lg:w-72">
@@ -204,7 +204,7 @@ const Billing = () => {
                         <Info size={24} />
                      </div>
                      <div>
-                        <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-1">Billing Support</h4>
+                        <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-1 dark:text-white">Billing Support</h4>
                         <p className="text-xs font-medium text-slate-500 tracking-tight">Need a custom PO or tax-exemption? Contact our billing desk.</p>
                      </div>
                   </div>

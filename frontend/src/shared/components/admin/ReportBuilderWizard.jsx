@@ -59,7 +59,7 @@ const ReportBuilderWizard = ({ isOpen, onClose, initialCategory = null }) => {
                     <BarChart3 size={24} />
                  </div>
                  <div>
-                    <h2 className="text-xl font-extrabold text-slate-900 leading-none">Report Builder</h2>
+                    <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">Report Builder</h2>
                     <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Custom Analytics Engine</p>
                  </div>
               </div>
@@ -81,7 +81,7 @@ const ReportBuilderWizard = ({ isOpen, onClose, initialCategory = null }) => {
             <div className="flex-1 overflow-y-auto p-10 bg-slate-50/30">
                {currentStep === 0 && (
                  <div className="space-y-6 animate-fade-in">
-                    <h3 className="font-extrabold text-slate-900">Which datasets should be included?</h3>
+                    <h3 className="font-extrabold text-slate-900 dark:text-white">Which datasets should be included?</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                        {modules.map(mod => (
                           <div key={mod} onClick={() => toggleModule(mod)} className={cn("p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between", selectedModules.includes(mod) ? "border-indigo-600 bg-indigo-50/20" : "border-slate-100 bg-white hover:border-slate-200")}>
@@ -97,7 +97,7 @@ const ReportBuilderWizard = ({ isOpen, onClose, initialCategory = null }) => {
 
                {currentStep === 1 && (
                  <div className="space-y-6 animate-fade-in">
-                    <h3 className="font-extrabold text-slate-900">Select visualization format</h3>
+                    <h3 className="font-extrabold text-slate-900 dark:text-white">Select visualization format</h3>
                     <div className="space-y-4">
                        {['Charts & Tables', 'Summary Only', 'Raw Data (CSV format)'].map(vis => (
                           <div key={vis} onClick={() => setVisuals(vis)} className={cn("p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-center gap-4", visuals === vis ? "border-indigo-600 bg-indigo-50/20" : "border-slate-100 bg-white hover:border-slate-200")}>
@@ -115,7 +115,7 @@ const ReportBuilderWizard = ({ isOpen, onClose, initialCategory = null }) => {
                  <div className="space-y-8 animate-fade-in flex flex-col items-center justify-center min-h-[300px]">
                     {status === 'idle' && (
                        <div className="text-center max-w-sm">
-                          <h3 className="text-2xl font-black text-slate-900 mb-2">Ready to compile</h3>
+                          <h3 className="text-2xl font-black text-slate-900 mb-2 dark:text-white">Ready to compile</h3>
                           <p className="text-sm font-medium text-slate-500 mb-8">Selected {selectedModules.length} module(s) to render with {visuals}.</p>
                           <button onClick={handleRun} className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 shadow-xl w-full">Compile & Generate</button>
                        </div>
@@ -123,7 +123,7 @@ const ReportBuilderWizard = ({ isOpen, onClose, initialCategory = null }) => {
                     {status === 'generating' && (
                        <div className="text-center">
                           <div className="w-16 h-16 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin mx-auto mb-6" />
-                          <h3 className="text-lg font-bold text-slate-900">Aggregating Data...</h3>
+                          <h3 className="text-lg font-bold text-slate-900 dark:text-white">Aggregating Data...</h3>
                           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">{selectedModules.join(', ')}</p>
                        </div>
                     )}
@@ -133,7 +133,7 @@ const ReportBuilderWizard = ({ isOpen, onClose, initialCategory = null }) => {
                              <CheckCircle2 size={40} />
                           </div>
                           <div>
-                             <h3 className="text-2xl font-black text-slate-900">Custom Report Ready</h3>
+                             <h3 className="text-2xl font-black text-slate-900 dark:text-white">Custom Report Ready</h3>
                              <p className="text-sm font-medium text-slate-500 mt-2">Available in your downloads.</p>
                           </div>
                           <button onClick={onClose} className="px-8 py-3.5 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-2 mx-auto"><Download size={18} /> Download Now</button>

@@ -41,21 +41,21 @@ const Candidates = () => {
   const [previewingResume, setPreviewingResume] = useState(null);
 
   const stats = [
-    { label: 'Total Candidates', value: candidates.length, icon: FileText, bg: 'bg-blue-50', color: 'text-blue-600' },
-    { label: 'Shortlisted', value: candidates.filter(c=>c.stage==='Shortlisted').length, icon: CheckCircle2, bg: 'bg-emerald-50', color: 'text-emerald-600' },
-    { label: 'Interviewing', value: candidates.filter(c=>c.stage==='Interview').length, icon: Clock, bg: 'bg-amber-50', color: 'text-amber-600' },
-    { label: 'Hired', value: candidates.filter(c=>c.stage==='Hired').length, icon: Briefcase, bg: 'bg-indigo-50', color: 'text-indigo-600' },
+    { label: 'Total Candidates', value: candidates.length, icon: FileText, bg: 'bg-blue-50 dark:bg-blue-950/20', color: 'text-blue-600 dark:text-blue-450' },
+    { label: 'Shortlisted', value: candidates.filter(c=>c.stage==='Shortlisted').length, icon: CheckCircle2, bg: 'bg-emerald-50 dark:bg-emerald-950/20', color: 'text-emerald-600 dark:text-emerald-450' },
+    { label: 'Interviewing', value: candidates.filter(c=>c.stage==='Interview').length, icon: Clock, bg: 'bg-amber-50 dark:bg-amber-950/20', color: 'text-amber-600 dark:text-amber-400' },
+    { label: 'Hires', value: candidates.filter(c=>c.stage==='Hired').length, icon: Briefcase, bg: 'bg-indigo-50 dark:bg-indigo-950/20', color: 'text-indigo-600 dark:text-indigo-400' },
   ];
 
   const getStatusStyle = (status) => {
     switch (status) {
-      case 'Shortlisted': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
-      case 'Interview': return 'bg-purple-50 text-purple-600 border-purple-100';
-      case 'Screening': return 'bg-amber-50 text-amber-600 border-amber-100';
-      case 'Offer': return 'bg-blue-50 text-blue-600 border-blue-100';
-      case 'Hired': return 'bg-indigo-50 text-indigo-600 border-indigo-100';
-      case 'Rejected': return 'bg-rose-50 text-rose-500 border-rose-100';
-      default: return 'bg-slate-100 text-slate-500 border-slate-200';
+      case 'Shortlisted': return 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-450 border-emerald-100 dark:border-emerald-900/30';
+      case 'Interview': return 'bg-purple-50 dark:bg-purple-950/20 text-purple-600 dark:text-purple-400 border-purple-100 dark:border-purple-900/30';
+      case 'Screening': return 'bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900/30';
+      case 'Offer': return 'bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/30';
+      case 'Hired': return 'bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 border-indigo-100 dark:border-indigo-900/30';
+      case 'Rejected': return 'bg-rose-50 dark:bg-rose-950/20 text-rose-500 dark:text-rose-455 border-rose-100 dark:border-rose-900/30';
+      default: return 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700';
     }
   };
 
@@ -115,15 +115,15 @@ const Candidates = () => {
     <div className="space-y-8 pb-12 animate-fade-in relative">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Candidates</h1>
-          <p className="text-slate-500 font-medium">Review applicants and move top talent through the pipeline</p>
+          <h1 className="hcm-page-title">Candidates</h1>
+          <p className="hcm-page-subtitle">Review applicants and move top talent through the pipeline</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={() => showToast('Database exported as CSV')} className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2">
+          <button onClick={() => showToast('Database exported as CSV')} className="btn-secondary flex items-center gap-2">
             <Download size={18} />
             <span className="hidden sm:inline">Bulk Export</span>
           </button>
-          <button onClick={handleOpenCreate} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
+          <button onClick={handleOpenCreate} className="btn-primary flex items-center gap-2 shadow-lg shadow-primary-500/20">
              <Plus size={18} />
              <span>Add Candidate</span>
           </button>
@@ -132,32 +132,32 @@ const Candidates = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
-          <motion.div key={idx} whileHover={{ y: -5 }} className="card p-6 bg-white border border-slate-100 shadow-soft">
+          <motion.div key={idx} whileHover={{ y: -5 }} className="card">
             <div className="flex items-center gap-4">
                <div className={cn("p-3 rounded-2xl transition-colors", stat.bg, stat.color)}>
                   <stat.icon size={26} />
                </div>
                <div>
-                  <p className="text-sm font-bold text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">{stat.value}</h3>
+                  <p className="card-title mb-1.5">{stat.label}</p>
+                  <h3 className="card-value">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
         ))}
       </div>
 
-      <div className="card p-6 border-none bg-white shadow-soft flex flex-col lg:flex-row items-center gap-4 overflow-visible">
-        <div className="relative flex-1 w-full">
-          <Search className="absolute left-3 top-3 text-slate-400" size={18} />
+      <div className="card flex flex-col lg:flex-row items-center gap-4 overflow-visible bg-white dark:bg-slate-900">
+        <div className="relative flex-1 w-full text-slate-400 dark:text-slate-500">
+          <Search className="absolute left-3 top-3" size={18} />
           <input type="text" placeholder="Search by name, email, or role..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="input-field pl-10 h-11" />
         </div>
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-          <select value={filteredMatch} onChange={e => setFilteredMatch(e.target.value)} className="input-field h-11 appearance-none pr-10 w-full sm:w-48 font-bold text-slate-600">
+          <select value={filteredMatch} onChange={e => setFilteredMatch(e.target.value)} className="input-field h-11 appearance-none pr-10 w-full sm:w-48 font-bold text-slate-600 dark:text-slate-300">
             <option value="">AI Match Range</option>
             <option value="90">90% +</option>
             <option value="75">75% - 90%</option>
           </select>
-          <select value={filteredStatus} onChange={e => setFilteredStatus(e.target.value)} className="input-field h-11 appearance-none pr-10 w-full sm:w-40 font-bold text-slate-600">
+          <select value={filteredStatus} onChange={e => setFilteredStatus(e.target.value)} className="input-field h-11 appearance-none pr-10 w-full sm:w-40 font-bold text-slate-600 dark:text-slate-300">
             <option value="">All Statuses</option>
             <option value="Shortlisted">Shortlisted</option>
             <option value="Interview">Interview</option>
@@ -166,76 +166,76 @@ const Candidates = () => {
             <option value="Hired">Hired</option>
             <option value="Rejected">Rejected</option>
           </select>
-          <button onClick={() => { setSearchTerm(''); setFilteredMatch(''); setFilteredStatus(''); }} className="p-2.5 text-slate-400 hover:text-primary-600 hover:bg-slate-50 border border-slate-100 rounded-xl transition-all h-11 w-11 flex items-center justify-center shrink-0">
+          <button onClick={() => { setSearchTerm(''); setFilteredMatch(''); setFilteredStatus(''); }} className="p-2.5 text-slate-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-100 dark:border-slate-800 rounded-xl transition-all h-11 w-11 flex items-center justify-center shrink-0 bg-white dark:bg-slate-900">
             <RotateCcw size={18} />
           </button>
         </div>
       </div>
 
-      <div className="card p-0 border-none bg-white shadow-soft overflow-hidden min-h-[400px]">
+      <div className="hcm-table-container min-h-[400px]">
         {filteredCandidates.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-slate-400">
+          <div className="hcm-empty-state py-20 text-slate-400 dark:text-slate-500">
             <Users size={48} className="mb-4 opacity-50" />
-            <h3 className="text-xl font-bold text-slate-700">No candidates found</h3>
+            <h3 className="text-xl font-bold text-slate-700 dark:text-white">No candidates found</h3>
             <p className="mt-2 text-sm font-medium">Try adjusting your filters or add a new candidate.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-slate-50/50">
-                  <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Candidate Info</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Role Applied</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">AI Match</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Stage</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Resume</th>
-                  <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
+            <table className="hcm-table">
+              <thead className="hcm-thead">
+                <tr>
+                  <th className="hcm-th">Candidate Info</th>
+                  <th className="hcm-th">Role Applied</th>
+                  <th className="hcm-th text-center">AI Match</th>
+                  <th className="hcm-th">Stage</th>
+                  <th className="hcm-th">Resume</th>
+                  <th className="hcm-th text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {filteredCandidates.map((cand) => (
-                  <tr key={cand.id} className="group hover:bg-slate-50/10 transition-colors">
-                    <td className="px-6 py-5 cursor-pointer" onClick={() => setSelectedCandidate(cand)}>
+                  <tr key={cand.id} className="hcm-tr">
+                    <td className="hcm-td cursor-pointer" onClick={() => setSelectedCandidate(cand)}>
                       <div className="flex items-center gap-4">
-                        <img src={cand.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random`} alt={cand.name} className="w-10 h-10 rounded-xl object-cover ring-2 ring-white shadow-sm" />
+                        <img src={cand.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(cand.name)}&background=random`} alt={cand.name} className="w-10 h-10 rounded-xl object-cover ring-2 ring-white dark:ring-slate-800 shadow-sm" />
                         <div>
-                          <p className="text-sm font-bold text-slate-900 leading-none group-hover:text-primary-600 transition-colors">{cand.name}</p>
-                          <p className="text-[10px] font-bold text-slate-400 mt-1.5">{cand.email}</p>
+                          <p className="text-sm font-bold text-slate-900 dark:text-white leading-none group-hover:text-primary-600 transition-colors">{cand.name}</p>
+                          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1.5">{cand.email}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-5 cursor-pointer" onClick={() => setSelectedCandidate(cand)}>
+                    <td className="hcm-td cursor-pointer" onClick={() => setSelectedCandidate(cand)}>
                       <div className="space-y-1">
-                        <p className="text-sm font-bold text-slate-700">{cand.role}</p>
-                        <p className="text-xs font-medium text-slate-400">{cand.exp || 'Entry'} Exp</p>
+                        <p className="text-sm font-bold text-slate-700 dark:text-slate-300">{cand.role}</p>
+                        <p className="text-xs font-medium text-slate-400 dark:text-slate-500">{cand.exp || 'Entry'} Exp</p>
                       </div>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="hcm-td">
                       <div className="flex flex-col items-center gap-1.5">
-                         <span className={cn("text-[10px] font-extrabold uppercase tracking-widest", cand.match > 90 ? "text-emerald-500" : cand.match >= 75 ? "text-primary-500" : "text-amber-500")}>
+                         <span className={cn("text-[10px] font-extrabold uppercase tracking-widest", cand.match > 90 ? "text-emerald-500 dark:text-emerald-450" : cand.match >= 75 ? "text-primary-500 dark:text-primary-400" : "text-amber-500 dark:text-amber-450")}>
                            {cand.match}% Match
                          </span>
-                         <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden shadow-inner">
-                            <div className={cn("h-full rounded-full transition-all", cand.match > 90 ? "bg-emerald-500" : cand.match >= 75 ? "bg-primary-500" : "bg-amber-500")} style={{ width: `${cand.match}%` }} />
+                         <div className="w-20 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner">
+                            <div className={cn("h-full rounded-full transition-all", cand.match > 90 ? "bg-emerald-50 dark:bg-emerald-400" : cand.match >= 75 ? "bg-primary-500 dark:bg-primary-400" : "bg-amber-500 dark:bg-amber-400")} style={{ width: `${cand.match}%` }} />
                          </div>
                       </div>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="hcm-td">
                       <span className={cn("px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border", getStatusStyle(cand.stage))}>
                         {cand.stage}
                       </span>
                     </td>
-                    <td className="px-6 py-5">
-                      <button onClick={() => setPreviewingResume(cand)} className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all flex items-center gap-2">
+                    <td className="hcm-td">
+                      <button onClick={() => setPreviewingResume(cand)} className="p-2 text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-slate-800 rounded-lg transition-all flex items-center gap-2">
                          <FileText size={18} />
                          <span className="text-xs font-bold hidden xl:inline">View</span>
                       </button>
                     </td>
-                    <td className="px-6 py-5 text-right">
+                    <td className="hcm-td text-right">
                       <div className="flex justify-end gap-1">
-                        <button onClick={() => setSelectedCandidate(cand)} className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all" title="View Details"><Eye size={18} /></button>
-                        <button onClick={() => navigate('/hr/interviews', { state: { openCreate: true, candidate: cand.name } })} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" title="Schedule Interview"><Calendar size={18} /></button>
-                        <button onClick={() => deleteCandidate(cand.id)} className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all" title="Delete Candidate"><Trash2 size={18} /></button>
+                        <button onClick={() => setSelectedCandidate(cand)} className="p-2 text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-slate-800 rounded-lg transition-all" title="View Details"><Eye size={18} /></button>
+                        <button onClick={() => navigate('/hr/interviews', { state: { openCreate: true, candidate: cand.name } })} className="p-2 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800 rounded-lg transition-all" title="Schedule Interview"><Calendar size={18} /></button>
+                        <button onClick={() => deleteCandidate(cand.id)} className="p-2 text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 rounded-lg transition-all" title="Delete Candidate"><Trash2 size={18} /></button>
                       </div>
                     </td>
                   </tr>
@@ -249,111 +249,111 @@ const Candidates = () => {
       <AnimatePresence>
         {selectedCandidate && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedCandidate(null)} className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedCandidate(null)} className="hcm-modal-overlay" />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              className="relative w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
-               <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
+               <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 shrink-0">
                   <div className="flex items-center gap-4">
-                     <img src={selectedCandidate.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedCandidate.name)}&background=random`} alt={selectedCandidate.name} className="w-12 h-12 rounded-2xl object-cover ring-4 ring-white shadow-xl" />
+                     <img src={selectedCandidate.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(selectedCandidate.name)}&background=random`} alt={selectedCandidate.name} className="w-12 h-12 rounded-2xl object-cover ring-4 ring-white dark:ring-slate-800 shadow-xl" />
                      <div>
-                        <h2 className="text-xl font-extrabold text-slate-900 leading-none">{selectedCandidate.name}</h2>
-                        <p className="text-sm font-bold text-primary-600 mt-1">{selectedCandidate.role}</p>
+                        <h2 className="text-xl font-extrabold text-slate-900 dark:text-white leading-none">{selectedCandidate.name}</h2>
+                        <p className="text-sm font-bold text-primary-600 dark:text-primary-400 mt-1">{selectedCandidate.role}</p>
                      </div>
                   </div>
                   <div className="flex items-center gap-2">
-                     <button onClick={() => handleOpenEdit(selectedCandidate)} className="p-2 text-slate-400 hover:bg-slate-100 rounded-xl transition-all" title="Edit">
+                     <button onClick={() => handleOpenEdit(selectedCandidate)} className="p-2 text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all" title="Edit">
                         <MoreVertical size={20} />
                      </button>
-                     <button onClick={() => setSelectedCandidate(null)} className="p-2 hover:bg-slate-100 rounded-xl transition-all">
+                     <button onClick={() => setSelectedCandidate(null)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all text-slate-400 dark:text-slate-500">
                         <X size={24} />
                      </button>
                   </div>
                </div>
 
-               <div className="flex-1 overflow-y-auto p-8 space-y-10">
+               <div className="flex-1 overflow-y-auto p-8 space-y-10 bg-white dark:bg-slate-900">
                   <div className="grid grid-cols-2 gap-6">
-                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">AI Match Score</p>
+                     <div className="p-4 bg-slate-50 dark:bg-slate-800/30 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">AI Match Score</p>
                         <div className="flex items-end gap-2">
-                           <span className={cn("text-3xl font-extrabold", selectedCandidate.match > 90 ? "text-emerald-600" : "text-primary-600")}>{selectedCandidate.match}%</span>
-                           {selectedCandidate.match > 90 && <span className="text-xs font-bold text-emerald-500 mb-1 flex items-center gap-0.5"><Sparkles size={12} /> Elite Match</span>}
+                           <span className={cn("text-3xl font-extrabold", selectedCandidate.match > 90 ? "text-emerald-600 dark:text-emerald-450" : "text-primary-600 dark:text-primary-400")}>{selectedCandidate.match}%</span>
+                           {selectedCandidate.match > 90 && <span className="text-xs font-bold text-emerald-500 dark:text-emerald-400 mb-1 flex items-center gap-0.5"><Sparkles size={12} /> Elite Match</span>}
                         </div>
                      </div>
-                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 flex items-center justify-between">
-                          Current Stage
-                          <span className={cn("px-2 py-0.5 rounded text-[8px]", getStatusStyle(selectedCandidate.stage))}>{selectedCandidate.stage}</span>
+                     <div className="p-4 bg-slate-50 dark:bg-slate-800/30 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1 flex items-center justify-between">
+                           Current Stage
+                           <span className={cn("px-2 py-0.5 rounded text-[8px]", getStatusStyle(selectedCandidate.stage))}>{selectedCandidate.stage}</span>
                         </p>
                         <select 
                           value={selectedCandidate.stage} 
                           onChange={(e) => handleStageChange(selectedCandidate.id, e.target.value)}
-                          className="mt-2 w-full text-sm font-bold text-slate-900 bg-transparent border-b-2 border-slate-200 pb-1 focus:outline-none focus:border-primary-500"
+                          className="mt-2 w-full text-sm font-bold text-slate-900 dark:text-white bg-transparent border-b-2 border-slate-200 dark:border-slate-800 pb-1 focus:outline-none focus:border-primary-500"
                         >
-                          <option>Applied</option>
-                          <option>Screening</option>
-                          <option>Shortlisted</option>
-                          <option>Interview</option>
-                          <option>Offer</option>
-                          <option>Hired</option>
-                          <option>Rejected</option>
+                          <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Applied</option>
+                          <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Screening</option>
+                          <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Shortlisted</option>
+                          <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Interview</option>
+                          <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Offer</option>
+                          <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Hired</option>
+                          <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Rejected</option>
                         </select>
                      </div>
                   </div>
 
                   <section className="space-y-4">
-                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Assigned Team Members / Interviewers</h3>
+                     <h3 className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase tracking-[0.2em]">Assigned Team Members / Interviewers</h3>
                      <div className="flex flex-wrap gap-2">
                         {(selectedCandidate.interviewers || []).length > 0 ? (
                            (selectedCandidate.interviewers || []).map((name, idx) => {
                               const member = users.find(u => u.name === name) || {};
                               return (
-                                 <div key={idx} className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl text-xs font-bold text-slate-700 shadow-sm">
+                                 <div key={idx} className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3.5 py-2 rounded-2xl text-xs font-bold text-slate-700 dark:text-slate-300 shadow-sm">
                                     <img src={member.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`} alt={name} className="w-5 h-5 rounded-full object-cover" />
                                     <span>{name}</span>
                                  </div>
                               );
                            })
                         ) : (
-                           <span className="text-xs font-bold text-slate-400 italic">No team members assigned</span>
+                           <span className="text-xs font-bold text-slate-400 dark:text-slate-500 italic">No team members assigned</span>
                         )}
                      </div>
                   </section>
 
                   <section className="space-y-4">
-                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Contact Details</h3>
+                     <h3 className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase tracking-[0.2em]">Contact Details</h3>
                      <div className="grid grid-cols-2 gap-4">
-                        <div className="flex items-center gap-3 text-slate-600 italic">
-                           <Mail size={16} className="text-slate-300" />
+                        <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400 italic">
+                           <Mail size={16} className="text-slate-300 dark:text-slate-600" />
                            <span className="text-sm font-medium">{selectedCandidate.email}</span>
                         </div>
-                        <div className="flex items-center gap-3 text-slate-600 italic">
-                           <Phone size={16} className="text-slate-300" />
+                        <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400 italic">
+                           <Phone size={16} className="text-slate-300 dark:text-slate-600" />
                            <span className="text-sm font-medium">+1 (555) 000-0000</span>
                         </div>
-                        <div className="flex items-center gap-3 text-slate-600 italic">
-                           <MapPin size={16} className="text-slate-300" />
+                        <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400 italic">
+                           <MapPin size={16} className="text-slate-300 dark:text-slate-600" />
                            <span className="text-sm font-medium">San Francisco, CA</span>
                         </div>
-                        <div className="flex items-center gap-3 text-primary-600 cursor-pointer hover:underline">
-                           <ExternalLink size={16} className="text-primary-300" />
+                        <div className="flex items-center gap-3 text-primary-600 dark:text-primary-400 cursor-pointer hover:underline">
+                           <ExternalLink size={16} className="text-primary-300 dark:text-primary-650" />
                            <span className="text-sm font-bold">LinkedIn Profile</span>
                         </div>
                      </div>
                   </section>
 
-                  <section className="space-y-4 pt-4 border-t border-slate-100">
-                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Recruiter Notes</h3>
+                  <section className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                     <h3 className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase tracking-[0.2em]">Recruiter Notes</h3>
                      <textarea className="input-field py-4 resize-none h-32" placeholder="Add a recruiter note for this candidate..."></textarea>
-                     <button className="text-xs font-bold text-primary-600 hover:underline" onClick={() => showToast('Note saved')}>Save Note</button>
+                     <button className="text-xs font-bold text-primary-600 dark:text-primary-400 hover:underline" onClick={() => showToast('Note saved')}>Save Note</button>
                   </section>
                </div>
 
-               <div className="p-6 border-t border-slate-100 bg-slate-50 flex items-center gap-3 shrink-0">
-                  <button onClick={() => handleStageChange(selectedCandidate.id, 'Rejected')} className="flex-1 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-all shadow-sm">
+               <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 flex items-center gap-3 shrink-0">
+                  <button onClick={() => handleStageChange(selectedCandidate.id, 'Rejected')} className="flex-1 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 text-slate-600 dark:text-slate-300 rounded-xl font-bold hover:bg-rose-50 dark:hover:bg-rose-950/20 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-800 transition-all shadow-sm">
                      Reject Candidate
                   </button>
                   <button onClick={() => navigate('/hr/interviews', { state: { openCreate: true, candidate: selectedCandidate.name } })} className="flex-1 py-3 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 transition-all shadow-lg active:scale-95">
@@ -367,76 +367,76 @@ const Candidates = () => {
         {previewingResume && (
            <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setPreviewingResume(null)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" />
-              <motion.div initial={{ opacity: 0, scale: 0.9, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 30 }} className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
-                 <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-white shrink-0">
+              <motion.div initial={{ opacity: 0, scale: 0.9, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 30 }} className="relative w-full max-w-4xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
+                 <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 shrink-0">
                     <div className="flex items-center gap-4">
-                       <div className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center text-primary-600">
-                          <User size={22} />
+                       <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-950/20 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                          <Users size={22} />
                        </div>
                        <div>
-                          <h2 className="text-lg font-extrabold text-slate-900">{previewingResume.name.replace(' ', '_')}_Resume.pdf</h2>
-                          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Candidate Resume • AI Analyzed</p>
+                          <h2 className="text-lg font-extrabold text-slate-900 dark:text-white">{previewingResume.name.replace(' ', '_')}_Resume.pdf</h2>
+                          <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Candidate Resume • AI Analyzed</p>
                        </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                       <button onClick={() => showToast('Starting download...')} className="p-2.5 text-slate-500 hover:bg-slate-100 rounded-xl transition-all"><Download size={20} /></button>
-                       <button onClick={() => setPreviewingResume(null)} className="p-2.5 hover:bg-slate-100 rounded-xl transition-all"><X size={24} /></button>
+                    <div className="flex items-center gap-3 text-slate-500">
+                       <button onClick={() => showToast('Starting download...')} className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all"><Download size={20} /></button>
+                       <button onClick={() => setPreviewingResume(null)} className="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all text-slate-400 dark:text-slate-500"><X size={24} /></button>
                     </div>
                  </div>
-                 <div className="flex-1 bg-slate-100 overflow-y-auto p-4 sm:p-10 flex justify-center">
-                    <div className="w-full max-w-[800px] bg-white shadow-2xl rounded-sm p-12 sm:p-20 relative overflow-hidden ring-1 ring-slate-900/5 min-h-[1056px]">
+                 <div className="flex-1 bg-slate-100 dark:bg-slate-950 overflow-y-auto p-4 sm:p-10 flex justify-center">
+                    <div className="w-full max-w-[800px] bg-white dark:bg-slate-900 shadow-2xl rounded-sm p-12 sm:p-20 relative overflow-hidden ring-1 ring-slate-900/5 dark:ring-slate-800 min-h-[1056px]">
                        <div className="grid grid-cols-12 gap-10">
                           {/* Sidebar */}
-                          <div className="col-span-4 border-r border-slate-100 pr-10">
-                             <div className="w-24 h-24 rounded-2xl bg-slate-100 mb-8 overflow-hidden">
+                          <div className="col-span-4 border-r border-slate-100 dark:border-slate-800 pr-10">
+                             <div className="w-24 h-24 rounded-2xl bg-slate-100 dark:bg-slate-800 mb-8 overflow-hidden">
                                 <img src={previewingResume.img} alt="" className="w-full h-full object-cover grayscale" />
                              </div>
                              <div className="space-y-8">
                                 <div>
-                                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Contact</p>
-                                   <p className="text-xs font-bold text-slate-900 break-words">{previewingResume.email}</p>
-                                   <p className="text-xs font-medium text-slate-500 mt-1">+1 (555) 000-0000</p>
+                                   <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">Contact</p>
+                                   <p className="text-xs font-bold text-slate-900 dark:text-white break-words">{previewingResume.email}</p>
+                                   <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">+1 (555) 000-0000</p>
                                 </div>
                                 <div>
-                                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Skills</p>
+                                   <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">Skills</p>
                                    <div className="flex flex-wrap gap-2">
                                       {['React', 'TypeScript', 'Node.js', 'System Design', 'Agile'].map(s => (
-                                         <span key={s} className="text-[9px] font-bold bg-slate-50 px-2 py-0.5 rounded border border-slate-100 text-slate-600">{s}</span>
+                                         <span key={s} className="text-[9px] font-bold bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-300">{s}</span>
                                       ))}
                                    </div>
                                 </div>
                                 <div>
-                                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Languages</p>
-                                   <p className="text-xs font-bold text-slate-900">English (Native)</p>
-                                   <p className="text-xs font-bold text-slate-900 mt-1">Spanish (Professional)</p>
+                                   <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">Languages</p>
+                                   <p className="text-xs font-bold text-slate-900 dark:text-white">English (Native)</p>
+                                   <p className="text-xs font-bold text-slate-900 dark:text-white mt-1">Spanish (Professional)</p>
                                 </div>
                              </div>
                           </div>
 
                           {/* Main Content */}
                           <div className="col-span-8">
-                             <h1 className="text-4xl font-black text-slate-900 mb-2">{previewingResume.name}</h1>
-                             <p className="text-lg font-bold text-primary-600 mb-10">{previewingResume.role}</p>
+                             <h1 className="text-4xl font-black text-slate-900 dark:text-white mb-2">{previewingResume.name}</h1>
+                             <p className="text-lg font-bold text-primary-600 dark:text-primary-400 mb-10">{previewingResume.role}</p>
 
                              <section className="mb-10">
-                                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 border-b border-slate-100 pb-2">Professional Summary</h3>
-                                <p className="text-xs leading-relaxed text-slate-600 italic">
+                                <h3 className="text-[10px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-[0.2em] mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Professional Summary</h3>
+                                <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-300 italic">
                                    Dedicated professional with {previewingResume.exp} in {previewingResume.role}. Proven track record of delivering high-quality solutions and leading cross-functional teams in fast-paced environments. Expert in modern technology stacks and architectural best practices.
                                 </p>
                              </section>
 
                              <section className="mb-10">
-                                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 border-b border-slate-100 pb-2">Experience</h3>
+                                <h3 className="text-[10px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-[0.2em] mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Experience</h3>
                                 <div className="space-y-6">
                                    {[1,2].map(i => (
                                       <div key={i}>
                                          <div className="flex justify-between items-start">
-                                            <p className="text-sm font-bold text-slate-900">{i === 1 ? 'Senior Lead' : 'Specialist'} • GlobalTech.ai</p>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase">202{4-i} - Present</p>
+                                            <p className="text-sm font-bold text-slate-900 dark:text-white">{i === 1 ? 'Senior Lead' : 'Specialist'} • GlobalTech.ai</p>
+                                            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-555 uppercase">202{4-i} - Present</p>
                                          </div>
                                          <ul className="mt-2 space-y-1">
-                                            <li className="text-[11px] text-slate-500">• Led development of critical infrastructure components</li>
-                                            <li className="text-[11px] text-slate-500">• Mentored junior developers and improved CI/CD metrics</li>
+                                            <li className="text-[11px] text-slate-500 dark:text-slate-400">• Led development of critical infrastructure components</li>
+                                            <li className="text-[11px] text-slate-500 dark:text-slate-400">• Mentored junior developers and improved CI/CD metrics</li>
                                          </ul>
                                       </div>
                                    ))}
@@ -444,11 +444,11 @@ const Candidates = () => {
                              </section>
 
                              <section>
-                                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 border-b border-slate-100 pb-2">Education</h3>
+                                <h3 className="text-[10px] font-bold text-slate-400 dark:text-slate-555 uppercase tracking-[0.2em] mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Education</h3>
                                 <div>
-                                   <p className="text-sm font-bold text-slate-900">M.S. Computer Science</p>
-                                   <p className="text-xs font-medium text-slate-500 italic">Stanford University • 2021</p>
-                                </div>
+                                   <p className="text-sm font-bold text-slate-900 dark:text-white">M.S. Computer Science</p>
+                                   <p className="text-xs font-medium text-slate-500 dark:text-slate-450 italic">Stanford University • 2021</p>
+                                 </div>
                              </section>
                           </div>
                        </div>
@@ -460,9 +460,9 @@ const Candidates = () => {
                        </div>
                     </div>
                  </div>
-                 <div className="p-6 bg-white border-t border-slate-100 flex items-center justify-end gap-3">
-                    <button onClick={() => setPreviewingResume(null)} className="px-6 py-2.5 text-slate-500 font-bold hover:bg-slate-50 rounded-xl transition-all">Close</button>
-                    <button onClick={() => showToast('Connecting to printer...')} className="px-8 py-2.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg active:scale-95">Print Resume</button>
+                 <div className="p-6 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-3 shrink-0">
+                    <button onClick={() => setPreviewingResume(null)} className="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all">Close</button>
+                    <button onClick={() => showToast('Connecting to printer...')} className="px-8 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-lg active:scale-95">Print Resume</button>
                  </div>
               </motion.div>
            </div>
@@ -472,87 +472,87 @@ const Candidates = () => {
         {isModalOpen && (
           <div className="fixed inset-0 z-[130] flex items-center justify-center p-4">
              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
-             <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-screen">
-                <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
-                   <h2 className="text-xl font-extrabold text-slate-900">{editingCandidate ? 'Edit Candidate' : 'Add New Candidate'}</h2>
-                   <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-xl transition-all"><X size={24} /></button>
+             <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-screen">
+                <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/20 shrink-0">
+                   <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{editingCandidate ? 'Edit Candidate' : 'Add New Candidate'}</h2>
+                   <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all text-slate-400 dark:text-slate-500"><X size={24} /></button>
                 </div>
                 <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto">
-                  <div className="p-8 space-y-6">
+                  <div className="p-8 space-y-6 bg-white dark:bg-slate-900">
                      <div className="flex items-center gap-6">
-                        <div className="w-20 h-20 rounded-2xl bg-slate-100 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400 cursor-pointer hover:bg-slate-50 hover:border-primary-300 hover:text-primary-500 transition-all">
+                        <div className="w-20 h-20 rounded-2xl bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-750 hover:border-primary-500 dark:hover:border-primary-400 hover:text-primary-600 transition-all">
                            <Upload size={20} className="mb-1" />
                            <span className="text-[9px] font-bold uppercase tracking-widest">Avatar</span>
                         </div>
                         <div className="flex-1 space-y-2">
-                           <label className="text-sm font-bold text-slate-700 ml-1">Full Name <span className="text-rose-500">*</span></label>
+                           <label className="form-label">Full Name <span className="text-rose-500">*</span></label>
                            <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="e.g. John Wick" className="input-field h-12" />
                         </div>
                      </div>
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                           <label className="text-sm font-bold text-slate-700 ml-1">Email <span className="text-rose-500">*</span></label>
+                           <label className="form-label">Email <span className="text-rose-500">*</span></label>
                            <input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} placeholder="john@example.com" className="input-field h-12" />
                         </div>
                         <div className="space-y-2">
-                           <label className="text-sm font-bold text-slate-700 ml-1">Role Applied For</label>
+                           <label className="form-label">Role Applied For</label>
                            <input type="text" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} placeholder="e.g. Product Manager" className="input-field h-12" />
                         </div>
                         <div className="space-y-2">
-                           <label className="text-sm font-bold text-slate-700 ml-1">Experience</label>
+                           <label className="form-label">Experience</label>
                            <input type="text" value={formData.exp} onChange={e => setFormData({...formData, exp: e.target.value})} placeholder="e.g. 5 Years" className="input-field h-12" />
                         </div>
                         <div className="space-y-2">
-                           <label className="text-sm font-bold text-slate-700 ml-1">AI Match Score (Mock)</label>
+                           <label className="form-label">AI Match Score (Mock)</label>
                            <input type="number" min="0" max="100" value={formData.match} onChange={e => setFormData({...formData, match: parseInt(e.target.value)})} className="input-field h-12" />
                         </div>
                         <div className="space-y-2">
-                           <label className="text-sm font-bold text-slate-700 ml-1">Pipeline Stage</label>
-                           <select value={formData.stage} onChange={e => setFormData({...formData, stage: e.target.value})} className="input-field h-12 appearance-none">
-                              <option>Applied</option>
-                              <option>Screening</option>
-                              <option>Shortlisted</option>
-                              <option>Interview</option>
-                              <option>Offer</option>
-                              <option>Hired</option>
-                              <option>Rejected</option>
+                           <label className="form-label">Pipeline Stage</label>
+                           <select value={formData.stage} onChange={e => setFormData({...formData, stage: e.target.value})} className="input-field h-12">
+                              <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Applied</option>
+                              <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Screening</option>
+                              <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Shortlisted</option>
+                              <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Interview</option>
+                              <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Offer</option>
+                              <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Hired</option>
+                              <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Rejected</option>
                            </select>
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                            <label className="text-sm font-bold text-slate-700 ml-1">Assign Team Members / Interviewers</label>
-                            <div className="flex flex-wrap gap-2 p-3 bg-slate-50 rounded-2xl border border-slate-100 max-h-40 overflow-y-auto">
-                               {teamMembers.map(member => {
-                                  const isSelected = (formData.interviewers || []).includes(member.name);
-                                  return (
-                                     <button
-                                        type="button"
-                                        key={member.id}
-                                        onClick={() => {
-                                           const currentList = formData.interviewers || [];
-                                           const newList = currentList.includes(member.name)
-                                              ? currentList.filter(name => name !== member.name)
-                                              : [...currentList, member.name];
-                                           setFormData({ ...formData, interviewers: newList });
-                                        }}
-                                        className={cn(
-                                           "flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border",
-                                           isSelected 
-                                              ? "bg-slate-900 text-white border-slate-900 shadow-sm" 
-                                              : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:border-slate-300"
-                                        )}
-                                     >
-                                        <img src={member.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}`} alt={member.name} className="w-5 h-5 rounded-full object-cover" />
-                                        <span>{member.name}</span>
-                                     </button>
-                                  );
-                               })}
-                            </div>
-                         </div>
-                     </div>
+                             <label className="form-label">Assign Team Members / Interviewers</label>
+                             <div className="flex flex-wrap gap-2 p-3 bg-slate-50 dark:bg-slate-800/30 rounded-2xl border border-slate-100 dark:border-slate-800 max-h-40 overflow-y-auto">
+                                {teamMembers.map(member => {
+                                   const isSelected = (formData.interviewers || []).includes(member.name);
+                                   return (
+                                      <button
+                                         type="button"
+                                         key={member.id}
+                                         onClick={() => {
+                                            const currentList = formData.interviewers || [];
+                                            const newList = currentList.includes(member.name)
+                                               ? currentList.filter(name => name !== member.name)
+                                               : [...currentList, member.name];
+                                            setFormData({ ...formData, interviewers: newList });
+                                         }}
+                                         className={cn(
+                                            "flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border cursor-pointer",
+                                            isSelected 
+                                               ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-slate-900 dark:border-slate-100 shadow-sm" 
+                                               : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+                                         )}
+                                      >
+                                         <img src={member.img || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}`} alt={member.name} className="w-5 h-5 rounded-full object-cover" />
+                                         <span>{member.name}</span>
+                                      </button>
+                                   );
+                                })}
+                             </div>
+                          </div>
+                      </div>
                   </div>
-                  <div className="p-6 border-t border-slate-100 bg-slate-50/30 flex items-center justify-end gap-3 shrink-0">
-                     <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-2.5 text-slate-500 font-bold hover:bg-white rounded-xl transition-all">Cancel</button>
-                     <button type="submit" className="px-8 py-2.5 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-200">{editingCandidate ? 'Save Changes' : 'Add Candidate'}</button>
+                  <div className="p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 flex items-center justify-end gap-3 shrink-0">
+                     <button type="button" onClick={() => setIsModalOpen(false)} className="btn-secondary text-sm">Cancel</button>
+                     <button type="submit" className="btn-primary text-sm shadow-lg shadow-primary-500/20">{editingCandidate ? 'Save Changes' : 'Add Candidate'}</button>
                   </div>
                 </form>
              </motion.div>

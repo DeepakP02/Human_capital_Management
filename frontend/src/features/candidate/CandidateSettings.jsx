@@ -50,8 +50,8 @@ const CandidateSettings = () => {
  {/* Header Section */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-10 rounded-[3.5rem] border border-slate-50 shadow-soft">
  <div>
- <h1 className="text-4xl font-medium text-slate-900 tracking-tight uppercase leading-none mb-2">SETTINGS</h1>
- <h1 className="text-4xl font-bold text-slate-900 tracking-tight mb-2">SETTINGS</h1>
+ <h1 className="hcm-page-title uppercase leading-none mb-2">SETTINGS</h1>
+ <h1 className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">SETTINGS</h1>
  <p className="text-slate-400 font-medium text-sm">Manage your account and preferences</p>
  </div>
  <div className="flex items-center gap-4">
@@ -113,7 +113,7 @@ const CandidateSettings = () => {
  <div className="space-y-12">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <User className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Account Details</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Account Details</h3>
  </div>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
  {[
@@ -144,7 +144,7 @@ const CandidateSettings = () => {
  <section className="space-y-8">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <Key className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Update Password</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Update Password</h3>
  </div>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
  <div className="space-y-3 relative">
@@ -191,7 +191,7 @@ const CandidateSettings = () => {
  <section className="space-y-8">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <Smartphone className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Active Sessions</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Active Sessions</h3>
  </div>
  <div className="space-y-4">
  {formData.security.activeSessions.map((session) => (
@@ -217,7 +217,7 @@ const CandidateSettings = () => {
  <div className="space-y-12">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <Bell className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Notification Settings</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Notification Settings</h3>
  </div>
  <div className="space-y-6">
  {[
@@ -251,7 +251,7 @@ const CandidateSettings = () => {
  <div className="space-y-12">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <Settings2 className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Preferences</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Preferences</h3>
  </div>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
  {[
@@ -290,7 +290,7 @@ const CandidateSettings = () => {
  HCM
  </div>
  <div>
- <h3 className="text-3xl font-bold text-slate-900 tracking-tight mb-4">Terminate Session?</h3>
+ <h3 className="text-3xl font-bold text-slate-900 tracking-tight mb-4 dark:text-white">Terminate Session?</h3>
  <p className="text-sm font-medium text-slate-400 leading-relaxed max-w-sm mx-auto">Your current operational state will be saved before connection termination.</p>
  </div>
   <div className="flex gap-4 pt-4">

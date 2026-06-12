@@ -65,7 +65,7 @@ const demoCredentials = {
 ];
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2 bg-white selection:bg-primary-100">
+    <div className="min-h-screen grid lg:grid-cols-2 bg-white dark:bg-slate-950 selection:bg-primary-100 dark:selection:bg-primary-900/30">
       
       {/* Left Side: Visual/Branding */}
       <div className="hidden lg:flex flex-col justify-between p-12 bg-gradient-to-br from-primary-900 via-primary-800 to-primary-950 relative overflow-hidden">
@@ -134,7 +134,7 @@ const demoCredentials = {
           </div>
 
           <div className="text-left mb-10">
-            <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Welcome back</h2>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-2 dark:text-white">Welcome back</h2>
             <p className="text-slate-500 font-medium">Please enter your details to sign in.</p>
           </div>
 

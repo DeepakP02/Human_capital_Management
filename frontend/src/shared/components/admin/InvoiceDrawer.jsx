@@ -348,7 +348,7 @@ const InvoiceDrawer = ({ isOpen, onClose, invoice }) => {
                   <FileText size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">Invoice Details</h2>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">Invoice Details</h2>
                   <p className="text-xs font-medium text-slate-500 mt-1">{invoice.id}</p>
                 </div>
               </div>
@@ -386,7 +386,7 @@ const InvoiceDrawer = ({ isOpen, onClose, invoice }) => {
                </div>
  
                <div className="space-y-4">
-                  <h3 className="text-sm font-extrabold text-slate-900 border-b border-slate-100 pb-2">Line Items</h3>
+                  <h3 className="text-sm font-extrabold text-slate-900 border-b border-slate-100 pb-2 dark:text-white">Line Items</h3>
                   <div className="space-y-3 font-bold text-slate-600 text-xs">
                      <div className="flex justify-between p-3 bg-white border border-slate-100 rounded-lg gap-4">
                         <span className="truncate">Enterprise Plan Subscription</span>
@@ -404,7 +404,7 @@ const InvoiceDrawer = ({ isOpen, onClose, invoice }) => {
                </div>
                
                {invoice.status === 'Refunded' && (
-                 <div className="p-4 bg-amber-50 text-amber-700 rounded-xl border border-amber-200 flex gap-3 text-sm font-medium">
+                 <div className="p-4 hcm-badge hcm-badge-pending rounded-xl border border-amber-200 flex gap-3 text-sm font-medium">
                     <AlertTriangle size={18} className="shrink-0" />
                     <p>This invoice was refunded on {invoice.date} back to the original payment method.</p>
                  </div>

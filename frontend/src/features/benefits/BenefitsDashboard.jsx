@@ -319,7 +319,7 @@ const BenefitsDashboard = () => {
                       <td className="px-6 py-5 text-center">
                         <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest bg-slate-50 dark:bg-slate-850 px-2.5 py-1 rounded-lg border border-slate-100 dark:border-slate-800">{plan.category}</span>
                       </td>
-                      <td className="px-6 py-5 text-center font-bold text-slate-650 dark:text-slate-350">{plan.provider}</td>
+                      <td className="px-6 py-5 text-center font-bold text-slate-600 dark:text-slate-300">{plan.provider}</td>
                       <td className="px-6 py-5 text-center whitespace-nowrap">
                         <span className="px-2 py-0.5 bg-slate-55 dark:bg-slate-800 text-[10px] font-bold text-slate-500 rounded uppercase tracking-tighter">{plan.eligibility}</span>
                       </td>

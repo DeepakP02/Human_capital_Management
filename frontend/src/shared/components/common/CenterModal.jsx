@@ -51,7 +51,7 @@ const CenterModal = ({ isOpen, onClose, title, children, maxWidth = 'max-w-2xl',
             {/* Header */}
             {title && (
               <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between shrink-0">
-                <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">{title}</h2>
+                <h2 className="text-xl font-extrabold text-slate-900 tracking-tight dark:text-white">{title}</h2>
                 {showClose && (
                   <button
                     onClick={onClose}

@@ -76,7 +76,7 @@ const OpenTicketModal = ({ isOpen, onClose }) => {
                   <Mail size={22} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-extrabold text-slate-900 leading-none">Billing Support Desk</h2>
+                  <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">Billing Support Desk</h2>
                   <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Open a ticket with our billing desk</p>
                 </div>
               </div>
@@ -94,7 +94,7 @@ const OpenTicketModal = ({ isOpen, onClose }) => {
                   {submitStep === 1 ? (
                     <>
                       <Loader2 size={64} className="text-indigo-600 animate-spin mb-6" />
-                      <h3 className="text-lg font-bold text-slate-900 mb-2">Submitting Support Request</h3>
+                      <h3 className="text-lg font-bold text-slate-900 mb-2 dark:text-white">Submitting Support Request</h3>
                       <p className="text-sm font-medium text-slate-500 max-w-xs">Creating secure dispatch with ID and uploading files to support dashboard...</p>
                     </>
                   ) : (
@@ -107,7 +107,7 @@ const OpenTicketModal = ({ isOpen, onClose }) => {
                       >
                         <CheckCircle2 size={36} />
                       </motion.div>
-                      <h3 className="text-lg font-bold text-slate-900 mb-2">Ticket Successfully Created!</h3>
+                      <h3 className="text-lg font-bold text-slate-900 mb-2 dark:text-white">Ticket Successfully Created!</h3>
                       <p className="text-sm font-medium text-slate-500 mb-1">Your ticket identifier is <span className="font-extrabold text-slate-900">{ticketId}</span>.</p>
                       <p className="text-xs font-semibold text-slate-400 max-w-xs">A support representative from our billing desk will respond via your administrator email within 2 hours.</p>
                     </>

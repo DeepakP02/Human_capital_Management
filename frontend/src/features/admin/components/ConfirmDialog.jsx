@@ -30,7 +30,7 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
                 </button>
               </div>
               
-              <h3 className="text-xl font-extrabold text-slate-900 mb-2">{title}</h3>
+              <h3 className="text-xl font-extrabold text-slate-900 mb-2 dark:text-white">{title}</h3>
               <p className="text-slate-500 font-medium leading-relaxed">{message}</p>
               
               <div className="mt-8 flex gap-3">

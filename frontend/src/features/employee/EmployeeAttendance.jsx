@@ -57,10 +57,10 @@ const EmployeeAttendance = () => {
   );
 
   const stats = [
-    { label: 'Present Days', value: attendance.history.filter(h => h.status === 'Present').length, icon: CheckCircle2, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { label: 'Late Marking', value: attendance.history.filter(h => h.status === 'Late').length, icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
-    { label: 'Total Mode', value: mode, icon: Monitor, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-    { label: 'Working Mode', value: mode, icon: MapPin, color: 'text-primary-600', bg: 'bg-primary-50' },
+    { label: 'Present Days', value: attendance.history.filter(h => h.status === 'Present').length, icon: CheckCircle2, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/20' },
+    { label: 'Late Marking', value: attendance.history.filter(h => h.status === 'Late').length, icon: Clock, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/20' },
+    { label: 'Total Mode', value: mode, icon: Monitor, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-950/20' },
+    { label: 'Working Mode', value: mode, icon: MapPin, color: 'text-primary-600 dark:text-primary-400', bg: 'bg-primary-50 dark:bg-primary-950/20' },
   ];
 
   const handleExport = () => {
@@ -68,25 +68,25 @@ const EmployeeAttendance = () => {
   };
 
   return (
-    <div className="space-y-8 pb-12 animate-fade-in relative max-w-7xl mx-auto">
+    <div className="space-y-8 pb-12 animate-fade-in relative max-w-7xl mx-auto text-left">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Time & Attendance</h1>
-          <p className="text-slate-500 font-bold tracking-tight">Real-time work session tracking and historical records</p>
+          <h1 className="hcm-page-title">Time & Attendance</h1>
+          <p className="hcm-page-subtitle">Real-time work session tracking and historical records</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={handleExport} className="btn-secondary px-6 py-2.5 font-black uppercase tracking-widest flex items-center gap-2">
+          <button onClick={handleExport} className="btn-secondary px-6 py-2.5 flex items-center gap-2">
             <Download size={18} />
             <span>Export</span>
           </button>
           {attendance.isClockedIn ? (
-            <button onClick={() => { clockOut(); showToast('Clocked out successfully'); }} className="btn-primary bg-rose-600 hover:bg-rose-700 px-8 py-2.5 font-black uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-rose-100 ring-4 ring-white">
+            <button onClick={() => { clockOut(); showToast('Clocked out successfully'); }} className="btn-primary bg-rose-600 hover:bg-rose-700 px-8 py-2.5 flex items-center gap-2 shadow-xl shadow-rose-100 dark:shadow-none ring-4 ring-white dark:ring-slate-900">
               <LogOut size={18} />
               <span>Clock Out</span>
             </button>
           ) : (
-            <button onClick={() => { clockIn(); showToast('Clocked in successfully'); }} className="btn-primary px-8 py-2.5 font-black uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-primary-200">
+            <button onClick={() => { clockIn(); showToast('Clocked in successfully'); }} className="btn-primary px-8 py-2.5 flex items-center gap-2 shadow-xl shadow-primary-200 dark:shadow-none">
               <LogIn size={18} />
               <span>Clock In</span>
             </button>
@@ -100,15 +100,15 @@ const EmployeeAttendance = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft transition-all"
+            className="card transition-all"
           >
             <div className="flex items-center gap-4">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
                   <stat.icon size={26} />
                </div>
                <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tight">{stat.value}</h3>
+                  <p className="card-title mb-1.5">{stat.label}</p>
+                  <h3 className="card-value">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -119,7 +119,7 @@ const EmployeeAttendance = () => {
         
         {/* Live Controls & Summary */}
         <div className="lg:col-span-4 space-y-6">
-           <div className="card p-8 bg-slate-900 text-white border-none shadow-premium relative overflow-hidden group">
+           <div className="card p-8 bg-slate-900 dark:bg-slate-950 text-white border-none shadow-premium relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-700">
                  <Clock size={150} />
               </div>
@@ -127,7 +127,7 @@ const EmployeeAttendance = () => {
               
               <div className="text-center mb-10 py-12 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-3xl shadow-2xl relative z-10">
                  <h4 className="text-5xl font-black tracking-tighter mb-3 tabular-nums">{formatTime(workedSeconds)}</h4>
-                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{attendance.isClockedIn ? 'Timer Active' : 'Start Session to Track Time'}</p>
+                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{attendance.isClockedIn ? 'Timer Active' : 'Start Session to Track Time'}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4 relative z-10">
@@ -144,18 +144,18 @@ const EmployeeAttendance = () => {
                        </div>
                        <span className="text-[9px] font-black uppercase tracking-[0.2em] leading-none">{mode} Mode</span>
                     </button>
-                    <div className="absolute bottom-full left-0 w-full mb-2 bg-white rounded-xl shadow-2xl border border-slate-100 opacity-0 group-hover/mode:opacity-100 pointer-events-none group-hover/mode:pointer-events-auto transition-all p-1 transform translate-y-2 group-hover/mode:translate-y-0">
+                    <div className="absolute bottom-full left-0 w-full mb-2 bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-100 dark:border-slate-800 opacity-0 group-hover/mode:opacity-100 pointer-events-none group-hover/mode:pointer-events-auto transition-all p-1 transform translate-y-2 group-hover/mode:translate-y-0">
                        {['Office', 'Remote', 'Hybrid'].map(m => (
-                          <button key={m} onClick={() => { setMode(m); showToast(`Work mode changed to ${m}`); }} className="w-full p-3 text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 rounded-lg text-left transition-colors">{m}</button>
+                          <button key={m} onClick={() => { setMode(m); showToast(`Work mode changed to ${m}`); }} className="w-full p-3 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg text-left transition-colors">{m}</button>
                        ))}
                     </div>
                  </div>
               </div>
            </div>
 
-           <div className="card p-8 bg-white border-none shadow-soft">
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8">Shift Logic & Schedule</h3>
-              <div className="space-y-8 relative ml-4 px-8 border-l-2 border-slate-50">
+           <div className="card">
+              <h3 className="card-title mb-8">Shift Logic & Schedule</h3>
+              <div className="space-y-8 relative ml-4 px-8 border-l-2 border-slate-100 dark:border-slate-800">
                  {[
                     { time: '09:00 AM', label: 'Standard Shift Start', icon: Play, color: 'bg-primary-600' },
                     { time: '01:00 PM', label: 'Mandatory Lunch', icon: Coffee, color: 'bg-amber-600' },
@@ -163,14 +163,14 @@ const EmployeeAttendance = () => {
                  ].map((log, i) => (
                     <div key={i} className="relative">
                        <div className={cn(
-                          "absolute -left-[50px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-2xl border-4 border-white shadow-xl flex items-center justify-center text-white",
+                          "absolute -left-[50px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-2xl border-4 border-white dark:border-slate-900 shadow-xl flex items-center justify-center text-white",
                           log.color
                        )}>
                           <log.icon size={18} />
                        </div>
                        <div className="text-left">
-                          <p className="text-base font-black text-slate-900 leading-none">{log.time}</p>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1.5">{log.label}</p>
+                          <p className="text-base font-black text-slate-900 dark:text-white leading-none">{log.time}</p>
+                          <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1.5">{log.label}</p>
                        </div>
                     </div>
                  ))}
@@ -182,90 +182,90 @@ const EmployeeAttendance = () => {
         <div className="lg:col-span-8 space-y-8">
            
            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight italic">Attendance History</h3>
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight italic">Attendance History</h3>
               <div className="flex items-center gap-3">
                  <div className="relative">
-                    <Search className="absolute left-3 top-2.5 text-slate-400" size={16} />
+                    <Search className="absolute left-3 top-2.5 text-slate-400 dark:text-slate-500" size={16} />
                     <input 
                       type="text" 
                       placeholder="Search history..." 
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="bg-white border border-slate-100 rounded-xl pl-10 pr-4 py-2 text-xs font-bold w-48 focus:ring-2 focus:ring-primary-100 transition-all outline-none" 
+                      className="input-field pl-10 pr-4 py-2 text-xs font-bold w-48" 
                     />
                  </div>
-                 <div className="flex items-center gap-2 bg-white p-1 rounded-xl shadow-sm border border-slate-100">
-                    <button className="p-1.5 text-slate-400 hover:text-slate-900"><ChevronLeft size={18} /></button>
-                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] px-4">{currentMonth}</span>
-                    <button className="p-1.5 text-slate-400 hover:text-slate-900"><ChevronRight size={18} /></button>
+                 <div className="flex items-center gap-2 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+                    <button className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white"><ChevronLeft size={18} /></button>
+                    <span className="text-[10px] font-black text-slate-600 dark:text-slate-300 uppercase tracking-[0.2em] px-4">{currentMonth}</span>
+                    <button className="p-1.5 text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white"><ChevronRight size={18} /></button>
                  </div>
               </div>
            </div>
 
-           <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
-              <div className="overflow-x-auto">
-                 <table className="w-full text-left">
-                    <thead>
-                       <tr className="bg-slate-50/50">
-                          <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Date</th>
-                          <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Mode</th>
-                          <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">Registry (In/Out)</th>
-                          <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">Status</th>
-                          <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Activity</th>
+           <div className="hcm-table-container">
+              <table className="hcm-table">
+                 <thead className="hcm-thead">
+                    <tr>
+                       <th className="hcm-th px-8">Date</th>
+                       <th className="hcm-th px-8">Mode</th>
+                       <th className="hcm-th px-8 text-center">Registry (In/Out)</th>
+                       <th className="hcm-th px-8 text-center">Status</th>
+                       <th className="hcm-th px-8 text-right">Activity</th>
+                    </tr>
+                 </thead>
+                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
+                    {filteredHistory.length > 0 ? filteredHistory.map((item, i) => (
+                       <tr key={i} className="hcm-tr">
+                          <td className="hcm-td px-8 py-6">
+                             <p className="text-sm font-black text-slate-900 dark:text-white">{item.date}</p>
+                          </td>
+                          <td className="hcm-td px-8 py-6">
+                             <div className="flex items-center gap-2.5">
+                                <div className="p-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg text-slate-400 dark:text-slate-500">
+                                   {item.mode === 'Office' ? <MapPin size={12} /> : <Monitor size={12} />}
+                                </div>
+                                <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">{item.mode}</span>
+                             </div>
+                          </td>
+                          <td className="hcm-td px-8 py-6 text-center">
+                             <div className="flex items-center justify-center gap-5">
+                                <div>
+                                   <p className="text-[8px] font-black text-slate-300 dark:text-slate-500 uppercase tracking-widest mb-1.5">Punch In</p>
+                                   <p className="text-[11px] font-black text-slate-900 dark:text-white tabular-nums">{item.clockIn}</p>
+                                </div>
+                                <ArrowRight size={14} className="text-slate-200 dark:text-slate-700" />
+                                <div>
+                                   <p className="text-[8px] font-black text-slate-300 dark:text-slate-500 uppercase tracking-widest mb-1.5">Punch Out</p>
+                                   <p className="text-[11px] font-black text-slate-900 dark:text-white tabular-nums">{item.clockOut}</p>
+                                </div>
+                             </div>
+                          </td>
+                          <td className="hcm-td px-8 py-6 text-center">
+                             <span className={cn(
+                                "px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border",
+                                item.status === 'Present' 
+                                  ? "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30" 
+                                  : "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30"
+                             )}>
+                                {item.status}
+                             </span>
+                          </td>
+                          <td className="hcm-td px-8 py-6 text-right">
+                             <p className="text-sm font-black text-slate-900 dark:text-white tabular-nums">{item.totalHours}</p>
+                          </td>
                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-50">
-                       {filteredHistory.length > 0 ? filteredHistory.map((item, i) => (
-                          <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
-                             <td className="px-8 py-6">
-                                <p className="text-sm font-black text-slate-900">{item.date}</p>
-                             </td>
-                             <td className="px-8 py-6">
-                                <div className="flex items-center gap-2.5">
-                                   <div className="p-1.5 bg-slate-100 rounded-lg text-slate-400">
-                                      {item.mode === 'Office' ? <MapPin size={12} /> : <Monitor size={12} />}
-                                   </div>
-                                   <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.mode}</span>
-                                </div>
-                             </td>
-                             <td className="px-8 py-6 text-center">
-                                <div className="flex items-center justify-center gap-5">
-                                   <div>
-                                      <p className="text-[8px] font-black text-slate-300 uppercase tracking-widest mb-1.5">Punch In</p>
-                                      <p className="text-[11px] font-black text-slate-900 tabular-nums">{item.clockIn}</p>
-                                   </div>
-                                   <ArrowRight size={14} className="text-slate-200" />
-                                   <div>
-                                      <p className="text-[8px] font-black text-slate-300 uppercase tracking-widest mb-1.5">Punch Out</p>
-                                      <p className="text-[11px] font-black text-slate-900 tabular-nums">{item.clockOut}</p>
-                                   </div>
-                                </div>
-                             </td>
-                             <td className="px-8 py-6 text-center">
-                                <span className={cn(
-                                   "px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border",
-                                   item.status === 'Present' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-amber-50 text-amber-600 border-amber-100"
-                                )}>
-                                   {item.status}
-                                </span>
-                             </td>
-                             <td className="px-8 py-6 text-right">
-                                <p className="text-sm font-black text-slate-900 tabular-nums">{item.totalHours}</p>
-                             </td>
-                          </tr>
-                       )) : (
-                         <tr>
-                            <td colSpan="5" className="px-8 py-20 text-center">
-                               <div className="flex flex-col items-center gap-4 text-slate-300">
-                                  <Clock size={48} className="animate-pulse" />
-                                  <p className="text-xs font-black uppercase tracking-[0.2em]">No records found for {currentMonth}</p>
-                               </div>
-                            </td>
-                         </tr>
-                       )}
-                    </tbody>
-                 </table>
-              </div>
+                    )) : (
+                       <tr>
+                          <td colSpan="5" className="px-8 py-20 text-center">
+                             <div className="flex flex-col items-center gap-4 text-slate-300 dark:text-slate-600">
+                                <Clock size={48} className="animate-pulse" />
+                                <p className="text-xs font-black uppercase tracking-[0.2em]">No records found for {currentMonth}</p>
+                             </div>
+                          </td>
+                       </tr>
+                    )}
+                 </tbody>
+              </table>
            </div>
 
            {/* Mobile Calendar Hint */}

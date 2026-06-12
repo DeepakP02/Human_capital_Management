@@ -64,7 +64,7 @@ const AIModuleModal = ({ isOpen, onClose, module }) => {
                   <Sliders size={22} fill="currentColor" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-extrabold text-slate-900 leading-none">
+                  <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">
                     Configure Rules
                   </h2>
                   <p className="text-[10px] font-bold text-primary-600 uppercase tracking-[0.2em] mt-2 leading-none">

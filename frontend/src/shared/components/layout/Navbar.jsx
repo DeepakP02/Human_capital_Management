@@ -181,7 +181,7 @@ const Navbar = ({ toggleMobileSidebar }) => {
                       ))
                     ) : (
                       <div className="py-8 text-center text-slate-400">
-                        <Bell size={24} className="mx-auto mb-2 text-slate-350" />
+                        <Bell size={24} className="mx-auto mb-2 text-slate-300" />
                         <p className="text-xs font-bold">No notifications</p>
                       </div>
                     )}

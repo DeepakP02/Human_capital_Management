@@ -51,7 +51,7 @@ const EmployeeProfile = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">My Profile</h1>
+          <h1 className="hcm-page-title">My Profile</h1>
           <p className="text-slate-500 font-bold tracking-tight">Manage your personal and professional identity</p>
         </div>
         <div className="flex items-center gap-3">
@@ -81,7 +81,7 @@ const EmployeeProfile = () => {
         <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
            
            {/* Profile Photo & Summary */}
-           <div className="card p-8 bg-white border-none shadow-soft text-center group">
+           <div className="card p-8  text-center group">
               <div className="relative inline-block mb-6">
                  <div className="w-40 h-40 rounded-[2.5rem] bg-slate-50 p-1 border-4 border-white shadow-2xl overflow-hidden relative transition-all duration-500">
                     <img 
@@ -102,7 +102,7 @@ const EmployeeProfile = () => {
                  </div>
               </div>
 
-              <h3 className="text-2xl font-black text-slate-900 leading-none">{profile.fullName}</h3>
+              <h3 className="text-2xl font-black text-slate-900 leading-none dark:text-white">{profile.fullName}</h3>
               <p className="text-primary-600 font-black uppercase tracking-widest text-xs mt-3">{profile.role}</p>
               
               <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -123,14 +123,14 @@ const EmployeeProfile = () => {
            </div>
 
            {/* Skills Card (Preview) */}
-           <div className="card p-8 bg-white border-none shadow-soft">
+           <div className="card p-8 ">
               <div className="flex items-center justify-between mb-8">
                  <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 leading-none">Core Expertise</h4>
                  <Star size={18} className="text-amber-400" />
               </div>
               <div className="flex flex-wrap gap-2">
                  {['React', 'Node.js', 'Typescript', 'Tailwind'].map((skill, i) => (
-                    <span key={i} className="px-3 py-2 bg-slate-50 text-slate-700 text-xs font-black rounded-xl border border-slate-100 italic">
+                    <span key={i} className="px-3 py-2 hcm-badge hcm-badge-draft text-xs font-black rounded-xl border border-slate-100 italic">
                        #{skill}
                     </span>
                  ))}
@@ -164,7 +164,7 @@ const EmployeeProfile = () => {
            </div>
 
            {/* Details Panel */}
-           <div className="card min-h-[600px] bg-white border-none shadow-soft p-10 overflow-hidden">
+           <div className="card min-h-[600px]  p-10 overflow-hidden">
               <AnimatePresence mode="wait">
                  <motion.div
                    key={activeTab}
@@ -176,7 +176,7 @@ const EmployeeProfile = () => {
                     {activeTab === 'personal' && (
                        <div className="space-y-12">
                           <div className="space-y-8">
-                             <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 border-l-4 border-primary-600 pl-4 leading-none">Personal Data</h3>
+                             <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 border-l-4 border-primary-600 pl-4 leading-none dark:text-white">Personal Data</h3>
                              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                                 {[
                                    { label: 'Full Name', value: editData.fullName, field: 'fullName' },
@@ -230,7 +230,7 @@ const EmployeeProfile = () => {
 
                     {activeTab === 'work' && (
                        <div className="space-y-12">
-                          <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 border-l-4 border-indigo-600 pl-4 leading-none">Job Profile</h3>
+                          <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 border-l-4 border-indigo-600 pl-4 leading-none dark:text-white">Job Profile</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                              {[
                                 { label: 'Employee ID', value: profile.employeeId, icon: ShieldCheck, readonly: true },
@@ -255,7 +255,7 @@ const EmployeeProfile = () => {
 
                     {activeTab === 'emergency' && (
                        <div className="space-y-12">
-                          <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 border-l-4 border-rose-600 pl-4 leading-none">Emergency Contact</h3>
+                          <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 border-l-4 border-rose-600 pl-4 leading-none dark:text-white">Emergency Contact</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                              {[
                                 { label: 'Contact Name', value: editData.emergencyContact.name, field: 'name' },
@@ -283,7 +283,7 @@ const EmployeeProfile = () => {
                     {activeTab === 'documents' && (
                        <div className="space-y-10">
                           <div className="flex items-center justify-between">
-                             <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 border-l-4 border-emerald-600 pl-4 leading-none">Employment Record</h3>
+                             <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 border-l-4 border-emerald-600 pl-4 leading-none dark:text-white">Employment Record</h3>
                              <button className="btn-secondary px-5 py-2 font-black uppercase tracking-widest text-[10px] flex items-center gap-2">
                                 <Plus size={16} /> Add New
                              </button>

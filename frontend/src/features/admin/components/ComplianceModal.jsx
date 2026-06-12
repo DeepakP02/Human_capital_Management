@@ -87,7 +87,7 @@ const ComplianceModal = ({ isOpen, onClose, policy }) => {
                         <FileBadge size={22} fill="currentColor" />
                      </div>
                      <div>
-                        <h2 className="text-xl font-extrabold text-slate-900 leading-none">{policy ? 'Edit Policy' : 'Publish Policy'}</h2>
+                        <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">{policy ? 'Edit Policy' : 'Publish Policy'}</h2>
                         <p className="text-[10px] font-bold text-primary-600 uppercase tracking-[0.2em] mt-2 leading-none">Secure workforce agreement</p>
                      </div>
                   </div>

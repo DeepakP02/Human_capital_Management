@@ -209,12 +209,11 @@ const ManagerDashboard = () => {
 
   // New Task Form State
   const [newTask, setNewTask] = useState({ title: '', assignee: '', priority: 'Medium', dueDate: '' });
-
   const stats = [
-    { label: 'Team Size', value: teamMembers.length, icon: Users, trend: '+2 new members', color: 'text-indigo-600', bg: 'bg-indigo-50' },
-    { label: 'Present Today', value: '15', icon: UserCheck, trend: '3 on leave', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { label: 'Pending Approvals', value: leaveRequests.filter(l => l.status === 'Pending').length, icon: ClipboardCheck, trend: 'Needs review today', color: 'text-amber-600', bg: 'bg-amber-50' },
-    { label: 'Performance Alerts', value: kpis.filter(k => k.status === 'At Risk' || k.status === 'Delayed').length, icon: AlertTriangle, trend: 'Requires attention', color: 'text-rose-600', bg: 'bg-rose-50' },
+    { label: 'Team Size', value: teamMembers.length, icon: Users, trend: '+2 new members', color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-950/20' },
+    { label: 'Present Today', value: '15', icon: UserCheck, trend: '3 on leave', color: 'text-emerald-600 dark:text-emerald-450', bg: 'bg-emerald-50 dark:bg-emerald-950/20' },
+    { label: 'Pending Approvals', value: leaveRequests.filter(l => l.status === 'Pending').length, icon: ClipboardCheck, trend: 'Needs review today', color: 'text-amber-600 dark:text-amber-450', bg: 'bg-amber-50 dark:bg-amber-950/20' },
+    { label: 'Performance Alerts', value: kpis.filter(k => k.status === 'At Risk' || k.status === 'Delayed').length, icon: AlertTriangle, trend: 'Requires attention', color: 'text-rose-600 dark:text-rose-455', bg: 'bg-rose-50 dark:bg-rose-950/20' },
   ];
 
   const handleAddTask = (e) => {
@@ -242,20 +241,20 @@ const ManagerDashboard = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Manager Dashboard</h1>
-          <p className="text-slate-500 font-medium tracking-tight">Monitor team productivity, approvals and performance in real-time</p>
+          <h1 className="hcm-page-title">Manager Dashboard</h1>
+          <p className="hcm-page-subtitle">Monitor team productivity, approvals and performance in real-time</p>
         </div>
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setShowExportModal(true)}
-            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2"
+            className="btn-secondary flex items-center gap-2"
           >
             <Download size={18} />
             <span className="hidden sm:inline">Export Report</span>
           </button>
           <button 
             onClick={() => setShowTaskModal(true)}
-            className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-xl shadow-primary-200"
+            className="btn-primary flex items-center gap-2 shadow-xl shadow-primary-500/20"
           >
              <Plus size={18} />
              <span>Add Task</span>
@@ -269,16 +268,16 @@ const ManagerDashboard = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
                   <stat.icon size={26} />
                </div>
                <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1.5">{stat.trend}</p>
+                  <p className="card-title mb-1.5">{stat.label}</p>
+                  <h3 className="card-value">{stat.value}</h3>
+                  <p className="card-desc mt-1.5">{stat.trend}</p>
                </div>
             </div>
           </motion.div>
@@ -288,22 +287,22 @@ const ManagerDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
          {/* Team Attendance & Activity */}
          <div className="lg:col-span-8 space-y-8">
-            <div className="card p-8 bg-white border-none shadow-soft h-[400px] flex flex-col">
+            <div className="card h-[400px] flex flex-col p-8 bg-white dark:bg-slate-900">
                <div className="flex items-center justify-between mb-10">
                   <div className="text-left">
-                     <h3 className="text-xl font-bold text-slate-900 tracking-tight">Team Attendance Overview</h3>
-                     <p className="text-sm font-medium text-slate-400">Activity comparison across departments</p>
+                     <h3 className="hcm-section-heading">Team Attendance Overview</h3>
+                     <p className="hcm-muted-text mt-1">Activity comparison across departments</p>
                   </div>
-                  <div className="flex bg-slate-50 p-1 rounded-xl">
+                  <div className="flex bg-slate-50 dark:bg-slate-800 p-1 rounded-xl">
                      <button 
                        onClick={() => setActiveChartTab('this-week')}
-                       className={cn("px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-widest rounded-lg transition-all", activeChartTab === 'this-week' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}
+                       className={cn("px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-widest rounded-lg transition-all", activeChartTab === 'this-week' ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300")}
                      >
                        This Week
                      </button>
                      <button 
                        onClick={() => setActiveChartTab('previous')}
-                       className={cn("px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-widest rounded-lg transition-all", activeChartTab === 'previous' ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600")}
+                       className={cn("px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-widest rounded-lg transition-all", activeChartTab === 'previous' ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm" : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300")}
                      >
                        Previous
                      </button>
@@ -322,38 +321,38 @@ const ManagerDashboard = () => {
                   ].map((d, i) => (
                      <div key={i} className="flex-1 flex flex-col items-center gap-4 group">
                         <div className="w-full relative flex items-end justify-center">
-                           <div className="w-full max-w-[20px] bg-slate-100 rounded-full h-40 relative overflow-hidden">
+                           <div className="w-full max-w-[20px] bg-slate-100 dark:bg-slate-805 rounded-full h-40 relative overflow-hidden">
                               <motion.div 
                                 initial={{ height: 0 }}
                                 animate={{ height: d.total > 0 ? `${(d.present / d.total) * 100}%` : 0 }}
                                 transition={{ type: 'spring', damping: 15 }}
-                                className="absolute bottom-0 inset-x-0 bg-primary-600 rounded-full shadow-lg shadow-primary-100" 
+                                className="absolute bottom-0 inset-x-0 bg-primary-600 rounded-full shadow-lg shadow-primary-500/20" 
                               />
                            </div>
                         </div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{d.day}</span>
+                        <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">{d.day}</span>
                      </div>
                   ))}
                </div>
             </div>
 
             {/* Recent Goal Tracking */}
-            <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
-               <div className="p-8 border-b border-slate-50 flex items-center justify-between">
-                  <h3 className="text-xl font-bold text-slate-900 flex items-center gap-3">
-                     <Target className="text-primary-600" size={24} />
+            <div className="card p-0 overflow-hidden">
+               <div className="p-8 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <h3 className="hcm-section-heading flex items-center gap-3">
+                     <Target className="text-primary-600 dark:text-primary-400" size={24} />
                      Goal Progress Summary
                   </h3>
-                  <button onClick={() => navigate('/manager/kpi')} className="text-[10px] font-extrabold text-primary-600 uppercase tracking-widest hover:underline">View All Goals</button>
+                  <button onClick={() => navigate('/manager/kpi')} className="text-[10px] font-extrabold text-primary-600 dark:text-primary-400 uppercase tracking-widest hover:underline">View All Goals</button>
                </div>
-               <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+               <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 text-left bg-white dark:bg-slate-900">
                   {kpis.slice(0, 4).map((goal, i) => (
                      <div key={i} className="space-y-3">
                         <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-left">
-                           <span className="text-slate-600 truncate mr-4">{goal.title}</span>
-                           <span className="text-slate-900">{goal.progress}%</span>
+                           <span className="text-slate-600 dark:text-slate-300 truncate mr-4">{goal.title}</span>
+                           <span className="text-slate-900 dark:text-white">{goal.progress}%</span>
                         </div>
-                        <div className="w-full h-2 bg-slate-50 rounded-full overflow-hidden border border-slate-100 p-[1px]">
+                        <div className="w-full h-2 bg-slate-50 dark:bg-slate-850 rounded-full overflow-hidden border border-slate-100 dark:border-slate-800 p-[1px]">
                            <motion.div 
                              initial={{ width: 0 }}
                              animate={{ width: `${goal.progress}%` }}
@@ -369,7 +368,7 @@ const ManagerDashboard = () => {
 
          {/* Sidebar: Approvals & Analytics */}
          <div className="lg:col-span-4 space-y-8 flex flex-col">
-            <div className="card p-8 bg-slate-900 text-white border-none shadow-soft flex-1 relative overflow-hidden group">
+            <div className="card p-8 bg-slate-900 dark:bg-slate-950 text-white border-none flex-1 relative overflow-hidden group">
                <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform">
                   <ClipboardCheck size={100} />
                </div>
@@ -409,19 +408,19 @@ const ManagerDashboard = () => {
                <button onClick={() => navigate('/manager/leave')} className="w-full mt-8 py-4 bg-white text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-2xl hover:scale-[1.02] active:scale-95 transition-all">Go to Requests</button>
             </div>
 
-            <div className="card p-8 bg-white border-none shadow-soft text-left">
-               <h3 className="text-lg font-black text-slate-900 mb-6 flex items-center gap-2">
-                  <BarChart3 size={18} className="text-primary-600" />
+            <div className="card p-8 text-left">
+               <h3 className="hcm-section-heading mb-6 flex items-center gap-2">
+                  <BarChart3 size={18} className="text-primary-600 dark:text-primary-400" />
                   Index Analytics
                </h3>
                <div className="space-y-6">
                   {[
-                     { label: 'Team Efficiency', score: 94, color: 'text-indigo-600' },
-                     { label: 'Client Satisfaction', score: 88, color: 'text-blue-600' },
-                     { label: 'Goal Velocity', score: 76, color: 'text-amber-600' },
+                     { label: 'Team Efficiency', score: 94, color: 'text-indigo-600 dark:text-indigo-400' },
+                     { label: 'Client Satisfaction', score: 88, color: 'text-blue-600 dark:text-blue-400' },
+                     { label: 'Goal Velocity', score: 76, color: 'text-amber-600 dark:text-amber-400' },
                   ].map((dept, i) => (
-                     <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-slate-100 transition-all cursor-pointer">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{dept.label}</span>
+                     <div key={i} className="flex items-center justify-between p-5 bg-slate-50 dark:bg-slate-800/30 rounded-2xl border border-slate-100 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer">
+                        <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">{dept.label}</span>
                         <span className={cn("text-2xl font-black tracking-tighter", dept.color)}>{dept.score}%</span>
                      </div>
                   ))}
@@ -434,8 +433,8 @@ const ManagerDashboard = () => {
       
       {/* Export Modal */}
       <CenterModal isOpen={showExportModal} onClose={() => !isGenerating && setShowExportModal(false)} title="Export Dashboard Analytics" maxWidth="max-w-md">
-         <div className="p-8 space-y-6 text-left">
-            <p className="text-sm font-medium text-slate-500">Select export format and date range for your team report.</p>
+         <div className="p-8 space-y-6 text-left bg-white dark:bg-slate-900">
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Select export format and date range for your team report.</p>
             <div className="grid grid-cols-2 gap-4">
                {['PDF Report', 'Excel Sheet', 'CSV Data', 'PowerPoint'].map(format => {
                   const isActive = selectedFormat === format;
@@ -446,40 +445,40 @@ const ManagerDashboard = () => {
                         disabled={isGenerating}
                         onClick={() => setSelectedFormat(format)}
                         className={cn(
-                           "flex flex-col items-center gap-3 p-6 rounded-3xl border transition-all group", 
+                           "flex flex-col items-center gap-3 p-6 rounded-3xl border transition-all group cursor-pointer", 
                            isActive 
-                              ? "border-primary-500 bg-primary-50/20 shadow-md scale-[1.02]" 
-                              : "bg-slate-50 border-slate-100 hover:border-slate-200"
+                               ? "border-primary-500 bg-primary-50/20 dark:bg-primary-950/25 shadow-md scale-[1.02]" 
+                               : "bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-750 hover:border-slate-200 dark:hover:border-slate-700"
                         )}
                      >
-                        {format === 'PDF Report' && <FileText size={24} className={cn(isActive ? "text-rose-500" : "text-slate-400 group-hover:text-rose-400")} />}
-                        {format === 'Excel Sheet' && <FileSpreadsheet size={24} className={cn(isActive ? "text-emerald-500" : "text-slate-400 group-hover:text-emerald-400")} />}
-                        {format === 'CSV Data' && <FileSpreadsheet size={24} className={cn(isActive ? "text-cyan-500" : "text-slate-400 group-hover:text-cyan-400")} />}
+                        {format === 'PDF Report' && <FileText size={24} className={cn(isActive ? "text-rose-500 dark:text-rose-400" : "text-slate-400 dark:text-slate-500 group-hover:text-rose-400")} />}
+                        {format === 'Excel Sheet' && <FileSpreadsheet size={24} className={cn(isActive ? "text-emerald-500 dark:text-emerald-450" : "text-slate-400 dark:text-slate-500 group-hover:text-emerald-400")} />}
+                        {format === 'CSV Data' && <FileSpreadsheet size={24} className={cn(isActive ? "text-cyan-500 dark:text-cyan-455" : "text-slate-400 dark:text-slate-500 group-hover:text-cyan-400")} />}
                         {format === 'PowerPoint' && <Presentation size={24} className={cn(isActive ? "text-indigo-500" : "text-slate-400 group-hover:text-indigo-400")} />}
-                        <span className={cn("text-[10px] font-black uppercase tracking-widest transition-all", isActive ? "text-primary-700" : "text-slate-600 group-hover:text-slate-900")}>{format}</span>
+                        <span className={cn("text-[10px] font-black uppercase tracking-widest transition-all", isActive ? "text-primary-700 dark:text-primary-400" : "text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white")}>{format}</span>
                      </button>
                   );
                })}
             </div>
             <div className="space-y-2">
-               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Date Range</label>
+               <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Date Range</label>
                <select 
                   value={dateRange}
                   onChange={e => setDateRange(e.target.value)}
                   disabled={isGenerating}
-                  className="input-field h-14 bg-slate-50 border-transparent font-bold"
+                  className="input-field h-14 font-bold"
                >
-                  <option>Current Month</option>
-                  <option>Last 3 Months</option>
-                  <option>Year to Date</option>
-                  <option>Custom Range</option>
+                  <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Current Month</option>
+                  <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Last 3 Months</option>
+                  <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Year to Date</option>
+                  <option className="dark:bg-slate-900 text-slate-900 dark:text-white">Custom Range</option>
                </select>
             </div>
             <button 
               type="button"
               disabled={isGenerating}
               onClick={handleDownloadReport}
-              className="btn-primary w-full py-4 font-black uppercase tracking-[0.15em] shadow-xl shadow-primary-200 active:scale-[0.98] disabled:bg-primary-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="btn-primary w-full py-4 font-black uppercase tracking-[0.15em] shadow-xl shadow-primary-500/20 active:scale-[0.98] disabled:bg-primary-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
                {isGenerating ? (
                   <>
@@ -495,9 +494,9 @@ const ManagerDashboard = () => {
 
       {/* Add Task Modal */}
       <CenterModal isOpen={showTaskModal} onClose={() => setShowTaskModal(false)} title="Assign New Task">
-         <form onSubmit={handleAddTask} className="p-8 space-y-6 text-left">
+         <form onSubmit={handleAddTask} className="p-8 space-y-6 text-left bg-white dark:bg-slate-900">
             <div className="space-y-2">
-               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Task Title</label>
+               <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Task Title</label>
                <input 
                  type="text" 
                  placeholder="e.g. Design System Audit" 
@@ -508,18 +507,18 @@ const ManagerDashboard = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Assignee</label>
+                  <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Assignee</label>
                   <select 
-                    className="input-field h-14 font-bold appearance-none bg-white"
+                    className="input-field h-14 font-bold"
                     value={newTask.assignee}
                     onChange={e => setNewTask({...newTask, assignee: e.target.value})}
                   >
-                     <option value="">Select Employee</option>
-                     {teamMembers.map(m => <option key={m.id} value={m.name}>{m.name}</option>)}
+                     <option value="" className="dark:bg-slate-900">Select Employee</option>
+                     {teamMembers.map(m => <option key={m.id} value={m.name} className="dark:bg-slate-900">{m.name}</option>)}
                   </select>
                </div>
                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Due Date</label>
+                  <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Due Date</label>
                   <input 
                     type="date" 
                     className="input-field h-14 font-bold"
@@ -529,7 +528,7 @@ const ManagerDashboard = () => {
                </div>
             </div>
             <div className="space-y-2">
-               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Priority</label>
+               <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Priority</label>
                <div className="grid grid-cols-3 gap-4">
                   {['Low', 'Medium', 'High'].map(p => (
                      <button
@@ -537,10 +536,10 @@ const ManagerDashboard = () => {
                        type="button"
                        onClick={() => setNewTask({...newTask, priority: p})}
                        className={cn(
-                          "py-3 rounded-2xl text-xs font-bold transition-all border",
+                          "py-3 rounded-2xl text-xs font-bold transition-all border cursor-pointer",
                           newTask.priority === p 
-                          ? "bg-slate-900 border-slate-900 text-white shadow-xl" 
-                          : "bg-slate-50 border-slate-100 text-slate-400 hover:bg-slate-100"
+                          ? "bg-slate-900 dark:bg-white border-slate-900 dark:border-white text-white dark:text-slate-900 shadow-xl" 
+                          : "bg-slate-50 dark:bg-slate-800 border-slate-105 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-300"
                        )}
                      >
                         {p}
@@ -548,24 +547,24 @@ const ManagerDashboard = () => {
                   ))}
                </div>
             </div>
-            <button type="submit" className="btn-primary w-full py-4 font-black uppercase tracking-[0.15em] shadow-xl shadow-primary-200 mt-4">Create & Assign Task</button>
+            <button type="submit" className="btn-primary w-full py-4 font-black uppercase tracking-[0.15em] shadow-xl shadow-primary-500/20 mt-4">Create & Assign Task</button>
          </form>
       </CenterModal>
 
       {/* Leave Review Modal */}
       <CenterModal isOpen={showReviewModal} onClose={() => setShowReviewModal(false)} title="Review Leave Request">
          {selectedLeave && (
-            <div className="p-8 text-left">
-               <div className="flex items-center gap-6 mb-10 pb-8 border-b border-slate-50">
-                  <img src={`https://i.pravatar.cc/150?u=${selectedLeave.name}`} className="w-20 h-20 rounded-3xl object-cover ring-4 ring-slate-50" />
+            <div className="p-8 text-left bg-white dark:bg-slate-900">
+               <div className="flex items-center gap-6 mb-10 pb-8 border-b border-slate-50 dark:border-slate-800 shrink-0">
+                  <img src={`https://i.pravatar.cc/150?u=${selectedLeave.name}`} className="w-20 h-20 rounded-3xl object-cover ring-4 ring-slate-50 dark:ring-slate-800" />
                   <div>
-                     <h2 className="text-2xl font-black text-slate-900">{selectedLeave.name}</h2>
-                     <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">{selectedLeave.type}</p>
+                     <h2 className="text-2xl font-black text-slate-900 dark:text-white">{selectedLeave.name}</h2>
+                     <p className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">{selectedLeave.type}</p>
                      <div className="flex items-center gap-4 mt-4">
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600 bg-slate-50 px-3 py-1 rounded-lg">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-850 px-3 py-1 rounded-lg">
                            <Calendar size={14} /> {selectedLeave.startDate} — {selectedLeave.endDate}
                         </div>
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/20 px-3 py-1 rounded-lg">
                            <Clock size={14} /> {selectedLeave.days} Days
                         </div>
                      </div>
@@ -574,28 +573,28 @@ const ManagerDashboard = () => {
                
                <div className="space-y-8">
                   <div>
-                     <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 block mb-3">Reason for Leave</label>
-                     <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 text-slate-700 font-medium leading-relaxed italic">
+                     <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Reason for Leave</label>
+                     <div className="p-6 bg-slate-50 dark:bg-slate-850 rounded-3xl border border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium leading-relaxed italic">
                         "{selectedLeave.reason}"
                      </div>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-10">
                      <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 block mb-2">Available Balance</label>
-                        <p className="text-xl font-black text-slate-900">14 Days</p>
+                        <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Available Balance</label>
+                        <p className="text-xl font-black text-slate-900 dark:text-white">14 Days</p>
                      </div>
                      <div>
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 block mb-2">Submitted On</label>
-                        <p className="text-sm font-bold text-slate-600 uppercase tracking-widest">{selectedLeave.submittedAt}</p>
+                        <label className="form-label text-[10px] uppercase tracking-widest mb-1.5 block">Submitted On</label>
+                        <p className="text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest">{selectedLeave.submittedAt}</p>
                      </div>
                   </div>
 
                   <div className="flex items-center gap-3 pt-6">
-                     <button onClick={() => handleLeaveAction('Rejected')} className="flex-1 py-4 bg-slate-50 text-slate-600 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-100 transition-all">Reject</button>
-                     <button onClick={() => handleLeaveAction('Approved')} className="flex-1 py-4 bg-emerald-500 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-emerald-600 shadow-xl shadow-emerald-100 transition-all">Approve</button>
+                     <button onClick={() => handleLeaveAction('Rejected')} className="btn-secondary flex-1 py-4 uppercase text-xs">Reject</button>
+                     <button onClick={() => handleLeaveAction('Approved')} className="btn-success flex-1 py-4 uppercase text-xs">Approve</button>
                   </div>
-                  <button className="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-primary-600 transition-colors">Request more information</button>
+                  <button className="w-full py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-450 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Request more information</button>
                </div>
             </div>
          )}

@@ -37,7 +37,7 @@ const AICenter = () => {
                   </div>
                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-600">Enterprise AI Engine</span>
                </div>
-               <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">AI Center</h1>
+               <h1 className="hcm-page-title">AI Center</h1>
                <p className="text-slate-500 font-medium tracking-tight">Manage and configure AI-powered automation across your HCM ecosystem</p>
             </div>
             <div className="flex items-center gap-3">
@@ -63,7 +63,7 @@ const AICenter = () => {
                         <motion.div
                            key={mod.id}
                            whileHover={{ y: -5, shadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)' }}
-                           className="card p-6 bg-white border border-slate-100 shadow-soft group flex flex-col h-full"
+                           className="card p-6 group flex flex-col h-full"
                         >
                            <div className="flex items-center justify-between mb-5">
                               <div className={cn("p-2.5 rounded-xl group-hover:scale-110 transition-transform", visuals.bg, visuals.color)}>
@@ -79,7 +79,7 @@ const AICenter = () => {
                                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{mod.confidence}% Precision</p>
                               </div>
                            </div>
-                           <h3 className="text-base font-extrabold text-slate-900 mb-1.5 leading-none">{mod.name}</h3>
+                           <h3 className="text-base font-extrabold text-slate-900 mb-1.5 leading-none dark:text-white">{mod.name}</h3>
                            <p className="text-xs font-medium text-slate-400 leading-relaxed tracking-tight flex-1">{mod.desc}</p>
                            <div className="mt-5 flex items-center justify-between border-t border-slate-50 pt-4">
                               <button onClick={() => setModuleToEdit(mod)} className="text-[10px] font-extrabold text-primary-600 uppercase tracking-widest flex items-center gap-2 group/btn hover:text-primary-700">

@@ -117,7 +117,7 @@ const TeamMembers = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Team Members</h1>
+          <h1 className="hcm-page-title">Team Members</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Manage your team's access, view performance and assign roles</p>
         </div>
         <div className="flex items-center gap-3">
@@ -268,7 +268,7 @@ const TeamMembers = () => {
                   <img src={selectedMember.img} className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover ring-4 ring-white shadow-lg" />
                   <div className="text-center md:text-left flex-1">
                      <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-1.5">
-                        <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">{selectedMember.name}</h2>
+                        <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight dark:text-white">{selectedMember.name}</h2>
                         <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-600 text-[9px] font-black uppercase tracking-widest rounded border border-emerald-100">
                           {selectedMember.status}
                         </span>

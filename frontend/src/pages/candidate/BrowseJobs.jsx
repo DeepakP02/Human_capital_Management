@@ -164,7 +164,7 @@ const BrowseJobs = () => {
  </select>
  </div>
  </div>
- <p className="text-[10px] font-medium text-slate-300 dark:text-slate-650 uppercase tracking-[0.3em]">Updated 2 minutes ago</p>
+ <p className="text-[10px] font-medium text-slate-300 dark:text-slate-600 uppercase tracking-[0.3em]">Updated 2 minutes ago</p>
  </div>
  </div>
 
@@ -205,7 +205,7 @@ const BrowseJobs = () => {
  onClick={(e) => { e.stopPropagation(); saveJob(job.id); showToast(savedIndices.includes(job.id) ? 'Position Unsaved' : 'Position Saved to Radar', 'info'); }}
  className={cn(
  "p-3 rounded-2xl transition-all shadow-sm active:scale-90 border",
- savedIndices.includes(job.id) ? "bg-primary-600 border-primary-600 text-white" : "bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-350 hover:text-primary-600"
+ savedIndices.includes(job.id) ? "bg-primary-600 border-primary-600 text-white" : "bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-300 hover:text-primary-600"
  )}
  >
  {savedIndices.includes(job.id) ? <BookmarkCheck size={22} /> : <Bookmark size={22} />}
@@ -291,7 +291,7 @@ const BrowseJobs = () => {
  {selectedJob.requirements.map((req, i) => (
  <div key={i} className="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850 flex items-center gap-5 group hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg transition-all">
  <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-900 flex items-center justify-center text-primary-600 shadow-sm font-medium">{i+1}</div>
- <p className="text-sm font-medium text-slate-700 dark:text-slate-350">{req}</p>
+ <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{req}</p>
  </div>
  ))}
  </div>

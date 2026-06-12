@@ -136,7 +136,7 @@ const CandidateDashboard = () => {
   <tr key={app.id} className="group hover:bg-slate-50/50 dark:hover:bg-slate-950/20 transition-colors cursor-pointer" onClick={() => setSelectedApp(app)}>
   <td className="px-8 py-7">
   <div className="flex items-center gap-4">
-  <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-350 flex items-center justify-center font-medium">
+  <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center font-medium">
   {app.company.charAt(0)}
   </div>
   <div>
@@ -193,7 +193,7 @@ const CandidateDashboard = () => {
   </div>
   </div>
   <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 mb-2">Weekly Metric</p>
-  <p className="text-sm font-medium text-slate-600 dark:text-slate-350 leading-relaxed">Your professional profile has been viewed by <span className="text-slate-900 dark:text-white font-medium">28 recruiters</span> in this cycle.</p>
+  <p className="text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed">Your professional profile has been viewed by <span className="text-slate-900 dark:text-white font-medium">28 recruiters</span> in this cycle.</p>
   </div>
   <div className="mt-10 p-5 bg-slate-50 dark:bg-slate-950 rounded-xl flex items-center justify-between border border-slate-100 dark:border-slate-850 group-hover:bg-white dark:group-hover:bg-slate-800 transition-all group-hover:shadow-xl group-hover:border-transparent">
   <div className="flex -space-x-3">
@@ -229,7 +229,7 @@ const CandidateDashboard = () => {
   <h4 className="text-lg font-medium text-slate-900 dark:text-white tracking-tight leading-none">{interview.company}</h4>
   <p className="text-[9px] font-medium text-slate-400 dark:text-slate-500 mt-2 px-2 py-0.5 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-md inline-block">{interview.round}</p>
   </div>
-  <div className="w-12 h-12 rounded-[1.25rem] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-slate-300 dark:text-slate-650 group-hover/item:text-primary-600 group-hover/item:scale-110 transition-all shadow-sm">
+  <div className="w-12 h-12 rounded-[1.25rem] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-slate-300 dark:text-slate-600 group-hover/item:text-primary-600 group-hover/item:scale-110 transition-all shadow-sm">
   <Video size={22} />
   </div>
   </div>
@@ -243,7 +243,7 @@ const CandidateDashboard = () => {
   )) : (
   <div className="py-12 border-2 border-dashed border-slate-50 dark:border-slate-850 rounded-xl text-center flex flex-col items-center">
   <Clock size={32} className="text-slate-200 dark:text-slate-700 mb-4 animate-pulse" />
-  <p className="text-[10px] font-medium text-slate-300 dark:text-slate-650">No Active Sessions</p>
+  <p className="text-[10px] font-medium text-slate-300 dark:text-slate-600">No Active Sessions</p>
   </div>
   )}
   </div>
@@ -272,7 +272,7 @@ const CandidateDashboard = () => {
   <div className={cn("p-3 rounded-xl transition-transform group-hover:rotate-12 bg-opacity-100 dark:bg-opacity-10", action.bg, action.color)}>
   <action.icon size={18} />
   </div>
-  <span className="text-sm font-medium text-slate-600 dark:text-slate-350 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{action.label}</span>
+  <span className="text-sm font-medium text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{action.label}</span>
   <ChevronRight size={16} className="ml-auto text-slate-300 group-hover:text-primary-500 group-hover:translate-x-1 transition-all" />
   </button>
   ))}
@@ -335,7 +335,7 @@ const CandidateDashboard = () => {
   <Info size={18} className="text-primary-600" />
   <span className="text-[10px] font-medium text-slate-900 dark:text-white leading-none">Recruiter Feedback</span>
   </div>
-  <span className="text-[9px] font-medium text-slate-300 dark:text-slate-650">Internal View</span>
+  <span className="text-[9px] font-medium text-slate-300 dark:text-slate-600">Internal View</span>
   </div>
   <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed">"Candidate matches core visual architecture competencies. Strong system design evidence. Progress to next interview round."</p>
   </div>

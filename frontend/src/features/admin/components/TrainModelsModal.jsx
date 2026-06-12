@@ -62,7 +62,7 @@ const TrainModelsModal = ({ isOpen, onClose }) => {
                   <Bot size={24} fill="currentColor" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">Train Models</h2>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white">Train Models</h2>
                   <p className="text-xs font-medium text-slate-500">Initiate model fine-tuning run</p>
                 </div>
               </div>

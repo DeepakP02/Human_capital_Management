@@ -73,7 +73,7 @@ const EmployeeSettings = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Employee Settings</h1>
+          <h1 className="hcm-page-title">Employee Settings</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Manage your account preferences and security</p>
         </div>
         <div className="flex items-center gap-3">
@@ -91,7 +91,7 @@ const EmployeeSettings = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
          {/* Navigation Tab List */}
          <div className="lg:col-span-3 space-y-4">
-            <div className="card p-4 bg-white border-none shadow-soft min-h-[400px]">
+            <div className="card p-4  min-h-[400px]">
                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6 px-4 pt-4">Categories</p>
                <nav className="space-y-2">
                   {menuItems.map((item) => (
@@ -121,12 +121,12 @@ const EmployeeSettings = () => {
             <AnimatePresence mode="wait">
                {activeTab === 'general' && (
                   <motion.div key="general" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
-                     <div className="card p-8 md:p-10 bg-white border-none shadow-soft space-y-10">
+                     <div className="card p-8 md:p-10  space-y-10">
                         <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                            <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
                               <Monitor size={24} />
                            </div>
-                           <h3 className="text-xl font-bold text-slate-900">General Information</h3>
+                           <h3 className="text-xl font-bold text-slate-900 dark:text-white">General Information</h3>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -168,12 +168,12 @@ const EmployeeSettings = () => {
 
                {activeTab === 'security' && (
                   <motion.div key="security" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
-                     <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                     <div className="card p-10  space-y-10">
                         <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                            <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl">
                               <ShieldCheck size={24} />
                            </div>
-                           <h3 className="text-xl font-bold text-slate-900">Security Credentials</h3>
+                           <h3 className="text-xl font-bold text-slate-900 dark:text-white">Security Credentials</h3>
                         </div>
 
                         <div className="space-y-8">
@@ -237,12 +237,12 @@ const EmployeeSettings = () => {
 
                {activeTab === 'notifications' && (
                   <motion.div key="notifications" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
-                     <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                     <div className="card p-10  space-y-10">
                         <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                            <div className="p-3 bg-amber-50 text-amber-600 rounded-2xl">
                               <Bell size={24} />
                            </div>
-                           <h3 className="text-xl font-bold text-slate-900">Communication Prefs</h3>
+                           <h3 className="text-xl font-bold text-slate-900 dark:text-white">Communication Prefs</h3>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -267,12 +267,12 @@ const EmployeeSettings = () => {
 
                {activeTab === 'preferences' && (
                   <motion.div key="preferences" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
-                     <div className="card p-10 bg-white border-none shadow-soft space-y-10">
+                     <div className="card p-10  space-y-10">
                         <div className="flex items-center gap-4 pb-6 border-b border-slate-50">
                            <div className="p-3 bg-slate-50 text-slate-600 rounded-2xl">
                               <SettingsIcon size={24} />
                            </div>
-                           <h3 className="text-xl font-bold text-slate-900">Interface Customization</h3>
+                           <h3 className="text-xl font-bold text-slate-900 dark:text-white">Interface Customization</h3>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

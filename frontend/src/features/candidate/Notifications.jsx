@@ -43,7 +43,7 @@ const Notifications = () => {
  {/* Header Section */}
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-10 rounded-[3.5rem] border border-slate-50 shadow-soft">
  <div>
- <h1 className="text-4xl font-bold text-slate-900 leading-none mb-2">SIGNAL QUEUE</h1>
+ <h1 className="hcm-page-title uppercase leading-none mb-2">SIGNAL QUEUE</h1>
  <p className="text-slate-400 font-medium text-sm">
  Operational Intelligence • <span className="text-primary-600 font-medium">{unreadCount} New Alerts</span>
  </p>
@@ -128,7 +128,7 @@ const Notifications = () => {
  <div className="flex-1 space-y-4">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div className="flex items-center gap-4">
- <h3 className="text-2xl font-bold text-slate-900 leading-none">{note.title}</h3>
+ <h3 className="text-2xl font-bold text-slate-900 leading-none dark:text-white">{note.title}</h3>
  {note.isUnread && (
  <span className="w-2.5 h-2.5 bg-primary-600 rounded-full animate-pulse shadow-lg shadow-primary-200" />
  )}
@@ -167,7 +167,7 @@ const Notifications = () => {
  <Bell size={48} />
  </div>
  <div>
- <h3 className="text-2xl font-medium text-slate-900 tracking-tight uppercase">Silent Ecosystem</h3>
+ <h3 className="text-2xl font-medium text-slate-900 tracking-tight uppercase dark:text-white">Silent Ecosystem</h3>
  <p className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.4em] mt-4">Monitoring for strategic signals...</p>
  </div>
  <button onClick={() => setActiveTab('all')} className="text-[10px] font-medium text-primary-600 uppercase tracking-[0.3em] hover:underline">Reset Frequency</button>

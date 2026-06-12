@@ -126,7 +126,7 @@ const SuperAdminDashboard = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <DollarSign size={18} className="text-primary-600 animate-pulse" />
-              <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
+              <h2 className="hcm-section-heading">
                 Revenue & Subscription Overview
               </h2>
             </div>
@@ -210,7 +210,7 @@ const SuperAdminDashboard = () => {
         >
           <div className="flex items-center gap-2 mb-6">
             <Eye size={18} className="text-amber-500" />
-            <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
+            <h2 className="hcm-section-heading">
               View As Role
             </h2>
           </div>
@@ -252,7 +252,7 @@ const SuperAdminDashboard = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <Activity size={18} className="text-primary-600" />
-              <h2 className="text-base font-black text-slate-800 dark:text-slate-100 tracking-tight">
+              <h2 className="hcm-section-heading">
                 Activity & System Monitoring
               </h2>
             </div>

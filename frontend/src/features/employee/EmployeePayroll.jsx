@@ -36,7 +36,7 @@ const EmployeePayroll = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Financial Hub</h1>
+          <h1 className="hcm-page-title">Financial Hub</h1>
           <p className="text-slate-500 font-bold tracking-tight">View your compensation, tax records and fiscal history</p>
         </div>
         <div className="flex items-center gap-3">
@@ -57,7 +57,7 @@ const EmployeePayroll = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card p-6"
           >
             <div className="flex items-center gap-4">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -65,7 +65,7 @@ const EmployeePayroll = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tight">{stat.value}</h3>
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -77,7 +77,7 @@ const EmployeePayroll = () => {
             <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
                <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
                   <div>
-                     <h3 className="text-xl font-black text-slate-900 italic tracking-tight">Salary Breakdown</h3>
+                     <h3 className="text-xl font-black text-slate-900 italic tracking-tight dark:text-white">Salary Breakdown</h3>
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Period: October 2026</p>
                   </div>
                   <div className="px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-100 italic">
@@ -146,9 +146,9 @@ const EmployeePayroll = () => {
          </div>
 
          <div className="lg:col-span-12 xl:col-span-5 space-y-8">
-            <div className="card p-8 bg-white border-none shadow-soft flex flex-col">
+            <div className="card p-8  flex flex-col">
                <div className="flex items-center justify-between mb-8">
-                  <h3 className="text-2xl font-black text-slate-900 italic tracking-tight">Registry</h3>
+                  <h3 className="text-2xl font-black text-slate-900 italic tracking-tight dark:text-white">Registry</h3>
                   <select 
                     value={selectedMonth}
                     onChange={(e) => setSelectedMonth(e.target.value)}
@@ -185,7 +185,7 @@ const EmployeePayroll = () => {
 
                <div className="mt-10 p-8 bg-primary-50 rounded-[2.5rem] border border-primary-100/50 flex flex-col items-center text-center group cursor-pointer hover:bg-primary-100 transition-colors">
                   <PieChart className="text-primary-600 mb-5 group-hover:rotate-12 transition-transform" size={40} />
-                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2">Annual Strategy</h4>
+                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2 dark:text-white">Annual Strategy</h4>
                   <p className="text-[10px] font-bold text-slate-500 leading-relaxed max-w-[200px] uppercase tracking-widest">Aggregate earnings of <span className="text-primary-700">{getCurrencySymbol(defaultCurrency)}125K+</span> for this cycle.</p>
                   <div className="mt-5 flex items-center gap-2 text-[9px] font-black text-primary-600 uppercase tracking-[0.3em]">
                      Full Insight <ArrowRight size={12} />
@@ -205,7 +205,7 @@ const EmployeePayroll = () => {
                         <Building2 size={32} />
                      </div>
                      <div>
-                        <h2 className="text-2xl font-black text-slate-900 tracking-tight leading-none">HCM.ai Tech Solutions</h2>
+                        <h2 className="text-2xl font-black text-slate-900 tracking-tight leading-none dark:text-white">HCM.ai Tech Solutions</h2>
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">{selectedPayslip.month} Statement • ID: {selectedPayslip.id}</p>
                      </div>
                   </div>
@@ -238,7 +238,7 @@ const EmployeePayroll = () => {
                <div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 flex items-center justify-between">
                   <div>
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Total Net Payable</p>
-                     <h3 className="text-4xl font-black text-slate-900 tracking-tighter italic">{formatCurrency(selectedPayslip.net, defaultCurrency)}</h3>
+                     <h3 className="text-4xl font-black text-slate-900 tracking-tighter italic dark:text-white">{formatCurrency(selectedPayslip.net, defaultCurrency)}</h3>
                   </div>
                   <div className="flex gap-3">
                      <button className="p-4 bg-white border border-slate-200 rounded-2xl hover:bg-slate-100 transition-all shadow-sm"><Printer size={20} /></button>

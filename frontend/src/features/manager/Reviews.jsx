@@ -56,10 +56,10 @@ const Reviews = () => {
   // Stats calculation
   const stats = useMemo(() => {
     return [
-      { label: 'Pending Reviews', value: reviews.filter(r => r.status === 'Pending' || r.status === 'Draft').length.toString(), icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
-      { label: 'Completed', value: reviews.filter(r => r.status === 'Submitted' || r.status === 'Closed').length.toString(), icon: CheckCircle2, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-      { label: 'Avg Team Score', value: '4.6', icon: Star, color: 'text-primary-600', bg: 'bg-primary-50' },
-      { label: 'Growth Tracks', value: '12', icon: TrendingUp, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+      { label: 'Pending Reviews', value: reviews.filter(r => r.status === 'Pending' || r.status === 'Draft').length.toString(), icon: Clock, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/20' },
+      { label: 'Completed', value: reviews.filter(r => r.status === 'Submitted' || r.status === 'Closed').length.toString(), icon: CheckCircle2, color: 'text-emerald-600 dark:text-emerald-450', bg: 'bg-emerald-50 dark:bg-emerald-950/20' },
+      { label: 'Avg Team Score', value: '4.6', icon: Star, color: 'text-primary-600 dark:text-primary-400', bg: 'bg-primary-50 dark:bg-primary-950/20' },
+      { label: 'Growth Tracks', value: '12', icon: TrendingUp, color: 'text-indigo-600 dark:text-indigo-455', bg: 'bg-indigo-50 dark:bg-indigo-950/20' },
     ];
   }, [reviews]);
 
@@ -124,14 +124,14 @@ const Reviews = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Performance Reviews</h1>
-          <p className="text-slate-500 font-medium tracking-tight mt-1">Evaluate your team members, record feedback and track professional growth</p>
+          <h1 className="hcm-page-title">Performance Reviews</h1>
+          <p className="hcm-page-subtitle">Evaluate your team members, record feedback and track professional growth</p>
         </div>
         <div className="flex items-center gap-3">
           <button 
             onClick={handleExport}
             disabled={isExporting}
-            className="btn-secondary px-5 py-2.5 font-bold flex items-center gap-2 disabled:opacity-50 active:scale-95 transition-all"
+            className="btn-secondary flex items-center gap-2 disabled:opacity-50"
           >
             {isExporting ? (
                <Loader2 size={18} className="animate-spin text-primary-500" />
@@ -140,7 +140,7 @@ const Reviews = () => {
             )}
             <span className="hidden sm:inline">Export History</span>
           </button>
-          <button onClick={() => setShowAddModal(true)} className="btn-primary px-6 py-2.5 font-bold flex items-center gap-2 shadow-lg shadow-primary-200">
+          <button onClick={() => setShowAddModal(true)} className="btn-primary flex items-center gap-2 shadow-lg shadow-primary-500/20">
              <Plus size={18} />
              <span>Initiate Review</span>
           </button>
@@ -153,15 +153,15 @@ const Reviews = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
                   <stat.icon size={26} />
                </div>
                <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
+                  <p className="card-title mb-1.5">{stat.label}</p>
+                  <h3 className="card-value">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -178,7 +178,7 @@ const Reviews = () => {
                     onClick={() => setActiveTab(cat)}
                     className={cn(
                        "px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border capitalize",
-                       activeTab === cat ? "bg-slate-900 text-white shadow-xl shadow-slate-200 border-slate-900" : "bg-white text-slate-400 border-slate-100 hover:border-slate-300"
+                       activeTab === cat ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xl border-slate-900 dark:border-white" : "bg-white dark:bg-slate-900 text-slate-400 dark:text-slate-500 border-slate-100 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
                     )}
                   >
                      {cat} {cat.includes('Q') ? 'Cycle' : ''}
@@ -186,7 +186,7 @@ const Reviews = () => {
                ))}
             </div>
             <div className="group relative w-full lg:w-80">
-               <Search className="absolute left-3 top-3 text-slate-400" size={18} />
+               <Search className="absolute left-3 top-3 text-slate-400 dark:text-slate-550" size={18} />
                <input 
                  type="text" 
                  placeholder="Search by name or rating..." 
@@ -197,60 +197,60 @@ const Reviews = () => {
             </div>
          </div>
 
-         <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
+         <div className="card p-0 overflow-hidden">
             <div className="overflow-x-auto">
-               <table className="w-full text-left">
-                  <thead>
-                     <tr className="bg-slate-50/50">
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em]">Employee Info</th>
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] text-center">Period</th>
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] text-center">Avg Rating</th>
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] text-center">Strengths</th>
-                        <th className="px-8 py-5 text-[10px] uppercase font-black text-slate-400 tracking-[0.2em] text-center">Status</th>
-                        <th className="px-8 py-5 text-right text-[10px] uppercase font-black text-slate-400 tracking-[0.2em]">Action</th>
+               <table className="hcm-table">
+                  <thead className="hcm-thead">
+                     <tr>
+                        <th className="hcm-th">Employee Info</th>
+                        <th className="hcm-th text-center">Period</th>
+                        <th className="hcm-th text-center">Avg Rating</th>
+                        <th className="hcm-th text-center">Strengths</th>
+                        <th className="hcm-th text-center">Status</th>
+                        <th className="hcm-th text-right">Action</th>
                      </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-50 text-sm">
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                      {filteredReviews.map((user) => {
                         const member = teamMembers.find(m => m.id?.toString() === user.employeeId?.toString() || m.name?.toLowerCase() === user.name?.toLowerCase());
                         const userImg = member?.img || `https://i.pravatar.cc/150?u=${user.name}`;
                         const userRole = member?.role || 'Team Member';
                         return (
-                           <tr key={user.id} className="group hover:bg-slate-50/30 transition-colors cursor-pointer" onClick={() => setSelectedReview(user)}>
-                              <td className="px-8 py-6">
+                           <tr key={user.id} className="hcm-tr group cursor-pointer" onClick={() => setSelectedReview(user)}>
+                              <td className="hcm-td">
                                  <div className="flex items-center gap-4">
-                                    <img src={userImg} alt={user.name} className="w-10 h-10 rounded-xl object-cover shadow-sm ring-2 ring-white" />
+                                    <img src={userImg} alt={user.name} className="w-10 h-10 rounded-xl object-cover shadow-sm ring-2 ring-white dark:ring-slate-900" />
                                     <div className="text-left">
-                                       <p className="font-extrabold text-slate-900 leading-none">{user.name}</p>
-                                       <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-widest">{userRole}</p>
+                                       <p className="font-extrabold text-slate-900 dark:text-white leading-none">{user.name}</p>
+                                       <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 mt-2 uppercase tracking-widest">{userRole}</p>
                                     </div>
                                  </div>
                               </td>
-                              <td className="px-8 py-6 text-center">
-                                 <span className="text-xs font-black text-slate-600 tracking-tight">{user.period}</span>
+                              <td className="hcm-td text-center">
+                                 <span className="text-xs font-black text-slate-600 dark:text-slate-300 tracking-tight">{user.period}</span>
                               </td>
-                              <td className="px-8 py-6 text-center">
+                              <td className="hcm-td text-center">
                                  <div className="flex items-center justify-center gap-1.5">
                                     <Star size={14} className="text-amber-400 fill-amber-400" />
-                                    <span className="font-black text-slate-900">{user.rating}</span>
+                                    <span className="font-black text-slate-900 dark:text-white">{user.rating}</span>
                                  </div>
                               </td>
-                              <td className="px-8 py-6 text-center max-w-[200px]">
-                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest truncate">{user.strengths}</p>
+                              <td className="hcm-td text-center max-w-[200px]">
+                                 <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest truncate">{user.strengths}</p>
                               </td>
-                              <td className="px-8 py-6 text-center">
+                              <td className="hcm-td text-center">
                                  <span className={cn(
                                     "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border shadow-sm",
-                                    user.status === 'Submitted' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
-                                    user.status === 'Draft' ? "bg-amber-50 text-amber-600 border-amber-100" :
-                                    user.status === 'Acknowledged' ? "bg-indigo-50 text-indigo-600 border-indigo-100" :
-                                    "bg-slate-50 text-slate-400 border-slate-100"
+                                    user.status === 'Submitted' ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-450 border-emerald-100 dark:border-emerald-900/30" :
+                                    user.status === 'Draft' ? "bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-450 border-amber-100 dark:border-amber-900/30" :
+                                    user.status === 'Acknowledged' ? "bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-455 border-indigo-100 dark:border-indigo-900/30" :
+                                    "bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-slate-100 dark:border-slate-800"
                                  )}>
                                     {user.status}
                                  </span>
                               </td>
-                              <td className="px-8 py-6 text-right">
-                                 <button onClick={(e) => { e.stopPropagation(); setSelectedReview(user); }} className="p-2.5 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all shadow-sm hover:shadow-md">
+                              <td className="hcm-td text-right">
+                                 <button onClick={(e) => { e.stopPropagation(); setSelectedReview(user); }} className="p-2.5 text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 rounded-xl transition-all shadow-sm hover:shadow-md">
                                     <Edit3 size={18} />
                                  </button>
                               </td>
@@ -259,10 +259,10 @@ const Reviews = () => {
                      })}
                      {filteredReviews.length === 0 && (
                         <tr>
-                           <td colSpan="6" className="px-8 py-20 text-center">
+                           <td colSpan="6" className="hcm-td text-center py-20">
                               <div className="flex flex-col items-center gap-4 opacity-40 text-left">
-                                 <Award size={48} className="text-slate-300" />
-                                 <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">No reviews found in this period</p>
+                                 <Award size={48} className="text-slate-300 dark:text-slate-600" />
+                                 <p className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">No reviews found in this period</p>
                               </div>
                            </td>
                         </tr>
@@ -280,8 +280,8 @@ const Reviews = () => {
         title="Performance Assessment Form"
       >
          {selectedReview && (
-            <div className="p-6 sm:p-8 space-y-6 text-left">
-               <div className="p-5 sm:p-6 bg-slate-900 rounded-2xl relative overflow-hidden group">
+            <div className="p-6 sm:p-8 space-y-6 text-left bg-white dark:bg-slate-900">
+               <div className="p-5 sm:p-6 bg-slate-900 dark:bg-slate-950 rounded-2xl relative overflow-hidden group border border-slate-800 dark:border-slate-850">
                   <div className="absolute top-0 right-0 p-6 opacity-20 transform translate-x-6 -translate-y-6 group-hover:translate-x-3 group-hover:-translate-y-3 transition-transform">
                      <Star size={100} className="text-amber-400" />
                   </div>
@@ -310,9 +310,9 @@ const Reviews = () => {
                            </span>
                            <button 
                              onClick={handleAIGenerateAssessment}
-                             className="sm:hidden text-[9px] font-bold text-emerald-400 flex items-center gap-1 bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/30 shrink-0"
+                             className="sm:hidden text-[9px] font-bold text-emerald-400 flex items-center gap-1 bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/30 shrink-0 animate-pulse"
                            >
-                             <Sparkles size={10} className="animate-pulse" /> AI Draft
+                             <Sparkles size={10} /> AI Draft
                            </button>
                         </div>
                      </div>
@@ -321,20 +321,20 @@ const Reviews = () => {
 
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-left">
                   <div className="space-y-2 text-left">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <Zap size={14} className="text-primary-500" /> Core Strengths
+                     <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                        <Zap size={14} className="text-primary-500 dark:text-primary-400" /> Core Strengths
                      </label>
                      <textarea 
-                        className="input-field min-h-[100px] bg-slate-50 border-transparent py-3 text-xs font-bold uppercase tracking-tight resize-none" 
+                        className="input-field min-h-[100px] py-3 text-sm font-semibold resize-none" 
                         defaultValue={selectedReview.strengths}
                      ></textarea>
                   </div>
                   <div className="space-y-2 text-left">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <Target size={14} className="text-indigo-500" /> Areas for Growth
+                     <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                        <Target size={14} className="text-indigo-500 dark:text-indigo-400" /> Areas for Growth
                      </label>
                      <textarea 
-                        className="input-field min-h-[100px] bg-slate-50 border-transparent py-3 text-xs font-bold uppercase tracking-tight resize-none" 
+                        className="input-field min-h-[100px] py-3 text-sm font-semibold resize-none" 
                         defaultValue={selectedReview.improvement}
                      ></textarea>
                   </div>
@@ -342,13 +342,13 @@ const Reviews = () => {
 
                <div className="space-y-2 text-left">
                   <div className="flex items-center justify-between">
-                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Manager Assessment Summary</label>
-                     <button onClick={handleAIGenerateAssessment} className="text-[9px] font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1 hover:text-emerald-700">
+                     <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">Manager Assessment Summary</label>
+                     <button onClick={handleAIGenerateAssessment} className="text-[9px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest flex items-center gap-1 hover:text-emerald-700 dark:hover:text-emerald-300">
                        <Sparkles size={12} /> Auto-Draft
                      </button>
                   </div>
                   <textarea 
-                    className="input-field min-h-[100px] py-4 bg-slate-50 border-transparent resize-none text-sm font-medium leading-relaxed shadow-inner" 
+                    className="input-field min-h-[100px] py-4 resize-none text-sm font-medium leading-relaxed" 
                     placeholder="Summarize key performance indicators, qualitative feedback, and culture contribution..."
                     value={assessment.summary || ''}
                     onChange={(e) => setAssessment({ ...assessment, summary: e.target.value })}
@@ -356,16 +356,16 @@ const Reviews = () => {
                </div>
 
                <div className="space-y-4 text-left">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Final Performance Index</label>
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between items-center bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-sm">
+                  <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">Final Performance Index</label>
+                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-0 justify-between items-center bg-slate-50 dark:bg-slate-800/40 p-4 sm:p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm animate-fade-in">
                      <div className="flex gap-2 sm:gap-3">
                         {[1,2,3,4,5].map(s => (
                            <button 
                              key={s} 
                              onClick={() => setAssessment({...assessment, rating: s})}
                              className={cn(
-                               "w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center transition-all shadow-sm",
-                               s <= assessment.rating ? "bg-slate-900 text-amber-400 shadow-md scale-105" : "bg-white text-slate-200 hover:text-slate-300"
+                               "w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center transition-all shadow-sm border border-slate-100 dark:border-slate-800",
+                               s <= assessment.rating ? "bg-slate-900 dark:bg-slate-950 text-amber-400 shadow-md scale-105" : "bg-white dark:bg-slate-900 text-slate-300 dark:text-slate-600 hover:text-slate-400"
                              )}
                            >
                               <Star size={16} fill={s <= assessment.rating ? "currentColor" : "none"} />
@@ -373,17 +373,17 @@ const Reviews = () => {
                         ))}
                      </div>
                      <div className="text-right">
-                        <p className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tighter">{assessment.rating}.0</p>
-                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mt-0.5">Exceeds Exp.</p>
+                        <p className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tighter">{assessment.rating}.0</p>
+                        <p className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mt-0.5">Exceeds Exp.</p>
                      </div>
                   </div>
                </div>
                
-               <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
-                  <button onClick={() => setSelectedReview(null)} className="w-full sm:w-auto py-2.5 px-5 bg-white border border-slate-200 text-slate-500 rounded-xl font-bold uppercase tracking-widest hover:bg-slate-50 hover:border-slate-300 transition-all text-xs sm:text-sm">
+               <div className="pt-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 p-6 -mx-6 -mb-6 sm:-mx-8 sm:-mb-8 rounded-b-3xl flex flex-col sm:flex-row gap-3">
+                  <button onClick={() => setSelectedReview(null)} className="btn-secondary w-full sm:w-auto text-xs sm:text-sm">
                      Save Progress
                   </button>
-                  <button onClick={handleFinalizeReview} className="w-full sm:w-auto flex-1 py-2.5 sm:py-3 bg-primary-600 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 flex items-center justify-center gap-2 text-xs sm:text-sm">
+                  <button onClick={handleFinalizeReview} className="btn-primary w-full sm:w-auto flex-1 flex items-center justify-center gap-2 text-xs sm:text-sm">
                      <Send size={16} />
                      <span>Submit Final Review</span>
                   </button>
@@ -397,52 +397,51 @@ const Reviews = () => {
         isOpen={showAddModal} 
         onClose={() => setShowAddModal(false)} 
         title="Initiate Performance Cycle"
-      >
-         <form onSubmit={handleInitiateReview} className="p-6 sm:p-8 space-y-4 sm:space-y-6 text-left">
+      >          <form onSubmit={handleInitiateReview} className="p-6 sm:p-8 space-y-4 sm:space-y-6 text-left bg-white dark:bg-slate-900">
             <div className="space-y-2 text-left">
-               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1 text-left">Target Employee</label>
+               <label className="form-label px-1">Target Employee</label>
                <select 
-                  className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
+                  className="input-field h-11 sm:h-12 font-semibold text-sm"
                   value={newReview.employeeId}
                   onChange={e => setNewReview({...newReview, employeeId: e.target.value})}
                >
-                  <option value="">Choose Team Member</option>
-                  {teamMembers.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+                  <option value="" className="dark:bg-slate-900">Choose Team Member</option>
+                  {teamMembers.map(m => <option key={m.id} value={m.id} className="dark:bg-slate-900">{m.name}</option>)}
                </select>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-left">
                <div className="space-y-2 text-left">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Review Period</label>
+                  <label className="form-label px-1">Review Period</label>
                   <select 
-                    className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
+                    className="input-field h-11 sm:h-12 font-semibold text-sm"
                     value={newReview.period}
                     onChange={e => setNewReview({...newReview, period: e.target.value})}
                   >
-                     <option>Q4 2026</option>
-                     <option>Q3 2026</option>
-                     <option>Annual 2026</option>
-                     <option>Probationary</option>
+                     <option className="dark:bg-slate-900">Q4 2026</option>
+                     <option className="dark:bg-slate-900">Q3 2026</option>
+                     <option className="dark:bg-slate-900">Annual 2026</option>
+                     <option className="dark:bg-slate-900">Probationary</option>
                   </select>
                </div>
                <div className="space-y-2 text-left">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-1">Assessment Type</label>
+                  <label className="form-label px-1">Assessment Type</label>
                   <select 
-                    className="input-field h-11 sm:h-12 font-semibold appearance-none bg-white text-sm"
+                    className="input-field h-11 sm:h-12 font-semibold text-sm"
                     value={newReview.type}
                     onChange={e => setNewReview({...newReview, type: e.target.value})}
                   >
-                     <option>Quarterly Performance</option>
-                     <option>Annual Appraisal</option>
-                     <option>360 Feedback</option>
-                     <option>Technical Review</option>
+                     <option className="dark:bg-slate-900">Quarterly Performance</option>
+                     <option className="dark:bg-slate-900">Annual Appraisal</option>
+                     <option className="dark:bg-slate-900">360 Feedback</option>
+                     <option className="dark:bg-slate-900">Technical Review</option>
                   </select>
                </div>
             </div>
 
             <div className="pt-4 flex flex-col gap-3 text-left">
-               <button type="submit" className="btn-primary w-full py-2.5 sm:py-3 font-bold uppercase tracking-[0.2em] shadow-md shadow-primary-100 text-sm">Open Evaluation Box</button>
-               <button type="button" onClick={() => setShowAddModal(false)} className="w-full py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-slate-600 transition-colors">Discard Cycle</button>
+               <button type="submit" className="btn-primary w-full py-2.5 sm:py-3 shadow-md shadow-primary-500/20 text-sm">Open Evaluation Box</button>
+               <button type="button" onClick={() => setShowAddModal(false)} className="btn-secondary w-full py-2.5 text-sm">Discard Cycle</button>
             </div>
           </form>
       </CenterModal>

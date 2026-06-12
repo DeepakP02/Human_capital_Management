@@ -66,7 +66,7 @@ const ComplianceCenter = () => {
          {/* Header */}
          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-               <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Compliance Center</h1>
+               <h1 className="hcm-page-title">Compliance Center</h1>
                <p className="text-slate-500 font-medium tracking-tight">Standardize policies, track legal acknowledgments and manage organization-wide audits</p>
             </div>
             <div className="flex items-center gap-3">
@@ -90,7 +90,7 @@ const ComplianceCenter = () => {
                <motion.div
                   key={idx}
                   whileHover={{ y: -5 }}
-                  className="card p-6 bg-white border border-slate-100 shadow-soft"
+                  className="card p-6"
                >
                   <div className="flex items-center gap-4">
                      <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -98,7 +98,7 @@ const ComplianceCenter = () => {
                      </div>
                      <div>
                         <p className="text-sm font-bold text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                        <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">{stat.value}</h3>
+                        <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
                      </div>
                   </div>
                </motion.div>

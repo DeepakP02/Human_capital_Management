@@ -116,7 +116,7 @@ const KPITracking = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">KPI Tracking & Goals</h1>
+          <h1 className="hcm-page-title">KPI Tracking & Goals</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Track employee objectives, progress and team performance metrics</p>
         </div>
         <div className="flex items-center gap-3">
@@ -141,7 +141,7 @@ const KPITracking = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card p-6"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -149,7 +149,7 @@ const KPITracking = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>

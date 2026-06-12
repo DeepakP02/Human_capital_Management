@@ -43,14 +43,14 @@ import { cn } from '../utils/cn';
 const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  
+
   // Demo modal states
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [demoStep, setDemoStep] = useState(1);
   const [demoFormData, setDemoFormData] = useState({ name: '', email: '', companySize: '11-50', requirement: 'AI Recruitment' });
   const [selectedDate, setSelectedDate] = useState('Monday, June 1');
   const [selectedSlot, setSelectedSlot] = useState('10:00 AM');
-  
+
   // Careers application modal states
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [applyJobTitle, setApplyJobTitle] = useState('');
@@ -84,7 +84,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-primary-100 selection:text-primary-900 scroll-smooth transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-primary-100 selection:text-primary-900 scroll-smooth transition-colors duration-300">
       {/* 1. NAVBAR */}
       <nav className={cn(
         "fixed top-0 inset-x-0 z-[100] transition-all duration-300 border-b",
@@ -170,7 +170,7 @@ const LandingPage = () => {
                 <Sparkles size={14} fill="currentColor" />
                 <span>Next-Gen Workforce OS</span>
               </div>
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-black text-slate-900 tracking-tighter leading-[1.05]">
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-[1.05]">
                 Transform Workforce <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-600">Management</span> with AI
               </h1>
@@ -282,7 +282,7 @@ const LandingPage = () => {
                 <div className="p-4 bg-primary-50 text-primary-600 rounded-2xl mb-6 group-hover:bg-white/20 group-hover:text-white transition-colors">
                   <stat.icon size={28} />
                 </div>
-                <h3 className="text-4xl font-black text-slate-900 mb-2 tracking-tighter group-hover:text-white">{stat.val}</h3>
+                <h3 className="text-4xl font-black text-slate-900 mb-2 tracking-tighter group-hover:text-white dark:text-white">{stat.val}</h3>
                 <p className="text-xs font-black text-primary-600 uppercase tracking-widest group-hover:text-primary-100 mb-1">{stat.label}</p>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest group-hover:text-white/60">{stat.desc}</p>
               </motion.div>
@@ -296,7 +296,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-6">
           <motion.div {...fadeIn} className="text-center max-w-3xl mx-auto mb-10 space-y-4">
             <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Core Capabilities</span>
-            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter">Everything you need to <br /> scale your workforce</h2>
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter dark:text-white">Everything you need to <br /> scale your workforce</h2>
             <p className="text-base text-slate-500 font-medium tracking-tight">Our platform brings together all aspects of HCM into a single, cohesive intelligent ecosystem.</p>
           </motion.div>
 
@@ -327,7 +327,7 @@ const LandingPage = () => {
                   <div className="p-2.5 bg-slate-50 text-slate-400 rounded-xl w-fit shrink-0 group-hover:bg-primary-600 group-hover:text-white transition-all">
                     <feat.icon size={20} />
                   </div>
-                  <h4 className="text-sm font-black text-slate-900 tracking-tight leading-snug">{feat.title}</h4>
+                  <h4 className="text-sm font-black text-slate-900 tracking-tight leading-snug dark:text-white">{feat.title}</h4>
                 </div>
                 <p className="text-xs font-medium text-slate-400 leading-relaxed tracking-tight">{feat.desc}</p>
                 <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
@@ -351,7 +351,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div {...fadeIn}>
               <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-6 inline-block">Experience-Centric Design</span>
-              <h2 className="text-4xl lg:text-7xl font-black tracking-tighter leading-none mb-10 text-slate-900">
+              <h2 className="text-4xl lg:text-7xl font-black tracking-tighter leading-none mb-10 text-slate-900 dark:text-white">
                 Unified Experience, <br />
                 <span className="text-primary-600">Dedicated Portals.</span>
               </h2>
@@ -438,14 +438,14 @@ const LandingPage = () => {
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <div className="card p-6 sm:p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
+                <div className="card p-6 sm:p-8 rounded-[2.5rem]">
                   <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl mb-4 w-fit">
                     <Bot size={24} />
                   </div>
                   <p className="text-xl font-black text-slate-900 mb-2">Smart Assist</p>
                   <p className="text-xs text-slate-400 font-medium leading-relaxed tracking-tight">Real-time candidate Q&A via proprietary LLM endpoints.</p>
                 </div>
-                <div className="card p-6 sm:p-8 bg-white border border-slate-100 shadow-soft rounded-[2.5rem]">
+                <div className="card p-6 sm:p-8 rounded-[2.5rem]">
                   <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl mb-4 w-fit">
                     <TrendingUp size={24} />
                   </div>
@@ -457,7 +457,7 @@ const LandingPage = () => {
 
             <motion.div {...fadeIn} className="flex-1 order-1 lg:order-2">
               <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-6 inline-block">Automation First</span>
-              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter mb-10 leading-none">
+              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter mb-10 leading-none dark:text-white">
                 Intelligent Decisions. <br />
                 <span className="text-slate-400">Zero Guesswork.</span>
               </h2>
@@ -484,7 +484,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-6 text-center">
           <motion.div {...fadeIn} className="max-w-2xl mx-auto mb-12 space-y-4">
             <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Implementation</span>
-            <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">Your journey to <br /> smart HR in 4 steps</h2>
+            <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter dark:text-white">Your journey to <br /> smart HR in 4 steps</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
@@ -506,7 +506,7 @@ const LandingPage = () => {
                 <div className="w-16 h-16 bg-white border-2 border-primary-600 rounded-full flex items-center justify-center text-xl font-black text-primary-600 shadow-xl group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
                   {item.step}
                 </div>
-                <h4 className="text-2xl font-black text-slate-900 tracking-tight">{item.title}</h4>
+                <h4 className="text-2xl font-black text-slate-900 tracking-tight dark:text-white">{item.title}</h4>
                 <p className="text-sm font-medium text-slate-400 tracking-tight leading-relaxed max-w-[200px]">{item.desc}</p>
               </motion.div>
             ))}
@@ -518,7 +518,7 @@ const LandingPage = () => {
       <section className="pt-12 pb-12">
         <div className="container mx-auto px-6">
           <motion.div {...fadeIn} className="text-center mb-10 px-4">
-            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter mb-6 leading-none">Designed for <span className="text-primary-600">Visual High Fidelity</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter mb-6 leading-none dark:text-white">Designed for <span className="text-primary-600">Visual High Fidelity</span></h2>
             <p className="text-lg text-slate-500 font-medium tracking-tight">Experience our premium interfaces designed for every role.</p>
           </motion.div>
 
@@ -558,7 +558,7 @@ const LandingPage = () => {
       <section className="pt-12 pb-12 bg-slate-50 text-slate-900">
         <div className="container mx-auto px-6">
           <motion.div {...fadeIn} className="text-center mb-10 space-y-4">
-            <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-slate-900">Loved by Industry Leaders</h2>
+            <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-slate-900 dark:text-white">Loved by Industry Leaders</h2>
             <p className="text-slate-500 font-medium">Join 500+ enterprises modernizing their workforce with our platform.</p>
           </motion.div>
 
@@ -598,7 +598,7 @@ const LandingPage = () => {
             <div className="w-24 h-24 bg-primary-50 text-primary-600 rounded-[2.5rem] flex items-center justify-center mx-auto mb-6 shadow-lg rotate-12 transition-transform hover:rotate-0">
               <Zap size={48} />
             </div>
-            <h2 className="text-5xl lg:text-8xl font-black text-slate-900 tracking-tighter leading-[0.85]">Ready to modernize <br /> your workforce?</h2>
+            <h2 className="text-5xl lg:text-8xl font-black text-slate-900 tracking-tighter leading-[0.85] dark:text-white">Ready to modernize <br /> your workforce?</h2>
             <p className="text-xl text-slate-500 font-medium tracking-tight max-w-2xl mx-auto">
               Start your 14-day free trial today. No credit card required. Scalable pricing designed for every stage of growth.
             </p>
@@ -624,7 +624,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
             <motion.div {...fadeIn}>
               <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] mb-4 inline-block">Frequently Asked</span>
-              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter leading-none mb-10">Commonly Asked <br /> Knowledge.</h2>
+              <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter leading-none mb-10 dark:text-white">Commonly Asked <br /> Knowledge.</h2>
               <p className="text-lg text-slate-400 font-medium leading-relaxed tracking-tight mb-10">Find quick answers to common questions about our platform and how it integrates into your existing workflows.</p>
               <div className="p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-soft flex items-center gap-6">
                 <div className="p-4 bg-primary-50 text-primary-600 rounded-2xl">
@@ -652,7 +652,7 @@ const LandingPage = () => {
                   className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-soft group cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
-                    <h4 className="text-lg font-black text-slate-900 tracking-tight">{item.q}</h4>
+                    <h4 className="text-lg font-black text-slate-900 tracking-tight dark:text-white">{item.q}</h4>
                     <ChevronDown size={20} className="text-slate-300 group-hover:text-primary-600 transition-colors" />
                   </div>
                   <div className="mt-4 text-sm font-medium text-slate-400 leading-relaxed overflow-hidden h-0 group-hover:h-auto transition-all">
@@ -671,14 +671,14 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             <motion.div {...fadeIn} className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
               <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Join Our Team</span>
-              <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-none">
+              <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-none dark:text-white">
                 Build the Future of <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-600">Workforce OS</span>
               </h2>
               <p className="text-base text-slate-500 font-medium leading-relaxed tracking-tight">
                 We're on a mission to build the world's most intelligent workforce operating system. Join us to solve challenging AI, data, and user experience problems.
               </p>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
                 {[
                   { icon: Globe, title: 'Remote First', desc: 'Work from anywhere with core hour syncs.' },
@@ -687,10 +687,10 @@ const LandingPage = () => {
                   { icon: Heart, title: 'Premium Health', desc: 'Comprehensive medical, dental & vision plans.' }
                 ].map((item, i) => (
                   <div key={i} className="space-y-2">
-                    <div className="p-3 bg-slate-50 text-slate-700 rounded-xl w-fit">
+                    <div className="p-3 hcm-badge hcm-badge-draft rounded-xl w-fit">
                       <item.icon size={20} className="text-primary-600" />
                     </div>
-                    <h4 className="text-sm font-black text-slate-900 tracking-tight">{item.title}</h4>
+                    <h4 className="text-sm font-black text-slate-900 tracking-tight dark:text-white">{item.title}</h4>
                     <p className="text-xs font-medium text-slate-400 leading-relaxed tracking-tight">{item.desc}</p>
                   </div>
                 ))}
@@ -698,7 +698,7 @@ const LandingPage = () => {
             </motion.div>
 
             <motion.div {...fadeIn} className="lg:col-span-7 space-y-6">
-              <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2">Open Opportunities</h3>
+              <h3 className="text-xl font-black text-slate-900 tracking-tight mb-2 dark:text-white">Open Opportunities</h3>
               {[
                 { title: 'Senior AI Engineer (NLP/LLMs)', dept: 'Engineering', loc: 'Remote (US/EU)', type: 'Full-time' },
                 { title: 'Senior Frontend Engineer (React)', dept: 'Engineering', loc: 'Hybrid (SF/NYC)', type: 'Full-time' },
@@ -716,10 +716,10 @@ const LandingPage = () => {
                         {job.loc}
                       </span>
                     </div>
-                    <h4 className="text-lg font-black text-slate-900 tracking-tight group-hover:text-primary-600 transition-colors">{job.title}</h4>
+                    <h4 className="text-lg font-black text-slate-900 tracking-tight group-hover:text-primary-600 transition-colors dark:text-white">{job.title}</h4>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{job.type} • Competitive Equity</p>
                   </div>
-                  <button 
+                  <button
                     onClick={() => {
                       setApplyJobTitle(job.title);
                       setApplyStep(1);
@@ -744,7 +744,7 @@ const LandingPage = () => {
             <motion.div {...fadeIn} className="lg:col-span-5 flex flex-col justify-between space-y-8">
               <div className="space-y-6">
                 <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em]">Get In Touch</span>
-                <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-none">
+                <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-none dark:text-white">
                   Let's Discuss <br /> Your Workforce.
                 </h2>
                 <p className="text-base text-slate-500 font-medium leading-relaxed tracking-tight">
@@ -770,7 +770,7 @@ const LandingPage = () => {
                 ))}
               </div>
 
-              <div className="p-5 bg-white border border-slate-150 rounded-[2rem] shadow-soft flex items-center gap-4 w-fit">
+              <div className="p-5 bg-white border border-slate-200 rounded-[2rem] shadow-soft flex items-center gap-4 w-fit">
                 <div className="relative flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
@@ -858,7 +858,7 @@ const LandingPage = () => {
                     </div>
                     <div className="space-y-4">
                       <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.4em] block">Inquiry Dispatched</span>
-                      <h3 className="text-3xl font-black text-slate-900 tracking-tighter leading-none">
+                      <h3 className="text-3xl font-black text-slate-900 tracking-tighter leading-none dark:text-white">
                         Thank you, {contactFormData.name}!
                       </h3>
                       <p className="text-sm font-medium text-slate-500 max-w-md mx-auto leading-relaxed">
@@ -978,11 +978,7 @@ const LandingPage = () => {
           <div className="pt-6 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">© 2026 AI HCM Platform • Enterprise Grade Workforce OS</p>
             <div className="flex items-center gap-8">
-              <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">US • UK • APAC</span>
-              <div className="flex items-center gap-2 text-emerald-500">
-                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                <span className="text-[10px] font-black uppercase tracking-widest">Systems Operational</span>
-              </div>
+
             </div>
           </div>
         </div>
@@ -1162,7 +1158,7 @@ const LandingPage = () => {
                                 "py-3.5 rounded-xl border text-center text-xs font-bold transition-all duration-250",
                                 isSelected
                                   ? "bg-primary-600 border-primary-600 text-white shadow-xl"
-                                  : "bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-650"
+                                  : "bg-slate-50 border-slate-100 hover:bg-slate-100 text-slate-600"
                               )}
                             >
                               {slot}
@@ -1198,7 +1194,7 @@ const LandingPage = () => {
                   </div>
                   <div className="space-y-4">
                     <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.4em] block">Demo Staged & Booked</span>
-                    <h3 className="text-4xl font-black text-slate-900 tracking-tighter leading-none">
+                    <h3 className="text-4xl font-black text-slate-900 tracking-tighter leading-none dark:text-white">
                       See you soon, {demoFormData.name}!
                     </h3>
                     <p className="text-sm font-medium text-slate-500 max-w-md mx-auto leading-relaxed mt-2">
@@ -1349,7 +1345,7 @@ const LandingPage = () => {
                   >
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Resume Upload</label>
-                      <div 
+                      <div
                         onClick={() => {
                           setApplyFormData({ ...applyFormData, resumeName: 'resume_pdf_hcm.pdf' });
                         }}
@@ -1421,7 +1417,7 @@ const LandingPage = () => {
                   </div>
                   <div className="space-y-3">
                     <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] block">Proprietary Matcher Active</span>
-                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter leading-none">
+                    <h3 className="text-2xl font-black text-slate-900 tracking-tighter leading-none dark:text-white">
                       AI Screening Candidate Profile...
                     </h3>
                     <p className="text-xs font-medium text-slate-400 max-w-sm mx-auto leading-relaxed pt-2">
@@ -1429,11 +1425,11 @@ const LandingPage = () => {
                     </p>
                   </div>
                   <div className="w-full max-w-xs mx-auto h-2 bg-slate-100 rounded-full overflow-hidden relative">
-                    <motion.div 
-                      initial={{ width: 0 }} 
-                      animate={{ width: "100%" }} 
-                      transition={{ duration: 2.2, ease: "easeInOut" }} 
-                      className="h-full bg-primary-600 rounded-full" 
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 2.2, ease: "easeInOut" }}
+                      className="h-full bg-primary-600 rounded-full"
                     />
                   </div>
                 </div>
@@ -1447,7 +1443,7 @@ const LandingPage = () => {
                   </div>
                   <div className="space-y-4">
                     <span className="text-[10px] font-black text-primary-600 uppercase tracking-[0.4em] block">Match Score Computed</span>
-                    <h3 className="text-4xl font-black text-slate-900 tracking-tighter leading-none">
+                    <h3 className="text-4xl font-black text-slate-900 tracking-tighter leading-none dark:text-white">
                       Excellent Alignment, {applyFormData.name}!
                     </h3>
                     <p className="text-sm font-medium text-slate-500 max-w-md mx-auto leading-relaxed">

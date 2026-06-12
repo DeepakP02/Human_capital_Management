@@ -72,17 +72,17 @@ const DepartmentManagement = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
+          <h1 className="hcm-page-title">
             <Building2 className="text-amber-600" size={32} />
             Department Management
           </h1>
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
+          <p className="hcm-page-subtitle">
             Configure company divisions, department heads, and monitor personnel counts.
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold flex items-center justify-center gap-2 self-start md:self-auto shadow-lg shadow-amber-200 dark:shadow-none transition-all"
+          className="btn-primary flex items-center justify-center gap-2 self-start md:self-auto"
         >
           <Plus size={18} />
           <span>Create Department</span>
@@ -90,7 +90,7 @@ const DepartmentManagement = () => {
       </div>
 
       {/* Control Bar */}
-      <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/60 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div className="card p-4 flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="relative w-full md:max-w-md">
           <Search className="absolute left-4 top-3.5 text-slate-400" size={18} />
           <input
@@ -98,7 +98,7 @@ const DepartmentManagement = () => {
             placeholder="Search departments by name or head..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-slate-900 dark:text-slate-100 text-sm"
+            className="input-field pl-12"
           />
         </div>
         <div className="text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-50 dark:bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
@@ -116,7 +116,7 @@ const DepartmentManagement = () => {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 12 }}
-                className="bg-white/30 backdrop-blur-lg border border-slate-100 dark:border-slate-800/60 shadow-premium hover:shadow-2xl transition-all flex flex-col justify-between group relative rounded-3xl p-6"
+                className="card flex flex-col justify-between group relative"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -126,7 +126,7 @@ const DepartmentManagement = () => {
                     <StatsCounter target={dept.count || 0} label="Staff" suffix="" />
                   </div>
 
-                  <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1 leading-snug">{dept.name}</h3>
+                  <h3 className="hcm-section-heading mb-1 leading-snug">{dept.name}</h3>
                   <div className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 mb-6 mt-2">
                     <User size={14} className="text-slate-400" />
                     <span>Dept. Head: </span>
@@ -163,22 +163,15 @@ const DepartmentManagement = () => {
       {/* Department Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
-            />
+          <div className="hcm-modal-overlay">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800"
+              className="hcm-modal"
             >
               <div className="p-6 border-b border-slate-50 dark:border-slate-800/80 flex items-center justify-between">
-                <h3 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2.5">
+                <h3 className="hcm-section-heading flex items-center gap-2.5">
                   <Grid className="text-amber-600" size={22} />
                   {editingDept ? 'Edit Division' : 'Create Department'}
                 </h3>
@@ -192,38 +185,38 @@ const DepartmentManagement = () => {
 
               <form onSubmit={handleSubmit} className="p-6 space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Department Name</label>
+                  <label className="form-label">Department Name</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Operations"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold"
+                    className="input-field"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Department Head</label>
+                  <label className="form-label">Department Head</label>
                   <input
                     type="text"
                     required
                     placeholder="Enter head manager name"
                     value={head}
                     onChange={(e) => setHead(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold"
+                    className="input-field"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Staff Members Count</label>
+                  <label className="form-label">Staff Members Count</label>
                   <input
                     type="number"
                     min="0"
                     required
                     value={count}
                     onChange={(e) => setCount(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all text-slate-900 dark:text-slate-100 text-sm font-semibold"
+                    className="input-field"
                   />
                 </div>
 
@@ -231,13 +224,13 @@ const DepartmentManagement = () => {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-2.5 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-sm"
+                    className="btn-secondary flex-1"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-2.5 bg-amber-600 text-white rounded-xl font-bold hover:bg-amber-700 transition-all text-sm shadow-lg shadow-amber-200 dark:shadow-none"
+                    className="btn-primary flex-1"
                   >
                     {editingDept ? 'Save Changes' : 'Create Dept.'}
                   </button>

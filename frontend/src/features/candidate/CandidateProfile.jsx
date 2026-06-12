@@ -82,7 +82,7 @@ const CandidateProfile = () => {
  </div>
  </div>
  <div>
- <h1 className="text-3xl font-bold text-slate-900 tracking-tight leading-none mb-2">{formData.fullName}</h1>
+ <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-2">{formData.fullName}</h1>
  <p className="text-slate-400 font-medium text-sm">{formData.role} • <span className="text-slate-900 font-medium">Professional Profile</span></p>
  </div>
  </div>
@@ -152,7 +152,7 @@ const CandidateProfile = () => {
  <div className="space-y-12 text-left">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <User className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Personal Details</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Personal Details</h3>
  </div>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
  {[
@@ -200,7 +200,7 @@ const CandidateProfile = () => {
  <div className="space-y-12 text-left">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <Briefcase className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Employment Details</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Employment Details</h3>
  </div>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
  {[
@@ -232,7 +232,7 @@ const CandidateProfile = () => {
  <div className="space-y-12 text-left">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <FileText className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Resume Documents</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Resume Documents</h3>
  </div>
  
  <div className="p-12 border-4 border-dashed border-slate-100 rounded-[3rem] bg-slate-50/50 flex flex-col items-center justify-center group hover:border-primary-200 transition-all cursor-pointer">
@@ -240,7 +240,7 @@ const CandidateProfile = () => {
  <Cloud size={40} />
  </div>
  <p className="text-xs font-bold text-slate-400 mb-4">Upload Protocol Active</p>
- <h4 className="text-lg font-bold text-slate-900">Upload New Resume</h4>
+ <h4 className="text-lg font-bold text-slate-900 dark:text-white">Upload New Resume</h4>
  <p className="text-xs font-medium text-slate-300 mt-4">PDF, DOCX (Max 10MB)</p>
  </div>
 
@@ -270,7 +270,7 @@ const CandidateProfile = () => {
  <div className="space-y-12 text-left">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <Zap className="text-primary-600" size={24} />
- <h3 className="text-xl font-bold text-slate-900 tracking-tight">Skills & Expertise</h3>
+ <h3 className="text-xl font-bold text-slate-900 tracking-tight dark:text-white">Skills & Expertise</h3>
  </div>
  
  {isEditing && (
@@ -309,7 +309,7 @@ const CandidateProfile = () => {
  <div className="space-y-12 text-left">
  <div className="flex items-center gap-4 border-b border-slate-50 pb-6">
  <Globe className="text-primary-600" size={24} />
- <h3 className="text-xl font-medium text-slate-900 tracking-tight uppercase">Online Presence</h3>
+ <h3 className="text-xl font-medium text-slate-900 tracking-tight uppercase dark:text-white">Online Presence</h3>
  </div>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
  {[
@@ -341,7 +341,7 @@ const CandidateProfile = () => {
  {activeTab === 'documents' && (
  <div className="space-y-12 text-left">
  <div className="flex items-center justify-between border-b border-slate-50 pb-10">
- <h3 className="text-2xl font-medium text-slate-900 tracking-tight uppercase">Other Documents</h3>
+ <h3 className="text-2xl font-medium text-slate-900 tracking-tight uppercase dark:text-white">Other Documents</h3>
  <button className="flex items-center gap-3 px-8 py-4 bg-primary-600 text-white rounded-xl text-[10px] font-medium shadow-xl active:scale-95 transition-all">
  <Plus size={18} /> Upload New
  </button>

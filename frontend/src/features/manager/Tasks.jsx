@@ -132,7 +132,7 @@ const Tasks = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Team Task Management</h1>
+          <h1 className="hcm-page-title">Team Task Management</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Oversee work distribution, monitor progress and ensure deadlines are met</p>
         </div>
         <div className="flex items-center gap-3">
@@ -166,7 +166,7 @@ const Tasks = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card p-6"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -174,7 +174,7 @@ const Tasks = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -201,7 +201,7 @@ const Tasks = () => {
                     <div className="flex items-center justify-between px-3">
                        <div className="flex items-center gap-3">
                           <div className={cn("w-2 h-2 rounded-full", col.bg)} />
-                          <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.2em]">{col.title}</h3>
+                          <h3 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.2em] dark:text-white">{col.title}</h3>
                        </div>
                        <span className="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[9px] font-black shadow-md">
                           {filteredTasks.filter(t => t.status === col.title).length}
@@ -233,7 +233,7 @@ const Tasks = () => {
                                 </div>
                              </div>
                              
-                             <h4 className="text-sm font-black text-slate-900 mb-8 leading-relaxed group-hover:text-primary-600 transition-colors uppercase tracking-tight relative z-10">
+                             <h4 className="text-sm font-black text-slate-900 mb-8 leading-relaxed group-hover:text-primary-600 transition-colors uppercase tracking-tight relative z-10 dark:text-white">
                                 {task.title}
                              </h4>
                              

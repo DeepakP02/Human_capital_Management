@@ -68,61 +68,61 @@ const AIResumeScore = () => {
  }
  }, [isAnalyzing]);
 
- if (!isUploaded && !isAnalyzing) {
- return (
- <div className="space-y-8 animate-fade-in max-w-5xl mx-auto text-left">
- <div className="text-center space-y-4 mb-16">
- <h1 className="text-5xl font-bold text-slate-900 tracking-tight">AI Resume Score</h1>
- <p className="text-slate-400 font-medium text-sm">Get instant feedback on your resume using AI analysis</p>
- </div>
+  if (!isUploaded && !isAnalyzing) {
+    return (
+      <div className="space-y-8 pb-12 animate-fade-in max-w-5xl mx-auto text-left">
+        <div className="text-center space-y-4 mb-16">
+          <h1 className="text-5xl font-bold text-slate-900 dark:text-white tracking-tight">AI Resume Score</h1>
+          <p className="text-slate-400 dark:text-slate-500 font-medium text-sm">Get instant feedback on your resume using AI analysis</p>
+        </div>
 
- <div className="min-h-[500px] flex flex-col items-center justify-center p-16 bg-white border-2 border-dashed border-slate-100 rounded-[4rem] group hover:border-primary-100 hover:bg-slate-50 transition-all duration-700 shadow-soft">
- <div className="w-32 h-32 bg-primary-50 rounded-[3rem] flex items-center justify-center text-primary-600 mb-10 group-hover:scale-110 transition-transform duration-700 shadow-inner group-hover:rotate-6">
- <Sparkles size={64} className="animate-pulse" />
- </div>
- <h2 className="text-3xl font-medium text-slate-900 mb-4 tracking-tight uppercase">Improve Your Resume Score</h2>
- <p className="text-slate-500 font-medium mb-12 text-center max-w-md uppercase tracking-tight text-sm leading-relaxed">
- Upload your resume to analyze ATS compatibility, keyword match, formatting, and job-readiness.
- </p>
- <label className="cursor-pointer">
- <input type="file" className="hidden" onChange={handleStartAnalysis} />
- <div className="btn-primary flex items-center gap-4 px-12 py-5 shadow-2xl shadow-primary-200">
- <Upload size={22} />
- <span>Upload Resume</span>
- </div>
- </label>
- <p className="mt-8 text-[9px] font-medium text-slate-300">Supported: PDF, DOCX (Max 5MB)</p>
- </div>
- </div>
- );
- }
+        <div className="min-h-[500px] flex flex-col items-center justify-center p-16 bg-white dark:bg-slate-900 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-[4rem] group hover:border-primary-100 dark:hover:border-primary-900 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all duration-700 shadow-soft">
+          <div className="w-32 h-32 bg-primary-50 dark:bg-primary-950/20 rounded-[3rem] flex items-center justify-center text-primary-600 dark:text-primary-400 mb-10 group-hover:scale-110 transition-transform duration-700 shadow-inner group-hover:rotate-6">
+            <Sparkles size={64} className="animate-pulse" />
+          </div>
+          <h2 className="text-3xl font-medium text-slate-900 dark:text-white mb-4 tracking-tight uppercase">Improve Your Resume Score</h2>
+          <p className="text-slate-500 dark:text-slate-400 font-medium mb-12 text-center max-w-md uppercase tracking-tight text-sm leading-relaxed">
+            Upload your resume to analyze ATS compatibility, keyword match, formatting, and job-readiness.
+          </p>
+          <label className="cursor-pointer">
+            <input type="file" className="hidden" onChange={handleStartAnalysis} />
+            <div className="btn-primary flex items-center gap-4 px-12 py-5 shadow-2xl shadow-primary-200 dark:shadow-none">
+              <Upload size={22} />
+              <span>Upload Resume</span>
+            </div>
+          </label>
+          <p className="mt-8 text-[9px] font-medium text-slate-300 dark:text-slate-600">Supported: PDF, DOCX (Max 5MB)</p>
+        </div>
+      </div>
+    );
+  }
 
- if (isAnalyzing) {
- return (
- <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-12 animate-fade-in">
- <div className="relative w-40 h-40">
- <div className="absolute inset-0 border-8 border-slate-100 rounded-[3rem] animate-pulse"></div>
- <div className="absolute inset-x-0 top-0 h-2 bg-primary-600 rounded-full animate-progress-flow"></div>
- <div className="absolute inset-0 flex items-center justify-center text-primary-600">
- <Cpu size={64} className="animate-spin-slow" />
- </div>
- </div>
- <div className="text-center space-y-4">
- <h3 className="text-2xl font-medium text-slate-900 tracking-tight uppercase">{analysisSteps[analysisPhase]}</h3>
- <p className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.4em] animate-pulse">Analyzing content and formatting...</p>
- </div>
- </div>
- );
- }
+  if (isAnalyzing) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-12 animate-fade-in">
+        <div className="relative w-40 h-40">
+          <div className="absolute inset-0 border-8 border-slate-100 dark:border-slate-800 rounded-[3rem] animate-pulse"></div>
+          <div className="absolute inset-x-0 top-0 h-2 bg-primary-600 rounded-full animate-progress-flow"></div>
+          <div className="absolute inset-0 flex items-center justify-center text-primary-600">
+            <Cpu size={64} className="animate-spin-slow" />
+          </div>
+        </div>
+        <div className="text-center space-y-4">
+          <h3 className="text-2xl font-medium text-slate-900 dark:text-white tracking-tight uppercase">{analysisSteps[analysisPhase]}</h3>
+          <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-[0.4em] animate-pulse">Analyzing content and formatting...</p>
+        </div>
+      </div>
+    );
+  }
 
- return (
- <div className="space-y-10 pb-12 animate-fade-in max-w-7xl mx-auto text-left">
- {/* Header Section */}
- <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white p-10 rounded-[3.5rem] border border-slate-50 shadow-soft">
- <div>
- <h1 className="text-4xl font-bold text-slate-900 tracking-tight mb-2">Resume Analysis Results</h1>
- <p className="text-slate-400 font-medium text-sm">File: <span className="text-slate-900 font-medium">RESUME_2026.PDF</span></p>
- </div>
+  return (
+    <div className="space-y-10 pb-12 animate-fade-in max-w-7xl mx-auto text-left">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 bg-white dark:bg-slate-900 p-10 rounded-[3.5rem] border border-slate-50 dark:border-slate-800 shadow-soft">
+        <div>
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">Resume Analysis Results</h1>
+          <p className="text-slate-400 dark:text-slate-500 font-medium text-sm">File: <span className="text-slate-900 dark:text-white font-medium">RESUME_2026.PDF</span></p>
+        </div>
  <div className="flex gap-4">
  <button onClick={() => { setIsUploaded(false); handleStartAnalysis(); }} className="w-14 h-14 bg-white text-slate-600 border border-slate-200 border border-slate-100 hover:text-primary-600 rounded-xl flex items-center justify-center transition-all shadow-sm">
  <RotateCcw size={24} />
@@ -137,7 +137,7 @@ const AIResumeScore = () => {
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
  
  {/* Core Score Meter */}
- <div className="lg:col-span-5 card p-12 flex flex-col items-center justify-center bg-white border-none shadow-soft relative overflow-hidden rounded-[4rem]">
+ <div className="lg:col-span-5 card p-12 flex flex-col items-center justify-center  relative overflow-hidden rounded-[4rem]">
  <div className="absolute top-10 left-10 text-[9px] font-medium text-slate-300 uppercase tracking-[0.4em] flex items-center gap-3">
  <Microscope size={14} className="text-primary-600" /> Resume Strength
  </div>
@@ -222,7 +222,7 @@ const AIResumeScore = () => {
 
  {/* Tertiary Metrics */}
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
- <div className="card p-10 bg-white border-none shadow-soft rounded-[3rem]">
+ <div className="card p-10  rounded-[3rem]">
  <h4 className="text-[10px] font-bold text-slate-800 mb-10 flex items-center gap-3">
  <Target size={14} className="text-primary-600" /> Industry Benchmarking
  </h4>

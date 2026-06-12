@@ -48,7 +48,7 @@ const EmployeeDocuments = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Records & Vault</h1>
+          <h1 className="hcm-page-title">Records & Vault</h1>
           <p className="text-slate-500 font-bold tracking-tight">Enterprise-grade secure storage for your career documents</p>
         </div>
         <div className="flex items-center gap-3">
@@ -72,7 +72,7 @@ const EmployeeDocuments = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card p-6"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -80,7 +80,7 @@ const EmployeeDocuments = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tight">{stat.value}</h3>
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -136,7 +136,7 @@ const EmployeeDocuments = () => {
                      </div>
                   </div>
                   <div className="text-left relative z-10">
-                     <h4 className="text-sm font-black text-slate-900 tracking-tight leading-none mb-2">{doc.name}</h4>
+                     <h4 className="text-sm font-black text-slate-900 tracking-tight leading-none mb-2 dark:text-white">{doc.name}</h4>
                      <div className="flex flex-col gap-1.5">
                         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{doc.category} • {doc.size}</p>
                         <div className="flex items-center gap-2 mt-2">

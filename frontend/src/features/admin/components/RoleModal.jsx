@@ -236,7 +236,7 @@ const RoleModal = ({ isOpen, onClose, roleToEdit = null }) => {
                   <ShieldCheck size={20} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-extrabold text-slate-900 leading-none">
+                  <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">
                     {roleToEdit ? 'Configure Role' : 'Create Custom Role'}
                   </h2>
                 </div>
@@ -338,7 +338,7 @@ const RoleModal = ({ isOpen, onClose, roleToEdit = null }) => {
                              <div className="card p-5 border border-slate-100 bg-slate-50 space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <h3 className="text-sm font-bold text-slate-900 leading-none">Assign Users Directly</h3>
+                                        <h3 className="text-sm font-bold text-slate-900 leading-none dark:text-white">Assign Users Directly</h3>
                                         <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Select users who should immediately inherit this role</p>
                                     </div>
                                     <div className="relative w-64 group">

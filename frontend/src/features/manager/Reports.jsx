@@ -142,7 +142,7 @@ const ManagerReports = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Team Insights & Reports</h1>
+          <h1 className="hcm-page-title">Team Insights & Reports</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Generate deep analytics for attendance, tasks and performance metrics</p>
         </div>
         <div className="flex items-center gap-3">
@@ -171,7 +171,7 @@ const ManagerReports = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card p-6"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -179,7 +179,7 @@ const ManagerReports = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5 text-left">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter text-left">{stat.value}</h3>
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter text-left dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -191,9 +191,9 @@ const ManagerReports = () => {
          
          {/* Report Generation Center */}
          <div className="lg:col-span-8 space-y-8 h-full">
-            <div className="card p-6 sm:p-10 bg-white border-none shadow-soft flex flex-col text-left">
+            <div className="card p-6 sm:p-10  flex flex-col text-left">
                <div className="flex items-center justify-between mb-10">
-                  <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Available Intelligence Suites</h3>
+                  <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight dark:text-white">Available Intelligence Suites</h3>
                   <div className="flex items-center gap-4 text-slate-400">
                      <Search size={18} className="cursor-pointer hover:text-slate-900 transition-colors" title="Search Reports" />
                      <div className="w-px h-5 bg-slate-100" />
@@ -216,7 +216,7 @@ const ManagerReports = () => {
                            <type.icon size={28} />
                         </div>
                         <div className="space-y-2">
-                           <h4 className="text-base font-black text-slate-900 leading-none uppercase tracking-tight">{type.name}</h4>
+                           <h4 className="text-base font-black text-slate-900 leading-none uppercase tracking-tight dark:text-white">{type.name}</h4>
                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-relaxed">
                               Deep Analytics Insight
                            </p>
@@ -232,7 +232,7 @@ const ManagerReports = () => {
             {/* Performance Analytics Table Preview */}
             <div className="card p-0 border-none bg-white shadow-soft overflow-hidden text-left">
                <div className="p-6 sm:p-10 border-b border-slate-50 flex items-center justify-between">
-                  <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 uppercase tracking-tight text-left">
+                  <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 uppercase tracking-tight text-left dark:text-white">
                      <BarChart3 className="text-amber-500" size={24} />
                      Team Efficiency Leaderboard
                   </h3>
@@ -393,7 +393,7 @@ const ManagerReports = () => {
                      <selectedReport.icon size={32} />
                   </div>
                   <div className="text-left">
-                     <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight leading-none">{selectedReport.name}</h3>
+                     <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight leading-none dark:text-white">{selectedReport.name}</h3>
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">{selectedReport.desc}</p>
                   </div>
                </div>

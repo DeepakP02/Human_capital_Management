@@ -5,7 +5,7 @@ export const StatCard = ({ icon: Icon, label, value, sub, style }) => (
   <motion.div
     variants={style?.variants}
     whileHover={{ y: -4 }}
-    className={`relative bg-white dark:bg-slate-900 rounded-2xl border ${style?.border} overflow-hidden shadow-soft hover:shadow-premium transition-all group p-5 text-left`}
+    className="card relative overflow-hidden"
   >
     <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${style?.color}`} />
     <div className="flex items-center justify-between mb-4">
@@ -16,9 +16,9 @@ export const StatCard = ({ icon: Icon, label, value, sub, style }) => (
         +4.8%
       </span>
     </div>
-    <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">{label}</p>
-    <h3 className="text-3xl font-black text-slate-800 dark:text-white mt-1 mb-1 leading-none">{value}</h3>
-    <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500">{sub}</p>
+    <p className="card-title">{label}</p>
+    <h3 className="card-value">{value}</h3>
+    <p className="card-desc">{sub}</p>
   </motion.div>
 );
 

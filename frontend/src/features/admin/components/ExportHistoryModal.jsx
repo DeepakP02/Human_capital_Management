@@ -33,7 +33,7 @@ const ExportHistoryModal = ({ isOpen, onClose }) => {
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
               <div className="p-8 border-b border-slate-100 flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-extrabold text-slate-900">Export History</h2>
+                  <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Export History</h2>
                   <p className="text-xs font-bold text-slate-500">Download billing records</p>
                 </div>
                 <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400">

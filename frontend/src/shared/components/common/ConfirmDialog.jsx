@@ -27,7 +27,7 @@ const ConfirmDialog = ({
         <div className={cn("w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6", bg)}>
           <Icon size={32} className={color} />
         </div>
-        <h3 className="text-xl font-black text-slate-900 mb-2">{title}</h3>
+        <h3 className="text-xl font-black text-slate-900 mb-2 dark:text-white">{title}</h3>
         <p className="text-sm font-medium text-slate-500 mb-8">{message}</p>
         
         <div className="flex flex-col sm:flex-row items-center gap-3">

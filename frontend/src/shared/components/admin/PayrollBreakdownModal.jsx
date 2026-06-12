@@ -81,7 +81,7 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
                   <Calculator size={22} fill="currentColor" />
                 </div>
                 <div className="text-left">
-                  <h2 className="text-xl font-extrabold text-slate-900 leading-none">
+                  <h2 className="text-xl font-extrabold text-slate-900 leading-none dark:text-white">
                     Payroll & Tax Calculator
                   </h2>
                   <p className="text-[10px] font-bold text-primary-600 uppercase tracking-[0.2em] mt-2 leading-none">
@@ -105,7 +105,7 @@ const PayrollBreakdownModal = ({ isOpen, onClose, employee }) => {
                   <div className="flex items-center gap-4 mb-4">
                     <img src={employee.img} alt={employee.name} className="w-16 h-16 rounded-xl object-cover shadow-sm ring-2 ring-white" />
                     <div>
-                      <h3 className="text-lg font-bold text-slate-900">{employee.name}</h3>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white">{employee.name}</h3>
                       <p className="text-xs font-semibold text-slate-400">Security Group: {employee.role}</p>
                     </div>
                   </div>

@@ -33,7 +33,7 @@ const EmployeePerformance = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Strategy & Performance</h1>
+          <h1 className="hcm-page-title">Strategy & Performance</h1>
           <p className="text-slate-500 font-bold tracking-tight">Monitor your career KPIs, professional goals, and internal reviews</p>
         </div>
         <div className="flex items-center gap-3">
@@ -54,7 +54,7 @@ const EmployeePerformance = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card p-6"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -62,7 +62,7 @@ const EmployeePerformance = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-none">{stat.value}</h3>
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-none dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -75,7 +75,7 @@ const EmployeePerformance = () => {
          <div className="lg:col-span-8 space-y-8">
             <div className="card p-0 border-none bg-white shadow-soft overflow-hidden">
                <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/20">
-                  <h3 className="text-xl font-black text-slate-900 flex items-center gap-4 italic tracking-tight">
+                  <h3 className="text-xl font-black text-slate-900 flex items-center gap-4 italic tracking-tight dark:text-white">
                      <Target className="text-primary-600" size={26} />
                      Active Strategic Goals
                   </h3>
@@ -167,9 +167,9 @@ const EmployeePerformance = () => {
 
          {/* Sidebar: Skills & Development */}
          <div className="lg:col-span-4 space-y-8">
-            <div className="card p-8 bg-white border-none shadow-soft text-left">
+            <div className="card p-8  text-left">
                <div className="flex items-center justify-between mb-10">
-                  <h3 className="text-xl font-black text-slate-900 italic tracking-tight leading-none">Skills Matrix</h3>
+                  <h3 className="text-xl font-black text-slate-900 italic tracking-tight leading-none dark:text-white">Skills Matrix</h3>
                   <div className="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
                      <Award size={20} />
                   </div>

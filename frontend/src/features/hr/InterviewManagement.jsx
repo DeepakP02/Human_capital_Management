@@ -70,7 +70,7 @@ const InterviewManagement = () => {
     <div className="space-y-8 pb-12 animate-fade-in relative">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Interview Scheduling</h1>
+          <h1 className="hcm-page-title">Interview Scheduling</h1>
           <p className="text-slate-500 font-medium">Manage interviews and coordinate hiring rounds across teams</p>
         </div>
         <div className="flex items-center gap-3">
@@ -100,7 +100,7 @@ const InterviewManagement = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, idx) => (
-          <motion.div key={idx} whileHover={{ y: -5 }} className="card p-6 bg-white border border-slate-100 shadow-soft transition-all">
+          <motion.div key={idx} whileHover={{ y: -5 }} className="card p-6 transition-all">
             <div className="flex items-center justify-between mb-4">
                <div className={cn("p-3 rounded-2xl transition-colors", stat.bg, stat.color)}>
                   <stat.icon size={26} />
@@ -109,7 +109,7 @@ const InterviewManagement = () => {
             </div>
             <div>
               <p className="text-sm font-bold text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-              <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">{stat.value}</h3>
+              <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight dark:text-white">{stat.value}</h3>
             </div>
           </motion.div>
         ))}
@@ -194,7 +194,7 @@ const InterviewManagement = () => {
       ) : (
           <div className="card min-h-[500px] border-none bg-white shadow-soft flex flex-col items-center justify-center text-center p-12">
              <CalendarDays size={80} className="text-slate-100 mb-6" />
-             <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Calendar Integration mock</h3>
+             <h3 className="text-2xl font-extrabold text-slate-900 mb-2 dark:text-white">Calendar Integration mock</h3>
              <p className="text-slate-500 font-medium max-w-sm">Manage team availability and coordinate slots effortlessly with Google/Outlook calendar sync.</p>
              <button onClick={() => showToast('Calendar connected successfully via simulated OAuth')} className="mt-8 px-8 py-3.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all active:scale-95 shadow-xl">Connect Calendar</button>
           </div>
@@ -206,7 +206,7 @@ const InterviewManagement = () => {
              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" />
              <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-screen">
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
-                   <h2 className="text-xl font-extrabold text-slate-900">{editingInterview ? 'Edit Interview' : 'Schedule New Interview'}</h2>
+                   <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{editingInterview ? 'Edit Interview' : 'Schedule New Interview'}</h2>
                    <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-xl transition-all"><X size={24} /></button>
                 </div>
                 <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto">

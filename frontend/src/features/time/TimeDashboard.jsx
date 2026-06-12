@@ -300,7 +300,7 @@ const TimeDashboard = () => {
                       <td className="px-6 py-5 text-center">
                         <div className="flex items-center justify-center gap-1.5">
                           {w.mode === 'Office' ? <MapPin size={12} className="text-slate-450" /> : <Monitor size={12} className="text-slate-450" />}
-                          <span className="font-bold text-slate-650 dark:text-slate-350">{w.mode}</span>
+                          <span className="font-bold text-slate-600 dark:text-slate-300">{w.mode}</span>
                         </div>
                       </td>
                       <td className="px-6 py-5 text-center font-black text-slate-800 dark:text-slate-200 tabular-nums">
@@ -381,7 +381,7 @@ const TimeDashboard = () => {
                       <td className="px-6 py-5">
                         <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-slate-500 rounded uppercase tracking-wider">{l.type}</span>
                       </td>
-                      <td className="px-6 py-5 text-center font-bold text-slate-650 dark:text-slate-350">
+                      <td className="px-6 py-5 text-center font-bold text-slate-600 dark:text-slate-300">
                         {l.startDate} — {l.endDate}
                       </td>
                       <td className="px-6 py-5 text-center font-black text-slate-800 dark:text-slate-200">

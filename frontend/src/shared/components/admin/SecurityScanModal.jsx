@@ -54,7 +54,7 @@ const SecurityScanModal = ({ isOpen, onClose }) => {
                     <ShieldCheck size={20} fill="currentColor" />
                  </div>
                  <div>
-                   <h2 className="text-xl font-extrabold text-slate-900">Security Scan</h2>
+                   <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Security Scan</h2>
                    <p className="text-xs font-bold text-slate-500">Run vulnerability checks</p>
                  </div>
               </div>
@@ -96,7 +96,7 @@ const SecurityScanModal = ({ isOpen, onClose }) => {
                  <div className="py-10 flex flex-col items-center justify-center text-center space-y-6">
                     <div className="w-20 h-20 rounded-full border-4 border-primary-100 border-t-primary-600 animate-spin" />
                     <div>
-                       <h3 className="text-lg font-bold text-slate-900 tracking-tight">Analyzing System...</h3>
+                       <h3 className="text-lg font-bold text-slate-900 tracking-tight dark:text-white">Analyzing System...</h3>
                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">{formData.scanType} in progress</p>
                     </div>
                  </div>

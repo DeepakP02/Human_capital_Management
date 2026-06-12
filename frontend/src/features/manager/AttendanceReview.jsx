@@ -102,7 +102,7 @@ const AttendanceReview = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Attendance Review</h1>
+          <h1 className="hcm-page-title">Attendance Review</h1>
           <p className="text-slate-500 font-medium tracking-tight mt-1">Monitor team punctuality, working hours and overall presence</p>
         </div>
         <div className="flex items-center gap-3">
@@ -134,7 +134,7 @@ const AttendanceReview = () => {
           <motion.div
             key={idx}
             whileHover={{ y: -5 }}
-            className="card p-6 bg-white border border-slate-100 shadow-soft"
+            className="card p-6"
           >
             <div className="flex items-center gap-4 text-left">
                <div className={cn("p-3 rounded-2xl", stat.bg, stat.color)}>
@@ -142,7 +142,7 @@ const AttendanceReview = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">{stat.label}</p>
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</h3>
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tighter dark:text-white">{stat.value}</h3>
                </div>
             </div>
           </motion.div>
@@ -263,7 +263,7 @@ const AttendanceReview = () => {
                <div className="flex items-center gap-4 mb-6 pb-4 border-b border-slate-50">
                   <img src={`https://i.pravatar.cc/150?u=${selectedEntry.name}`} className="w-14 h-14 rounded-2xl object-cover ring-2 ring-slate-50 shadow-lg" />
                   <div className="text-left">
-                     <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-none">{selectedEntry.name}</h2>
+                     <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-none dark:text-white">{selectedEntry.name}</h2>
                      <p className="text-[10px] font-black text-primary-600 uppercase tracking-widest mt-2">{selectedEntry.date}</p>
                      <div className="mt-4 flex items-center gap-3">
                         <span className={cn(
@@ -278,11 +278,11 @@ const AttendanceReview = () => {
                <div className="grid grid-cols-2 gap-4 sm:gap-6">
                   <div className="p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col justify-center items-center">
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Hours</p>
-                     <h4 className="text-2xl font-black text-slate-900">8.5h</h4>
+                     <h4 className="text-2xl font-black text-slate-900 dark:text-white">8.5h</h4>
                   </div>
                   <div className="p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col justify-center items-center">
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Break Time</p>
-                     <h4 className="text-2xl font-black text-slate-900">{selectedEntry.breakTime || '1h'}</h4>
+                     <h4 className="text-2xl font-black text-slate-900 dark:text-white">{selectedEntry.breakTime || '1h'}</h4>
                   </div>
                </div>
 
